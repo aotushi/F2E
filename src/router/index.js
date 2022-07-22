@@ -20,10 +20,20 @@ export default new VueRouter({
 		{
 			path: "/register",
 			component: Register,
+			meta: {
+				isHidden: true
+			}
 		},
 		{
 			path: "/login",
 			component: Login,
+			meta: {
+				isHidden: true
+			}
 		},
+		{
+			path: "/",
+			redirect: "/home"
+		}
 	], // 配置路由
 });

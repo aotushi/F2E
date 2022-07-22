@@ -1,12 +1,8 @@
 <template>
   <div id="app">
-    <!-- 测试内容 -->
-    <!-- 测试内容2 -->
-    <!-- 测试内容3 -->
-    <!-- 测试内容4 -->
     <Header></Header>
     <router-view></router-view>
-    <Footer></Footer>
+    <Footer v-show="!$route.meta.isHidden"></Footer>
   </div>
 </template>
 
