@@ -4,7 +4,17 @@
 
 <script>
 export default {
-  name: 'HeaderCom'
+  name: 'HeaderCom',
+  data() {
+    return {
+      keyword: ''
+    }
+  },
+  methods: {
+    toSearch() {
+      this.$router.push('/search/' + this.keyword)
+    }
+  }
 }
 </script>
 
