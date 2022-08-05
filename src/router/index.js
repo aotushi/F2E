@@ -10,9 +10,18 @@ import Search from "@/pages/Search";
 const originPush = VueRouter.prototype.push
 VueRouter.prototype.push = function (location, onComplete, onAbort) {
 	if (onComplete || onAbort) {
-		originPush.call(this, location, onComplete, onAbort)
+		return originPush.call(this, location, onComplete, onAbort)
 	} else {
 		return originPush.call(this, location).catch(() => console.log('catch error'))
+	}
+}
+
+const originReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function (location, onComplete, onAbort) {
+	if (onComplete || onAbort) {
+		return originReplace.call(this, location, onComplete, onAbort)
+	} else {
+		return originReplace.call(this, location).catch(() => console.log('catch error'))
 	}
 }
 
