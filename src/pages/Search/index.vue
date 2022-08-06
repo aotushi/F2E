@@ -1,10 +1,11 @@
 <template>
-  <div>Search</div>
+  <!-- <div>Search</div> -->
+  <TypeNav></TypeNav>
 </template>
 
 <script>
 export default {
-  name: 'HeaderCom',
+  name: 'SearchPage',
   data() {
     return {
       keyword: ''
@@ -12,7 +13,7 @@ export default {
   },
   methods: {
     toSearch() {
-      this.$router.push('/search/' + this.keyword)
+      // this.$router.push('/search/' + this.keyword)
     }
   }
 }

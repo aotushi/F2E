@@ -4,28 +4,7 @@
 		<div class="sortList clearfix">
 			<div class="center">
 				<!--banner轮播-->
-				<div class="swiper-container" id="mySwiper">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<img src="./images/banner1.jpg" />
-						</div>
-						<!-- <div class="swiper-slide">
-							<img src="./images/banner2.jpg" />
-						</div>
-						<div class="swiper-slide">
-							<img src="./images/banner3.jpg" />
-						</div>
-						<div class="swiper-slide">
-							<img src="./images/banner4.jpg" />
-						</div> -->
-					</div>
-					<!-- 如果需要分页器 -->
-					<div class="swiper-pagination"></div>
-
-					<!-- 如果需要导航按钮 -->
-					<div class="swiper-button-prev"></div>
-					<div class="swiper-button-next"></div>
-				</div>
+				<SlideLoop :bannerList="bannerList"></SlideLoop>
 			</div>
 			<div class="right">
 				<div class="news">
@@ -101,8 +80,54 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+// import Swiper from "swiper";
+// import 'swiper/css/swiper.css' 一般在main.js中引入
+
 export default {
 	name: "ListContainer",
+	mounted() {
+		this.$store.dispatch("getBannerList"); // 异步代码 下面的new Swiper会先执行
+		// swiper-slide是根据请求回来的数据,动态创建生成的. 所以必须要保证请求数据回来后, swiper再去实例化
+	},
+	computed: {
+		...mapState({
+			bannerList: (state) => state.home.bannerList,
+		}),
+	},
+	methods: {
+		// carouselScroll() {
+		// 	new Swiper(this.$refs.bannerSwiper, {
+		// 		// direction: 'vertical', // 垂直切换选项
+		// 		loop: true, // 循环模式选项
+
+		// 		// 如果需要分页器
+		// 		pagination: {
+		// 			el: ".swiper-pagination",
+		// 		},
+
+		// 		// 如果需要前进后退按钮
+		// 		navigation: {
+		// 			nextEl: ".swiper-button-next",
+		// 			prevEl: ".swiper-button-prev",
+		// 		},
+
+		// 		// 如果需要滚动条
+		// 		scrollbar: {
+		// 			el: ".swiper-scrollbar",
+		// 		},
+		// 	});
+		// 	console.log('aaa', this.bannerList)
+		// },
+	},
+	// watch: {
+	// 	bannerList: {
+	// 		handler(newVal, oldVal) {
+	// 			this.$nextTick(() => {this.carouselScroll()})
+	// 		},
+	// 		immediate: true
+	// 	},
+	// },
 };
 </script>
 

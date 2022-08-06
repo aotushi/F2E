@@ -16,6 +16,10 @@ import Footer from '@/components/Footer'
       // 非路由组件的注册
       Header,
       Footer
+    },
+    mounted() {
+      // 请求三级分类数据, 只会发一次
+      this.$store.dispatch('getCategoryList')
     }
   }
 </script>
