@@ -34,3 +34,36 @@ export const reqFloorList = () => {
     method: 'get'
   })
 }
+
+
+// 请求获取search页面数据  原请求是post请求, 新api只有get请求
+// /api/list
+// post
+// {
+//   "category3Id": "61",
+//     "categoryName": "手机",
+//     "keyword": "小米",
+//     "order": "1:desc",
+//     "pageNo": 1,
+//     "pageSize": 10,
+//     "props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
+//                 "trademark":"4:小米"
+    
+// }
+
+export const reqSearchInfo = (searchParam) => {
+  return mockAjax({
+    url: '/search',
+    method: 'post',
+    data: searchParam
+  })
+}
+
+// reqSearchInfo()
+
+export const reqSearchInfo2 = () => {
+  return request({
+    url: 'https://api-hmugo-web.itheima.net/api/public/v1/goods/search',
+    method: 'get'
+  })
+}

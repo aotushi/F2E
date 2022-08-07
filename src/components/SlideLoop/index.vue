@@ -36,7 +36,7 @@ export default {
 		bannerList: {
 			handler(newVal, oldVal) {
 				this.$nextTick(() => {
-					new Swiper(this.$refs.floorSwiper, {
+					new Swiper(this.$refs.bannerSwiper, {
 						// direction: 'vertical', // 垂直切换选项
 						loop: true, // 循环模式选项
 

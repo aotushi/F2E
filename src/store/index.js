@@ -3,6 +3,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import home from './home';
+import search from './search';
 import user from './user';
 
 const state = {};
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   getters,
   modules: {
     home,
-    user
+    user,
+    search
   }
 });
