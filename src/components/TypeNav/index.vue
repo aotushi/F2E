@@ -210,7 +210,15 @@ export default {
 				if (this.$route.params) {
 					location.params = this.$route.params
 				}
-				this.$router.push(location);
+
+				// 如果是从home页跳search页, 就push
+				// 如果是从search页 跳 search 页, 就replace
+				if (this.$route.path !== '/home') {
+					this.$route.replace(location)
+				} else {
+					this.$router.push(location);
+				}
+				
 			}
 		},
 	},

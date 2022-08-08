@@ -91,14 +91,15 @@
 							>
 								<div class="list-wrap">
 									<div class="p-img">
-										<a href="javascript:;" target="_blank"
+										<!-- <a href="javascript:;" target="_blank"
                       ><img :src="goods.defaultImg"
-                    /></a>
-										<!-- <router-link
+                    /></a> -->
+										<router-link
 											:to="'/detail/' + goods.id"
 										>
-											<img v-lazy="goods.defaultImg" />
-										</router-link> -->
+											<!-- <img v-lazy="goods.defaultImg" /> -->
+											<img :src="goods.defaultImg" />
+										</router-link>
 									</div>
 									<div class="price">
 										<strong>

@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
+import Detail from '@/pages/Details';
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -28,6 +29,10 @@ VueRouter.prototype.replace = function (location, onComplete, onAbort) {
 
 export default new VueRouter({
 	routes: [
+		{
+			path: '/detail/:goodId',
+			component: Detail
+		},
 		{
 			path: "/home",
 			component: Home,

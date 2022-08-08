@@ -62,22 +62,36 @@ export default {
 	name: "HeaderCom",
 	data() {
 		return {
-			keyword: ''
-		}
+			keyword: "",
+		};
 	},
 	methods: {
 		toSearch() {
-
 			let location = {
-				name: 'search',
-				params: {keyword: this.keyword || undefined}
-			}
+				name: "search",
+				params: { keyword: this.keyword || undefined },
+			};
 
 			if (this.$route.query) {
-				location.query = this.$route.query
+				location.query = this.$route.query;
 			}
-			this.$router.push( location);
+
+			// 如果是从home页跳search页, 就push
+			// 如果是从search页 跳 search 页, 就replace
+			if (this.$route.path !== "/home") {
+				this.$route.replace(location);
+			} else {
+				this.$router.push(location);
+			}
+			// this.$router.push(location);
 		},
+
+		clearKeyword() {
+			this.keyword = "";
+		},
+	},
+	mounted() {
+		this.$bus.$on("clearKeyword", this.clearKeyword);
 	},
 };
 </script>
