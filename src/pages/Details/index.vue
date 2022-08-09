@@ -376,7 +376,7 @@ export default {
 		Zoom,
 	},
 	beforeMount() {
-		this.skuId = this.$route.params.goodsId;
+		this.skuId = this.$route.params.goodId;
 	},
 	mounted() {
 		this.getDetailInfo();
@@ -384,7 +384,8 @@ export default {
 	methods: {
 		// 采用初始化数据代替实际$route.params.goodsId参数的原因:参数存储在data中,后期使用方便
 		getDetailInfo() {
-			this.$store.dispatch("getDetailInfo", this.skuId);
+			this.$store.dispatch("getDetailInfo", this.skuId*1);
+			this.$store.dispatch('getDetailInfo2')
 		},
 		// spuSaleAttrValueList当前属性的所有属性值列表
 		// spuSaleAttrValue代表点击的那一个属性值

@@ -21,7 +21,7 @@ const actions = {
   async getCategoryList({ commit }) {
     // reqCategoryList().then().catch()
     const result = await reqCategoryList()
-    console.log('result', result)
+    // console.log('result', result)
     if (result.meta.status === 200) {
       commit('RECEIVE_CATEGORYLIST', result.message)
     }

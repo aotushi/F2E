@@ -36,12 +36,18 @@ const getters = {
     return state.searchInfo.attrsList || []
   },
   goodsList(state) {
-    let imgArray = state.searchInfo2.map(obj => ({ defaultImg: obj.goods_big_logo, price: obj.goods_price, name: obj.goods_name })).filter((item, index) => item.defaultImg && item.price && index <= 11)
+    let imgArray = state.searchInfo2.map(obj => ({
+      defaultImg: obj.goods_big_logo,
+      price: obj.goods_price,
+      name: obj.goods_name,
+      id: obj.goods_id
+    })).filter((item, index) => item.defaultImg && item.price && index <= 11)
     state.searchInfo.goodsList?.forEach((item, index) => {
       if (imgArray[index]) {
         item.price = imgArray[index].price
         item.defaultImg = imgArray[index].defaultImg
         item.title = imgArray[index].name
+        item.id = imgArray[index].id
       }
     })
     return state.searchInfo.goodsList || []

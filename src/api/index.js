@@ -67,3 +67,26 @@ export const reqSearchInfo2 = () => {
     method: 'get'
   })
 }
+
+
+// 请求商品详情
+// get
+// /api/item/{skuId}
+
+export const reqDetailInfo = (goodId) => {
+  return request({
+    url: 'https://api-hmugo-web.itheima.net/api/public/v1/goods/detail',
+    method: 'get',
+    params: {goods_id: goodId}
+  })
+}
+
+
+export const reqDetailInfo2 = () => {
+  return mockAjax({
+    url: '/detail',
+    method: 'get'
+  })
+}
+
+reqDetailInfo2()
