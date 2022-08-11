@@ -2,10 +2,11 @@ import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 
+import detail from './detail';
 import home from './home';
 import search from './search';
+import shopCart from './shopCart';
 import user from './user';
-import detail from './detail'
 
 const state = {};
 const mutations = {};
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     home,
     user,
     search,
-    detail
+    detail,
+    shopCart
   }
 });

@@ -89,4 +89,12 @@ export const reqDetailInfo2 = () => {
   })
 }
 
-reqDetailInfo2()
+// reqDetailInfo2()
+
+
+export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
+  return mockAjax({
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+    method: 'post'
+  })
+}

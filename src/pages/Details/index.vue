@@ -395,15 +395,22 @@ export default {
 			spuSaleAttrValue.isChecked = "1";
 		},
 		async addShopCart() {
+
 			try {
+				// 成功的
+				// 请求成功跳转到添加购物车页面
 				await this.$store.dispatch("addOrUpdateShopCart", {
 					skuId: this.skuId,
 					skuNum: this.skuNum,
 				});
-				alert("添加购物车成功, 前往购物车页面");
+				// alert("添加购物车成功, 前往购物车页面");
+				// 向添加购物车页面跳转的时候,需要带两个东西, skuNum 和 商品详情信息
+				// skuNum是一个简单数据, 可以直接通过路由传参query参数带过去
+				// 商品详情是一个复杂数据, 使用sessionStorage
 				sessionStorage.setItem("SKUINFO_KEY", JSON.stringify(this.skuInfo));
 				this.$router.push("/addcartsuccess?skuNum=" + this.skuNum);
 			} catch (error) {
+				// 失败的
 				alert(error.message);
 			}
 		},

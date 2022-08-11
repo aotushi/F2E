@@ -5,7 +5,7 @@
     <!-- <img :src="imgList[0].imgUrl" /> -->
     <!-- 这是中图 -->
     <img :src='defaultImg.imgUrl' />
-    <!-- 这是空div, 覆盖中图 -->
+    <!-- 这是空div, 覆盖中图 承接鼠标事件-->
     <div class="event" @mousemove="move"></div>
     <!-- 这是大图 -->
     <div class="big">
