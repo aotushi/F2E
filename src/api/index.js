@@ -91,10 +91,46 @@ export const reqDetailInfo2 = () => {
 
 // reqDetailInfo2()
 
-
+// 请求添加到购物车
+// 购物车页面更改数量也用这个接口
 export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
   return mockAjax({
     url: `/cart/addToCart/${skuId}/${skuNum}`,
     method: 'post'
+  })
+}
+
+
+// 请求获取购物车页面数据
+// /api/cart/cartlist
+//  get
+
+export const reqShopCartInfo = () => {
+  return mockAjax({
+    url: '/cart/cartList',
+    method: 'get'
+  })
+}
+
+
+// 切换商品选中状态
+// /api/cart/checkCart/{skuId}/{isChecked}
+// get
+
+
+export const reqUpdateCartIsCheck = (skuId, isChecked) => {
+  return mockAjax({
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
+    method: 'get'
+  })
+}
+
+
+// 请求删除购物车数据
+
+export const deleteShopCart = (skuId) => {
+  return mockAjax({
+    url: `/cart/deleteCart/${skuId}`,
+    method: 'delete'
   })
 }

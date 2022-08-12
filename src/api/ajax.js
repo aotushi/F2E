@@ -9,6 +9,7 @@ import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
+
 const service = axios.create({
 	baseURL: "/api", //设置当前项目当中所有接口路径中的公共路径,基础路径
 	timeout: 20000, // 请求超时会报错
@@ -22,8 +23,7 @@ service.interceptors.request.use(
 	function (config) {
 		// Do something before request is sent
 		NProgress.start();
-
-		return config;
+		return config
 	},
 	function (error) {
 		// Do something with request error

@@ -34,10 +34,11 @@ const actions = {
 const getters = {
 	skuInfo(state) {
 		let imgArray = state.detailInfo.pics?.map(item => ({ big: item.pics_big })) || []
-		console.log('imgArray', imgArray)
+		// console.log('imgArray', imgArray)
 		state.detailInfo2.skuInfo.skuImageList.forEach((item, index) => {
 			
 			item.imgUrl = imgArray[index]?.big
+			// item.skuId = imgArray[index]?.skuId
 		})
 
 		return state.detailInfo2.skuInfo || []

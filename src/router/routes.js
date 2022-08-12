@@ -4,10 +4,15 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Search from "@/pages/Search";
+import ShopCart from "@/pages/ShopCart";
 
 const routes = [
 	{
-		path: "/AddCartSuccess",
+		path: "/shopcart",
+		component: ShopCart
+	},
+	{
+		path: "/addcartsuccess",
 		component: AddCartSuccess,
 	},
 	{

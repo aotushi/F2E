@@ -5,6 +5,7 @@
 // 返回响应不再需要从data属性中拿数据,而是响应就是我们要的数据;
 // 统一处理请求错误, 具体请求也可以选择处理或不处理
 
+import store from '@/store';
 import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -22,6 +23,10 @@ service.interceptors.request.use(
 	function (config) {
 		// Do something before request is sent
 		NProgress.start();
+
+		
+		let userTempId = store.state.user.userTempId
+		config.headers.userTempId = userTempId
 
 		return config;
 	},

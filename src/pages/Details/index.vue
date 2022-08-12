@@ -408,7 +408,7 @@ export default {
 				// skuNum是一个简单数据, 可以直接通过路由传参query参数带过去
 				// 商品详情是一个复杂数据, 使用sessionStorage
 				sessionStorage.setItem("SKUINFO_KEY", JSON.stringify(this.skuInfo));
-				this.$router.push("/addcartsuccess?skuNum=" + this.skuNum);
+				this.$router.push("/addcartsuccess?skuNum=" + this.skuNum+'&skuId='+this.skuId);
 			} catch (error) {
 				// 失败的
 				alert(error.message);
