@@ -177,3 +177,73 @@ export const reqUserInfo = () => {
     
   })
 }
+
+// 退出登录
+export const reqUserLogOut = () => {
+  return mockAjax({
+    url: '/user/passport/logout',
+    method: 'get'
+  })
+}
+
+
+// 获取用户收获地址
+export const reqUserAddress = () => {
+  return mockAjax({
+    url: '/user/userAddress/auth/findUserAddressList',
+    method: 'get'
+  })
+}
+
+
+// 订单交易信息
+export const reqTradeInfo = () => {
+  return mockAjax({
+    url: '/order/auth/trade',
+    method: 'get'
+  })
+}
+
+
+// 请求提交订单
+export const reqSubmitOrder = (tradeNo, tradeInfo) => {
+  return mockAjax({
+    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method: 'post',
+    data: tradeInfo
+  })
+}
+
+
+export const reqsubmitorder = () => {
+  return mockAjax({
+    url: '/order/auth/submitOrder?tradeNo=',
+    method: 'get'
+  })
+}
+
+// 请求获取支付信息
+export const reqPayInfo = (orderId) => {
+  return mockAjax({
+    url: `/payment/weixin/createNative/${orderId}`,
+    method: 'get'
+  })
+}
+
+
+// 请求获取订单支付状态
+export const reqPayStatus = (orderId) => {
+  return mockAjax({
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get'
+  })
+}
+
+
+// 请求获取我的订单列表数据
+export const reqMyOrderInfo = (page, limit) => {
+  return mockAjax({
+    url: `/order/auth/${page}/${limit}`,
+    method: 'get'
+  })
+}

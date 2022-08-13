@@ -61,14 +61,23 @@ router.beforeEach(async (to, from, next) => {
 					// 把用户过期的token清理掉, 重新跳转到登录页
 					// 如何清除token? 
 
-					store.dispatch('clearToken')
+					store.dispatch('userLogOut')
 					next('/login')
-				}
-				
-
-				
-				
+				}	
 			}
+		}
+	} else {
+		// 用户没有登录, 什么都不做, 直接放行.
+		// 如果用户访问的是 交易相关 支付/个人中心, 需要跳转到登录页
+		
+		let targetPath = to.path
+		if (['/trade', '/pay', '/center'].includes(targetPath)) {
+		// 缺了 /center/myorder 匹配 startsWith  /  正则 重新尝试
+			// next('/login')  登录成功不会去到之前想去的页面
+
+			next('/login?redirect='+targetPath)  // 需要登录页面配合
+		} else {
+			next()
 		}
 	}
 })
