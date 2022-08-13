@@ -26,8 +26,16 @@ service.interceptors.request.use(
 
 		
 		let userTempId = store.state.user.userTempId
-		config.headers.userTempId = userTempId
+		if (userTempId) {
+			config.headers.userTempId = userTempId
+		}
+		
 
+		let token = store.state.user.token
+		if (token) {
+			config.token = token
+		}
+		
 		return config;
 	},
 	function (error) {

@@ -134,3 +134,46 @@ export const deleteShopCart = (skuId) => {
     method: 'delete'
   })
 }
+
+
+// 用户注册
+// post
+// 参数, 使用请求体携带: code phone password
+
+export const reqUserRegister = (userInfo) => {
+  return mockAjax({
+    url: '/user/passport/register',
+    method: 'post',
+    data: userInfo
+  })
+}
+
+
+// 手机验证码
+
+export const reqGetCode = (phone) => {
+  return mockAjax({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'get'
+  })
+}
+
+
+// 用户login
+export const reqUserLogin = (userInfo) => {
+  return mockAjax({
+    url: '/user/passport/login',
+    method: 'post',
+    data: userInfo
+  })
+}
+
+
+// 根据token 获取用户信息
+export const reqUserInfo = () => {
+  return mockAjax({
+    url: '/user/passport/auth/getUserInfo',
+    method: 'get'
+    
+  })
+}
