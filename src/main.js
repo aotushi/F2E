@@ -27,6 +27,15 @@ Vue.prototype.$message = Message;
 
 Vue.config.productionTip = false
 
+
+
+import loading from '@/assets/images/loading.gif'
+import VueLazyload from 'vue-lazyload'
+
+Vue.use(VueLazyload, { // 内部自定义了一个指令lazy
+  loading //指定未加载得到图片之前的loading图片
+})
+
 new Vue({
   beforeCreate() { 
     Vue.prototype.$bus = this //全局事件总线 任意组件内部可以通过this.$bus访问到vm实例

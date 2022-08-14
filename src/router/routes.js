@@ -12,6 +12,13 @@ import Search from "@/pages/Search";
 import ShopCart from "@/pages/ShopCart";
 import Trade from '@/pages/Trade';
 
+
+
+// 使用`import...from`方式是同步执行, 将所有的路由组件一次性打包在一个大的文件中
+// 存在问题: 打包出来的文件体积大; 当浏览器访问这个文件加载时, 效率不高
+
+
+
 const routes = [
 	{
 		path: '/center',
@@ -33,11 +40,28 @@ const routes = [
 	},
 	{
 		path: '/pay',
-		component: Pay
+		component: Pay,
+		beforeEnter: (to, from, next) => {
+			// vi只有从交易页面（创建订单）页面才能跳转到支付页面
+			if (from.path === '/trade') {
+				next()
+			} else {
+				alert('只有从交易页面（创建订单）页面才能跳转到支付页面')
+				next(false)
+			}
+		}
 	},
 	{
 		path: '/paysuccess',
-		component: PaySuccess
+		component: PaySuccess,
+		beforeEnter: (to, from, next) => {
+			if (from.path === '/pay') {
+				next()
+			} else {
+				alert('只有从支付页面才能跳转到支付成功页面')
+				next(false)
+			}
+		}
 	},
 	{
 		path: '/trade',
@@ -50,6 +74,20 @@ const routes = [
 	{
 		path: "/addcartsuccess",
 		component: AddCartSuccess,
+		beforeEnter: (to, from, next) => {
+			// 只有携带了skuNum和sessionStorage内部有skuInfo数据  才能看到添加购物车成功的界面
+			// ...
+			let skuNum = to.query.skuNum
+			let skuInfo = sessionStorage.getItem('SKUINFO_KEY')
+
+			if (skuNum && skuInfo) {
+				next()
+			} else {
+				alert('必须要携带skuNum参数')
+				// next('/')
+				next(false) //什么也不做, 但页面会显示不全
+			}
+		}
 	},
 	{
 		path: "/detail/:goodId",
@@ -77,6 +115,16 @@ const routes = [
 		meta: {
 			isHidden: true,
 		},
+		// 路由独享守卫
+		// beforeEnter: (to, from, next) => {
+		// 	// 只有从购物车界面才能跳转到交易页面（创建订单）
+		// 	if (from.path === '/shopcart') {
+		// 		next()
+		// 	} else {
+		// 		next(false)
+		// 	}
+
+		// }
 	},
 	{
 		path: "/",
