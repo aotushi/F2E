@@ -1,5 +1,5 @@
 // user模块的vuex模块
-import { reqGetCode, reqUserAddress, reqUserInfo, reqUserLogin, reqUserLogOut, reqUserRegister } from "@/api";
+import { reqGetCode, reqUserAddress, reqUserInfo, reqUserLogin, reqUserLogOut, reqUserRegister } from "@/pagess/A0001/api";
 import { getUserTempId } from "@/utils/userabout";
 
 const state = {

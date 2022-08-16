@@ -1,5 +1,5 @@
 // home模块的vuex模块
-import { reqBannerList, reqCategoryList, reqFloorList } from "@/api";
+import { reqBannerList, reqCategoryList, reqFloorList } from "@/pagess/A0001/api";
 
 const state = {
   categoryList: [],

@@ -117,7 +117,7 @@ export default {
 	// 组件内守卫
 	beforeRouteEnter: (to, from, next) => {
 		// ...
-		if (["/shopcart", "/pay"].includes(from.path)) {
+		if (["/shopcart", "/pay"].includes(from.path) || to.path==='/login' && this.userInfo) {
 			next();
 		} else {
 			alert("只有从购物车界面才能跳转到交易页面");
@@ -181,6 +181,9 @@ export default {
 		defaultAddress() {
 			return this.userAddressList.find((item) => item.isDefault === "1") || {};
 		},
+		userInfo() {
+			return this.$store.state.user.userInfo
+		}
 	},
 };
 </script>

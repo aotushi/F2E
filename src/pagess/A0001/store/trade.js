@@ -1,4 +1,4 @@
-import { reqTradeInfo } from "@/api"
+import { reqTradeInfo } from "@/pagess/A0001/api"
 
 const state = {
   tradeInfo: {}

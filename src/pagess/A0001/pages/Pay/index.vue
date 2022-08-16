@@ -175,6 +175,7 @@ export default {
 				// 轮询: 生成二维码图片后,需要间隔让后台返回这个订单的支付状态,以判断用户是否支付.一个订单只能开启一个定时器
 				// 必须添加if判断, 确保订单支付轮询只开启一个定时器
 				if (!this.timer) {
+					console.log('pay>this', this)
 					this.timer = setInterval(async () => {
 						let result = await this.$API.reqPayStatus(
 							this.orderNum
