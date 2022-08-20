@@ -1,5 +1,4 @@
 // console.log('process_env.VUE_APP_ENV', process.env)
-// console.log('process_envs', process.env)
 
 const path = require("path");
 const fs = require("fs");
@@ -53,6 +52,7 @@ if (!dirs.includes(pageName)) {
 	isPureH5 = pages[0].isPureH5 || false;
 }
 
+const outputName = pageModule.appType === "igw" ? menuNumber : pageName;
 const APPTYPE_NAME = (pageModule.appType = "igw" ? I2GW : W2SGW);
 
 if (pageName === "") throw "请定义打包模块名称, 在pages.json里面".magenta;
@@ -68,8 +68,6 @@ console.table({
 console.log(process.env.NODE_ENV);
 
 const root = (...param) => path.resolve.apply(null, [__dirname, ...param]);
-
-const outputName = pageModule.appType === "igw" ? menuNumber : pageName;
 
 // 构建微应用 zipAppConfig.json文件
 const zipAppConfig = {};
@@ -95,53 +93,12 @@ const IS_PROD = ["production", "staging", "testing"].includes(process.env.NODE_E
 // 例如下方会返回: E:\github\vue2program\src\pagess\A1003504\main.js
 const entry = root("src", "pagess", pageName, "main.js");
 
+
+
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const resolve = (dir) => path.join(__dirname, dir);
 
-//  CopyWebpackPlugin
-/**
- * https://webpack.docschina.org/plugins/copy-webpack-plugin/
- * 作用: copies individual files or entries directories, which already exist, to the build directory.
- * 使用:
- *  
- */
-
-// chainWebpack
-/**
- * https://cli.vuejs.org/zh/guide/webpack.html#%E9%93%BE%E5%BC%8F%E6%93%8D%E4%BD%9C-%E9%AB%98%E7%BA%A7
- * 是什么: 是一个函数，会接收一个基于 webpack-chain 的 ChainableConfig 实例。允许对内部的 webpack 配置进行更细粒度的修改。
- * 如何做: https://cli.vuejs.org/zh/guide/webpack.html#%E9%93%BE%E5%BC%8F%E6%93%8D%E4%BD%9C-%E9%AB%98%E7%BA%A7
- * 
- * 例如, 修改插件
- * module.exports = {
- *  chainWebpack: config => {
- *    config
- *      .plugin('html')
- *      .tap(args => {
- *        return [ 传递给 html-webpack-plugin's 构造函数的新参数 ]
- *       })
- *  }
- * }
- * 
- */
-
-
-
-
-// webpack链式调用
-/**
- * https://github.com/neutrinojs/webpack-chain#config-plugins-adding
- * 
- * config
- *  .plugin(name)
- *  .use(WebpackPlugin, args)
- * 
- * / example
- * config
- *  .plugin('hot')
- *  .use(webpack.HotModuleReplacementPlugin)
- */
 
 // 返回: 例如,  E:\github\vue2program\dist\A1003504
 const outputDir = root("dist", outputName);
@@ -197,146 +154,127 @@ module.exports = defineConfig({
 
 	configureWebpack: (config) => {
 		// 调整 webpack 配置  该对象将会被 webpack-merge 合并入最终的 webpack 配置。
-		config.name = name;
-		config.entry = entry;
-	},
+    config.name = name
+    config.entry = entry
+  },
+  
 
-	chainWebpack: (config) => {
-		if (!isPureH5) {
-			// 不是纯h5
-			config.plugin("CopyWebpackPlugin").use(CopyWebpackPlugin, [
-				[
-					{
-						from: path.resolve(__dirname, "uap"),
-						to: path.resolve(__dirname, outputName ? `./dist/${outputName}/uap` : "./dist"),
-						ignore: [".*"],
-					},
-					{
-						from: path.resolve(__dirname, `src/pages/${pageName}/zipAppConfig.json`),
-						to: path.resolve(__dirname, `./dist/${outputName}`),
-					},
-				],
-			]);
-			config
-				.plugin("HtmlWebpackTagsPlugin") // 把uap.js写入到模版中
-				.after("html")
-				.use("html-webpack-tags-plugin", [
-					{
-						tags: ["uap/js/uap.js"],
-						append: false, // script加在最上边
-					},
-				]);
-		}
+  chainWebpack: config => {
+    if (!isPureH5) {
 
-		config.plugins.delete("preload");
-		config.plugins.delete("prefetch");
+    }
 
-		//别名 alias
-		// 配置alias别名的两种方式 https://segmentfault.com/a/1190000039772292
-		// config.resolve.alias
-		//   .set('$root', resolve('src'))
-		//   .set('$rootAssets', resolve('src/assets'))
-		//   .set('$components', resolve('src/components'))
-		//   .set('$utils', resolve(`src/utils`))
-		//   .set('$images', resolve(`src/images`))
-		//   .set('@', resolve(`src/pages/${pageName}`))
-		//   .set('@assets', resolve(`src/pages/${pageName}/assets`))
-		//   .set('@style', resolve(`src/pages/${pageName}/style`))
-		//   .set('@api', resolve(`src/pages/${pageName}/apis`))
-		//   .set('@components', resolve(`src/pages/${pageName}/components`))
-		//   .set('@view', resolve(`src/pages/${pageName}/views`))
 
-		// 3 函数形式
-		// Object.assign(config.resolve, {
-		//   alias: {
-		//     '$root': path.resolve(__dirname, './src'),
-		//     '$rootAssets': path.resolve(__dirname, './src/assets')
-		//   }
-		// })
+    config.plugins.delete('preload')
+    config.plugins.delete('prefetch')
 
-		config.plugin("html").tap((args) => {
-			args[0].title = pageModule.title;
-			return args;
-		});
-		/**
-		 * 设置保留空格
-		 *
-		 */
-		config.module
-			.rule("vue")
-			.use("vue-loader")
-			.loader("vue-loader")
-			.tap((options) => {
-				options.compilerOptions.preserveWhitespace = true;
-				return options;
-			})
-			.end();
 
-		// set svg-sprite-loader
-		config.module
-			.rule("svg")
-			.exclude.add(resolve(`src/pages/${pageName}/icons`))
-			.end();
-		config.module
-			.rule("icons")
-			.test(/\.svg$/)
-			.include.add(resolve(`src/pages/${pageName}/icons`))
-			.end()
-			.use("svg-sprite-loader")
-			.loader("svg-sprite-loader")
-			.options({
-				symbolId: "icon-[name]",
-			})
-			.end();
-		/**
-		 * 打包分析
-		 */
-		if (IS_PROD) {
-			config.plugin("webpack-report").use(BundleAnalyzerPlugin, [
-				{
-					analyzerMode: "static",
-				},
-			]);
-		}
-		config
-			// https://webpack.js.org/configuration/devtool/#development
-			.when(!IS_PROD, (config) => config.devtool("cheap-source-map"));
-		config.when(IS_PROD, (config) => {
-			config
-				.plugin("ScriptExtHtmlWebpackPlugin")
-				.after("html")
-				.use("script-ext-html-webpack-plugin", [
-					{
-						// 将 runtime 作为内联引入不单独存在
-						inline: /runtime\..*\.js$/,
-					},
-				])
-				.end();
-			config.optimization.splitChunks({
-				chunks: "all",
-				cacheGroups: {
-					// cacheGroups 下可以可以配置多个组，每个组根据test设置条件，符合test条件的模块
-					commons: {
-						name: "chunk-commons",
-						test: resolve("src/components"),
-						minChunks: 3, //  被至少用三次以上打包分离
-						priority: 5, // 优先级
-						reuseExistingChunk: true, // 表示是否使用已有的 chunk，如果为 true 则表示如果当前的 chunk 包含的模块已经被抽取出去了，那么将不会重新生成新的。
-					},
-					node_vendors: {
-						name: "chunk-libs",
-						chunks: "initial", // 只打包初始时依赖的第三方
-						test: /[\\/]node_modules[\\/]/,
-						priority: 10,
-					},
-					vantUI: {
-						name: "chunk-vantUI", // 单独将 vantUI 拆包
-						priority: 20, // 数字大权重到，满足多个 cacheGroups 的条件时候分到权重高的
-						test: /[\\/]node_modules[\\/]_?vant(.*)/,
-					},
-				},
-			});
-			config.optimization.runtimeChunk("single");
-		});
-	},
+    //别名 alias
+    // 配置alias别名的两种方式 https://segmentfault.com/a/1190000039772292
+    // config.resolve.alias
+    //   .set('$root', resolve('src'))
+    //   .set('$rootAssets', resolve('src/assets'))
+    //   .set('$components', resolve('src/components'))
+    //   .set('$utils', resolve(`src/utils`))
+    //   .set('$images', resolve(`src/images`))
+    //   .set('@', resolve(`src/pages/${pageName}`))
+    //   .set('@assets', resolve(`src/pages/${pageName}/assets`))
+    //   .set('@style', resolve(`src/pages/${pageName}/style`))
+    //   .set('@api', resolve(`src/pages/${pageName}/apis`))
+    //   .set('@components', resolve(`src/pages/${pageName}/components`))
+    //   .set('@view', resolve(`src/pages/${pageName}/views`))
+    
+
+
+    // 3 函数形式
+    // Object.assign(config.resolve, {
+    //   alias: {
+    //     '$root': path.resolve(__dirname, './src'),
+    //     '$rootAssets': path.resolve(__dirname, './src/assets')
+    //   }
+    // })
+
+
+
+
+    config.plugin('html').tap(args => {
+      args[0].title = pageMoudle.title
+      return args
+    })
+    /**
+             * 设置保留空格
+             */
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions.preserveWhitespace = true
+        return options
+      })
+      .end()
+
+    // set svg-sprite-loader
+    config.module
+      .rule('svg')
+      .exclude.add(resolve(`src/pages/${pageName}/icons`))
+      .end()
+    config.module
+      .rule('icons')
+      .test(/\.svg$/)
+      .include.add(resolve(`src/pages/${pageName}/icons`))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+      .end()
+    /**
+             * 打包分析
+             */
+    if (IS_PROD) {
+      config.plugin('webpack-report').use(BundleAnalyzerPlugin, [{
+        analyzerMode: 'static'
+      }])
+    }
+    config
+      // https://webpack.js.org/configuration/devtool/#development
+      .when(!IS_PROD, config => config.devtool('cheap-source-map'))
+    config.when(IS_PROD, config => {
+      config
+        .plugin('ScriptExtHtmlWebpackPlugin')
+        .after('html')
+        .use('script-ext-html-webpack-plugin', [{
+          // 将 runtime 作为内联引入不单独存在
+          inline: /runtime\..*\.js$/
+        }])
+        .end()
+      config.optimization.splitChunks({
+        chunks: 'all',
+        cacheGroups: {
+          // cacheGroups 下可以可以配置多个组，每个组根据test设置条件，符合test条件的模块
+          commons: {
+            name: 'chunk-commons',
+            test: resolve('src/components'),
+            minChunks: 3, //  被至少用三次以上打包分离
+            priority: 5, // 优先级
+            reuseExistingChunk: true // 表示是否使用已有的 chunk，如果为 true 则表示如果当前的 chunk 包含的模块已经被抽取出去了，那么将不会重新生成新的。
+          },
+          node_vendors: {
+            name: 'chunk-libs',
+            chunks: 'initial', // 只打包初始时依赖的第三方
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10
+          },
+          vantUI: {
+            name: 'chunk-vantUI', // 单独将 vantUI 拆包
+            priority: 20, // 数字大权重到，满足多个 cacheGroups 的条件时候分到权重高的
+            test: /[\\/]node_modules[\\/]_?vant(.*)/
+          }
+        }
+      })
+      config.optimization.runtimeChunk('single')
+    })
+  }
 });
