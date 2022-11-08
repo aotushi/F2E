@@ -2,7 +2,7 @@
 // 每个接口对应一个函数.如果要拿到相关接口的数据, 只需要调用相关的接口请求函数
 
 
-import mockAjax from '@/pagess/A0001/api/mockAjax'
+import mockAjax from '@/api/mockAjax'
 import request from './ajax'
 // 请求三级分类列表数据
 // /api/product/getBaseCategoryList  get 无参

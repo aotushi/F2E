@@ -1,4 +1,4 @@
-import { reqSearchInfo, reqSearchInfo2 } from "@/pagess/A0001/api";
+import { reqSearchInfo, reqSearchInfo2 } from "@/api";
 
 const state = {
   searchInfo: {},

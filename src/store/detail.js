@@ -1,4 +1,4 @@
-import { reqDetailInfo, reqDetailInfo2 } from "@/pagess/A0001/api";
+import { reqDetailInfo, reqDetailInfo2 } from "@/api";
 const state = {
 	detailInfo: {},
 	detailInfo2: { skuInfo: { skuImageList: [] } },

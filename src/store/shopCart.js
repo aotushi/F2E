@@ -1,4 +1,4 @@
-import { deleteShopCart, reqAddOrUpdateShopCart, reqShopCartInfo, reqUpdateCartIsCheck } from "@/pagess/A0001/api";
+import { deleteShopCart, reqAddOrUpdateShopCart, reqShopCartInfo, reqUpdateCartIsCheck } from "@/api";
 
 const state = {
 	// 根据api文档, 显示返回的信息中的data为null, 所以在state中不用声明接收的数据对象
