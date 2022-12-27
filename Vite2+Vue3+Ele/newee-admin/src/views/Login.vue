@@ -43,6 +43,8 @@ import { localSet } from '@/utils';
 import axios from '@/utils/axios';
 import md5 from 'js-md5';
 import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const state = reactive({
   ruleForm: {
     username: '',
@@ -58,7 +60,7 @@ const state = reactive({
 const loginForm = ref(null)
 
 const submitForm = async () => {
-  console.log('loginForm', loginForm)
+  // console.log('loginForm', loginForm)
   loginForm.value.validate(valid => {
     // valid 布尔值 表示表单是否通过上面rules规则
     if (valid) {
@@ -71,7 +73,8 @@ const submitForm = async () => {
         // 这里我们将其存储到 localStorage 里面。
         localSet('token', res)
         // 此处登录完成之后，需要刷新页面
-        window.location.href = '/'
+        // window.location.href = '/'
+        router.push('/')
       })
     } else {
       return false

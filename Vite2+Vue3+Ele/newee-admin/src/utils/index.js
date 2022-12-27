@@ -14,3 +14,9 @@ export function localSet(key, value) {
 export function localRemove(key) {
 	window.localStorage.removeItem(key);
 }
+
+export const pathMap = {
+	index: "首页",
+	login: "登陆",
+	add: "添加商品",
+};

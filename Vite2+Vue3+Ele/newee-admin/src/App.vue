@@ -1,15 +1,38 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
+import { localGet, pathMap } from '@/utils';
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const state = reactive({ showMenu: true });
 const noShowMenuPaths = ["/login"];
 const router = useRouter();
+const route = useRoute();
 
-router.beforeEach((to) => {
-	state.showMenu = !noShowMenuPaths.includes(to.path);
-});
+// router.beforeEach((to) => {
+// 	state.showMenu = !noShowMenuPaths.includes(to.path);
+// });
+// watch(() => route.path, (newVal, oldVal) => {
+// 	console.log('axiosassaa, newVal', axios.defaults.headers)
+// })
+router.beforeEach((to, from, next) => {
+	if (to.path === '/login') {
+		next()
+		state.showMenu = false
+	} else {
+		// 如果不是/login, 判断是否有token
+		if (!localGet('token')) {
+			// 如果没有token, 则跳转到登陆页面
+			next({ path: '/login' })
+			// state.showMenu = false;
+		} else {
+			// 否则继续运行
+			next()
+		}
+	}
+	state.showMenu = !noShowMenuPaths.includes(to.path) && localGet('token')
+	document.title = pathMap[to.name]
+})
 </script>
 
 <template>
