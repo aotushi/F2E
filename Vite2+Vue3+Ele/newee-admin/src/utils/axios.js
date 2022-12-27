@@ -4,7 +4,7 @@ import { ElMessage } from "element-plus";
 import config from "~/config";
 import { localGet } from ".";
 
-axios.defaults.baseURL = config[import.meta.env.MODE].baseURL;
+axios.defaults.baseURL = config[import.meta.env.MODE].baseUrl;
 
 axios.defaults.withCredentials = true;
 
@@ -21,7 +21,7 @@ axios.interceptors.response.use((res) => {
 	}
 	if (res.data.resultCode !== 200) {
 		// if (res.data.message) alert(res.data.message);
-		if (res.data.message) ElMessage(res.data.message);
+		if (res.data.message) ElMessage.error(res.data.message);
 		if (res.data.resultCode == 419) {
 			router.push({ path: "/login" });
 		}
