@@ -73,8 +73,8 @@ const submitForm = async () => {
         // 这里我们将其存储到 localStorage 里面。
         localSet('token', res)
         // 此处登录完成之后，需要刷新页面
-        // window.location.href = '/'
-        router.push('/')
+        window.location.href = '/'
+        // router.push('/') 注意: 通过router方法跳转后,axios中的headers.token拿不到值
       })
     } else {
       return false
