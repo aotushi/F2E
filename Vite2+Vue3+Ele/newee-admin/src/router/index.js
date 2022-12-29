@@ -1,6 +1,7 @@
 import AddGood from "@/views/AddGood.vue";
 import Index from "@/views/Index.vue";
 import Login from "@/views/Login.vue";
+import Swiper from "@/views/Swiper.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const router = createRouter({
@@ -20,6 +21,11 @@ const router = createRouter({
 			path: "/login",
 			name: "login",
 			component: Login,
+		},
+		{
+			path: "/swiper",
+			name: "swiper",
+			component: Swiper,
 		},
 	],
 });

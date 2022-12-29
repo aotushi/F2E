@@ -1,10 +1,16 @@
 <script setup>
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
-import { localGet, pathMap } from '@/utils';
+import { localGet, pathMap } from "@/utils";
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-const state = reactive({ showMenu: true });
+
+const state = reactive({
+	showMenu: true,
+	defaultOpen: ["1", "2"],
+	currentPath: "/",
+});
+const { defaultOpen, currentPath } = state;
 const noShowMenuPaths = ["/login"];
 const router = useRouter();
 const route = useRoute();
@@ -16,23 +22,24 @@ const route = useRoute();
 // 	console.log('axiosassaa, newVal', axios.defaults.headers)
 // })
 router.beforeEach((to, from, next) => {
-	if (to.path === '/login') {
-		next()
-		state.showMenu = false
+	if (to.path === "/login") {
+		next();
+		state.showMenu = false;
 	} else {
 		// 如果不是/login, 判断是否有token
-		if (!localGet('token')) {
+		if (!localGet("token")) {
 			// 如果没有token, 则跳转到登陆页面
-			next({ path: '/login' })
+			next({ path: "/login" });
 			// state.showMenu = false;
 		} else {
 			// 否则继续运行
-			next()
+			next();
 		}
 	}
-	state.showMenu = !noShowMenuPaths.includes(to.path) && localGet('token')
-	document.title = pathMap[to.name]
-})
+	state.showMenu = !noShowMenuPaths.includes(to.path) && localGet("token");
+	document.title = pathMap[to.name];
+	state.currentPath = to.path;
+});
 </script>
 
 <template>
@@ -47,7 +54,7 @@ router.beforeEach((to, from, next) => {
 					</div>
 				</div>
 				<div class="line" />
-				<el-menu background-color="#222832" text-color="#fff" router>
+				<el-menu background-color="#222832" text-color="#fff" router :default-active="currentPath" :default-openeds="defaultOpen">
 					<!-- 一级栏目 -->
 					<el-sub-menu index="1">
 						<template #title>
@@ -56,10 +63,20 @@ router.beforeEach((to, from, next) => {
 						<!-- 二级栏目 -->
 						<el-menu-item-group>
 							<el-menu-item index="/">
-								<el-icon> <DataLine /> </el-icon>首页
+								<el-icon> <Odometer /> </el-icon>首页
 							</el-menu-item>
 							<el-menu-item index="/add">
-								<el-icon> <DataLine /> </el-icon>添加商品
+								<el-icon> <Plus /> </el-icon>添加商品
+							</el-menu-item>
+						</el-menu-item-group>
+					</el-sub-menu>
+					<el-sub-menu index="2">
+						<template #title>
+							<span>首页配置</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/swiper">
+								<el-icon> <Picture /> </el-icon>轮播图配置
 							</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
@@ -128,6 +145,7 @@ router.beforeEach((to, from, next) => {
 	max-height: 100vh;
 	overflow: hidden;
 }
+
 .main {
 	height: calc(100vh - 100px);
 }
