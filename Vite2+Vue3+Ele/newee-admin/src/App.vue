@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import { localGet, pathMap } from "@/utils";
+import { ShoppingCart } from "@element-plus/icons-vue";
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -77,6 +78,15 @@ router.beforeEach((to, from, next) => {
 						<el-menu-item-group>
 							<el-menu-item index="/swiper">
 								<el-icon> <Picture /> </el-icon>轮播图配置
+							</el-menu-item>
+							<el-menu-item index="/hot">
+								<el-icon><StarFilled /></el-icon>热销商品配置
+							</el-menu-item>
+							<el-menu-item index="/new">
+								<el-icon><Sell /></el-icon>新品上线配置
+							</el-menu-item>
+							<el-menu-item index="/recommend">
+								<el-icon><ShoppingCart /></el-icon>为你推荐配置
 							</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
