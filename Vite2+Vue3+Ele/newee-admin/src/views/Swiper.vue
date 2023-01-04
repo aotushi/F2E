@@ -60,6 +60,8 @@ const state = reactive({
 	total: 0, // 总条数
 });
 
+const addSwiper = ref(null);
+
 const handleSelectionChange = (val) => {
 	state.multipleSelection = val;
 };
@@ -81,12 +83,12 @@ const handleDelete = () => {
 			getCarousels();
 		});
 };
-const addSwiper = ref(null);
 
 onMounted(() => {
 	getCarousels();
 });
 
+// 获取轮播图列表
 const getCarousels = () => {
 	state.loading = true;
 	axios
@@ -113,6 +115,7 @@ const handleEdit = (id) => {
 	state.type = "edit";
 	addSwiper.value.open(id);
 };
+
 // 点击分页
 const changePage = (page) => {
 	state.currentPage = page;
