@@ -1,15 +1,15 @@
-# vue-h5-template-ZheJiangPersonal
+# vue-h5
 
 基于 vue-cli4.0 + webpack 4 + vant ui + sass+ rem 适配方案+axios 封装，构建手机端模板脚手架
 
-### Node 版本要求
+### Node 版本
 
 `Vue CLI` 需要 Node.js 8.9 或更高版本 (推荐 8.11.0+)。你可以使用 [nvm](https://github.com/nvm-sh/nvm) 或
 [nvm-windows](https://github.com/coreybutler/nvm-windows) 在同一台电脑中管理多个 Node 版本。
 
 本示例 Node.js 12.14.1
 
-### 启动项目
+### 启动
 
 ```bash
 cd vue-h5-template-ZheJiangPersonal
@@ -44,7 +44,7 @@ npm run serve -- --模块名
 - [√ 兼容 uap 库 ](#uap)
 - [√ 字体图标 ](#iconfont)
 
-### <span id="env">✅ 配置多环境变量 </span>
+### ✅ 配置多环境变量
 
 `package.json` 里的 `scripts` 配置 `serve` `stage` `build`，通过 `--mode xxx` 来执行不同环境
 
@@ -137,7 +137,7 @@ console.log(baseApi)
 
 [▲ 回顶部](#top)
 
-### <span id="rem">✅ rem 适配方案 </span>
+### ✅ rem 适配方案 
 
 不用担心，项目已经配置好了 `rem` 适配, 下面仅做介绍：
 
@@ -168,7 +168,7 @@ module.exports = {
 
 更多详细信息： [vant](https://youzan.github.io/vant/#/zh-CN/quickstart#jin-jie-yong-fa)
 
-**新手必看，老鸟跳过**
+**新手必看**
 
 关于适配的问题,因为我们使用的是 Vant UI，所以必须根据 Vant UI 375 的设计规范走，一般我们的设计会将 UI 图上传到蓝湖，我们
 就可以需要的尺寸了。下面就大搞普及一下 rem。（如果 vant ui 不需要转换成 rem 添加 selectorBlackList: ['van-'] 即可）
@@ -211,7 +211,7 @@ module.exports = {
 
 [▲ 回顶部](#top)
 
-### <span id="vw">✅ vm 适配方案 </span>
+### ✅ vm 适配方案
 
 本项目使用的是 rem 的 适配方案，其实无论你使用哪种方案，都不需要你去计算 12px 是多少 rem 或者 vw, 会有专门的工具去帮你做
 。如果你想用 vw，你可以按照下面的方式切换。
@@ -267,7 +267,7 @@ package.json 删除如下代码
 
 [▲ 回顶部](#top)
 
-### <span id="vant">✅ VantUI 组件按需加载 </span>
+### ✅ VantUI 组件按需加载
 
 项目采
 用[Vant 自动按需引入组件 (推荐)](https://youzan.github.io/vant/#/zh-CN/quickstart#fang-shi-yi.-zi-dong-an-xu-yin-ru-zu-jian-tui-jian)下
@@ -319,7 +319,7 @@ Vue.use(Tabbar).use(TabbarItem)
 
 [▲ 回顶部](#top)
 
-### <span id="sass">✅ Sass 全局样式</span>
+### ✅ Sass 全局样式
 
 首先 你可能会遇到 `node-sass` 安装不成功，别放弃多试几次！！！
 
@@ -1102,7 +1102,7 @@ export default {
 
 注： 关于根目录下的 uap
 
-​ 基于 Zepto.js 封装的库 打包时会原封不动的移动到打包完的文件夹 详细配置见 vue.config.js
+ 基于 Zepto.js 封装的库 打包时会原封不动的移动到打包完的文件夹 详细配置见 vue.config.js
 
 # 注意
 
@@ -1119,7 +1119,7 @@ pages 文件夹下 每个文件夹属于一个单独的模块,项目启动单位
 1. 把项目根目录下 template（单个模块模板）内所有文件拷贝到 pages 目录中的某个自己的模块中。
 2. 业务开发
 
-# 鸣谢 ​
+# 写
 
 [vue-cli4-config](https://github.com/staven630/vue-cli4-config)  
 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
