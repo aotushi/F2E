@@ -1,0 +1,639 @@
+#container{
+  width: 100%;
+  min-width: 1280px;
+  font-family: 微软雅黑;
+}
+
+header{
+  width: 100%;
+  height: 60px;
+  font-size: 0;
+  /* background: rgba(0,0,0,.2); */
+}
+
+#headleft{
+  position: relative;
+  left: 7%;
+  display: inline-block;
+  width: 10%;
+  height: 60px;
+  text-align: center;
+  background: url(picture/icon-1.png) no-repeat left;
+  background-size: 17% 50%;
+}
+#headleft h1{
+  font-size: 22px;
+  font-weight: 300;
+}
+header nav{
+  position: relative;
+  left: 40%;
+  display: inline-block;
+  width: 30%;
+  height: 60px;
+  /* background-color: lightblue; */
+  vertical-align: top;
+}
+header nav ul{
+  width: 100%;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+header nav ul li{
+  display: inline-block;
+  width: 20%;
+  /* height: 60px; */
+  line-height: 60px;
+  font-size: 14px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.4s ease-in-out;
+}
+nav ul .move{
+  position: absolute;
+  left: 0;
+  top: 56px;
+  border-top: 4px solid #e53c3c;
+  transition: left 0.4s ease-in-out;
+}
+nav ul li:hover{
+  color: #e53c3c;
+}
+nav ul li:nth-of-type(1):hover~.move{
+  left: 0%;
+}
+nav ul li:nth-of-type(2):hover~.move{
+  left: 20%;
+}
+nav ul li:nth-of-type(3):hover~.move{
+  left: 40%;
+}
+nav ul li:nth-of-type(4):hover~.move{
+  left: 60%;
+}
+nav ul li:nth-of-type(5):hover~.move{
+  left: 80%;
+}
+header #headright{
+  position: relative;
+  left: 45%;
+  display: inline-block;
+  width: 6%;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 14px;
+  cursor: pointer;
+  background: url(picture/icon-2.jpg) no-repeat left;
+  color: #e53c3c;
+}
+#part1{
+  position: relative;
+  top: 17px;
+  width: 100%;
+  height: 650px;
+  margin-top: -16px;
+  background: url(picture/pic01.jpg);
+  background-size: 100% auto;
+  color: #fff;
+}
+section #ty{
+  position: absolute;
+  left: 9%;
+  top: 130px;
+}
+section #ty p{
+  font-size: 22px;
+  line-height: 8px;
+}
+section #ty p:first-child{
+  font-family: Arial;
+  font-size: 60px;
+}
+section #ty span{
+  width: 30%;
+  padding: 12px 100px;
+  font-size: 30px;
+  background: #e53c3c;
+  text-align: center;
+  line-height: 160px;
+  cursor: pointer;
+}
+section#part2{
+  position: relative;
+  top: 17px;
+  width: 100%;
+  height: 250px;
+  font-size: 0;
+}
+section#part2 ul{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+section#part2 ul li{
+  display: inline-block;
+  width: 25%;
+  height: 250px;
+  padding-top: 40px;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+}
+section#part3{
+  height: 330px;
+  background: #f5f5f5;
+  text-align: center;
+  line-height: 80px;
+  color: #808080;
+  font-size: 50px;
+}
+section#part3 img{
+  padding-top: 60px;
+}
+section#part4 {
+  position: relative;
+  top: 17px;
+  height: 330px;
+  text-align: center;
+  color: #fff;
+  background: url(picture/pic02.jpg);
+}
+section#part4 p{
+  font-size: 21px;
+  padding: 40px 0 10px 0;
+  margin: 0;
+}
+section#part4 #line{
+  width: 2%;
+  margin-left: 44%;
+  border: 1px solid #fff;
+  transition: width 0.4s ease-in-out;
+}
+section#part4 p:hover~#line{
+  width: 12%;
+}
+section#part4 span{
+  font-size: 14px;
+}
+section#part4 form{
+  margin-top: 30px;
+}
+section#part4 select{
+  width: 16%;
+  height: 35px;
+  color: #a3a3a3;
+  margin-left: 1%;
+}
+section#part4 select:hover{
+  border:1px solid #CD5C5C;
+}
+section#part4 input{
+  width: 16%;
+  height: 35px;
+  padding: 0;
+  margin: 0;
+  margin-left: 1%;
+  color: #fff;
+  background: #CD5C5C;
+  font: 15px 微软雅黑;
+  border: 1px solid #CD5C5C;
+
+  vertical-align: top;
+}
+section#part5{
+  position: relative;
+  top: 17px;
+  height: 600px;
+  text-align: center;
+}
+section#part5 .picture{
+  display: inline-block;
+  margin: 80px 3%;
+}
+section#part5 p{
+  line-height: 0;
+}
+section#part5 h5{
+  color: #a8a8a8;
+}
+section#part5 .two span{
+  color: #a8a8a8;
+  font-size: 14px;
+  line-height: 25px;
+}
+section#part5 #shanghai{
+  font-size: 20px;
+  font-weight: 500;
+  height: 20px;
+  line-height: 0;
+  letter-spacing: 30px;
+  color: #000;
+  padding-left: 15px;
+}
+section#part6{
+  position: relative;
+  top: 17px;
+  height: 560px;
+  font-size: 0;
+}
+section#part6 .left{
+  position: relative;
+  top: 0;
+  display: inline-block;
+  width: 70%;
+  height: 560px;
+  color: #fff;
+  text-align: center;
+  background: url(picture/pic07.jpg) no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+section#part6 .left p{
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+}
+section#part6 .left p:nth-child(1){
+  font-size: 50px;
+  line-height: 0;
+  margin-top: 150px;
+}
+section#part6 .left p:nth-child(2){
+  font-size: 150px;
+}
+section#part6 .left p:nth-child(3){
+  font-size: 25px;
+}
+section#part6 .left:after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  margin-top: -20px;
+  border: 40px solid;
+  border-color: transparent #fff transparent transparent;
+  /* background: #fff; */
+  /* transform: rotate(45deg); */
+}
+section#part6 .right{
+  position: relative;
+  top: 0;
+  left: 5px;
+  display: inline-block;
+  width: 29%;
+  height: 560px;
+  /* background: lightblue; */
+}
+section#part6 #border{
+  width: 350px;
+  height: 300px;
+  text-align: center;
+  margin: 110px auto;
+}
+section#part6 #border input[type='radio'] {
+  position: relative;
+  top: 300px;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 10;
+}
+
+section#part6 #border .list{
+  display: inline-block;
+  position: relative;
+  top: 288px;
+  margin: 0 2px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #a8a8a8;
+  border-radius: 10px;
+  z-index: -1;
+}
+section#part6 #border .info{
+  display: none;
+}
+section#part6 #border .info-1{
+  display: block;
+}
+section#part6 #border .info p:first-child{
+  font-size: 22px;
+}
+section#part6 #border .info p:first-child>span{
+  color: red;
+}
+section#part6 #border .info p:last-child{
+  font-size: 14px;
+  line-height: 30px;
+  color: #a8a8a8;
+  transition: color 0.4s ease-in-out;
+}
+section#part6 #border .info p:last-child:hover{
+  color: #000;
+}
+#border #button button{
+  display: inline-block;
+  width: 30%;
+  height: 35px;
+  font-weight: bold;
+  color: #8e4f48;
+  background: #fff;
+  border: 1px solid #e53c3c;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+}
+#border #button button:hover{
+  color: #fff;
+  background: #e53c3c;
+  border-radius: 3px;
+}
+section#part6 #border .list:first-of-type{
+  background: #a8a8a8;
+}
+section#part6 #border input[type='radio']:checked~.list{
+  background: #fff;
+}
+section#part6 #border input[type='radio']:checked~.info{
+  display: none;
+}
+section#part6 #border input[type='radio']:nth-of-type(1):checked~.list:nth-of-type(1){
+  background: #a8a8a8;
+}
+section#part6 #border input[type='radio']:nth-of-type(2):checked~.list:nth-of-type(2){
+  background: #a8a8a8;
+}
+section#part6 #border input[type='radio']:nth-of-type(3):checked~.list:nth-of-type(3){
+  background: #a8a8a8;
+}
+section#part6 #border input[type='radio']:nth-of-type(1):checked~.info-1{
+  display: block;
+}
+section#part6 #border input[type='radio']:nth-of-type(2):checked~.info-2{
+  display: block;
+}
+section#part6 #border input[type='radio']:nth-of-type(3):checked~.info-3{
+  display: block;
+}
+section#part7{
+  position: relative;
+  top: 17px;
+  height: 518px;
+  font-size: 0;
+}
+section#part7 .col{
+  display: inline-block;
+  height: 518px;
+}
+section#part7 .col-1{
+  vertical-align: top;
+  width: 33.3%;
+  background: #e53c3c;
+  color: #fff;
+  font-size: 20px;
+}
+section#part7 .col-1 .new{
+  width: 160px;
+  margin: 200px auto;
+  text-align: center;
+}
+section#part7 .line{
+  width: 20%;
+  border: 1px solid #fff;
+  margin: 0 0 25px 63px;
+}
+.col-1 .new .line-1{
+  width: 20%;
+  border: 1px solid #fff;
+}
+section#part7 button{
+  width: 100%;
+  height: 42px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.col-1 button{
+  background: #e53c3c;
+  color: #fff;
+  border: 1px solid #fff;
+  transition: all 0.4s ease-in-out;
+}
+.col-1 button:hover{
+  background: #fff;
+  color: #e53c3c;
+  border: 1px solid #e53c3c;
+}
+section#part7 .col-2{
+  vertical-align: top;
+  width: 33.3%;
+  background: #fff;
+  color: #e53c3c;
+  font-size: 20px;
+}
+.col-2 .new{
+  width: 160px;
+  margin: 200px auto;
+  text-align: center;
+}
+section#part7 .col-2 .line-2{
+  width: 20%;
+  border: 1px solid #a8a8a8;
+}
+.col-2 button{
+  background: #fff;
+  color: #e53c3c;
+  border: 1px solid #e53c3c;
+  transition: all 0.4s ease-in-out;
+}
+.col-2 button:hover{
+  background: #e53c3c;
+  color: #fff;
+  border: 1px solid #a8a8a8;
+}
+section#part7 .col-3{
+  position: relative;
+  top: 0;
+  width: 33.3%;
+  background: url(picture/pic08.jpg) no-repeat;
+  background-size: cover;
+}
+section#part7 .col-3:before{
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  margin-top: -40px;
+  content:'';
+  width: 0;
+  height: 0;
+  border: 40px solid;
+  border-color: transparent transparent transparent #fff;
+}
+section#part8{
+  position: relative;
+  top: 17px;
+  height:800px;
+  /* background: lightblue; */
+  overflow: hidden;
+  /* 解决外边距塌陷问题: 父元素设置overflow; 父元素浮动;子元素浮动 */
+}
+section#part8 #mark1{
+  height: 300px;
+  text-align: center;
+}
+section#part8 #mark1 h3{
+  margin: 100px auto 10px auto;
+}
+section#part8 #mark1 .line{
+  width: 3%;
+  height: 2px;
+  margin: 0 auto;
+  background: rgb(255,0,0);
+}
+section#part8 #mark1 p{
+  color: #a8a8a8;
+  font-size: 14px; 
+}
+section#part8 #mark2{
+  height: 500px;
+  /* font-size: 0; */
+  /* 解决行内块间隙有5种方法: 字体为0后续处理较多.本次使用注释符 */
+}
+section#part8 .mark{
+  display: inline-block;
+  height: 500px;
+}
+section#part8 #mark2 .mark-1{
+  width: 40%;
+  vertical-align: top;
+}
+section#part8 #mark2 .mark-2{
+  width: 60%;
+  /* background: lightcoral; */
+}
+section#part8 #mark2 .mark-1-1{
+  position: relative;
+  left: 25%;
+  width: 400px;
+  height: 500px;
+  overflow: hidden;
+}
+section#part8 #mark2 .mark-1-1 h4{
+  line-height: 0;
+}
+section#part8 #mark2 .mark-1-1 p{
+  color: #a8a8a8;
+  font-size: 14px;
+}
+#mark2 .mark-1-1 a{
+  position: absolute;
+  left: 68%;
+  color: #000;
+  font-size: 14px;
+  text-decoration: none;
+}
+section#part8 #mark2 .mark-2-1{
+  height: 500px;
+  text-align: center;
+}
+section#part8 #mark2 .mark-2-1 input[type='name']{
+  width: 350px;
+  height: 40px;
+  margin: 8px;
+  background: #d3d3d3;
+  border: 1px solid #d3d3d3;
+  opacity: .6;
+}
+section#part8 #mark2 .mark-2-1 textarea{
+  width: 724px;
+  margin: 8px;
+  border: 1px solid #d3d3d3;
+  opacity: .6;
+  background: #d3d3d3;
+  resize: none;
+}
+section#part8 #mark2 .mark-2-1 input[type='submit'] {
+  width: 730px;
+  height: 40px;
+  margin: 0 8px;
+  border: 1px solid #d3d3d3;
+  opacity: .6;
+  cursor: pointer;
+  background: #d3d3d3;
+}
+section#part9{
+  position: relative;
+  top: 17px;
+  height: 400px;
+  color: #fff;
+  background: #131426;
+  text-align: center;
+
+  /* overflow: hidden; */
+  /* 解决外边距塌陷. 第一个p元素的上下外边距为25px 因为user-agent默认margin样式 1em*/
+}
+section#part9 p{
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+section#part9 p:first-child{
+  font-size: 25px;
+  padding-top: 120px;
+}
+section#part9 p:last-of-type{
+  margin: 1em 0;
+}
+section#part9 form{
+  font-size: 0;
+  /* 解决两个行内块input之间的间距 */
+}
+section#part9 input[type='email'] {
+  width: 30%;
+  height: 30px;
+  color: #a8a8a8;
+}
+section#part9 input[type='submit'] {
+  width: 4%;
+  height: 36px;
+  background: #777;
+  color: #fff;
+  border: 1px solid #777;
+  cursor: pointer;
+
+  vertical-align: top;
+  /* 两个input对齐.  或者在email的input中设置 */
+}
+section#part9 img{
+  margin: 20px;
+  cursor: pointer;
+}
+section#part10 {
+  position: relative;
+  top: 17px;
+  height: 60px;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  line-height: 60px;
+}
+section#part10 span{
+  margin-left: 75%;
+  /* position: relative;
+  top: 20px; */
+}
+section#part10 span:first-child{
+  margin-left: 10%;
+}
+section#part10 span a{
+  text-decoration: none;
+  color: #fff;
+  
+}

@@ -1,0 +1,60 @@
+body {
+  font-family: 微软雅黑;
+  margin: 0;
+  padding: 0;
+}
+header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box;
+  background: #3299cc;
+}
+header #headleft {
+  position: absolute;
+  left: 5%;
+  width: 40px;
+  height: 60px;
+  background: url(pic/logo.png) no-repeat left;
+}
+header #headright {
+  margin-left: 60%;
+  width: 30%;
+  height: 60px;
+}
+header #headright form {
+  position: relative;
+  display: inline-block;
+  width: 70%;
+  height: 60px;
+  line-height: 60px;
+}
+#headright form input[type='text'] {
+  position: absolute;
+  top: 50%;
+  margin-top: -14px;
+  padding: 0;
+  padding-left: 15px;
+  width: 100%;
+  height: 28px;
+  border-radius: 15px;
+  border: 1px solid #3299cc;
+  box-sizing: border-box;
+  background: url(pic/zoom.png) no-repeat -15px;
+  background-color: #fff;
+  background-origin: content-box;
+}
+#headright span {
+  display: inline-block;
+  width: 26%;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 14px;
+  margin-left: 1%;
+  color: #fff;
+  background: url(pic/login.png) no-repeat left;
+  background-size: 15px;
+  cursor: pointer;
+  vertical-align: top;
+}

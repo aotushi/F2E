@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .box {
+        position: relative;
+        width: 420px;
+        min-height: 210px;
+        margin: 100px auto;
+        font-size: 0;
+      }
+
+      .box > div {
+        display: inline-block;
+      }
+
+      .box > div > a {
+        display: block;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-bottom: 0px solid white;
+        text-decoration: none;
+        font-size: 14px;
+        /* 当字体设置为17px时,子元素内部两个元素的上下间距为0;字体为14px时,上下间距为3px */
+      }
+
+      .box #tab2 a,
+      .box #tab3 a {
+        border-left: 0px solid transparent;
+      }
+
+      
+
+      .box > div> div {
+        /* position: absolute; */
+        left: 0;
+        top: 27px;
+        bottom: 0;
+        right: 0;
+        padding: 20px;
+        border: 1px solid #ccc;
+
+        z-index: -2;
+        font-size: 14px;
+        background: #fff;
+      }
+
+      .box > div#tab1 > div {
+        z-index: -1;
+      }
+
+      .box > div:not(:target) > div {
+        position: absolute;
+      }
+      .box > div:target > div {
+        position: absolute;
+        z-index: -1;
+      }
+
+      .box2 {
+        position: relative;
+        width: 500px;
+        height: 300px;
+      }
+      .box2 > span {
+        display: block;
+      }
+      .box2 > div {
+        position: absolute;
+        top: 30px;
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div id="tab1">
+        <a href="#tab1">Tab 1</a>
+        <div>One might well argue, that...</div>
+      </div>
+      <div id="tab2">
+        <a href="#tab2">Tab 2</a>
+        <div>... 30 lines of CSS is rather a lot, and...</div>
+      </div>
+      <div id="tab3">
+        <a href="#tab3">Tab 3</a>
+        <div>... that 2 should have been enough, but...</div>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>

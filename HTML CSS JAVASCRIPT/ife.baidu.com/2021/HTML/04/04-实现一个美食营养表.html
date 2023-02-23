@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04-实现一个美食营养表s</title>
+  <style>
+    table, th, td {
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>餐食营养数据</h2>
+  <table>
+    <caption>餐食的一些数据。（资料取自<a href="url">cupcakes kale chips</a>，图片取自<a href="url">cupcakes kale chips照片库</a>。）</caption>
+    <thead>
+      <tr>
+        <th colspan="2" rowspan="2">&nbsp;</th>
+        <th rowspan="2">名字</th>
+        <th rowspan="2">图片</th>
+        <th rowspan="2">Calories</th>
+        <th colspan="4" scope="colgroup">Fat(g)</th>
+        <th rowspan="2">Cholesterol(mg)</th>
+        <th rowspan="2">Sodium(mg)</th>
+        <th rowspan="2">Vitamin A(IU)</th>
+      </tr>
+      <tr>
+        <th scope="col">Saturated Fat(g)</th>
+        <th scope="col">Trans Fat(g)</th>
+        <th scope="col">Polyunsaturated Fat(g)</th>
+        <th scope="col">Monounsaturated Fat(g)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th rowspan="4">breakfast</th>
+        <th rowspan='2' scope="rowgroup">breads</th>
+        <th scope="row">Gluten-Free Bread</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/1.jpeg" alt=""></td>
+        <td>134</td>
+        <td>1g</td>
+        <td>1g</td>
+        <td>1g</td>
+        <td>3g</td>
+        <td>20</td>
+        <td>162</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <!-- <td>2</td> -->
+        <th scope="row">Gluten Free Cinnamon Raisin Bagels</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/2.jpeg" alt=""></td>
+        <td>390</td>
+        <td>1g</td>
+        <td>1g</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>92</td>
+        <td>914</td>
+        <td>130</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <th rowspan="2" scope="rowgroup">Drinks</th>
+        <th scope="row">Chocolate Pumpkin Smoothie</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/3.jpeg" alt=""></td>
+        <td>297</td>
+        <td>3</td>
+        <td>&nbsp;</td>
+        <td>1</td>
+        <td>2</td>
+        <td>10</td>
+        <td>324</td>
+        <td>22021</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <!-- <td>2</td> -->
+        <th scope="row">PeanutButter and Jelly Smoothie</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/4.jpeg" alt=""></td>
+        <td>460</td>
+        <td>5</td>
+        <td>&nbsp;</td>
+        <td>5</td>
+        <td>8</td>
+        <td>10</td>
+        <td>209</td>
+        <!-- <td>4</td> -->
+      </tr>
+      <tr>
+        <th rowspan="4">lunch</th>
+        <th rowspan='2' scope="rowgroup">cuisine</th>
+        <th scope="row">Mexican Pasta Salad</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/5.jpeg" alt=""></td>
+        <td>248</td>
+        <td>1</td>
+        <td>&nbsp;</td>
+        <td>1</td>
+        <td>4</td>
+        <td>2</td>
+        <td>408</td>
+        <td>202</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <!-- <td>2</td> -->
+        <th scope="row">Keto Taco Bowl</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/6.jpeg" alt=""></td>
+        <td>746</td>
+        <td>8g</td>
+        <td>2</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>128</td>
+        <td>341</td>
+        <td>11816</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <th rowspan="2" scope="rowgroup">Sandwishes</th>
+        <th scope="row">Honey BBQ Chicken Salad</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/7.jpeg" alt=""></td>
+        <td>185</td>
+        <td>2g</td>
+        <td>1g</td>
+        <td>1g</td>
+        <td>1g</td>
+        <td>57</td>
+        <td>278</td>
+        <td>147</td>
+      </tr>
+      <tr>
+        <!-- <th>breakfast</th> -->
+        <!-- <td>2</td> -->
+        <th scope="row">Chef's Salad Lettuce Wraps</th>
+        <td><img src="https://github.com/Dnijia/learnHtml/blob/main/task4_table/img/8.jpeg" alt=""></td>
+        <td>265</td>
+        <td>6g</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>101</td>
+        <td>979</td>
+        <td>6440</td>
+      </tr>
+    </tbody>
+
+  </table>
+</body>
+</html>

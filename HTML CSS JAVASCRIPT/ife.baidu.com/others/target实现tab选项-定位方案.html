@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .box {
+        position: relative;
+        margin: 50px auto;
+        width: 400px;
+        height: 200px;
+      }
+
+      .box > div {
+        display: inline-block;
+      }
+
+      .box > div > a {
+        display: block;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        border-bottom: none;
+      }
+      .box > div#tab2 > a,
+      .box > div#tab1 > a {
+        border-right: none;
+      }
+      .box > div:not(:first-child) > a {
+        position: relative;
+        left: -4px;
+      }
+      .box > div#tab3 > a {
+        left: -8px;
+      }
+
+      .box > div > div {
+        position: absolute;
+        left: 0;
+        top: 29px;
+        right: 0;
+        bottom: 0;
+        border: 1px solid #ccc;
+
+        z-index: -2;
+        background: #fff;
+      }
+
+      .box > div:target > div {
+        z-index: -1;
+      }
+
+      /* 默认效果 */
+      .box > div#tab1 > div {
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div id="tab1">
+        <a href="#tab1">Tab 1</a>
+        <div>One might well argue, that</div>
+      </div>
+      <div id="tab2">
+        <a href="#tab2">Tab 2</a>
+        <div>... 30 lines of CSS is rather a lot, and ...</div>
+      </div>
+      <div id="tab3">
+        <a href="#tab3">Tab 3</a>
+        <div>...that 2 should have been enough, but...</div>
+      </div>
+    </div>
+  </body>
+</html>
