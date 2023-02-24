@@ -1765,6 +1765,11 @@ server.listen(8000);
 > https://segmentfault.com/a/1190000011145364
 
 
+待办
+> https://www.cnblogs.com/hq233/p/9849939.html
+> https://zhuanlan.zhihu.com/p/375404174
+
+
 
 
 
@@ -1836,7 +1841,7 @@ CORS 请求失败会产生错误，但是为了安全，在 JavaScript 代码层
 
 
 
-### 解决方案
+### 跨域10种解决方案
 
 > [javascript - 10 种跨域解决方案（附终极方案）_个人文章 - SegmentFault 思否](https://segmentfault.com/a/1190000022398875()
 
@@ -2484,10 +2489,17 @@ b.html 为中间代理页，与 a.html 同域，内容为空。
 
 Windows
 
+https://juejin.cn/post/7042703896262737956
+
 ```moonscript
 找到你安装的目录
 .\Google\Chrome\Application\chrome.exe --disable-web-security --user-data-dir=xxxx
 ```
+
+在快捷方式上右键属性弹框中,将目标后面添加上`--disable-web-security`
+
+
+
 
 Mac
 
