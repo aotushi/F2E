@@ -1,0 +1,93 @@
+{
+  "main": {
+    "id": "62f42b8ec8573234",
+    "type": "split",
+    "children": [
+      {
+        "id": "74ec93ffcbcbfd91",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "JS fw-vue.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f6bdb77dacf3cfe3",
+    "type": "split",
+    "children": [
+      {
+        "id": "bf8dfd437fb7e0b5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d58a9b773b274ed9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "e6e5585cc75887b7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2158b72d25f05647",
+    "type": "split",
+    "children": [
+      {
+        "id": "917ebf7c484b95e6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "11c09a2cf3f7dd12",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "JS fw-vue.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "74ec93ffcbcbfd91",
+  "lastOpenFiles": [
+    "JS fw-vue.md"
+  ]
+}

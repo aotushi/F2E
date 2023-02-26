@@ -19,3 +19,11 @@ const addMinutesToDate = (date, n) => {
 
 addMinutesToDate("2023-02-23 12:00:00", 10);
 addMinutesToDate("2023-02-24", -10);
+
+const variables = [
+	["2023-02-23 12:00:00", 10],
+	["2023-02-24", -10],
+];
+const result = ["2020-10-19 12:10:00", "2020-10-18 23:50:01"];
+
+export { addMinutesToDate as fn, variables, result };

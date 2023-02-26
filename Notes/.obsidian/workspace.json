@@ -1,0 +1,160 @@
+{
+  "main": {
+    "id": "62f42b8ec8573234",
+    "type": "split",
+    "children": [
+      {
+        "id": "c879251682e8df99",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2f7bfaab64b575fc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Front-end-notebook/03 JavaScript&TypeScript/202301181331a.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "44e43107a94fc358",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "571f9503042372d2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Front-end-notebook/03 JavaScript&TypeScript/202301181330.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f6bdb77dacf3cfe3",
+    "type": "split",
+    "children": [
+      {
+        "id": "bf8dfd437fb7e0b5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d58a9b773b274ed9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "e87644295144ccda",
+            "type": "leaf",
+            "state": {
+              "type": "quiet-outline",
+              "state": {}
+            }
+          },
+          {
+            "id": "e6e5585cc75887b7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "数据属性",
+                "matchingCase": true,
+                "explainSearch": false,
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 351.5
+  },
+  "right": {
+    "id": "2158b72d25f05647",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb688ba34cbc0080",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a1b4a8a75a95292",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Front-end-notebook/03 JavaScript&TypeScript/202301181331a.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "aa39addd222d4e5d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:Create new canvas": false,
+      "command-palette:打开命令面板": false,
+      "markdown-importer:打开 Markdown 格式转换器": false,
+      "zk-prefixer:创建时间戳笔记": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
+    }
+  },
+  "active": "2f7bfaab64b575fc",
+  "lastOpenFiles": [
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181330.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181330a.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181330b.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181331a.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181331.md",
+    "Front-end-notebook/index.md",
+    "Front-end-notebook/临时.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181348.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181349.md",
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181347.md"
+  ]
+}
