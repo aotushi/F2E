@@ -13,8 +13,4 @@ const people = [{ name: "john" }, { name: "adam" }, { name: "mary" }];
 
 alphabetical(people, (g) => g.name); // [ { name: 'Adam' }, { name: 'John' }, { name: 'Mary' } ]
 
-
-
-// arr.sort((a,b) => a.name - b.name)
-
-
+// people.sort((a,b) => a.name.localCompare(b.name, undefined, {sensitivity: 'base}))
