@@ -8172,7 +8172,7 @@ portrait  竖屏   高度大于宽度
 	height: 500px;
 	background: pink;
 }
-        
+```        
     
 
 #### 方案3：rem响应式布局
@@ -8199,7 +8199,7 @@ portrait  竖屏   高度大于宽度
 
 
 
-### 弹性布局flex
+### flex
 
 #### 介绍
 

@@ -13,4 +13,8 @@ const people = [{ name: "john" }, { name: "adam" }, { name: "mary" }];
 
 alphabetical(people, (g) => g.name); // [ { name: 'Adam' }, { name: 'John' }, { name: 'Mary' } ]
 
-// people.sort((a,b) => a.name.localCompare(b.name, undefined, {sensitivity: 'base}))
+// people.sort((a,b) => a.name.localeCompare(b.name, undefined, {sensitivity: 'base}))
+
+const alphabetical = (arr, getter, order = "asc") => {
+	arr.sort(order === "asc" ? (a, b) => getter(b).localeCompare(getter(a)) : (a, b) => getter(a).localeCompare(getter(b)));
+};
