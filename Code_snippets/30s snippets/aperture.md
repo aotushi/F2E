@@ -10,23 +10,42 @@ lastUpdated: 2020-10-18T20:24:28+03:00
 创建多元连续元素的数组
 
 例子:
+
 ```js
-aperture(2, [1,2,3,4]) //[[1,2],[2,3,],[3,4]]
+aperture(2, [1, 2, 3, 4]); //[[1,2],[2,3],[3,4]]
 aperture(3, [1, 2, 3, 4]); // [[1, 2, 3], [2, 3, 4]]
 aperture(5, [1, 2, 3, 4]); // []
 ```
 
-const aperture = (arr, n) => {
-  if (n > arr.length) {
-    return []
-  }
-  <!-- return arr.reduce((acc, crt, idx) => {
-    return idx < (n-1)
-      ? acc.push([crt]) && acc
-      : acc.push([crt]) && acc
-  }, []) -->
+```js
+const aperture = (n, arr) =>
+	arr.reduce((acc, crt, idx) => {
+		if (idx + n <= arr.length) {
+			acc.push(arr.slice(idx, idx + n));
+		}
+		return acc;
+	}, []);
+```
 
+```md
+延伸下, 创建多个不连续元素的数组
+aperture2(2, [1,2,3,4]) //[[1,2], [3,4]]
+```
 
+```js
+let arr = [1, 2, 3, 4, 5, 6],
+	arr2 = [],
+	n = 2;
 
-  
+arr.reduce((acc, crt, idx) => (idx % n == 0 ? acc.push(arr.slice(idx, idx + n)) && acc : acc), []);
+
+//for循环实现
+
+for (let i = 0; i < arr.length; i += 2) {
+	if (i + n < arr.length) {
+		arr2.push(arr.slice(i, i + n));
+	} else {
+		break;
+	}
 }
+```
