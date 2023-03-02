@@ -49,3 +49,14 @@ for (let i = 0; i < arr.length; i += 2) {
 	}
 }
 ```
+
+
+原答案
+```js
+const aperture = (n ,arr) =>
+	n > arr.length
+		? []
+		: arr.slice(n - 1).map((v, i) => arr.slice(i, i+n))
+```
+
+为什么能够使用'arr.slice(n - 1)'? 
