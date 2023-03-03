@@ -31,8 +31,8 @@
   * 工程化
     * 流程步骤
     * 工具/脚手架
-      * vite
       * webpack(?
+      * 其它
     * ?
 * SEO
   * 基础知识储备
@@ -48,33 +48,52 @@
 
 
 
-
 ## TODO
 
-| 方向              | 具体内容                                                     | 载体 | 频率 | 回顾方式 |
-| ----------------- | ------------------------------------------------------------ | ---- | ---- | -------- |
-| 基础知识-JS       | 体系化: JS权威指南/JS高程/现代JS教程<br /><br />扩展: <br />深入理解JS特性<br />JS设计模式与开发实践<br />JS忍者秘籍<br />前端开发核心知识进阶<br />JS迷你正则书<br />JavaScript 数据结构与算法第三版<br /><br />深入: 你不知道的JS/JS语言精粹与编程实践<br /><br />标准: 标准文档 | 笔记 | day  | anki     |
-| 基础知识-HTML/css | JavaScript Dom 编程艺术                                      |      |      |          |
-| 基础知识-面试题   | 合集  每天看几道题                                           | 笔记 | day  |          |
-|                   |                                                              |      |      |          |
-|                   |                                                              |      |      |          |
-| 教程 vue3         | [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/) |      |      |          |
-| 教程 TypeScript   | [TypeScript中文文档_入门进阶必备 (yayujs.com)](https://ts.yayujs.com/#起因) |      |      |          |
-| 教程 TS           | [深入理解 TypeScript  (jkchao.github.io)](https://jkchao.github.io/typescript-book-chinese/#why) |      |      |          |
-|                   |                                                              |      |      |          |
-|                   |                                                              |      |      |          |
-| 项目-基础         | 百度前端学院                                                 | 仓库 | 每日 |          |
-| 项目-vue          | Vue3实战内容(掘金)                                           | 仓库 | 每日 |          |
-|                   |                                                              |      |      |          |
-| 读书/资料         | 编写可维护的JS<br />JS设计模式<br />JS语言精粹<br />JS模式<br />JS编程精解<br />你不知道的JS(中)<br />JS语言精髓与编程实践<br />编写高质量代码: 改善JavaScript程序的188个建议 |      |      |          |
-|                   |                                                              |      |      |          |
-|                   |                                                              |      |      |          |
-| RSS               | 文章                                                         |      |      |          |
-|                   |                                                              |      |      |          |
-| 计算机            | CS自学指南                                                   |      | 空闲 |          |
-|                   | sh vim                                                       |      |      |          |
-|                   |                                                              |      |      |          |
-|                   |                                                              |      |      |          |
+
+
+#### 项目
+
+- [ ] 百度前端学院
+- [ ] Vue3实战(掘金)
+- [ ] [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/)
+
+
+
+#### 读书
+
+- [ ] ========语言基础=========
+
+- [ ] JavaScript Dom 编程艺术
+
+- [ ] JS权威指南 进行中
+- [ ] JS高程 进行中
+- [ ] 现代JS教程 进行中
+- [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)
+- [ ] ===快速过一遍的====
+- [ ] 编写可维护的JS
+- [ ]  JS设计模式
+- [ ] JS语言精粹
+- [ ] JS模式
+- [ ] JS编程精解
+- [ ] 编写高质量代码: 改善JavaScript程序的188个建议
+- [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍)
+- [ ] =======横向扩展===========
+- [ ] JS忍者秘籍
+- [ ] JavaScript框架设计
+- [ ] JS设计模式与开发实践
+- [ ] 学习数据结构与算法类的书籍 (作者说
+- [ ] ======语言细节与历史=======
+- [ ] 你不知道的JS 进行中
+- [ ] how javascript works
+- [ ] JS语言精髓与编程实践
+- [ ] [标准文档ECMA](https://tc39.es/ecma262/)
+- [ ] [标准组织TC39](https://github.com/tc39/proposa)
+- [ ] =======其它书籍==========
+- [ ] JS迷你正则书    忘光了基本
+- [ ] 
+
+
 
 
 
@@ -99,88 +118,89 @@
 | 7    | 响应式Web开发项目教程  | weread | 未开始   |
 | 8    | CSS世界                | weread | 未开始   |
 | 9    |                        |        |          |
+|      | DOM启蒙                |        |          |
+|      |                        |        |          |
+|      |                        |        |          |
 
 
 
 
 
-| 序号 | 名称                         | 来源                | 完成情况 | 书籍评价          |
-| ---- | ---------------------------- | ------------------- | -------- | ----------------- |
-| 1    | JS高级程序设计               | PDF/微信熟读/github | 进行中   |                   |
-| 2    | 深入理解ES6                  | weread              | 完成     |                   |
-| 3    | JavaScript DOM编程艺术       | weread              | 未开始   |                   |
-| 4    | JavaScript设计模式           | weread              | 未开始   |                   |
-| 5    | JavaScript框架设计           | weread              | 未开始   |                   |
-| 6    | JavaScript语言精髓与编程实战 | weread              | 未开始   |                   |
-| 7    | 学习JavaScript数据结构与算法 | weread              | 未开始   |                   |
-| 8    | JavaScript语言精粹           | weread              | 未开始   |                   |
-| 9    | 你不知道的JavaScript(中)     | weread              | 未开始   |                   |
-| 10   | JavaScript编程精解           | weread              | 未开始   |                   |
-| 11   | Web性能实战                  | weread              | 未开始   |                   |
-|      | JS重难点实例精讲             | weread              | 完成     | 挺好 面广贴合实际 |
-|      |                              |                     |          |                   |
-|      |                              |                     |          |                   |
+| 序号 | 名称                                                         | 来源                                           | 完成情况 | 书籍评价                 |
+| ---- | ------------------------------------------------------------ | ---------------------------------------------- | -------- | ------------------------ |
+| 1    | JS高级程序设计                                               | PDF/微信熟读/github                            | 进行中   |                          |
+| 2    | 深入理解ES6                                                  | weread                                         | 完成     |                          |
+| 3    | JavaScript DOM编程艺术                                       | weread                                         | 未开始   |                          |
+| 4    | JavaScript设计模式                                           | weread                                         | 未开始   |                          |
+| 5    | JavaScript框架设计                                           | weread                                         | 未开始   |                          |
+| 6    | JavaScript语言精髓与编程实战                                 | weread                                         | 未开始   |                          |
+| 7    | 学习JavaScript数据结构与算法                                 | weread                                         | 未开始   |                          |
+| 8    | JavaScript语言精粹                                           | weread                                         | 未开始   |                          |
+| 9    | 你不知道的JavaScript(中)                                     | weread                                         | 未开始   |                          |
+| 10   | JavaScript编程精解                                           | weread                                         | 未开始   |                          |
+| 11   | Web性能实战                                                  | weread                                         | 未开始   |                          |
+|      | JS重难点实例精讲                                             | weread                                         | 完成     | 挺好 面广贴合实际        |
+|      |                                                              |                                                |          |                          |
+|      | ES6标准入门                                                  |                                                |          |                          |
+|      | js悟道                                                       |                                                |          |                          |
+|      | javascript迷你正则书                                         |                                                |          |                          |
+|      | JavaScript for impatient programmers (ES2022 edition)        | [**Dr. Axel Rauschmayer**](http://dr-axel.de/) |          | https://exploringjs.com/ |
+|      | Deep JavaScript: Theory and techniques                       | [**Dr. Axel Rauschmayer**](http://dr-axel.de/) |          |                          |
+|      | 深入理解JS特性                                               |                                                |          |                          |
+|      | **[practical-modern-javascript](https://github.com/mjavascript/practical-modern-javascript)** |                                                |          |                          |
+|      | javascript函数式编程指南                                     |                                                |          |                          |
+|      | javascript异步编程                                           |                                                |          |                          |
+|      | javascript面向对象精要                                       |                                                |          |                          |
+|      | 高性能网站                                                   |                                                |          |                          |
+|      |                                                              |                                                |          |                          |
+|      |                                                              |                                                |          |                          |
+|      |                                                              |                                                |          |                          |
+|      |                                                              |                                                |          |                          |
 
 
 
 
 
-RSS: 
+### RSS: 
 
-| 序号 | 书籍                                                         | 作者                                                         | 链接                                                         | 推荐来源                                                     |
-| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-|      |                                                              |                                                              |                                                              |                                                              |
-|      | javascript高级程序设计 第四版<br />现代JavaScript教程        |                                                              |                                                              | 两个搭配学习 更新笔记                                        |
-| 2    | 你不知道的JS                                                 | getify                                                       | https://github.com/getify/You-Dont-Know-JS                   | 如果只能推荐一本 JavaScript 的书，你会推荐哪本？ - 贺师俊的回答 - 知乎 https://www.zhihu.com/question/27471131/answer/1298702256 |
-| 3    | 深入理解JS特性                                               | Nicolás Bevacqua                                             | https://github.com/mjavascript/practical-modern-javascript   | 如果只能推荐一本 JavaScript 的书，你会推荐哪本？ - 贺师俊的回答 - 知乎 https://www.zhihu.com/question/27471131/answer/1298702256 |
-|      | JS语言精髓与编程实践                                         | 周爱民                                                       | 官方仓库https://github.com/aimingoo/js-green-book-3          | 知乎-贺师俊                                                  |
-| 4    | Exploring JS                                                 | [Dr. Axel Rauschmayer](https://link.zhihu.com/?target=http%3A//dr-axel.de/) | https://exploringjs.com/<br />http://dr-axel.de/             | 知乎-贺师俊                                                  |
-|      | JS悟道                                                       | DC                                                           |                                                              |                                                              |
-|      | 深入理解ES6                                                  |                                                              |                                                              |                                                              |
-|      | ES6标准入门                                                  | 阮一峰                                                       | https://github.com/ruanyf/es6tutorial                        | 如果只能推荐一本 JavaScript 的书，你会推荐哪本？ - 贺师俊的回答 - 知乎 https://www.zhihu.com/question/27471131/answer/1298702256 |
-|      |                                                              |                                                              |                                                              |                                                              |
-|      | **javascript迷你正则书**                                     |                                                              | https://github.com/qdlaoyao/js-regex-mini-book               | 如果只能推荐一本 JavaScript 的书，你会推荐哪本？ - 蜗牛老湿-大圣的回答 - 知乎 https://www.zhihu.com/question/27471131/answer/1498957448 |
-|      | javascript编程精解<br />DOM启蒙<br />javascript函数式编程指南<br />javascript异步编程<br />javascript面向对象精要<br /> |                                                              | https://eloquentjavascript.net/<br />微信读书                | 知乎-蜗牛老湿                                                |
-|      | 高性能网站                                                   |                                                              | [Software Engineering Books (software-engineering-books.com)](https://software-engineering-books.com/#personal_development?continueFlag=3abdb5f5d944298cd84d8b8df87a853b) |                                                              |
-|      | Web性能权威指南                                              |                                                              |                                                              | [Web Performance Calendar » How does Lighthouse simulated throttling work? (perfplanet.com)](https://calendar.perfplanet.com/2021/how-does-lighthouse-simulated-throttling-work/)   微信读书 |
-|      | Web Performance Calendar                                     |                                                              |                                                              | https://calendar.perfplanet.com/                             |
-|      | JavaScript for impatient programmers (ES2022 edition)        | [**Dr. Axel Rauschmayer**](http://dr-axel.de/)               | [JavaScript for impatient programmers (ES2022 edition) (exploringjs.com)](https://exploringjs.com/impatient-js/) |                                                              |
-|      | Deep JavaScript: Theory and techniques                       | [**Dr. Axel Rauschmayer**](http://dr-axel.de/)               | [Deep JavaScript: Theory and techniques (exploringjs.com)](https://exploringjs.com/deep-js/) |                                                              |
-|      | 深入理解 TypeScript                                          |                                                              | [深入理解 TypeScript (jkchao.github.io)](https://jkchao.github.io/typescript-book-chinese/) |                                                              |
+| 序号 | 书籍                     | 作者 | 链接 | 推荐来源                                                     |
+| ---- | ------------------------ | ---- | ---- | ------------------------------------------------------------ |
+|      | Web性能权威指南          |      |      | [Web Performance Calendar » How does Lighthouse simulated throttling work? (perfplanet.com)](https://calendar.perfplanet.com/2021/how-does-lighthouse-simulated-throttling-work/)   微信读书 |
+|      | Web Performance Calendar |      |      | https://calendar.perfplanet.com/                             |
 
 
 
-github仓库
+### github仓库
 
 > [成为前端大师，看这20个github库就够了 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/465197334)
 
 
 
-| 名称                                                         | 地址      | 其他 |
-| ------------------------------------------------------------ | --------- | ---- |
-| JavaScript数据结构和算法完全解析[[javascript-algorithms](https://link.zhihu.com/?target=https%3A//github.com/trekhleb/javascript-algorithms)] |           |      |
-| 30秒代码[[30-seconds-of-code](https://link.zhihu.com/?target=https%3A//github.com/30-seconds/30-seconds-of-code)] |           |      |
-| JavaScript 样式指南[[airbnb-js-style-guide](https://link.zhihu.com/?target=https%3A//github.com/airbnb/javascript)] |           |      |
-| 你不知道的JavaScript[[You-Dont-Know-JS](https://link.zhihu.com/?target=https%3A//github.com/getify/You-Dont-Know-JS)] |           |      |
-| 什么是的JavaScript[[wtfjs](https://link.zhihu.com/?target=https%3A//github.com/denysdovhan/wtfjs)] |           |      |
-| 正确的学习JavaScript[[js-the-right-way](https://link.zhihu.com/?target=https%3A//github.com/braziljs/js-the-right-way)] |           |      |
-| JavaScript 进阶问题列表[[javascript-questions](https://link.zhihu.com/?target=https%3A//github.com/lydiahallie/javascript-questions)] |           |      |
-| 干净的代码javascript[[clean-code-javascript](https://link.zhihu.com/?target=https%3A//github.com/ryanmcdermott/clean-code-javascript)] |           |      |
-| 33 个 JavaScript 概念[[33-js-concepts](https://link.zhihu.com/?target=https%3A//github.com/leonardomso/33-js-concepts)] | 12.30开始 |      |
-| 编写 ES6 的 kickstarter 指南[[ES6-for-humans](https://link.zhihu.com/?target=https%3A//github.com/metagrover/ES6-for-humans)] |           |      |
-| 很棒的JavaScript[[awesome-javascript](https://link.zhihu.com/?target=https%3A//github.com/sorrycc/awesome-javascript)] |           |      |
-| 现代 JavaScript 备忘单[[modern-js-cheatsheet](https://link.zhihu.com/?target=https%3A//github.com/mbeaudru/modern-js-cheatsheet)] |           |      |
-| JavaScript提示[[jstips](https://link.zhihu.com/?target=https%3A//github.com/loverajoel/jstips)] |           |      |
-| 从零开始的 JavaScript 堆栈[[js-stack-from-scratch](https://link.zhihu.com/?target=https%3A//github.com/verekia/js-stack-from-scratch)] |           |      |
-| [[Awesome JavaScript Projects](https://link.zhihu.com/?target=https%3A//github.com/Vishal-raj-1/Awesome-JavaScript-Projects)] |           |      |
-| 30天挑战[[JavaScript30](https://link.zhihu.com/?target=https%3A//github.com/wesbos/JavaScript30)] |           |      |
-| 项目指南[[project-guidelines](https://link.zhihu.com/?target=https%3A//github.com/elsewhencode/project-guidelines)] |           |      |
-| Node.js 最佳实践[[nodebestpractices](https://link.zhihu.com/?target=https%3A//github.com/goldbergyoni/nodebestpractices)] |           |      |
-| [[javascript-testing-best-practices](https://link.zhihu.com/?target=https%3A//github.com/goldbergyoni/javascript-testing-best-practices)] |           |      |
-| [javascript-interview-questions](https://link.zhihu.com/?target=https%3A//github.com/sudheerj/javascript-interview-questions)]() |           |      |
-|   [BFE.dev](https://bigfrontend.dev/zh?continueFlag=598703e99d8abce54ed56b2bdee18a60)                                                           |           |      |
-|                                                              |           |      |
-|                                                              |           |      |
+| 名称                                                         | 地址 | 其他 |
+| ------------------------------------------------------------ | ---- | ---- |
+| JavaScript数据结构和算法完全解析[[javascript-algorithms](https://link.zhihu.com/?target=https%3A//github.com/trekhleb/javascript-algorithms)] |      |      |
+| 30秒代码[[30-seconds-of-code](https://link.zhihu.com/?target=https%3A//github.com/30-seconds/30-seconds-of-code)] |      |      |
+| JavaScript 样式指南[[airbnb-js-style-guide](https://link.zhihu.com/?target=https%3A//github.com/airbnb/javascript)] |      |      |
+| 你不知道的JavaScript[[You-Dont-Know-JS](https://link.zhihu.com/?target=https%3A//github.com/getify/You-Dont-Know-JS)] |      |      |
+| 什么是的JavaScript[[wtfjs](https://link.zhihu.com/?target=https%3A//github.com/denysdovhan/wtfjs)] |      |      |
+| 正确的学习JavaScript[[js-the-right-way](https://link.zhihu.com/?target=https%3A//github.com/braziljs/js-the-right-way)] |      |      |
+| JavaScript 进阶问题列表[[javascript-questions](https://link.zhihu.com/?target=https%3A//github.com/lydiahallie/javascript-questions)] |      |      |
+| 干净的代码javascript[[clean-code-javascript](https://link.zhihu.com/?target=https%3A//github.com/ryanmcdermott/clean-code-javascript)] |      |      |
+| 33 个 JavaScript 概念[[33-js-concepts](https://link.zhihu.com/?target=https%3A//github.com/leonardomso/33-js-concepts)] |      |      |
+| 编写 ES6 的 kickstarter 指南[[ES6-for-humans](https://link.zhihu.com/?target=https%3A//github.com/metagrover/ES6-for-humans)] |      |      |
+| 很棒的JavaScript[[awesome-javascript](https://link.zhihu.com/?target=https%3A//github.com/sorrycc/awesome-javascript)] |      |      |
+| 现代 JavaScript 备忘单[[modern-js-cheatsheet](https://link.zhihu.com/?target=https%3A//github.com/mbeaudru/modern-js-cheatsheet)] |      |      |
+| JavaScript提示[[jstips](https://link.zhihu.com/?target=https%3A//github.com/loverajoel/jstips)] |      |      |
+| 从零开始的 JavaScript 堆栈[[js-stack-from-scratch](https://link.zhihu.com/?target=https%3A//github.com/verekia/js-stack-from-scratch)] |      |      |
+| [[Awesome JavaScript Projects](https://link.zhihu.com/?target=https%3A//github.com/Vishal-raj-1/Awesome-JavaScript-Projects)] |      |      |
+| 30天挑战[[JavaScript30](https://link.zhihu.com/?target=https%3A//github.com/wesbos/JavaScript30)] |      |      |
+| 项目指南[[project-guidelines](https://link.zhihu.com/?target=https%3A//github.com/elsewhencode/project-guidelines)] |      |      |
+| Node.js 最佳实践[[nodebestpractices](https://link.zhihu.com/?target=https%3A//github.com/goldbergyoni/nodebestpractices)] |      |      |
+| [[javascript-testing-best-practices](https://link.zhihu.com/?target=https%3A//github.com/goldbergyoni/javascript-testing-best-practices)] |      |      |
+| [javascript-interview-questions](https://link.zhihu.com/?target=https%3A//github.com/sudheerj/javascript-interview-questions)]() |      |      |
+| [BFE.dev](https://bigfrontend.dev/zh?continueFlag=598703e99d8abce54ed56b2bdee18a60) |      |      |
+|                                                              |      |      |
+|                                                              |      |      |
 
 
 
@@ -194,7 +214,7 @@ github仓库
 | 4    |                | JS秘密花园                                                   | https://bonsaiden.github.io/JavaScript-Garden/zh/            | 博客       |
 | 5    |                | clean-code-javascript(JS风格指南)                            | https://github.com/ryanmcdermott/clean-code-javascript       | 知识点     |
 | 8    | ljianshu       | Blog                                                         | https://github.com/ljianshu/Blog                             | 知识点总结 |
-| 9    |                | 现代 JavaScript 教程                                         | https://zh.javascript.info/                                  | 教程       |
+|      |                |                                                              |                                                              |            |
 |      |                | blog                                                         | https://github.com/forthealllight/blog                       | 博客       |
 |      |                | 前端精度                                                     | https://github.com/ascoders/weekly                           | 博客       |
 |      |                | js-paradise                                                  | https://github.com/abc-club/js-paradise                      | 博客       |
@@ -282,7 +302,7 @@ github仓库
 
    
 
-### 面试题
+### 面试题/笔记
 
 | 名称                                                         | 链接                                                         | 其他                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -307,6 +327,11 @@ github仓库
 |                                                              |                                                              | [Advanced-Frontend/Daily-Interview-Question: 我是依扬（木易杨），公众号「高级前端进阶」作者，每天搞定一道前端大厂面试题，祝大家天天进步，一年后会看到不一样的自己。 (github.com)](https://github.com/Advanced-Frontend/Daily-Interview-Question) |
 |                                                              |                                                              | [lgwebdream/FE-Interview: 🔥🔥🔥 前端面试，独有前端面试题详解，前端面试刷题必备，1000+前端面试真题，Html、Css、JavaScript、Vue、React、Node、TypeScript、Webpack、算法、网络与安全、浏览器 (github.com)](https://github.com/lgwebdream/FE-Interview) |
 |                                                              |                                                              | [febobo/web-interview: 语音打卡社群维护的前端面试题库，包含不限于Vue面试题，React面试题，JS面试题，HTTP面试题，工程化面试题，CSS面试题，算法面试题，大厂面试题，高频面试题 (github.com)](https://github.com/febobo/web-interview) |
+|                                                              |                                                              |                                                              |
+|                                                              |                                                              | https://juejin.cn/post/7146973901166215176                   |
+|                                                              |                                                              |                                                              |
+|                                                              |                                                              |                                                              |
+|                                                              |                                                              |                                                              |
 |                                                              |                                                              |                                                              |
 
 
@@ -340,9 +365,12 @@ https://roadmap.sh/frontend
 
 ### 0 资料
 
-| **现代软件工程的教材和参考书** | [现代软件工程的教材和参考书 (douban.com)](https://www.douban.com/doulist/1204928/) | aa   |
-| ------------------------------ | ------------------------------------------------------------ | ---- |
-|                                |                                                              |      |
+| **现代软件工程的教材和参考书**                               | [现代软件工程的教材和参考书 (douban.com)](https://www.douban.com/doulist/1204928/) | aa   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
+|                                                              |                                                              |      |
+| [Software Engineering Books (software-engineering-books.com)](https://software-engineering-books.com/#personal_development?continueFlag=3abdb5f5d944298cd84d8b8df87a853b) |                                                              |      |
+|                                                              |                                                              |      |
+|                                                              |                                                              |      |
 
 
 
