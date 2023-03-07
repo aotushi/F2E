@@ -39,6 +39,8 @@ let arr = [1, 2, 3, 4, 5, 6],
 
 arr.reduce((acc, crt, idx) => (idx % n == 0 ? acc.push(arr.slice(idx, idx + n)) && acc : acc), []);
 
+arr.reduce((acc, crt, idx) => (idx % n === 0 ? acc.concat(arr.slice(i, i + n)) : acc), []);
+
 //for循环实现
 
 for (let i = 0; i < arr.length; i += 2) {
@@ -50,13 +52,10 @@ for (let i = 0; i < arr.length; i += 2) {
 }
 ```
 
-
 原答案
+
 ```js
-const aperture = (n ,arr) =>
-	n > arr.length
-		? []
-		: arr.slice(n - 1).map((v, i) => arr.slice(i, i+n))
+const aperture = (n, arr) => (n > arr.length ? [] : arr.slice(n - 1).map((v, i) => arr.slice(i, i + n)));
 ```
 
-为什么能够使用'arr.slice(n - 1)'? 
+为什么能够使用'arr.slice(n - 1)'?
