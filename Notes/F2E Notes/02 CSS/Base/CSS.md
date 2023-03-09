@@ -1,82 +1,6 @@
-## 块级盒子和内联盒子
 
-在 CSS 中我们广泛地使用两种“盒子” —— 块级盒子(**block box**) 和 内联盒子 (inline box)。这两种盒子会在页面流（page flow）和元素之间的关系方面表现出不同的行为:
-
-#### **块级盒子行为**
-
-* 盒子在内联方向上扩展并占据父元素在该方向上的所有空间.绝大数情况下以为着和父元素一样宽
-* 每个盒子都会换行
-* width和height起作用
-* 内边距,外边距和边框有效,会将其他元素从当前盒子周围推开
-
-#### **行内盒子行为**
-
-* 盒子不会产生换行
-* width和height不起作用
-* 垂直方向的内边距,外边距和边框会被应用,但是不会把其他处于inline状态的盒子推开
-* 水平方向的内边距,外边距和边框会被应用且会把其他处于inline状态的盒子推开
-
-
-
-### 内部和外部显示类型
-
-css的box模型有一个外部显示类型，来决定盒子是块级还是内联。
-
-同样盒模型还有内部显示类型，它决定了盒子内部元素是如何布局的。默认情况下是按照 **[正常文档流](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow)** 布局，也意味着它们和其他块元素以及内联元素一样
-
-块级和内联布局是web上默认的行为 —— 正如上面所述， 它有时候被称为 *正常文档流*， 因为如果没有其他说明，我们的盒子布局默认是块级或者内联
-
-
-
-**更改内部显示类型**
-
-可以通过使用类似 `flex` 的 `display` 属性值来更改内部显示类型
-
-如果设置 `display: flex`，在一个元素上，外部显示类型是 `block`，但是内部显示类型修改为 `flex`。 该盒子的所有直接子元素都会成为flex元素
-
-
-
-## 盒模型
-
-#### 是什么
-指网页布局中，每个 HTML 元素都可以看作是一个矩形盒子（box），包括元素的内容区域、内边距（padding）、边框（border）和外边距（margin）四个部分。
-页面渲染时，dom 元素所采用的 **布局模型**。可通过`box-sizing`进行设置。根据计算宽高的区域可分为：
-
-- `content-box` (W3C 标准盒模型)
-- `border-box` (IE 盒模型)
-- `padding-box`
-- `margin-box` (浏览器未实现)
-
-#### 盒模型各部分
-
-CSS中组成一个块级盒子需要
-
-- **Content box**: 这个区域是用来显示内容，大小可以通过设置 [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height).
-- **Padding box**: 包围在内容区域外部的空白区域； 大小通过 [`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 相关属性设置。
-- **Border box**: 边框盒包裹内容和内边距。大小通过 [`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border) 相关属性设置。
-- **Margin box**: 这是最外面的区域，是盒子和其他元素之间的空白区域。大小通过 [`margin`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin) 相关属性设置。
-
-
-#### 作用
-通过设置元素的盒模型属性(box-sizing 属性)，可以控制元素的大小、位置和边距，以及元素之间的距离和排列方式。盒模型也是响应式设计和网页布局的基础。
-
-#### 分类
-* 标准盒模型
-* 替代(IE)盒模型
-
-#### 差异
-主要差异在于计算元素宽度和高度时所包含的内容不同。
-标准盒模型:元素的宽度和高度只包括内容区域，不包括内边距、边框和外边距。
-IE盒模型: 元素的宽度和高度包括了内容区域、内边距和边框，而外边距是在宽度和高度之外计算的。
-
-默认浏览器会使用标准模型。如果需要使用替代模型，您可以通过为其设置 box-sizing: border-box 来实现。
-
-#### 盒模型外部/内部显示类型
->https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/The_box_model#补充：内部和外部显示类型
-
-
-外部显示类型: 外部显示类型来决定盒子是块级还是内联
-内部显示类型: 决定了盒子内部元素是如何布局的, 默认情况下是按照**正常文档流**布局. 可以通过display:flex等方式改变内部显示类型.
+盒模型....[[202301181143]]
+行内元素与块元素,行内块元素比较......[[202303091143a]]
 
 
 
@@ -125,7 +49,7 @@ CSS 规则集（rule-set）由选择器和声明块组成：
 
 #### @规则
 
- `@rules` (pronounced "at-rules"). 这是一些特殊的规则，为 CSS提供了一些关于如何表现的指导。[链接](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule)
+`@rules` (pronounced "at-rules"). 这是一些特殊的规则，为 CSS提供了一些关于如何表现的指导。[链接](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule)
 
 
 
@@ -330,84 +254,6 @@ all: unset;
 
 
 
-##### 浏览器如何计算优先级
-
-<span style="color:blue">一个选择器的优先级可以说是由四个部分相加 (分量)，可以认为是个十百千 — 四位数的四个位数：</span>
-
-1. **千位**： 如果声明在 [`style`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes#attr-style) 的属性（内联样式）则该位得一分。这样的声明没有选择器，所以它得分总是1000。
-2. **百位**： 选择器中包含<u>ID选择器</u>则该位得一分。
-3. **十位**： 选择器中包含<u>类选择器、属性选择器、伪类</u>则该位得一分。
-4. **个位**：选择器中包含<u>元素、伪元素选择器</u>则该位得一分。
-
-**注**: <span style="color:blue">通用选择器 (`*`)，组合符 (`+`, `>`, `~`, ' ')，和否定伪类 (`:not`) 不会影响优先级。</span>
-
-在进行计算时不允许进行进位，例如，20 个类选择器仅仅意味着 20 个十位，而不能视为 两个百位，也就是说，无论多少个类选择器的权重叠加，都不会超过一个 ID 选择器。
-
-
-
-`:not` 否定伪类在优先级计算中不会被看作是伪类。事实上，在计算选择器数量时还是会把其中的选择器当做普通选择器进行计数。
-
-有如下 CSS 样式声明：
-
-```
-div.outer p {
-  color: orange;
-}
-
-div:not(.outer) p {
-  color: blueviolet;
-}
-```
-
-将其应用于以下的 HTML 时：
-
-```
-<div class="outer">
-  <p>This is in the outer div.</p>
-  <div class="inner">
-    <p>This text is in the inner div.</p> //颜色变成blueviolet
-  </div>
-</div>
-```
-
-会在屏幕上出现以下结果：
-
-
-
-##### !important
-
-有一个特殊的 CSS 可以用来覆盖所有上面所有优先级计算，不过需要很小心的使用 — `!important`。用于修改特定属性的值， 能够覆盖普通规则的层叠。
-
-最佳实践: **强烈建议除了非常情况不要使用它。**当你不能编辑核心的CSS模块，不能用任何其他方式覆盖，而你又真的想要覆盖一个样式时。覆盖 `!important` 唯一的办法就是另一个 `!important` 具有 相同*优先级* 而且顺序靠后，或者更高优先级。
-
-经验:
-
-- **一定**要优先考虑使用样式规则的优先级来解决问题而不是 `!important`
-- **只有**在需要覆盖全站或外部 CSS 的特定页面中使用 `!important`
-- **永远不要**在你的插件中使用 `!important`
-- **永远不要**在全站范围的 CSS 代码中使用 `!important`
-
-
-
-
-
-**案例**: 
-
-| 选择器                                    | 千位 | 百位 | 十位 | 个位 | 优先级 |
-| :---------------------------------------- | :--- | :--- | :--- | :--- | :----- |
-| `h1`                                      | 0    | 0    | 0    | 1    | 0001   |
-| `h1 + p::first-letter`                    | 0    | 0    | 0    | 3    | 0003   |
-| `li > a[href*="en-US"] > .inline-warning` | 0    | 0    | 2    | 2    | 0022   |
-| `#identifier`                             | 0    | 1    | 0    | 0    | 0100   |
-| 内联样式                                  | 1    | 0    | 0    | 0    | 1000   |
-
-**选择器优先级图表**
-
-![](https://justcode.ikeepstudying.com/wp-content/uploads/2016/07/css_weight.png)
-
-
-
-
 
 #### CSS位置影响
 
@@ -435,16 +281,9 @@ div:not(.outer) p {
 
 #### 是什么
 
->  **CSS 选择器**规定了 CSS 规则会被应用到哪些元素上。
->
-> 选择器所选择的元素，叫做“选择器的对象”。
-
-
 
 #### 继承问题及解决
-
 根据 CSS，子元素从父元素继承属性。但是它并不总是按此方式工作。看看下面这条规则：
-
 ```css
 body {
   font-family: Verdana, sans-serif;
@@ -463,972 +302,6 @@ body {
 
 
 
-
-
-
-
-
-#### CSS选择器3种使用方式
-
-##### 外部CSS
-
-* 使用外部样式表
-* 在 head 部分的 \<link> 元素内包含对外部样式表文件的引用
-
-**案例**
-
-```css
-<link rel="stylesheet" type="text/css" href="mystyle.css" >
-```
-
-##### 内部CSS
-
-内部样式是在 head 部分的 \<style> 元素中进行定义
-
-##### 行内CSS
-
-* 行内样式（也称内联样式）可用于为单个元素应用唯一的样式
-* 行内样式通过将内容与呈现混合在一起,耦合性高,难以维护
-
-
-
-### CSS选择器 介绍
-
-> https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors  (未笔记)
->
-> https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks
-
-> 按照第一个链接来抄录笔记,  第二个内容分类没有根据
-
-
-
-#### 基本选择器
-
-[通用选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)（[Universal selector](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)）
-
-选择所有元素。（可选）可以将其限制为特定的名称空间或所有名称空间。 **语法：**`*` `ns|*` `*|*` **例子：**`*` 将匹配文档的所有元素。
-
-[元素选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Type_selectors)（[Type selector](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Type_selectors)）
-
-按照给定的节点名称，选择所有匹配的元素。 **语法：**`elementname` **例子：**`input` 匹配任何 [`<input>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input) 元素。
-
-[类选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Class_selectors)（[Class selector](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Class_selectors)）
-
-按照给定的 `class` 属性的值，选择所有匹配的元素。 **语法**：`.classname` **例子**：`.index` 匹配任何 `class` 属性中含有 "index" 类的元素。
-
-类选择器以一个句点（`.`）开头，会选择文档中应用了这个类的所有项.
-
-<u>指向特定元素的类</u>
-
-使用附加了类的欲选元素的选择器做到这点，其间没有空格
-
-命名规范: 
-
-* 不能以数字开头, 可以用字母, 下划线开头,+数字+下划线+中划线+字母;
-* 建议使用驼峰命名法(小驼峰): 第一个单词首字母小写, 第二个单词首字母大写
-
-```html
-span.highLight {}
-```
-
-多个类被指向一个元素
-
-你能对一个元素应用多个类，然后分别指向它们，或者仅仅在选择器中存在所有这些类的时候选择这一元素。???(难以理解)
-
-
-
-
-
-[ID 选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/ID_selectors)（[ID selector](https://developer.mozilla.org/zh-CN/docs/Web/CSS/ID_selectors)）
-
-按照 `id` 属性选择一个与之匹配的元素。需要注意的是，一个文档中，每个 ID 属性都应当是唯一的。 **语法：**`#idname` **例子：**`#toc` 匹配 ID 为 "toc" 的元素。
-
-[属性选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors)（[Attribute selector](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors)）
-
-按照给定的属性，选择所有匹配的元素。 **语法：**`[attr]` `[attr=value]` `[attr~=value]` `[attr|=value]` `[attr^=value]` `[attr$=value]` `[attr*=value]` **例子：**`[autoplay]` 选择所有具有 `autoplay` 属性的元素（不论这个属性的值是什么）。
-
-
-
-
-
-#### 分组选择器(Grouping selectors)
-
-[选择器列表](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Selector_list)（[Selector list](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Selector_list)）
-
-`,` 是将不同的选择器组合在一起的方法，它选择所有能被列表中的任意一个选择器选中的节点。 **语法**：`A, B` **示例**：`div, span` 会同时匹配 [`span`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span) 元素和 [`div`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div) 元素。
-
-多个使用相同样式的CSS选择器，那么这些单独的选择器可以被混编为一个“选择器列表”，使用<span style="color:blue">逗号分隔</span>
-
-<span style="color:blue">如果任何一个选择器无效 (存在语法错误)，那么整条规则都会被忽略。</span>
-
-```css
-h1,h2,h3,h4,h5,h6 {
-  color: green;
-  }
-```
-
-
-
-#### 组合器(Combinators)
-
-[后代组合器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Descendant_combinator)（[Descendant combinator](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Descendant_combinator)）
-
-“ ”（空格）组合器选择前一个元素的后代节点。 **语法：**`A B` **例子：**`div span` 匹配所有位于任意 [`<div>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div) 元素之内的 [`<span>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span) 元素。
-
-
-
-[直接子代组合器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator)（[Child combinator](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator)）
-
-`>` 组合器选择前一个元素的直接子代的节点。 **语法**：`A > B` **例子**：`ul > li` 匹配直接嵌套在 [`<ul>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ul) 元素内的所有 [`<li>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/li) 元素。
-
-
-
-[一般兄弟组合器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/General_sibling_combinator)（[General sibling combinator](https://developer.mozilla.org/zh-CN/docs/Web/CSS/General_sibling_combinator)）
-
-`~` 组合器选择兄弟元素，也就是说，后一个节点在前一个节点后面的任意位置，并且共享同一个父节点。 **语法**：`A ~ B` **例子**：`p ~ span` 匹配同一父元素下，[`<p>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p) 元素后的所有 [`<span>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span) 元素。
-
-
-
-[紧邻兄弟组合器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Adjacent_sibling_combinator)（[Adjacent sibling combinator](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Adjacent_sibling_combinator)）
-
-`+` 组合器选择相邻元素，即后一个元素紧跟在前一个之后，并且共享同一个父节点。 **语法：**`A + B` **例子：**`h2 + p` 会匹配所有紧邻在 [`<h2>` (en-US)](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements) 元素后的 [`<p>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p) 元素。
-
-
-
-[列组合器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator)（[Column combinator](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator)）Experimental
-
-`||` 组合器选择属于某个表格行的节点。 **语法：** `A || B` **例子：** `col || td` 会匹配所有 作用域内的 [`<td>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/td) 元素
-
-
-
-
-
-#### 伪选择器(Pseudo)
-
-> [CSS Pseudo-Elements Module Level 4 (w3.org)](https://www.w3.org/TR/css-pseudo-4/)
-
-
-
-
-
-##### 伪类
-
-<span style="text-decoration:underline red ">伪类是选择器的一种，它用于选择处于特定状态的元素</span>，比如当它们是这一类型的第一个元素时，或者是当鼠标指针悬浮在元素上面的时候。
-
-##### 语法
-
-```css
-:pseudo-class-name
-```
-
-
-
-##### 简单伪类
-
-[`:first-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-child)伪类选择器
-
-表示在一组兄弟元素中的第一个元素
-
-
-
-[`:last-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-child) 
-
-代表父元素的最后一个子元素
-
-
-
-[`:only-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child)
-
-匹配没有任何兄弟元素的元素
-
-等效的选择器还可以写成 `:first-child:last-child`或者`:nth-child(1):nth-last-child(1)`,当然，前者的权重会低一点。
-
-
-
-
-
-[`:invalid`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid)
-
-表示任意内容未通过验证的 [`<input>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input) 或其他 [`<form>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/form) 元素 
-
-
-
-```css
-/*可选定任意无效的<input> */
-
-input:invalid {
-  background-color: pink;
-}
-```
-
-
-
-注意:
-
-[单选钮（Radio buttons）](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid#单选钮（radio_buttons）)
-
-若一组单选钮被设定为必须选定一个，在该组中没有按钮被选中的情况，:invalid 伪类被应用到该组中的所有按钮。（单选钮组按照 name 属性共享相同值。）
-
-[Gecko 默认](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid#gecko_默认)
-
-默认情况下，Gecko 不应用 :invalid 伪类设置的样式。但是，Gecko 可以使用 [`:-moz-ui-invalid` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid) 伪类的样式（使用 [`box-shadow`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow) 属性设置红色发光边框）来达到类似的效果，它可以被应用在:invalid 伪类的子集中。
-
-
-
-##### 用户行为伪类
-
-**用户行为伪类**，有时叫做**动态伪类**，表现得就像是一个类在用户和元素交互的时候加到了元素上一样。案例包括：
-
-- `:hover`——只会在用户将指针挪到元素上的时候才会激活，一般就是链接元素。
-- `:focus`——只会在用户使用键盘控制，选定元素的时候激活。
-
-
-
-
-
-
-
-#### 类型,类和ID选择器
-
-##### 类型选择器
-
-有时也叫做“标签名选择器*”*或者是”元素选择器“，因为它在文档中选择了一个HTML标签/元素的缘故
-
-##### 全局选择器
-
-全局选择器，是由一个星号（`*`）代指的，它选中了文档中的所有内容（或者是父元素中的所有内容，比如，它紧随在其他元素以及邻代运算符之后的时候）
-
-使用全局选择器,让选择器更易读
-
-```html
-article :first-child {} //用作<article>元素选择器的一个后代选择器
-
-article:first-child {}  //选择了作为其他元素的第一子元素的<article>元素
-  
-//解决
-  
-article *:first-child {} //选中<article>元素的任何第一子元素：
-```
-
-<iframe src="https://codesandbox.io/embed/css-universal-selector-and-pseudo-selector-forked-kvpk2i?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="CSS - Universal selector and Pseudo selector (forked)"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-
-
-
-
-
-
-
-
-##### 类选择器
-
-
-
-##### ID选择器
-
-ID选择器开头为`#`而非句点，不过基本上和类选择器是同种用法。
-
-在一篇文档中，一个ID只会用到一次。
-
-它能选中设定了`id`的元素，你能在ID前面加上类型选择器，只指向元素和ID都匹配的类。
-
-
-
-#### 属性选择器
-
-> [属性选择器 - CSS（层叠样式表） | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors)
-
-CSS **属性选择器**通过已经存在的属性名或属性值匹配元素。
-
-##### 存否和值选择器
-
-这些选择器允许基于一个元素自身是否存在（例如`href`）或者基于各式不同的按属性值的匹配，来选取元素。
-
-| 选择器          | 示例                            | 描述                                                         |
-| :-------------- | :------------------------------ | :----------------------------------------------------------- |
-| `[attr]`        | `a[title]`                      | 匹配带有一个名为*attr*的属性的元素——方括号里的值。           |
-| `[attr=value]`  | `a[href="https://example.com"]` | 匹配带有一个名为*attr*的属性的元素，其值正为*value*——引号中的字符串。 |
-| `[attr~=value]` | `p[class~="special"]`           | 表示带有以 attr 命名的属性的元素，并且该属性是一个以空格作为分隔的值列表，其中至少有一个值为 value。 |
-| `[attr|=value]` | `div[lang|="zh"]`               | 表示带有以 attr 命名的属性的元素，属性值为“value”或是以“value-”为前缀（"`-`"为连字符，Unicode 编码为 U+002D）开头。典型的应用场景是用来匹配语言简写代码（如 zh-CN，zh-TW 可以用 zh 作为 value）。 |
-
-使用案例:
-
-
-
-##### 子字符串匹配选择器
-
-| 选择器                                           | 示例                | 描述                                                         |
-| :----------------------------------------------- | :------------------ | :----------------------------------------------------------- |
-| `[attr^=value]`                                  | `li[class^="box-"]` | 匹配带有一个名为*attr*的属性的元素，其值开头为*value*子字符串。 |
-| `[attr$=value]`                                  | `li[class$="-box"]` | 匹配带有一个名为*attr*的属性的元素，其值结尾为*value*子字符串 |
-| `[attr*=value]`                                  | `li[class*="box"]`  | 匹配带有一个名为*attr*的属性的元素，其值的字符串中的任何地方，至少出现了一次*value*子字符串。 |
-| [*attr* *operator* *value* i]                    |                     | 在属性选择器的右方括号前添加一个用空格隔开的字母 `i`（或 `I`），可以在匹配属性值时忽略大小写（支持 ASCII 字符范围之内的字母）。 |
-| `[*attr* *operator* *value* s]` Experimental阶段 |                     | 在属性选择器的右方括号前添加一个用空格隔开的字母 `s`（或 `S`），可以在匹配属性值时区分大小写（支持 ASCII 字符范围之内的字母）。 |
-
-
-
-使用案例:
-
-
-
-##### 大小写敏感
-
-如果你想在大小写不敏感的情况下，匹配属性值的话，<span style="color:blue">你可以在闭合括号(中括号)之前，使用`i`值</span>。这个标记告诉浏览器，要以大小写不敏感的方式匹配ASCII字符。没有了这个标记的话，值会按照文档语言对大小写的处理方式，进行匹配——HTML中是大小写敏感的。
-
-有一个更加新的`s`值，它会强制在上下文的匹配正常为大小写不敏感的时候，强行要求匹配时大小写敏感。不过，在浏览器中它不太受支持，而且在上下文为HTML时也没啥用。
-
-使用案例:
-
-```css
-li[class^='a' i] {
-  color: red;
-}
-```
-
-
-
-
-
-#### 伪类与伪元素
-
-
-
-
-
-
-
-##### 伪元素
-
-表现得是像你往标记文本中加入全新的HTML元素一样，而不是向现有的元素上应用类。伪元素开头为双冒号`::`
-
-
-
-**语法**
-
-```css
-::pseudo-element-name
-
-//一些早期的伪元素曾使用单冒号的语法,现代的浏览器为了保持后向兼容，支持早期的带有单双冒号语法的伪元素。
-```
-
-
-
-**案例**
-
-如果你想选中一段的第一行，你可以把它用一个`<span>`元素包起来，然后使用元素选择器；不过，如果包起来的单词/字符数目长于或者短于父元素的宽度，这样做会失败。由于我们一般不会知道一行能放下多少单词/字符——因为屏幕宽度或者字体大小改变的时候这也会变——通过改变HTML的方式来可预测地这么做是不可能的。
-
-`::first-line`伪元素选择器会值得信赖地做到这件事——即使单词/字符的数目改变，它也只会选中第一行。
-
-
-
-##### 伪类和伪元素结合
-
-
-
-**案例**
-
-第一段的第一行加粗，你需要把`:first-child`和`::first-line`选择器放到一起。
-
-```css
-article p:first-child::first-line {
-  font-size: 120%;
-  font-weight: bold;
-}
-```
-
-
-
-##### 生成带有`::before 和 ::after`内容
-
-有一组特别的伪元素，它们和[`content`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/content)属性一同使用，使用CSS将内容插入到你的文档中中
-
-伪元素的更推荐的用法是插入一个图标，例如下面的示例加入的一个小箭头，作为一个视觉性的提示，而且我们并不希望屏幕阅读器读出它。
-
-```css
-.box::after {
-    content: " ➥"
-}
-```
-
-`::before`和`::after`伪元素与`content`属性的共同使用，在CSS中被叫做“生成内容”，而且你会见到这种技术被用于完成各种任务。
-
-案例1
-
-<iframe width="100%" height="400" src="https://mdn.github.io/css-examples/learn/selectors/after-icon.html" loading="lazy"></iframe>
-
-案例2
-
-用 `::before`伪元素加入了个空字符串。我们把它设为了`display: block`，以让它可以用 width 和 height 进行样式化。然后我们可以用 CSS 像任何元素那样样式化。你可以摆弄 CSS，改变它的外观和行为。
-
-<iframe width="100%" height="500" src="https://mdn.github.io/css-examples/learn/selectors/before-styled.html" loading="lazy"></iframe>
-
-
-
-
-
-[CSS Arrow Please](http://www.cssarrowplease.com/)网站就是一个著名的示例，它帮你用CSS生成一个箭头。
-
-
-
-##### 伪类和伪元素列表
-
-[伪类](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#伪类)
-
-| 选择器                                                       | 描述                                                         |
-| :----------------------------------------------------------- | :----------------------------------------------------------- |
-| [`:active`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:active) | 在用户激活（例如点击）元素的时候匹配。                       |
-| [`:any-link`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:any-link) | 匹配一个链接的`:link`和`:visited`状态。                      |
-| [`:blank`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:blank) | 匹配空输入值的[`<input>`元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)。 |
-| [`:checked`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:checked) | 匹配处于选中状态的单选或者复选框。                           |
-| [`:current` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API) | 匹配正在展示的元素，或者其上级元素。                         |
-| [`:default`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:default) | 匹配一组相似的元素中默认的一个或者更多的UI元素。             |
-| [`:dir`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:dir) | 基于其方向性（HTML`dir`属性或者CSS`direction`属性的值）匹配一个元素。 |
-| [`:disabled`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:disabled) | 匹配处于关闭状态的用户界面元素                               |
-| [`:empty`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:empty) | 匹配除了可能存在的空格外，没有子元素的元素。                 |
-| [`:enabled`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:enabled) | 匹配处于开启状态的用户界面元素。                             |
-| [`:first`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first) | 匹配[分页媒体](https://developer.mozilla.org/en-US/docs/Web/CSS/Paged_Media)的第一页。 |
-| [`:first-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-child) | 匹配兄弟元素中的第一个元素。                                 |
-| [`:first-of-type`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-of-type) | 匹配兄弟元素中第一个某种类型的元素。                         |
-| [`:focus`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus) | 当一个元素有焦点的时候匹配。                                 |
-| [`:focus-visible`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus-visible) | 当元素有焦点，且焦点对用户可见的时候匹配。                   |
-| [`:focus-within`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus-within) | 匹配有焦点的元素，以及子代元素有焦点的元素。                 |
-| [`:future` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:future) | 匹配当前元素之后的元素。                                     |
-| [`:hover`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:hover) | 当用户悬浮到一个元素之上的时候匹配。                         |
-| [`:indeterminate`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:indeterminate) | 匹配未定态值的UI元素，通常为[复选框](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox)。 |
-| [`:in-range`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:in-range) | 用一个区间匹配元素，当值处于区间之内时匹配。                 |
-| [`:invalid`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid) | 匹配诸如`<input>`的位于不可用状态的元素。                    |
-| [`:lang`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:lang) | 基于语言（HTML[lang](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/lang)属性的值）匹配元素。 |
-| [`:last-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-child) | 匹配兄弟元素中最末的那个元素。                               |
-| [`:last-of-type`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-of-type) | 匹配兄弟元素中最后一个某种类型的元素。                       |
-| [`:left`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:left) | 在[分页媒体 (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Pages)中，匹配左手边的页。 |
-| [`:link`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:link) | 匹配未曾访问的链接。                                         |
-| [`:local-link` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:local-link) | 匹配指向和当前文档同一网站页面的链接。                       |
-| [`:is()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:is) | 匹配传入的选择器列表中的任何选择器。                         |
-| [`:not`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not) | 匹配作为值传入自身的选择器未匹配的物件。                     |
-| [`:nth-child(an+b)`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child) | 匹配一列兄弟元素中的元素——兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配元素1、3、5、7等。即所有的奇数个）。 |
-| [`:nth-of-type`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-of-type) | 匹配某种类型的一列兄弟元素（比如，`<p>`元素）——兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配元素1、3、5、7等。即所有的奇数个）。 |
-| [`:nth-last-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-last-child) | 匹配一列兄弟元素，从后往前倒数。兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。 |
-| [`:nth-last-of-type`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-last-of-type) | 匹配某种类型的一列兄弟元素（比如，`<p>`元素），从后往前倒数。兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。 |
-| [`:only-child`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child) | 匹配没有兄弟元素的元素。                                     |
-| [`:only-of-type`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-of-type) | 匹配兄弟元素中某类型仅有的元素。                             |
-| [`:optional`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:optional) | 匹配不是必填的form元素。                                     |
-| [`:out-of-range`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:out-of-range) | 按区间匹配元素，当值不在区间内的的时候匹配。                 |
-| [`:past` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:past) | 匹配当前元素之前的元素。                                     |
-| [`:placeholder-shown`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:placeholder-shown) | 匹配显示占位文字的input元素。                                |
-| [`:playing` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:playing) | 匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“播放”的元素。 |
-| [`:paused` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/:paused) | 匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“暂停”的元素。 |
-| [`:read-only`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:read-only) | 匹配用户不可更改的元素。                                     |
-| [`:read-write`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:read-write) | 匹配用户可更改的元素。                                       |
-| [`:required`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:required) | 匹配必填的form元素。                                         |
-| [`:right`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:right) | 在[分页媒体 (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Pages)中，匹配右手边的页。 |
-| [`:root`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:root) | 匹配文档的根元素。                                           |
-| [`:scope`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:scope) | 匹配任何为参考点元素的的元素。                               |
-| [`:valid`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:valid) | 匹配诸如`<input>`元素的处于可用状态的元素。                  |
-| [`:target`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target) | 匹配当前URL目标的元素（例如如果它有一个匹配当前[URL分段](https://en.wikipedia.org/wiki/Fragment_identifier)的元素）。 |
-| [`:visited`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:visited) | 匹配已访问链接。                                             |
-
-[伪元素](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#伪元素)
-
-| 选择器                                                       | 描述                                                 |
-| :----------------------------------------------------------- | :--------------------------------------------------- |
-| [`::after`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after) | 匹配出现在原有元素的实际内容之后的一个可样式化元素。 |
-| [`::before`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::before) | 匹配出现在原有元素的实际内容之前的一个可样式化元素。 |
-| [`::first-letter`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-letter) | 匹配元素的第一个字母。                               |
-| [`::first-line`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-line) | 匹配包含此伪元素的元素的第一行。                     |
-| [`::grammar-error`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::grammar-error) | 匹配文档中包含了浏览器标记的语法错误的那部分。       |
-| [`::selection`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::selection) | 匹配文档中被选择的那部分。                           |
-| [`::spelling-error`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::spelling-error) | 匹配文档中包含了浏览器标记的拼写错误的那部分。       |
-
-
-
-
-
-
-
-**实例(未完成)**
-
-在众多网站上按钮在不同状态下效果不一，用以增强用户体验.
-
-根据用户的行为不同，按钮效果可以分为：默认状态、悬浮状态、点击时状态、焦点状态和点击后状态，可以按照CSS3的动态伪选择器，在不同状态下给按钮赋予不同的样式风格.
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="动态伪类选择器-未完成" src="https://codepen.io/westover/embed/preview/gOWOPmJ?defaultTab=css%2Cresult&editable=true&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/gOWOPmJ">
-  动态伪类选择器-未完成</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-
-
-
-
-2. 目标伪类选择器
-
-目标伪类选择器“:target”是众多实用的CSS3特性中的一个，用来匹配文档（页面）的URI[插图]中某个标志符的目标元素
-
-URI中的标志符通常会包含一个井号（#），后面带有一个标志符名称，例如“#contact”“:target”就是用来匹配ID为“contact”的元素的。
-
-**语法**
-
-| 选择器   | 功能描述                                    |
-| -------- | ------------------------------------------- |
-| E:target | 选择匹配E的所有元素,且匹配元素被相关url指向 |
-
-**实例**
-
-> 页面中有三个区块，默认状态只显示三个区块的标题，点击其中一个标题时，其对应的内容就会显示；点击另一个标题时，对应区块内容将显示，而前一块内容将隐藏
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="目标伪类选择器" src="https://codepen.io/westover/embed/preview/WNjNxYB?defaultTab=css%2Cresult&editable=true&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/WNjNxYB">
-  目标伪类选择器</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>
-</iframe>
-
-
-
-
-
-
-
-**更多的应用场景**
-
-| 效果                                       | 地址                                                         |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| 高亮显示区块                               |                                                              |
-| 从相互层叠的盒容器或图片中突出显示其中一项 | http://www.red-team-design.com/get-to-know-your-css3-target-pseudo-class |
-| tabs效果                                   |                                                              |
-| 幻灯片效果                                 |                                                              |
-| 相册效果                                   | 失效                                                         |
-
-
-
-**实例-突出显示一项**
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="目标伪类选择器" src="https://codepen.io/westover/embed/preview/qBmBqqG?defaultTab=html%2Cresult&editable=true&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/qBmBqqG">
-  目标伪类选择器</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-
-**实例-幻灯片 ++**
-
-第二个和第四个没有效果.
-
-<iframe height="700" style="width: 100%;" scrolling="no" title="目标伪类选择器-幻灯片(未完成)" src="https://codepen.io/westover/embed/MWmYXyv?defaultTab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/MWmYXyv">
-  目标伪类选择器-幻灯片(未完成)</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-**实例-tab效果**
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="目标伪类选择器-tab" src="https://codepen.io/westover/embed/xxdwRwX?defaultTab=html%2Cresult&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/xxdwRwX">
-  目标伪类选择器-tab</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>
-</iframe>
-
-
-
-
-
-
-
-
-
-3.语言伪类选择器
-
-使用语言伪类选择器来匹配使用语言的元素是非常有用的，特别是用于多语言版本的网站，其作用更是明显。可以使用他来根据不同语言版本设置页面的字体风格。
-
-
-
-**语法**
-
-语言伪类选择器是根据元素的语言编码匹配元素。这种语言信息必须包含在文档中，或者与文档关联，不能从CSS指定。为文档指定语言，有两种方法可以表示:
-
-```css
-//h5
-<!doctype html>
-<html lang='en-US'>
-
-//第二种方法
-<body lang='fr'>
-```
-
-语言伪类选择器允许为不同的语言定义特殊的规则，这在多语言版本的网站用起来是特别的方便。
-
-
-
-**实例**
-
-```css
-语言伪类选择器，就是根据元素的 lang属性，来匹配使用指定语言的元素。可以根据不同语言版本，设置不同的字体风格、定义不同的引号标记,不同的背景图片等
-
-<p lang="en"><q>Quote in English</q></p>
-<p lang="zh-cn"><q>中文的引号</q></p>
-
-//英文版本的引文效果
-:lang(en) {
-  font-family: Arial;
-  quotes: '"' '"';
-}
-//中文版本下的字体效果和引文效果
-:lang(zh-cn) {
-  font-family: 宋体;
-  quotes: '<<' '>>'
-}
-```
-
-
-
-
-
-4. UI元素状态选择器
-
-是CSS3选择器模块组中的一部分，主要用于form表单元素上，以提高网页的人机交互、操作逻辑以及页面的整体美观，使表单页面更具个性与品位，而且使用户操作页面表单更便利和简单
-
-
-
-**UI 元素状态伪类选择器语法**
-
-UI元素的状态一般包括：启用、禁用、选中、未选中、获得焦点、失去焦点、锁定和待机等
-
-在HTML元素中有可用和不可用状态，例如表单中的文本输入框；HTML元素中还有选中和未选中状态，例如表单中的复选按钮和单选按钮。这几种状态都是CSS3选择器中常用的状态伪类选择器
-
-
-
-| 选择器     | 类型                 | 功能描述                             |
-| ---------- | -------------------- | ------------------------------------ |
-| E:checked  | 选中状态伪类选择器   | 匹配选中的复选按钮或单选按钮表单元素 |
-| E:enabled  | 启用状态伪类选择器   | 匹配所有启用的表单元素               |
-| E:disabled | 不可用状态伪类选择器 | 匹配所有禁用的表单元素               |
-
-
-
-**实例**
-
-```css
-//表单元素获得焦点效果
-textarea:focus,
-input[type='text']:focus,
-input[type='password']:focus {
-  border-color: rgba(82,168,236,.8);
-  outline: 0;
-  outline: thin dotted \9;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.75), 0 0 8px rgba(82,168,236,.6);
-}
-
-//表单下拉选择框,文件控件,单选按钮,复选按钮得到焦点效果
-select:focus,
-input[type='file']:focus,
-input[type='radio']:focus,
-input[type='checkbox']:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color; // 用的很少,不同浏览器解析不同的颜色.
-  outline-color: -2px;
-}
-
-//禁用的input select textarea表单元素效果
-input[disabled],  //等效于input:diasbled;
-select[disabled],  //等效于input:diasbled;
-textarea[disabled] { //等效于input:diasbled;
-  cursor: not-allowed;
-  background-color: #eee;
-  border-color: #ddd;
-}
-
-//禁用的单选按钮和复选按钮效果
-input[type='radio'][disabled], //等效于 input[type='radio']:disabled
-input[type='checkbox'][disabled] { //等效于 input[type='checkbox']:disabled
-  background-color: #ddd;
-}
-
-//表单警告状态下效果 自己定义的类型 class='control-group warning'
-.control-group.warning .checkbox,
-.control-group.warning .radio,
-.control-group.warning  input,
-.control-group.warning select,
-.control-group.warning textarea {
-  color: #c09853;
-  border-color: #c09853;
-}
-
-//表单警告状态下获得焦点效果
-.control-group.warning .checkbox:focus,
-.control-group.warning .radio:focus,
-.control-group.warning input:focus,
-.control-group.warning select:focus,
-.control-group.warning textarea:focus {
-  border-color: #a47e3c;
-  box-shadow: 0 0 6px #dbc59e;
-}
-
-//表单错误状态与成功下效果
-.control-group.error .checkbox
-.control-group.success .checkbox
-```
-
-
-
-注意: 表单元素得到焦点和禁用两种状态使用方法，在使用UI状态选择器时特别注意，HTML结构中要存在这种状态，例如禁用的输入框，需要在HTML的对应元素上添加禁用属性.
-
-```html
-<input class="input-xlarge disabled" id="disabledInput" type='text' placeholder='Disabled input here'>
-```
-
-
-
-
-
-5. 结构伪类选择器
-
-伪类可以将一段并不存在的HTML当作独立元素来定位，或是找到无法使用其他简单选择器就能定位到的切实存在的元素。因此CSS3给伪类选择器引入一种“结构伪类选择器”。这种选择器可以根据元素在文档树中的某些特性（如相对位置）定位到它们。也就是说，**通过文档树结构的相互关系来匹配特定的元素**，从而减少HTML文档对ID或类名的定义，帮助你保持代码干净和整洁。
-
-
-
-**文档树**
-
-文档树（Document Tree）是HTML页面的层级结构。它由元素、属性和文本组成，它们都是一个节点（Node），就像公司的组织结构图一样.
-
-**用法**
-
-| 选择器                | 功能描述                                                     |
-| --------------------- | ------------------------------------------------------------ |
-| E:root                | 选择匹配元素E所在文档的根元素.在HTML文档中,根元素始终是html,<br/>此时该选择器与html类型选择器匹配的内容相同. |
-| E:empty               | 选择没有子元素的元素,且该元素不包括任何文本节点<br/>常用来处理动态输出内容,例如高亮用户搜索出来的结果为空时. |
-| E:first-child         | 作为父元素第一个子元素的元素. 与E:nth-child(1)等同           |
-| E:last-child          | 作为父元素E的最后一个子元素的元素. 与E:nth-last-child(1)等同. |
-| E F:nth-child(n)      | 选择父元素E的第n个子元素F. <br/>其中,n的值可以是整数(1,2,3),关键字(odd,event),公式(2n+1, -n+5).<br/>n的起始值为1,不是0. |
-| E F:nth-last-child(n) | 选择父元素E的倒数第n个子元素F.<br/>此选择器与`E F:nth-child(n)`刚好相反,但使用方法都一样.<br/>其中:nth-last-child(1)始终匹配的是最后一个元素,与:last-child等同. |
-| E:nth-of-type(n)      | 选择父元素内具有指定类型的第n个E元素                         |
-| E:nth-last-of-type(n) | 选择父元素内具有指定类型的倒数第n个E元素                     |
-| E:first-of-type       | 选择父元素内具有指定类型的第一个E元素,与E:nth-of-type(1)等同 |
-| E:last-of-type        | 选择父元素内具有指定类型的倒数第1个E元素, 与E:nth-last-of-type(1)等同. |
-| E:only-child          | 选择父元素只包含一个子元素,且该子元素匹配E元素               |
-| E:only-of-type        | 选择父元素只包含一个同类型的子元素,且该子元素匹配E元素       |
-|                       |                                                              |
-
-
-
-**实例**
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="结构伪类选择器-demo" src="https://codepen.io/westover/embed/ExmVQmw?defaultTab=html%2Cresult&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/ExmVQmw">
-  结构伪类选择器-demo</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-
-
-**浏览器兼容性**
-
-CSS3结构伪类选择器在主流浏览器下运行都非常的完美，只是在IE 9以下版本的浏览器中无法正常运行
-
-
-
-**结构伪类选择器中的n指什么**
-
-```js
-//在结构伪类选择器中，有4 个伪类选择器接受参数n
-:nth-child(n)
-:nth-of-child(n)
-:nth-of-type(n)
-:nth-last-of-type(n)
-n的起始值始终是1，而不是0。换句话说，当参数n的值为0时，选择器将选择不到任何匹配的元素。
-
-表达式中,n从0开始计算
-```
-
-n的值为:
-
-1.具体数值
-
-2.表达式n*length
-
-3.n+length
-
-4.-n+length
-
-5.n*length+b
-
-6.odd/even
-
-
-
-**实例2-zebra斑马线表格**
-
-给数据量大的表格设计背景色,传统方法是奇偶行不同背景色,但存在潜在的不便,例如动态插入行.
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="结构伪类选择器-zebra表格" src="https://codepen.io/westover/embed/JjNYvXY?defaultTab=html%2Cresult&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/JjNYvXY">
-  结构伪类选择器-zebra表格</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-
-
-
-
-6. 否定伪类选择器
-
-否定选择器“:not()”是CSS3的新选择器，类似jQuery中的“:not()”选择器，主要用来定位不匹配该选择器的元素
-
-**语法**
-
-| 选择器   | 功能描述                   |
-| -------- | -------------------------- |
-| E:not(F) | 匹配所有除元素F之外的E元素 |
-
-
-
-
-
-##### 伪元素选择器案例
-
-伪元素可用于定位文档中包含的文本，但无法在文档树中定位。伪类一般反映无法在CSS中轻松或可靠地检测到的某个元素属性或状态；另一方面，伪元素表示DOM外部的某种文档结构
-
-CSS3中对伪元素进行了一定的调整，在以前的基础上增加一个冒号
-
-对于IE 6～8，仅支持单冒号表示法，而现代浏览器同时支持这两种表示法。另外一个区别是，双冒号与单冒号在CSS3中主要用来区分伪类和伪元素。到目前来说，这两种方式都是被浏览器接受的。
-
-
-
-::first-letter
-
-“::first-letter”用来选择文本块的第一个字母，除非在同一行中包含一些其他元素。“::first-letter”通常用于给文本元素添加排版细节，例如下沉字母或首字母，下面的代码是如何使用“::first-letter”创建首字下沉。
-
-
-
-**实例**
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="::first-letter -首字下沉" src="https://codepen.io/westover/embed/vYmNjjW?defaultTab=html%2Cresult&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/vYmNjjW">
-  ::first-letter -首字下沉</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-
-
-
-
-::first-line
-
-“::first-line”的使用和“::first-letter”类似，也常用于文本排版方面，只不过“::firstline”用来匹配元素的第一行文本，可以应用一些特殊的样式，给文本添加一些细微的区别。“::first-line”将匹配block、inline-block、table-caption、table-cell等级别元素的第一行
-
-
-
-
-
-::before ::after
-
-“:before”和“:after”，或许不会陌生，因为清除浮动就使用这两个伪类
-
-“::before”和“::after”不是指存在于标记中的内容，而是可以插入额外内容的位置。尽管生成的内容不会成为DOM的一部分，但它同样可以设置样式
-
-要伪元素生成内容,还需要配合content属性. 例如，假设在页面上所有外部链接之后的括号中附加它们所指向的URL，无须将URL硬编码到标记中，可以结合使用一个属性选择器和“::after”伪元素。
-
-```css
-a[href^=http]::after {
-  content: "("attr(href)")"
-}
-
-//html显示
-内容(url的地址)
-```
-
-
-
-::selection
-
-“::selection”是用来匹配突出显示的文本。浏览器默认情况下，选择网站文本是深蓝的背景，白色的字体
-
-浏览器对“::selection”支持并不完美，在整个IE 系列中仅有IE 9支持，Firefox也需要加上其私有属性“-moz”
-
-注意:
-
-伪元素::selection仅接受两个属性，一个是background，另一个是color。
-
-**实例**
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="::selection demo" src="https://codepen.io/westover/embed/rNmOKPY?defaultTab=html%2Cresult&theme-id=light" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/westover/pen/rNmOKPY">
-  ::selection demo</a> by xxl (<a href="https://codepen.io/westover">@westover</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-
-
-#### 关系选择器
-
-
-
-##### 后代选择器
-
-后代选择器——典型用单个空格（` `）字符——组合两个选择器
-
-
-
-##### 子代关系选择器
-
-子代关系选择器是个大于号（`>`），只会在选择器选中<u>直接子元素</u>的时候匹配.继承关系上更远的后代则不会匹配。
-
-
-
-##### 相邻兄弟选择器
-
-邻接兄弟选择器（`+`）用来选中恰好处于另一个在继承关系上同级的元素同级的元素
-
-
-
-
-
-##### 通用兄弟选择器
-
-如果你想选中一个元素的兄弟元素，即使它们不直接相邻，你还是可以使用通用兄弟关系选择器（`~`）
-
-案例:
-
-选中所有的`<p>`元素后*任何地方*的`<img>`元素
-
-```css
-p~img
-```
-
-
-
-#### 选择器使用遇到的问题
-
-##### 伪类选择器`:first-child`, `:last-child`失效
-
->   使用`:first-child`伪类时一定要保证前面没有兄弟节点，把h1去掉就可以；或者使用div包住article，然后css：`div.article:first-child`
->
->   或者使用`first-of-type`
 
 
 
@@ -3462,14 +2335,6 @@ div, footer {
 
 
 
-
-
-
-
-## 2222
-
-
-
 ### 背景与边框
 
 #### 背景颜色
@@ -3966,23 +2831,48 @@ white-space:nowrap 强制不换行
 #### 定义
 BFC块级格式化上下文, 是网页一块可是CSS渲染区域.它是块级盒子出现或与其它元素浮动交互的区域.
 
-#### 创建
-被至少下列其中之一创建:
+#### 背景知识
+**什么是块(Box)**
+Box是CSS布局的对象和基本单位,就是一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型.不同类型的Box,会参与不同的 Formatting Context（一个决定如何渲染文档的容器），因此Box内的元素也会以不同的方式进行渲染。
+
+**什么是格式化上下文(Formatting context)**
+是W3C CSS2.1规范中的一个概念。它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。
+最常见的Formatting context有Block fomatting context (简称BFC)和 Inline formatting context (简称IFC).CSS3中还增加了 `GFC `和 `FFC。`
+
+
+#### 会渲染BFC的元素
+>https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
 * document的根元素(`<html>`)
-* 浮动(floats值不为none)
+* 浮动(float值不为none)
 * 绝对定位元素(元素position值为absolute/fixed)
 * 行内块(元素display属性值为inline-block)
-* 
+* 表格单元(元素display属性为table-cell,默认的HTML表格)
+* 表格标题(元素display属性为table-caption,默认的HTML表格)
+* 被拥有`display:table`属性隐式创建的匿名table表格
+* 带有overflow属性(其值不能为visible/clip)的块元素
+* `display:flow-root`
+* contain属性值为layout/content/paint的元素
+* Flex子元素(属性为display:flex/inline-flex的元素的直接子元素),如果它们本身不是flex或grid或table容器.
+* Grid子元素(属性为display:grid/inline-grid的元素的直接子元素),如果它们本身不是flex或grid或table容器.
+* 多列容器(元素其column-count/column-width不是auto,column-count不是1)
+* column-span:all
+
+
+#### BFC区域布局规则
+1. 内部的Box按垂直方向排列
+2. Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠
+3. 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。(是不补偿最左边??)
+4. BFC的区域不会与float box重叠。
+5. BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
+6. 计算BFC的高度时，浮动元素也参与计算
+
+#### BFC布局规则实例
+
+
+
 
 ```js
-1.定义: 是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。
 
-2.如何开启?
-https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context
-https://blog.csdn.net/QUSUPAO/article/details/109387695
-    
-3.脱离文档流是不是指该元素从dom树中脱离？
-不是，用浏览器的审查元素就可以看到脱离文档流的元素（例如被float了）依然会出现在dom树里
 
 4.总结:
 脱离文档流，也就是将元素从普通的布局排版中拿走，其他盒子在定位的时候，会当做脱离文档流的元素不存在而进行定位。需要注意的是，使用float脱离文档流时，其他盒子会无视这个元素，但其他盒子内的文本依然会为这个元素让出位置，环绕在周围。而对于使用absolute 
@@ -3996,51 +2886,9 @@ https://developer.aliyun.com/article/488445
 
 
 
-#### BFC是什么?
-
-在解释 BFC 是什么之前，需要先介绍 Box、Formatting Context的概念。
-
-##### Box: CSS布局的基本单位
-
-Box 是 CSS 布局的对象和基本单位， 直观点来说，就是一个页面是由很多个 Box 组成的。元素的类型和 display 属性，决定了这个 Box 的类型。 不同类型的 Box， 会参与不同的 Formatting Context（一个决定如何渲染文档的容器），因此Box内的元素也会以不同的方式进行渲染。让我们看看有哪些盒子：
-
-- block-level box:display 属性为 block, list-item, table 的元素，会生成 block-level box。并且参与 block fomatting context；
-- inline-level box:display 属性为 inline, inline-block, inline-table 的元素，会生成 inline-level box。并且参与 inline formatting context；
-- run-in box: css3 中才有， 这儿先不讲了
-
-##### 　Formatting context
-
-Formatting context 是 W3C CSS2.1 规范中的一个概念。它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。最常见的 Formatting context 有 Block fomatting context (简称BFC)和 Inline formatting context (简称IFC)。
-
-　　CSS2.1 中只有 `BFC `和 `IFC`, **[CSS3](http://www.cnblogs.com/lhb25/category/146075.html)** 中还增加了 `GFC `和 `FFC。`
-
-##### BFC定义
-
-BFC(Block formatting context)直译为"块级格式化上下文"。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。
-
-##### BFC布局规则
-
-1. 内部的Box按垂直方向排列
-2. Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠
-3. 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。(是不补偿最左边??)
-4. BFC的区域不会与float box重叠。
-5. BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
-6. 计算BFC的高度时，浮动元素也参与计算
-
-#### 那些元素会生成BFC
-
-1. 根元素
-2. float属性不为none
-3. position为absolute或fixed
-4. display为inline-block, table-cell, table-caption, flex, inline-flex
-5. overflow不为visible
-
-#### BFC的作用和原理
+#### BFC实例
 
 ##### 1.自适应两栏布局
-
-代码
-
 ```html
 <style>
     body {
@@ -4070,32 +2918,21 @@ BFC(Block formatting context)直译为"块级格式化上下文"。它是一个�
 
 ![](https://yqfile.alicdn.com/img_e83e07f7ddedcc2a2d96c62e0099c696.png)
 
+根据`BFC`布局规则第3条:
+每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。
+因此，虽然存在浮动的元素aside，但main的左边依然会与包含块的左边相接触。
 
-
-根据`BFC`布局规则第3条：
-
-> 每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。
-
-　　因此，虽然存在浮动的元素aslide，但main的左边依然会与包含块的左边相接触。
-
-　　根据`BFC`布局规则第四条：
-
-> `BFC`的区域不会与`float box`重叠。
-
-　　我们可以通过通过触发main生成`BFC`， 来实现自适应两栏布局。
-
+根据`BFC`布局规则第四条：`BFC`的区域不会与`float box`重叠。
+我们可以通过通过触发main生成`BFC`， 来实现自适应两栏布局。
 ```css
 .main {
   overflow: hidden;
 }
 ```
-
 当触发main生成`BFC`后，这个新的`BFC`不会与浮动的aside重叠。因此会根据包含块的宽度，和aside的宽度，自动变窄。效果如下：
-
 ![](https://yqfile.alicdn.com/img_5fae9586592633542c1df142df173a12.png)
 
-##### 2.清除内部浮动
-
+##### 2.高度塌陷-内部浮动父元素高度为0
 ```html
 <style>
     .par {
@@ -4123,27 +2960,34 @@ BFC(Block formatting context)直译为"块级格式化上下文"。它是一个�
 
 
 根据`BFC`布局规则第六条：
+>计算`BFC`的高度时，浮动元素也参与计算
 
-> 计算`BFC`的高度时，浮动元素也参与计算
-
-　　为达到清除内部浮动，我们可以触发par生成`BFC`，那么par在计算高度时，par内部的浮动元素child也会参与计算。
-
+为达到清除内部浮动，我们可以触发par生成`BFC`，那么par在计算高度时，par内部的浮动元素child也会参与计算。
 代码:
-
 ```css
 .par {
   overflow: hidden;
 }
 ```
-
 ![](https://yqfile.alicdn.com/img_01a73c4210ed717f1e634cffa025dac7.png)
 
+其它方法:
+* 父元素设置BFC:
+  * 浮动
+  * overflow
+  * 其他等
+* 父元素设置固定高度
+* 父元素调用clearfix清除浮动 或者 最后添加空div + clear:both
+
+<iframe src="https://codesandbox.io/embed/cool-cherry-e2w80u?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="cool-cherry-e2w80u"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 
-##### 3.放置垂直margin重叠
-
-代码
-
+##### 3.高度塌陷-相邻元素外边距重叠
 ```html
 <style>
     p {
@@ -4162,18 +3006,12 @@ BFC(Block formatting context)直译为"块级格式化上下文"。它是一个�
 ```
 
 页面:
-
 ![](https://yqfile.alicdn.com/img_2f67af96dd2afdf3f72f7810c310dcc8.png)
-
-
-
 两个p之间的距离为100px，发生了margin重叠。
 根据BFC布局规则第二条：
-
 > `Box`垂直方向的距离由margin决定。属于同一个`BFC`的两个相邻`Box`的margin会发生重叠
 
 我们可以在p外面包裹一层容器，并触发该容器生成一个`BFC`。那么两个P便不属于同一个`BFC`，就不会发生margin重叠了。
-
 ```css
 <style>
     .wrap {
@@ -4197,60 +3035,25 @@ BFC(Block formatting context)直译为"块级格式化上下文"。它是一个�
 ```
 
 效果如图:
-
 ![](https://yqfile.alicdn.com/img_d23632f80398e3d70f7d9f5171a16456.png)
 
 
 
-##### 总结:
-
-其实以上的几个例子都体现了`BFC`布局规则第五条：
-
-> `BFC`就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
-
-因为`BFC`内部的元素和外部的元素绝对不会互相影响，因此， 当`BFC`外部存在浮动时，它不应该影响`BFC`内部Box的布局，`BFC`会通过变窄，而不与浮动有重叠。同样的，当`BFC`内部有浮动时，为了不影响外部元素的布局，`BFC`计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。
-
-
-
-##### 4.外边距塌陷解决
-
-> //https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context
-
-描述: 嵌套关系的两个块元素, 第一个子元素向上的外边距(margin-top),父元素会跟着掉下来,形成外边距塌陷(第二个不会出现塌陷)
+##### 4.高度塌陷-嵌套元素解决外边距塌陷
+描述: 嵌套关系的两个块元素, 子元素设置margin-top,父元素
 解决方案:
-
 * BFC
   * 父元素开启BFC: 浮动/overflow
   * 子元素都设置浮动
 * 设置边框: 父元素设置上边框: `border-top: 1px solid red;`
 
-
-
-##### 5.浮动布局造成父元素高度塌陷
-
- 描述:浮动元素由于是脱离标准流状态,父元素在不设置固定高度时,会造成高度塌陷(高度0), 原因是父元素认为子元素没有占位置
-
-解决方案:
-
-* 父元素设置BFC:
-  * 浮动
-  * overflow
-  * 其他等
-
-* 父元素设置固定高度
-* 父元素调用clearfix清除浮动 或者 最后添加空div + clear:both
-
-```css
-.clearfix::after {
-  content: '';
-  display: box;
-  clear: both;
-}
-```
-
-
-
-
+<iframe src="https://codesandbox.io/embed/winter-fire-pblz99?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="BFC-解决嵌套元素外边距塌陷"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+  
 
 
 
@@ -4260,7 +3063,7 @@ BFC(Block formatting context)直译为"块级格式化上下文"。它是一个�
 
 * 格式: 
 
-  > 元素,元素,类名,元素.....{}   中间以逗号分隔
+> 元素,元素,类名,元素.....{}   中间以逗号分隔
 
 
 
@@ -8216,273 +7019,7 @@ portrait  竖屏   高度大于宽度
 
 
 
-
-
-### flex
-
-#### 介绍
-
-Flex是Flexible Box的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。
-
-任何一个容器都可以指定为Flex布局。设为Flex布局以后，子元素的块级特性会消失;
-
-行内元素也可以设置flex布局;webkit内核的浏览器,必须加上`-webkit`前缀.
-
-注意，设为 Flex 布局以后，子元素的`float`、`clear`和`vertical-align`属性将失效。
-
-```css
-//行内元素设置flex布局
-.box{
-    display:inline-flex;
-}
-//webkit内核的浏览器,必须加上-webkit前缀.
-.box{
-    display:-webkit-flex;
-    display:flex;
-}
-```
-
-
-
-#### 基本概念
-
-采用flex布局的元素,成为flex容器(container). 它的所有子元素自动成为容器成员,称为flex项目(弹性元素)
-
-容器默认存在水平的主轴(main axis)和垂直的侧轴(cross axis).弹性元素默认沿主轴排列.
-
-![flex布局](https://www.runoob.com/wp-content/uploads/2015/07/3791e575c48b3698be6a94ae1dbff79d.png)
-
-
-
-#### 容器的6属性
-
-```markdown
-flex-direction
-flex-wrap
-flex-flow
-justify-content
-align-items
-align-content
-```
-
-
-
-##### flex-direction
-
-```js
-flex-direction属性决定主轴的方向（即项目的排列方向）
-
-flex-direction:row|row-reverse|column|column-reverse
-row 默认值.     主轴是水平方向,左边开始,右边结束. 侧轴是垂直方向,上边开始,下边结束
-row-reverse    主轴是水平方向,右边开始,左边结束. 侧轴是垂直方向,上边开始,下边结束
-
-column         主轴是垂直方向,上边开始,下边结束. 侧轴是水平方向,左边开始,右边结束   
-column-reverse 主轴是垂直方向,下边开始,上边结束. 侧轴是水平方向,左边开始,右边结束 
-```
-
-
-
-![](https://upload-images.jianshu.io/upload_images/2326131-bbd36877856086ff.png)
-
-
-
-
-
-##### flex-wrap
-
-```js
-flex-wrap属性定义，如果一条轴线排不下，如何换行
-
-flex-wrap:nowrap|wrap|wrap-reverse
-
-nowrap(默认):不换行
-wrap:换行，第一行在上方
-wrap-reverse: 换行，第一行在下方
-```
-
-nowrap: 不换行
-
-![](https://upload-images.jianshu.io/upload_images/2326131-b71b6e4c79ceb64b.png?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp)
-
-
-
-wrap: 换行. 第一行在上方
-
-![](https://upload-images.jianshu.io/upload_images/2326131-6de957f9ef4d43fa.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp)
-
-
-
-
-
-wrap-reverse: 换行 第一行在下方
-
-![](https://upload-images.jianshu.io/upload_images/2326131-b432b2461d51d73a.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp)
-
-
-
-
-
-##### flex-flow
-
-```js
-flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
-
-.box{
-    flex-flow:<flex-direction><flex-wrap>
-}
-```
-
-
-
-##### justify-content
-
-```js
-定义了项目在主轴上的对齐方式
-
-justify-content: flex-start|flex-end|center|space-between|space-around
-
-它可能取5个值，具体对齐方式与轴的方向有关。下面假设主轴为从左到右
-flex-start（默认值）：左对齐
-flex-end：右对齐
-center： 居中
-space-between：两端对齐，项目之间的间隔都相等。
-space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
-```
-
-![justify-content](https://www.runoob.com/wp-content/uploads/2015/07/c55dfe8e3422458b50e985552ef13ba5.png)
-
-##### align-items
-
-```js
-定义了项目在交叉轴上如何对齐
-
-align-items: flex-start | flex-end | center | baseline | stretch
-
-它可能取5个值。具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下
-
-flex-start：交叉轴的起点对齐。
-flex-end：交叉轴的终点对齐。
-center：交叉轴的中点对齐。
-baseline: 项目的第一行文字的基线对齐。
-stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
-```
-
-![align-items](https://www.runoob.com/wp-content/uploads/2015/07/2b0c39c7e7a80d5a784c8c2ca63cde17.png)
-
-##### align-content
-
-```js
-定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
-
-align-content: flex-start | flex-end | center | space-between | space-around | stretch
-
-该属性可能取6个值。
-
-flex-start：与交叉轴的起点对齐。
-flex-end：与交叉轴的终点对齐。
-center：与交叉轴的中点对齐。
-space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。
-space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
-stretch（默认值）：轴线占满整个交叉轴。
-```
-
-![](https://www.runoob.com/wp-content/uploads/2015/07/f10918ccb8a13247c9d47715a2bd2c33.png)
-
-#### 弹性元素的6属性
-
-```js
-order
-flex-grow
-flex-shrink
-flex-basis
-flex
-align-self
-```
-
-##### order
-
-```js
-定义项目的排列顺序。数值越小，排列越靠前，默认为0
-
-.item{
-    order:<integer>  
-}
-```
-
-![](https://www.runoob.com/wp-content/uploads/2015/07/59e399c72daafcfcc20ede36bf32f266.png)
-
-
-
-##### flex-grow
-
-```css
-//定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大
-//如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
-.item{
-    flex-grow:<number> /*default 0*/
-}
-
-```
-
-![](https://www.runoob.com/wp-content/uploads/2015/07/f41c08bb35962ed79e7686f735d6cd78.png)
-
-
-
-##### flex-shrink
-
-```css
-//定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小
-//如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。  负值对该属性无效。
-.item{
-    flex-shrink:<number> /*default 1 */
-}
-```
-
-![](https://www.runoob.com/wp-content/uploads/2015/07/240d3e960043a729bb3ff5e34987904f.jpg)
-
-
-
-##### flex-basis
-
-```css
-//属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
-//它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。
-
-.item {
-  flex-basis: <length> | auto; /* default auto */
-}
-```
-
-
-
-##### flex
-
-```css
-//属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
-//该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。 建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
-.item {
-  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
-}
-```
-
-
-
-##### align-self
-
-```css
-//属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
-
-.item {
-  align-self: auto | flex-start | flex-end | center | baseline | stretch;
-}
-
-
-```
-
-![](https://www.runoob.com/wp-content/uploads/2015/07/55b19171b8b6b9487d717bf2ecbba6de.png)
-
-
-
+flex 
 
 
 ### 1017

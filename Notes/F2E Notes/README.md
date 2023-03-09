@@ -58,9 +58,19 @@
 - [ ] Vue3实战(掘金)
 - [ ] [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/)
 
+#### 代码片段
+
+- [ ] [30 seconds of code](https://www.30secondsofcode.org/)
+
+- [ ] [CSS-Tricks - Tips, Tricks, and Techniques on using Cascading Style Sheets.](https://css-tricks.com/)
 
 
-#### 读书
+
+
+
+
+
+#### 书籍
 
 - [ ] ========语言基础=========
 
