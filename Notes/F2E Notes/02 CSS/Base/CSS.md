@@ -2867,27 +2867,6 @@ Box是CSS布局的对象和基本单位,就是一个页面是由很多个Box组�
 6. 计算BFC的高度时，浮动元素也参与计算
 
 #### BFC布局规则实例
-
-
-
-
-```js
-
-
-4.总结:
-脱离文档流，也就是将元素从普通的布局排版中拿走，其他盒子在定位的时候，会当做脱离文档流的元素不存在而进行定位。需要注意的是，使用float脱离文档流时，其他盒子会无视这个元素，但其他盒子内的文本依然会为这个元素让出位置，环绕在周围。而对于使用absolute 
-positioning脱离文档流的元素，其他盒子与其他盒子内的文本都会无视它。
-
-链接：https://www.zhihu.com/question/24529373/answer/29135021
-
-
-https://developer.aliyun.com/article/488445
-```
-
-
-
-#### BFC实例
-
 ##### 1.自适应两栏布局
 ```html
 <style>
@@ -6622,7 +6601,6 @@ animation-fill-mode:forwars
 				height: 600px;
 				background: yellowgreen;
 				float:left;
-			
 			}
 			.content{
 				padding-left: 200px;
@@ -6633,8 +6611,7 @@ animation-fill-mode:forwars
 	<body>
 		<div class="box">
 			<div class="right">
-				<!-- 块元素特性:当不设置固定宽度时,宽度和父元素一样,自身设置padding,border,margin后,从content的区域自动计算 -->
-				<div class="content">右侧哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</div>
+				<div class="content">右侧</div>
 			</div>
 			<div class="left">左侧</div>
 		</div>
@@ -6695,8 +6672,7 @@ animation-fill-mode:forwars
 	<body>
 		<div class="box">
 			<div class="center">   /*center和left位置互换,参考第一次的布局写法 */
-
-				<div class="content">中间哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈中间</div>
+				<div class="content">中间</div>
 			</div>
 			<div class="left">左侧</div>
 			<div class="right">右侧</div>
@@ -6769,8 +6745,7 @@ animation-fill-mode:forwars
 	<body>
 		<div class="box">
 			<div class="center">
-
-				中间哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈中间
+				中间
 			</div>
 			<div class="left">左侧</div>
 			<div class="right">右侧</div>
@@ -7997,11 +7972,6 @@ http://jsfiddle.net/ye0fbg4n/
 
 
 
-
-
-
-
-
 ## CSS最佳实践
 
 ### MaintainableCSS
@@ -8009,9 +7979,7 @@ http://jsfiddle.net/ye0fbg4n/
 > [MaintainableCSS - 一种哲学，教你如何编写模块化，可扩展性，可维护性的CSS。 (owenyang0.github.io)](http://owenyang0.github.io/maintainablecss-cn/index.html)
 
 
-
 > [Rendering Performance (web.dev)](https://web.dev/rendering-performance/)
-
 
 
 ### css规范
@@ -8022,27 +7990,16 @@ http://jsfiddle.net/ye0fbg4n/
 
 [Code Guide by @AlloyTeam](http://alloyteam.github.io/CodeGuide/)
 
-
-
-
-
 https://mp.weixin.qq.com/s/AWva0jA-FMxQvV7GuHjAYw(文章/引用资料可以读读如何写一份不错的CSS代码?
 
 
-
 [如何写一份不错的CSS代码?](https://mp.weixin.qq.com/s?__biz=MzkxNTIwMzU5OQ==&mid=2247488637&idx=1&sn=4b2bb05e651922747b5d652f348254bb&chksm=c163e71df6146e0b53d96db8c7f8f6a7cccb576294f04fae5a61608058ee8d95ae95681aebc9&cur_album_id=2068500844584435715&scene=189#wechat_redirect)
-
-
-
-
 
 https://codeguide.bootcss.com/#css-nesting
 
 https://acss.io/
 
 https://github.com/hengg/styled-components-docs-zh/blob/master/Basics.md
-
-
 
 https://csswizardry.com/2011/09/writing-efficient-css-selectors/
 
