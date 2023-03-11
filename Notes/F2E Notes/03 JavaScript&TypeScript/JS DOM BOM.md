@@ -656,9 +656,10 @@ https://www.cnblogs.com/starof/p/4066381.html
 
 ### 一.事件
 
-**事件是文档或者浏览器窗口中发生的，特定的交互瞬间。**
+**事件是文档或者浏览器窗口中发生的，特定的交互瞬间。是把所有东西粘在一起的胶水**
 
-事件是用户或浏览器自身执行的某种动作，如click,load和mouseover都是事件的名字。
+事件是用户或浏览器自身执行的某种动作，例如用户在某些内容上的点击、鼠标经过某个特定元素或按下键盘上的某些按键或某个web页面加载完成,用户滚动窗口或改变窗口大小.
+通过JavaScript你可以监听特定事件的发生及事件发生后对其作出的响应.
 
 事件是javaScript和DOM之间交互的桥梁。
 
@@ -1552,6 +1553,36 @@ document.addEventListener('myEvent', function () {
 ```
 
 
+
+
+
+### 如何自定义事件
+
+> [创建和触发 events - 事件参考 | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/Events/Creating_and_triggering_events)
+
+
+初始化事件 
+* const eventName = new Event('xxx')
+* const evnetName = new CustomEvent('xxx', {'detail': elem.dataset.xxx})
+
+绑定事件 elem.addEventListener('xxx', () =>{})
+触发事件 elem.dispatchEvent(event)
+
+#### 创建自定义事件
+```
+var event = new Event('build');
+
+// Listen for the event.
+elem.addEventListener('build', function (e) { ... }, false);
+
+// Dispatch the event.
+elem.dispatchEvent(event);
+```
+
+#### CustomEvent()
+```javascript
+var event = new CustomEvent('build', { 'detail': elem.dataset.time });
+```
 
 
 
