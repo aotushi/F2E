@@ -21,6 +21,18 @@ Hoppscotch Browser Extension
 > 用得少
 
 
+### Ping
+
+```bash
+ping 127.0.0.1
+ping 本机IP地址
+ping 默认网关
+ping 目标ip地址
+ping 目标主机名(域名)
+```
+
+
+
 
 ### curl
 

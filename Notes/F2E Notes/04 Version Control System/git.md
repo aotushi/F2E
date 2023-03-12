@@ -1659,6 +1659,19 @@ git checkout  dev
 //提交的话一般只是提交更改的分支,其他分支不必提交
 ```
 
+
+#### github本地自动提交
+
+在本地将更新自动提交到github仓库的方法:
+* [使用git-auto-commit Action](https://github.com/marketplace/actions/git-auto-commit)
+* [git-autocommit](https://github.com/kspi/git-autocommit)
+* inotifywait
+* https://www.cnblogs.com/Java3y/p/12196210.html
+* https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html
+* 
+
+
+
 ## 附录
 
 ### Git 官方书籍
