@@ -27,9 +27,10 @@
 ### 重绘reflow vs. 重排repaint
 
 > https://juejin.cn/post/6844904083212468238
+> https://juejin.cn/post/7067087200143278116
 
 #### 背景
->我们可以将DOM和JavaScript想象成两个岛，它们之间的连接需要通过一座桥，而JavaScript对DOM的访问就需要通过这座桥，并收取“过桥费”，随着对DOM访问次数的增加，费用也就越高，因此我们需要尽量减少“过桥”的次数，也就是减少对DOM的访问和修改，而这也是优化DOM性能的手段之一。
+>我们可以将DOM和JavaScript想象成两个岛，它们之间的连接需要通过一座桥，而JavaScript对DOM的访问就需要通过这座桥，并收取“过桥费”，随着对DOM访问次数的增加，费用也就越高，因此我们需要尽量减少“过桥”的次数，也就是减少对DOM的访问和修改，而这也是优化DOM性能的手段之一
 
 
 #### 浏览器渲染HTML过程
@@ -291,6 +292,10 @@ list在每次append新元素li时，都会引发一次重排的操作。
 
 **重绘与重排的关系**
 重排一定会引起重绘的操作，而重绘却不一定会引起重排的操作
+
+
+
+
 
 ### 浏览器如何渲染页面
 
@@ -698,8 +703,6 @@ function deleteCookie(name) {
 - 打开多个相同的 URL 的 Tabs 页面，会创建各自的 `sessionStorage`。
 - 关闭对应浏览器标签或窗口，会清除对应的 `sessionStorage`
 
-
-
 #### 语法
 
 ```javascript
@@ -718,19 +721,26 @@ sessionStorage.clear();
 
 
 
+#### 实例
+
+##### 跨窗口共享sessionStorage
+> https://mp.weixin.qq.com/s?__biz=MzUxNzk1MjQ0Ng==&mid=2247512926&idx=1&sn=0b1aa5ba3a7cb0d644449013e18aca94&chksm=f992b58fcee53c9977c0c1f91437fbf71c2e0c36d13fd63e5316f4bdd8bd70907d1e75163c8d&scene=90&sessionid=1675385949&subscene=236&k
+
+只有在本页面中以新页签或窗口打开的同源页面会‘临时共享’之前页面的sessionStorage。
+
+window.open, a标签也有同样的效果.
 
 
-### localStorage
+
+
+
+
+### window.localStorage
 
 ##### 概述
 
-> 只读的`localStorage` 属性允许你访问一个[`Document`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document) 源（origin）的对象 [`Storage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Storage)；存储的数据将保存在浏览器会话中。
-
-
-
-##### 实例
-
-访问当前域名下的本地Storage对象.
+> 窗口接口的只读`localStorage`属性允许你访问针对文档源(Document's [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin))的存储对象(Storage)；
+> 存储的数据跨浏览器会话保存.
 
 
 
@@ -783,10 +793,10 @@ const commonStorage = new CommonLocalStorage()
 export default commonStorage
 ```
 
-### 相关问题
+### 两者关系
 
-#### localStorage与sessionStorage区别
-- 相同点(5条):
+#### localStorage与sessionStorage比较
+- 相同点:
   - 浏览器不能禁用
   - 纯浏览器端存储, 大小不受限制
   - 只能保存文本, 如果是对象或数组, 需要转换为JSON
@@ -795,6 +805,9 @@ export default commonStorage
     - setItem(key, value)
     - getItem(key, value)
     - removeitem(key, value)
+    - clear()
+    - key(index)
+    - length
 - 不同点(1条,关闭浏览器是否会被删除):
   - localStorage保存在本地文件中, 除非编码或手动删除, 否则一直存在
   - sessonStorage数据保存在当前会话内存中, 关闭浏览器则清除
