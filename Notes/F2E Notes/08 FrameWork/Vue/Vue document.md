@@ -1473,7 +1473,7 @@ v-model在内部为不同的输入元素使用不同的属性并抛出不同的�
 * components
 
 #### 实现原理
-
+>https://www.cnblogs.com/chris-oil/p/16408309.html
 ##### 1.作用在普通表单元素上
 
 动态绑定了 `input` 的 `value` 指向了 `messgae` 变量，并且在触发 `input` 事件的时候去动态把 `message` 设置为目标值
@@ -3862,9 +3862,9 @@ Vue.component('terms-of-service', {
 
 
 
-### 7. 父子组件
+### 父子组件
 
-#### 7.1 父组件触发子组件每次都需要重新渲染
+#### 父组件触发子组件每次都需要重新渲染
 
 ```html
 //需要动态触发的组件，添加一个key，key值为时间毫秒，类似于js防止缓存的后缀
@@ -3877,7 +3877,7 @@ Vue.component('terms-of-service', {
 
 
 
-#### 7.2  子组件修改父组件值的方法
+#### 子组件修改父组件值的方法
 
 ```markdown
 vue中父组件向子组件传值时，其父子prop之间形成单向下行绑定，反过来则不行，这样可以防止子组件意外改变父组件的值，怕子组件污染父组件，造成不可控； 此外，每次父组件的数据发生更新时，子组件的值都会更新到最新的数据，但不能直接在子组件内部改变prop（父组件传过来的值），否则浏览器就会发出警告
@@ -3885,26 +3885,309 @@ vue中父组件向子组件传值时，其父子prop之间形成单向下行绑�
 
 需要在子组件修改父组件值的需求，这里介绍三种方法实现：
 
-#### 7.2.1 自定义事件
+##### 自定义事件
 
 通过$emit派发一个自定义事件,父组件收到后,由父组件进行更改
 
-#### 7.2.2  引用类型直接更改
+##### 引用类型直接更改
 
 只要prop是对象或者数组(引用类型)，在子组件里面就可以修改从而改变父组件的值
 
-#### 7.2.3 vuex
+##### vuex
 
 虽然有两种方法可以实现子组件修改父组件值，但是官方是不推荐在子组件内修改通过prop传入的父组件的值，推荐使用[vuex](https://vuex.vuejs.org/zh/guide/)
 
 
 
+### 如何快速封装一个业务组件
+>https://juejin.cn/post/6844904169418014734
+>https://padaker.com/blog/post/5eccfe1a1027605e59d37a38
+
+* `$attrs`  往原组件外再套一层，并且保留全组件的所有功能。然后扩展自己的功能。
+* 
+
+#### `$attr`
+假设我们有一个组件x-button，很遗憾这个组件居然不支持加载状态！那咋办，为了用户体验，我们得给它加上加载状态才行。所以我们在它的基础上封装一个y-button：
+```vue
+<template>
+  <x-button>
+    <i v-if="loading" class="font-loading"></i>
+    <slot></slot>
+  </x-button>
+</template>
+```
+
+```js
+export default {
+  name: 'YButton',
+  props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    }
+  }
+};
+```
+
+
+如果我们要给原来的x-button传递属性咋办？
+* 单个传递
+* 使用`$attr`
+
+```vue
+<template>
+  <x-button v-bind="$attrs">
+    <i v-if="loading" class="font-loading"></i>
+    <slot></slot>
+  </x-button>
+</template>
 
 
 
+export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    }
+  }
+};
+```
+
+#### 封装表格组件-列的配置
+El-table原始操作:
+```vue
+<template>
+  <el-table :data="tableData">
+    <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+    <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+    <el-table-column prop="address" label="地址"> </el-table-column>
+  </el-table>
+</template>
+
+export default {
+  data() {
+    return {
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        }
+      ]
+    };
+  }
+};
+
+```
+
+现在我们开始改造这个组件，封装一个f-table！首先我们要将这些el-table-column都干掉。
+```vue
+<template>
+  <div>
+    <el-table>
+      <el-table-column v-for="(col, i) in cols" :key="i" v-bind="col"> </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+export default {
+  props: {
+    cols: {
+      type: Array,
+      default: () => []
+    }
+  }
+};
+```
+使用的时候:
+```vue
+<template>
+  <div>
+    <f-table cols=""></f-table>
+  </div>
+</template>
+
+
+export default {
+  data() {
+    return {
+      cols: [
+        {
+          prop: "date",
+          label: "日期",
+          width: "180",
+				  formatter: dateFormatter
+        }
+      ]
+    };
+  }
+};
+```
+
+#### 封装表格组件-数据获取方式
+```vue
+<el-table :data="tableData">
+```
+el-table是通过data属性来传递数据的.
+*我们不直接传入数据，而是传入获取数据的方法。*
+
+
+```vue
+<template>
+  <div>
+    <el-table :data="tableData">
+      <!-- ... -->
+    </el-table>
+  </div>
+</template>
+
+
+export default {
+  props: {
+    // ...
+    fetch: {
+      type: Function,
+      default: () => Promise.resolve({ rows: [] })
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      tableData: []
+    };
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      this.loading = true;
+      try {
+        const { rows } = await this.fetch();
+        this.tableData = rows;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    }
+  }！
+};
+```
+
+
+**组件调用代码**
+我们只需要关心怎么获取数据，要展示什么数据。没了！
+```vue
+<template>
+  <div>
+    <f-table :cols="cols" :fetch="fetchUsers"></f-table>
+  </div>
+</template>
+
+
+export default {
+  data() {
+    return {
+      cols: [
+        {
+          prop: "date",
+          label: "日期",
+          width: "180"
+        }
+      ]
+    };
+  },
+  methods: {
+    fetchUsers() {
+      return {
+        rows: [{ name: "xxx", date: "xx" }]
+      };
+    }
+  }
+};
+```
+
+
+#### 封装表格组件-添加分页
+
+**ELPagination原始操作**
+```vue
+<template>
+  <div>
+    <el-pagination :current-page.sync="currentPage" :total="total"> </el-pagination>
+  </div>
+</template>
+
+
+export default {
+  data() {
+    return {
+      currentPage: 1,
+      total: 0
+    };
+  }
+};
+```
+
+
+**整合到FTable中**
+* 在fetch的时候多返回了total表明总数据，以便于分页
+* 在fetch的时候向函数中传入了当前页码
+* 在页码改变的时候重新获取数据
+```vue
+<template>
+  <div>
+    <el-table :data="tableData">
+      <!--  -->
+    </el-table>
+    <el-pagination @current-change="fetchData" :current-page.sync="currentPage" :total="total">
+    </el-pagination>
+  </div>
+</template>
 
 
 
+export default {
+  // ...
+  data() {
+    return {
+      // ...
+      currentPage: 1,
+      total: 0
+    };
+  },
+  methods: {
+    async fetchData() {
+      // ...
+      const { rows, total } = await this.fetch(this.currentPage);
+      this.tableData = rows;
+      this.total = total;
+    }
+  }
+};
+```
+
+
+**调用组件**
+```vue
+<f-table :cols="cols" :fetch="fetchUsers"></f-table>
+
+
+methods: {
+  async fetchUsers(currentPage) {
+    const query = {
+      page: currentPage
+    };
+    const { rows, total } = await api.getUsers(query);
+    return { rows, total };
+  }
+}
+```
+一个带有自动分页的表格组件就封装好了，使用起来十分简单。
+
+当然这并不能满足你的所有需求我知道。比如你想要使用表格最原始的el-table-column，给表格列加个按钮，加个输入框什么的。
 
 
 ## 自定义事件
@@ -8436,17 +8719,6 @@ computed: mapGetters({
 	unreadMessagesFrom: 'unreadFrom'
 })
 ```
-等效于下面的写法
-```js
-computed: {
-	unreadMessages() {
-		return this.$store.getters.unread;
-	},
-	unreadMessagesFrom() {
-		return this.$store.getters.unreadFrom;
-	},
-}
-```
 
 
 ### Mutations
@@ -8456,7 +8728,7 @@ mutation是一个函数，它对state进行同步变更，通过调用store.comm
 
 每个 mutation 都有一个字符串的 **事件类型 (type)** 和 一个 **回调函数 (handler)**。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数：
 案例:
-创建一个mutation,并在组件中调用store.commit()来触发这个mutation
+创建一个mutation,并在==组件==中调用==store.commit()==来触发这个mutation
 ```javascript
 import Vuex from 'vuex';
 
@@ -8488,8 +8760,47 @@ const SendMessage = {
 
 
 #### commit方法的两种写法
-* 正常参数写法   commit('name', 非必传参数)
-* 对象写法      commit({type:'name', 自定义名称: 提供的数据})
+要唤醒一个 mutation handler，你需要以相应的 type 调用 store.commit 方法：
+**提交载荷(Payload)**
+* 可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）
+* 在大多数情况下，载荷应该是一个对象
+```js
+//mutations
+mutations: {
+	increment(state, n) {
+		state.count += n
+	}
+}
+
+//store.commit('increment', 10)
+```
+
+```js
+mutations: {
+  increment (state, payload) {
+    state.count += payload.amount
+  }
+}
+
+store.commit('increment', {
+  amount: 10
+})
+```
+**提交对象**
+直接使用包含 type 属性的对象：
+```js
+store.commit({
+  type: 'increment',
+  amount: 10
+})
+
+mutations: {
+	increment(state, payload) {
+		state.count += payload.amount
+	}
+}
+```
+
 
 
 #### 组件中提交Mutation
@@ -11790,7 +12101,7 @@ router.push('/admin').catch(failure => {
 
 
 
-## Vue路由实例
+## 路由问题
 
 
 
