@@ -145,24 +145,24 @@ https://exercism.org/
 ### js教程
 * https://zh.javascript.info/
 * https://wtfjs.com/
-* javascript数据结构和算法完全解析[javascript-algorithms]
-* 30秒代码[30-seconds-of-code]
-* javascript 样式指南[airbnb-js-style-guide]
-* 你不知道的javascript[you-dont-know-js]
-* 什么是的javascript[wtfjs]
-* 正确的学习javascript[js-the-right-way]
-* javascript 进阶问题列表[javascript-questions]
-* 干净的代码javascript[clean-code-javascript]
-* 33 个 javascript 概念[33-js-concepts]
-* 编写 es6 的 kickstarter 指南[es6-for-humans]
-* 很棒的javascript[awesome-javascript]
-* 现代 javascript 备忘单[modern-js-cheatsheet]
-* javascript提示[jstips]
-* 从零开始的 javascript 堆栈[js-stack-from-scratch]
-* [awesome javascript projects]
-* 30天挑战[javascript30]
-* 项目指南[project-guidelines]
-* node.js 最佳实践[nodebestpractices]
+* [javascript数据结构和算法完全解析](https://github.com/trekhleb/javascript-algorithms)
+* [30秒代码](https://github.com/30-seconds/30-seconds-of-code)
+* [javascript 样式指南](https://github.com/airbnb/javascript)
+* [你不知道的javascript](https://github.com/getify/You-Dont-Know-JS)
+* [什么是的javascript](https://github.com/denysdovhan/wtfjs)
+* [正确的学习javascript](https://github.com/braziljs/js-the-right-way)
+* [javascript 进阶问题列表](https://github.com/lydiahallie/javascript-questions)
+* [干净的代码javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+* [33 个 javascript 概念](https://github.com/leonardomso/33-js-concepts)
+* [编写 es6 的 kickstarter 指南](https://github.com/metagrover/ES6-for-humans)
+* [很棒的javascript](https://github.com/sorrycc/awesome-javascript)
+* [现代 javascript 备忘单](https://github.com/mbeaudru/modern-js-cheatsheet)
+* [javascript提示](https://github.com/loverajoel/jstips)
+* [从零开始的 javascript 堆栈](https://github.com/verekia/js-stack-from-scratch)
+* [awesome javascript projects](https://github.com/Vishal-raj-1/Awesome-JavaScript-Projects)
+* [30天挑战](https://github.com/wesbos/JavaScript30)
+* [项目指南](https://github.com/elsewhencode/project-guidelines)
+* [node.js 最佳实践](https://github.com/goldbergyoni/nodebestpractices)
 * [javascript-testing-best-practices](https://github.com/goldbergyoni/javascript-testing-best-practices)
 * [javascript-interview-question](https://github.com/sudheerj/javascript-interview-questions )
 * https://github.com/biaochenxuying/blog
