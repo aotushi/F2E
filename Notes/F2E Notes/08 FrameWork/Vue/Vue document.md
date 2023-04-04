@@ -4477,8 +4477,6 @@ Vue.component('base-checkbox', {
 
 在一个组件的根元素上直接监听一个**原生事件**。
 
-<span style="color:blue">原生事件不需要添加任何事件也能自动(浏览器)触发</span>,这也就是$emit中的 `\$event.target.value`为事件对象的原因之一
-
 #### 与自定义事件区别
 
 如果不加`.native`修饰符就是自定义事件,两者差异在于事件接收的返回值的不同
