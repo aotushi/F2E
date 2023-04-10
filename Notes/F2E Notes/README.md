@@ -69,41 +69,60 @@ https://exercism.org/
 
 
 
-#### 书籍
+#### JS书籍
 
-- [ ] ========语言基础=========
-
+##### ==语言基础==
 - [ ] JavaScript Dom 编程艺术
-
 - [ ] JS权威指南 进行中
 - [ ] JS高程 进行中
 - [ ] 现代JS教程 进行中
-- [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)
-- [ ] ===快速过一遍的====
+- [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)  和这本书相关的其它系列
+
+##### ==快速过一遍的==
 - [ ] 编写可维护的JS
-- [ ]  JS设计模式
+- [ ] JS设计模式
 - [ ] JS语言精粹
 - [ ] JS模式
 - [ ] JS编程精解
 - [ ] 编写高质量代码: 改善JavaScript程序的188个建议
 - [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍)
-- [ ] =======横向扩展===========
+
+##### ==横向扩展==
 - [ ] JS忍者秘籍
 - [ ] JavaScript框架设计
 - [ ] JS设计模式与开发实践
 - [ ] 学习数据结构与算法类的书籍 (作者说
-- [ ] ======语言细节与历史=======
+
+##### ==语言细节与历史==
 - [ ] 你不知道的JS 进行中
 - [ ] how javascript works
 - [ ] JS语言精髓与编程实践
 - [ ] [标准文档ECMA](https://tc39.es/ecma262/)
 - [ ] [标准组织TC39](https://github.com/tc39/proposa)
-- [ ] =======其它书籍==========
+
+##### ==其它书籍==
 - [ ] JS迷你正则书    忘光了基本
+- [x] JS重难点实例精讲
+- [x] 深入理解ES6
+- [x] 你不知道的JvScipt(中)
+- [ ] JavaScipt语言精髓与编程实战
+- [ ] Web性能实战
+- [ ] ES6标准入门
+- [ ] js悟道
+- [ ] javascript函数式编程指南
+- [ ] Web性能权威指南
+- [ ] 高性能网站
+- [ ] javascript面向对象精要
+- [ ] javascript异步编程
+- [ ] [JavaScript for impatient programmers (ES2022 edition)](https://exploringjs.com/impatient-js/)
+- [ ] [Deep JavaScript: Theory and techniques](https://exploringjs.com/deep-js/)
 - [ ] 
 
 
-
+#### 其它书籍
+- [ ] [深入理解TypeScript](https://jkchao.github.io/typescript-book-chinese/)
+- [ ] [vue3入门指南与实战案例](https://vue3.chengpeiquan.com/)
+- [ ] 
 
 
 ## web3
@@ -255,28 +274,17 @@ CSS图鉴
 CSS世界
 DOM启蒙
 
-* 'JS高级程序设计', 
-* '深入理解ES6完成', 
-* 'JvSciptDOM编程艺术', 
-* 'JvScipt设计模式', 
-* '5vScipt框架设计', 
-* 'JvScipt语言精髓与编程实战', 
-* '学习JvScipt数据结构与算法', 
-* 'JvScipt语言精粹', 
-* '你不知道的JvScipt(中)', 
-* 'JvScipt编程精解', 
-* 'Web性能实战', 
-* 'JS重难点实例精讲完成挺好面广贴合实际',
-* 'ES6标准入门', 'js悟道', 
-* 'jvscipt迷你正则书', 
+
+
+
+
+
+
+
+
 * 'JvSciptfoimptintpogmms(ES2022ition)[**D.AxlRuschmy**](http://-xl./)https://xploingjs.com/', 
 * 'DpJvScipt:Thoyntchniqus[**D.AxlRuschmy**](http://-xl./)', 
-* '深入理解JS特性', '**[pcticl-mon-jvscipt](https://github.com/mjvscipt/pcticl-mon-jvscipt)**', 
-* 'jvscipt函数式编程指南', 
-* 'jvscipt异步编程', 
-* 'jvscipt面向对象精要', 
-* '高性能网站', 
-* 'Web性能权威指南'
+
 
 
 
