@@ -2940,12 +2940,3 @@ response.setHeader('Access-Control-Allow-Origin', '*');//星号表示允许任�
 
 
 
-
-
-## 性能优化
-
-### 资源
-
-> [barretlee/performance-column: 🚅 性能专栏（Performance Column） (github.com)](https://github.com/barretlee/performance-column)
->
-> 

@@ -49,8 +49,6 @@
 
 ## TODO
 
-
-
 #### 项目
 
 - [ ] 百度前端学院
@@ -58,15 +56,9 @@
 - [ ] [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/)
 
 #### 代码片段
-
 - [ ] [30 seconds of code](https://www.30secondsofcode.org/)
-
 - [ ] [CSS-Tricks - Tips, Tricks, and Techniques on using Cascading Style Sheets.](https://css-tricks.com/)
-
 https://exercism.org/
-
-
-
 
 
 #### JS书籍
@@ -79,19 +71,19 @@ https://exercism.org/
 - [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)  和这本书相关的其它系列
 
 ##### ==快速过一遍的==
-- [ ] 编写可维护的JS
-- [ ] JS设计模式
-- [ ] JS语言精粹
-- [ ] JS模式
-- [ ] JS编程精解
-- [ ] 编写高质量代码: 改善JavaScript程序的188个建议
-- [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍)
+- [ ] 编写可维护的JS 进行中
+- [ ] JS设计模式 书买了
+- [ ] JS语言精粹 书买了
+- [ ] JS模式    书买了
+- [ ] JS编程精解 书买了
+- [ ] 编写高质量代码: 改善JavaScript程序的188个建议 微信读书
+- [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍) 暂时不看
 
 ##### ==横向扩展==
 - [ ] JS忍者秘籍
-- [ ] JavaScript框架设计
-- [ ] JS设计模式与开发实践
-- [ ] 学习数据结构与算法类的书籍 (作者说
+- [ ] JavaScript框架设计 书买了
+- [ ] JS设计模式与开发实践 书买了
+- [ ] 学习数据结构与算法类的书籍
 
 ##### ==语言细节与历史==
 - [ ] 你不知道的JS 进行中
@@ -117,13 +109,18 @@ https://exercism.org/
 - [ ] [JavaScript for impatient programmers (ES2022 edition)](https://exploringjs.com/impatient-js/)
 - [ ] [Deep JavaScript: Theory and techniques](https://exploringjs.com/deep-js/)
 - [ ] 
-
-
-#### 其它书籍
 - [ ] [深入理解TypeScript](https://jkchao.github.io/typescript-book-chinese/)
 - [ ] [vue3入门指南与实战案例](https://vue3.chengpeiquan.com/)
 - [ ] 
-
+HTML5权威指南
+响应式Web设计
+CSS3艺术
+HTML5 与 CSS 3权威指南
+CSS揭秘
+CSS图鉴
+响应式Web开发项目教程
+CSS世界
+DOM启蒙 
 
 ## web3
 > [WTF学院, Web3 Open University | WTF学院](https://wtf.academy/)
@@ -261,46 +258,7 @@ https://exercism.org/
 * JavaScript数据结构和算法完全解析[javascript-algorithms]
 * https://github.com/halfrost/LeetCode-Go
 
-
-### 书籍
-
-HTML5权威指南
-响应式Web设计
-CSS3艺术
-HTML5 与 CSS 3权威指南
-CSS揭秘
-CSS图鉴
-响应式Web开发项目教程
-CSS世界
-DOM启蒙
-
-
-
-
-
-
-
-
-
-* 'JvSciptfoimptintpogmms(ES2022ition)[**D.AxlRuschmy**](http://-xl./)https://xploingjs.com/', 
-* 'DpJvScipt:Thoyntchniqus[**D.AxlRuschmy**](http://-xl./)', 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                
+                                                                                              
 
 ## 路径
 
