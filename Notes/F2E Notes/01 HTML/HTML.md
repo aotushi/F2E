@@ -154,9 +154,13 @@ aliases: html
 
 
 #### 脚本
-| ELement | Description |
-| ------- | ----------- |
-|         |             |
+为了创建动态内容和 Web 应用程序，HTML 支持使用脚本语言，最突出的就是 JavaScript。有一些特定的元素用于支持此功能。
+| ELement  | Description                                                                                                                                                                                            |     |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
+| canvas   | 用来通过 [canvas scripting API](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API) 或 [WebGL API](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API) 绘制图形及图形动画的容器元素。 |     |
+| noscript | 定义脚本未被执行时（页面的脚本类型不受支持，或当前浏览器关闭了脚本）的替代内容。                                                                                                                       |     |
+| script   | 用于嵌入可执行脚本或数据。这通常用作嵌入或者引用 JavaScript 代码。`<script>` 元素也能在其他语言中使用，比如 [WebGL](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API) 的 GLSL 着色器语言和 [JSON](https://developer.mozilla.org/zh-CN/docs/Glossary/JSON)。                                                                                                                                                                                                       |     |
+
 
 
 #### 编辑表示
@@ -276,17 +280,13 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 ### HTML元素的类型
+>[Content categories - HTML: HyperText Markup Language | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Content_categories)
 
-#### 
 
 元素可以被分成两类: 块级别元素 和 行内级别元素.
-
 块元素装饰文档结构,行内元素装饰块的内容.
-
 块元素占据可访问宽度的100%,它的首尾被渲染成换行符; 行内元素仅占据它所需空间.
-
 最常用的块级元素:
-
 ```
 <div>
 <p>
@@ -298,7 +298,6 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 ```
 
 最常用的行内元素
-
 ```
 <img>
 <a>
@@ -317,18 +316,25 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 #### 块元素
 
 > 块级别元素是作为块被格式化的元素(即, 占据可用全部宽度),在块元素之前和之后有换行符.
->
 > 通常来说,块元素可以包含行内元素和其他块元素.
 
 
-
 #### 内联元素
-
 内联级元素是源文档中不构成新内容块的元素; 内容以行形式分布. ????
-
 内联元素通常只包含文本和其他内联元素.
-
 一个内联元素仅仅占据需要的宽度,也不会强制换行.
+
+
+#### 元素类型
+>[HTML Standard (whatwg.org)](https://html.spec.whatwg.org/multipage/dom.html)
+>
+
+
+最新的HTML规范已经不按inline和block来区分元素.在规范中每个元素会规定如下两项:
+* categories 该元素本身的分类
+* element    规定了合法的元素的内容（子元素、文本等）类型。
+
+
 
 
 
@@ -369,7 +375,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-### HTML文档
+### HTML文档结构/声明/组成
 
 #### 基本结构(4部分)
 
@@ -394,13 +400,9 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 分成两部分: the `<head>` and  the `<body>`
 
-
-
 ##### \<head>元素
 
 `<head>`部分是文档元信息(metadata)的容器.描述了文档的各种属性信息,包括文档标题,与其他文件的关系等.
-
-
 
 此元数据可以根据使用的元素分成5类.
 
@@ -614,53 +616,38 @@ Facebook和twitter提供的元数据协议
 
 ### script标签
 
-#### 位置
+#### 属性
 
-**一般script标签会被放在头部或尾部。头部就是`<head></head>`里面，尾部一般指  `<body></body>`里,但也有放在`</body>`闭合标签之后的。**
+**async**
+对传统脚本来说,如果async存在,那传统脚本会在解析的同时并行获取,并在可用时立即执行.
+对模块脚本来说,如果async存在,那脚本和所有的依赖将在延迟队列中执行,所以它们在解析时获取并一旦可用立即执行.
+此属性允许消除**解析器阻塞JavaScript(parser-blocking JS)**，其中浏览器必须在继续解析之前加载和评估脚本。在这种情况下，延迟具有类似的效果
 
-**在`<head></head>`标签内部时**
-
-将script放在`<head>`里，浏览器解析HTML，发现script标签时，会先下载完所有这些script，再往下解析其他的HTML。浏览器在下载JS时，是不能多个JS并发一起下载的。浏览器下载JS时，就block掉解析其他HTML的工作
-
-
-
-**在`<body></body>`标签内部时**
-
-览器只能先解析完整个HTML页面，再下载JS。而对于一些高度依赖于JS的网页，就会显得慢了。所以将script放在尾部也不是最优解，最优解是一边解析页面，一边下载JS。
-
-
-
-**放置在`</body>`标签之后时**
-
-在`</body>`之后插入其他元素，从HTML 2.0起就是不合标准的。按照HTML5标准中的HTML语法规则，如果在`</body>`后再出现`<script>`或任何元素的开始标签，都是parse error，浏览器会忽略之前的`</body>`，即视作仍旧在body内。所以实际效果和写在`</body>`之前是没有区别的。
+**defer**
+声明之后,表明脚本应该在文档解析之后执行,但是在开始DOMContentLoaded之前.
+如果缺少src属性,则不能使用此属性,其不会起到任何作用.
+对模块脚本没有作用,模块脚本默认延迟.
+带有defer属性的脚本将以它们出现在文档中的顺序来执行
 
 
 
-#### **最优解**
+**crossorigin**
+对于未通过标准CORS检查的脚本,将只为window.onerror()传递最少的信息.
+若要允许为静态资源使用单独域名的网站进行错误记录,则使用此属性.
 
-`<script>`标签这里面有两个属性（async和defer），现在80%的浏览器都可以识别他们，这两个属性能让浏览器做到一边下载JS(还是只能同时下载两个JS)，一边解析HTML。他的优点不是增加JS的并发下载数量，而是做到下载时不block解析HTML。
 
-async属性能保证script会异步执行，只要下载完就执行，这会导致script2.js可能先于script1.js执行（如果script2.js比较大，下载慢）。
-defer属性就能保证script有序执行，script1.js先执行，script2.js后执行。
 
+
+#### 问题:
+在script标签中写入defer或者async时，就会使JS文件异步加载，即html执行到script标签时，JS加载和文档解析同时进行.
+async是在加载完成后,立即执行,阻塞HTML解析.
+defer是在加载完成后,等到HTML加载完成后再加载.
+所以,浏览器解析new Vue时候会报错.
+两种解决方案:
+1.移除关键字
+2.将Vue实例代码放在一个DOMContentLoader事件监听器中,以确保在创建实例之前,vue已经加载完成.
 ```html
-<script type="text/javascript" src="path/to/script1.js" async></script>  
-<script type="text/javascript" src="path/to/script2.js" defer></script>  
-```
-
-
-
-- **async 属性**。立即请求文件，但不阻塞渲染引擎，而是文件加载完毕后阻塞渲染引擎并立即执行文件内容。
-- **defer 属性**。立即请求文件，但不阻塞渲染引擎，等到解析完 HTML 之后再执行文件内容。
-- **HTML5 标准 type 属性**，对应值为“module”。让浏览器按照 ECMA Script 6 标准将文件当作模块进行解析，默认阻塞效果同 defer，也可以配合 async 在请求完成后立即执行。
-
-
-
-问题:
-
-引入Vue.js,无论使用哪个标签都会报错, Vue没有声明.
-
-```html
+//Uncaught ReferenceError: Vue is not defined
 <html>
   <head>
     <script src="https://unpkg.com/vue@2" async ></script>
@@ -671,10 +658,11 @@ defer属性就能保证script有序执行，script1.js先执行，script2.js后�
     </div>
     
     <script>
-    	let vm = new Vue({
+	    document.addEventListener('DOMContentLoaded', function() {
+		    let vm = new Vue({
         el:"#root",
-        
-      })
+	      })
+	    })
     </script>
   </body>
 </html>
@@ -718,3 +706,6 @@ defer属性就能保证script有序执行，script1.js先执行，script2.js后�
 
 
 
+### crossorigin属性
+概况
+用在audio,video,img,link,script元素上.定义元素如何处理跨域请求,
