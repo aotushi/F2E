@@ -1928,8 +1928,7 @@ vm.selected.number // => 123
 #### 3.修饰符
 
 ##### .lazy
-
-在默认情况下，`v-model` 在每次 `input` 事件触发后将输入框的值与数据进行同步 (除了[上述](https://cn.vuejs.org/v2/guide/forms.html#vmodel-ime-tip)输入法组合文字时)。你可以添加 `lazy` 修饰符，从而转为在 `change` 事件_之后_进行同步：
+在默认情况下，`v-model` 在每次 `input` 事件触发后将输入框的值与数据进行同步 (除了[上述](https://cn.vuejs.org/v2/guide/forms.html#vmodel-ime-tip)输入法组合文字时)。你可以添加 `lazy` 修饰符，从而转为在 `change` 事件之后进行同步：
 
 v-model中将不同的输入元素分成了3类,只有一类(text/textarea)使用input事件.
 
@@ -1943,7 +1942,6 @@ v-model中将不同的输入元素分成了3类,只有一类(text/textarea)使�
 ##### .number
 
 如果想自动将用户的输入值转为数值类型，可以给 `v-model` 添加 `number` 修饰符
-
 ```html
 <input 
 	v-model.number="age" 
@@ -1966,13 +1964,10 @@ v-model中将不同的输入元素分成了3类,只有一类(text/textarea)使�
 因为即使在 `type="number"` 时，HTML 输入元素的值也总会返回字符串。如果这个值无法被 `parseFloat()` 解析，则会返回原始的值。
 
 ##### .trim
-
 如果要自动过滤用户输入的首尾空白字符，可以给 `v-model` 添加 `trim` 修饰符
-
 ```html
 <input v-model.trim="msg">
 ```
-
 
 
 ### 组件上使用v-model

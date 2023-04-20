@@ -616,6 +616,12 @@ Facebook和twitter提供的元数据协议
 
 ### script标签
 
+#### 概述
+没有async,defer,type=module属性的脚本,没有type=module属性的**行内脚本(inline script)**,在浏览器继续解析页面之前获取和立即执行.
+脚本应该以`text/javascript` MIME类型来提供, 但是浏览器是松弛的,若脚本是图片类型(`image/*`),视频类型(`video/*`),音频类型(`audio/*`), 或`text/csv`,会被浏览器阻塞.
+如果脚本被阻塞,一个事件被发送到元素;否则,将是`load`事件
+
+
 #### 属性
 
 **async**
@@ -632,8 +638,134 @@ Facebook和twitter提供的元数据协议
 
 
 **crossorigin**
-对于未通过标准CORS检查的脚本,将只为window.onerror()传递最少的信息.
-若要允许为静态资源使用单独域名的网站进行错误记录,则使用此属性.
+>对没有通过标准CORS检查,通常的script元素会传递最少的信息给`window.onerror`
+>若想为静态资源使用单独域名的网站进行错误记录,则使用这个属性.
+
+当一个脚本发生错误时，浏览器会触发`window.onerror`事件。然而，如果脚本来自于不同的源，并且没有设置`crossorigin`属性，浏览器将不会提供详细的错误信息。这是出于安全原因，以防止潜在的信息泄露。
+通过将`crossorigin`属性设置为`anonymous`，浏览器会在发出请求时包含CORS头，这使得服务器可以决定是否允许跨域访问。如果服务器允许跨域访问，浏览器将提供详细的错误信息。
+以下是一个示例，说明如何使用`crossorigin="anonymous"`属性来捕获跨域脚本的错误信息：
+```html
+/*
+请注意，为了使这个示例正常工作，服务器需要配置CORS响应头，例如`Access-Control-Allow-Origin: *`。否则，浏览器将不会提供详细的错误信息。
+*/
+<html>  
+<head>  
+  <title>Error Logging Example</title>  
+  <script>  
+    window.onerror = function(message, source, lineno, colno, error) {  
+      console.log('Error message:', message);  
+      console.log('Error source:', source);  
+      console.log('Error line number:', lineno);  
+      console.log('Error column number:', colno);  
+      console.log('Error object:', error);  
+    };  
+  </script>  
+</head>  
+<body>  
+  <script src="https://example.com/script.js" crossorigin="anonymous"></script>  
+</body>  
+</html>
+```
+
+
+**integrity**
+>这个属性包含内联元数据,用户代理能用它来验证所获取的资源已经交付,没有意外操作.
+
+这个属性通常用于HTML的`<link>`和`<script>`标签中，以确保浏览器获取的资源是完整的且未被篡改.
+integrity 属性用于在 `<script>` 标签中提供资源的哈希值(如 SHA-256 或 SHA-384),以帮助浏览器验证所加载的脚本是否匹配预期值,从而防止受到意外或恶意操纵。
+```html
+<script 
+				src="https://example.com/example.js"
+        integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"> 
+</script> 
+```
+当浏览器加载这个脚本时,它会计算脚本的 SHA-384 哈希值,并与提供的 integrity 值进行比较。如果两者匹配,则脚本加载成功。如果不匹配,则脚本不会被执行,并且浏览器会报告警告,说明资源可能被非法修改。
+
+
+**nomodule**
+>此布尔属性被设置来说明这个脚本不应该在支持ES modules的浏览器中执行,实际上,这可以用来对不支持模块化JS代码的旧浏览器提供回退脚本.
+
+nomodule 属性用于在 `<script>` 标签中指示脚本只能由不支持 ES6 模块的浏览器执行。
+
+```html
+<script src="module.js" type="module"></script>
+<script src="nomodule.js" nomodule></script>
+```
+
+-   module.js 是一个 ES6 模块脚本,只会在支持 ES6 模块的浏览器中执行。
+-   nomodule.js 是一个传统的脚本,在不支持 ES6 模块的浏览器中执行。
+-   支持 ES6 模块的浏览器会忽略 nomodule 属性,因此 nomodule.js 不会在这些浏览器中执行。
+
+所以这个技巧可用于提供一种向后兼容的方式,为不支持 ES6 模块的旧浏览器提供一个备选脚本,而在支持 ES6 模块的现代浏览器中继续使用 ES6 模块。
+另一个示例:
+
+```html
+<script type="module">
+  import * as module from './module.js';
+  // ...
+</script>
+<script nomodule src="fallback.js"></script> 
+```
+
+在这个例子中,module.js 是一个 ES6 模块,会在支持 ES6 模块的浏览器中执行。fallback.js 是一种备选脚本,只会在不支持 ES6 模块的浏览器中执行。
+
+所以总的来说,nomodule 属性的目的是为不支持 ES6 模块的浏览器提供后备脚本,同时继续使用 ES6 模块为支持模块化的现代浏览器服务。
+
+
+
+**nonce**
+一个加密随机数(nonce, 使用一次的数字)来允许script-src内容安全策略中的脚本.服务器必须在每次传输策略时生成唯一的随机数值.提供一个不能被猜测的随机数很重要,否则绕过资源策略将变得非常容易.
+
+
+
+**referrerpolicy**
+指示在获取脚本或通过脚本获取资源时,发送哪个referrer.(引荐者)
+
+> Document.referrer属性返回链接到当前页面的页面URI.
+> 如果用户直接导航到页面(不通过link,但可能用了书签),它的值为空字符串.
+> 在`<iframe>`中, `Document.referrer`将被初始化为父窗口的`window.location`相同的值,并作为href.
+
+在`<script>`元素中，referrerpolicy属性用于控制浏览器在请求脚本时发送的Referer头。这对于保护用户隐私和安全性非常重要，因为它可以防止敏感信息泄露给第三方。以下是referrerpolicy属性的一些可能值：
+1. no-referrer：不发送Referer头。  
+2. no-referrer-when-downgrade：仅在协议从HTTPS切换到HTTP时不发送Referer头。  
+3. origin：仅发送来源页面的域名，不包括路径和查询参数。  
+4. origin-when-cross-origin：在同源请求中发送完整的Referer头，在跨域请求中仅发送域名。  
+5. same-origin：仅在同源请求中发送Referer头，在跨域请求中不发送。  
+6. strict-origin：仅在协议不降级的情况下发送域名。  
+7. strict-origin-when-cross-origin：在同源请求中发送完整的Referer头，在跨域请求中仅在协议不降级的情况下发送域名。  
+8. unsafe-url：始终发送完整的Referer头，包括路径和查询参数。
+
+
+**src**
+指明外部script的URI; 这可以用做直接在文档内部嵌入script的替代方法.
+
+**type**
+此属性指定所表示脚本的类型.
+
+* 属性为空(默认),或空字符串,或JS MIME类型
+* module
+* importmap
+* 任何其它值
+
+
+
+
+
+
+
+
+**blocking**
+>[HTML Standard (whatwg.org)](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#blocking-attributes)
+>[The Script element - HTML: HyperText Markup Language | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)
+
+
+>属性明确的指出某些操作应该在获取脚本时被阻塞.
+>The operations that are to be blocked must be a space-separated list of blocking attributes listed below.(这句话不好翻译不出来)
+
+`render`: 屏幕上内容的渲染被阻塞  //好像暂时有的浏览器不支持.
+
+
+
 
 
 
@@ -696,16 +828,140 @@ defer是在加载完成后,等到HTML加载完成后再加载.
 
 
 
-## 其他
+### 其他
 
 异步加载HTML
 
 > [Async Fragments: Rediscovering Progressive HTML Rendering with Marko (ebayinc.com)](https://tech.ebayinc.com/engineering/async-fragments-rediscovering-progressive-html-rendering-with-marko/)
 
 
+### a标签
 
+
+#### a标签案例
+
+**如何选中a标签的部分文字** //未完成: 选择部分文字时,需要链接功能正常
+<iframe src="https://codesandbox.io/embed/shu-biao-zai-abiao-qian-shang-xuan-zhong-bu-fen-wen-zi-6kspxr?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="鼠标在a标签上选中部分文字"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+
+### label标签
+#### 概述
+
+
+#### 案例
+纯展示,鼠标无法选中
+```js
+.FormControl-label {
+	-webkit-user-select: none;
+	user-select: none;
+}
+label {
+	cursor: default; //箭头
+}
+```
 
 
 ### crossorigin属性
-概况
-用在audio,video,img,link,script元素上.定义元素如何处理跨域请求,
+#### **概况**
+用在audio,video,img,link,script元素上.
+定义元素如何处理跨域请求,为元素请求数据启用CORS请求的配置.
+<span style="color:blue">简单来说就是表示该脚本的请求是否应遵循跨域资源共享(CORS)规则</span>
+
+#### **值**
+`anonymous`
+请求使用CORS头, 凭据符号被设置为'same-origin'.(这里的same-origin是对请求行为的描述,不是一个可设置的值)
+除非目的地是同源,否则不会通过cookies,client-side SSL凭据或http身份验证交换用户凭据.
+>当`crossorigin`属性设置为`anonymous`时，浏览器将发出一个不带凭据（如cookies、客户端SSL证书或HTTP认证）的跨域请求。服务器需要在响应头中设置`Access-Control-Allow-Origin`，以允许跨域请求。
+
+
+```html
+<!DOCTYPE html>
+<html>  
+<head>  
+  <title>CORS Example</title>  
+</head>  
+<body>  
+  <script src="https://example.com/script.js" crossorigin="anonymous"></script>  
+</body>  
+</html>
+```
+
+//请求非同源 不发送凭据
+```http
+GET /script.js HTTP/1.1  
+Host: http://example.com/         //请求目的地: 客户端指定自己想访问的http服务器的域名/IP和端口号.
+Origin: https://yourdomain.com/   //请求出发地:   指示请求来自哪个站点,只有服务器名,不包含路径信息
+```
+
+```http
+HTTP/1.1 200 OK  
+Access-Control-Allow-Origin: *  
+Content-Type: application/javascript
+```
+
+//请求同源情况下, 发送凭据
+```http
+GET /script.js HTTP/1.1  
+Host: example.com  
+Origin: https://example.com
+Cookie: session_id=12345
+```
+
+```http
+// 由于请求页面和资源位于相同的域,并不需要CORS头.如果服务器已经配置了CORS响应头,那么它可能如下所示:
+
+HTTP/1.1 200 OK  
+Access-Control-Allow-Origin: https://example.com
+Content-Type: application/javascript
+```
+
+
+
+
+
+
+`use-credentials`
+>请求时使用CORS头,凭据标识被设置为'include',并且用户凭据总是包含在内.
+
+当`crossorigin`属性设置为`use-credentials`时，浏览器将发出一个带有凭据的跨域请求。服务器需要在响应头中设置`Access-Control-Allow-Origin`和`Access-Control-Allow-Credentials`，以允许带有凭据的跨域请求。
+
+```html
+<!DOCTYPE html>
+<html>  
+<head>  
+  <title>CORS Example</title>  
+</head>  
+<body>  
+  <script src="https://example.com/script.js" crossorigin="use-credentials"></script>  
+</body>  
+</html>
+```
+
+请求头
+```http
+GET /script.js HTTP/1.1  
+Host: example.com 
+Origin: https://yourdomain.com
+Cookie: session_id=12345
+```
+
+响应头
+服务器允许带有凭据的跨域请求,如果服务器不支持CORS或未正确设置响应头，浏览器将阻止跨域请求。
+```http
+HTTP/1.1 200 OK  
+Access-Control-Allow-Origin: https://yourdomain.com 
+Access-Control-Allow-Credentials: true 
+Content-Type: application/javascript
+```
+
+
+`""`
+设置属性名为空值,比如`corssorigin`或`crossorigin=""`, 是和`anonymous`一样.
+不合法关键字和空字符串将作为`anonymous`来处理.

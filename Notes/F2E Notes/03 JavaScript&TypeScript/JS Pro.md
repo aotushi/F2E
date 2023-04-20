@@ -4793,7 +4793,7 @@ let copyObj = function(obj) {
 
 #### 实现方式
 
-* _.cloneDeep()
+* `_.cloneDeep()`
 
 * Jquery.extend()
 
@@ -4803,7 +4803,7 @@ let copyObj = function(obj) {
 
   
 
-#### 1. _.cloneDeep()
+#### 1. `_.cloneDeep()`
 
 ```javascript
 let _ = require(lodash);
