@@ -2,9 +2,9 @@
 aliases: html
 ---
 
-###  资源文档
+#  资源文档
 
-#### 1.标准和文档
+## 1.标准和文档
 
 * w3.org
 * whatwg.org
@@ -12,7 +12,7 @@ aliases: html
 * msdn.microsoft.com
 * developer.apple.com
 
-#### 2.大师
+## 2.大师
 
 * Tim Berners-Lee
 * Brendan Eich
@@ -22,27 +22,27 @@ aliases: html
 
 
 
-### HTML标签
+# HTML标签
 
-#### 是什么
+## 是什么
 - HTML 标签是由*尖括号*包围的关键词，比如 \<html>
 - HTML 标签通常是*成对出现*的，比如 \<b> 和 \</b>
 - 标签对中的第一个标签是*开始标签*，第二个标签是*结束标签*
 - 开始和结束标签也被称为*开放标签*和*闭合标签*
 
-#### 种类
+## 种类
 * 单标签(自结束标签)
 * 双标签(有开始有结束)
 
-#### 标签的关系
+## 标签的关系
 * 嵌套关系(包含关系,祖先和后代的关系)
 * 并列关系(同级关系,兄弟之间的关系)
 
 
 
-### HTML元素
+# HTML元素
 
-#### 主要组成部分
+## 主要组成部分
 
 * 开始标签(Opening tag): 包含元素的名称(本例为p)，被大于号、小于号所包围。表示元素从这里开始或者开始起作用.
 * 结束标签(Closing tag): 与开始标签相似，只是其在元素名之前包含了一个斜杠。这表示着元素的结尾 
@@ -62,19 +62,19 @@ aliases: html
 
 
 
-### HTML元素参考
+# HTML元素参考
 
 > [HTML 元素参考 - HTML（超文本标记语言） | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)
 
 以下HTML元素根据功能进行分类,
 
-#### 根元素
+## 根元素
 
 | ELement  | Description                    |
 | -------- | ------------------------------ |
 | `<html>` | 代表一个HTML文档的根(顶级元素) | 
 
-#### 文档元数据
+## 文档元数据
 元数据(metadata)包含关于页面的信息.包括样式,脚本,帮助软件(搜索引擎,浏览器等)来使用和渲染页面的数据.
 样式或脚本的元数据可能定义在当前页面或另一个文件.
 | ELement   | Description                                                                                                                    |
@@ -87,14 +87,14 @@ aliases: html
 | `<title>` | 定义显示在浏览器标题栏或页面选项卡上的文档标题.它仅包含文本;元素内的标签会被忽略.                                              | 
 
 
-#### 分区根元素
+## 分区根元素
 
 | ELement  | Description                                       |
 | -------- | ------------------------------------------------- |
 | `<body>` | 代表HTML文档的内容.一个文档中只能有一个这样的元素 | 
 
 
-#### 内容分区
+## 内容分区
 内容分区元素允许你组织文档内容为逻辑块. 使用分区元素来为页面内容创建大致轮廓,包含header和footer导航, 及识别内容分区的heading元素.
 | ELement                     | Description                                                                                                                                                                                         |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -228,28 +228,28 @@ aliases: html
 
 
 
-### HTML属性参考
+## HTML属性参考
 >https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
 
 
 
 
-### 全局属性
+## 全局属性
 >https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
 
 
 
-### 内容分类
+## 内容分类
 > https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
 
 
-### 日期和时间格式化
+## 日期和时间格式化
 >https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
 
 
 
 
-### HTML标签写法和注释
+# HTML标签写法和注释
 
 #### 标签写法
 
@@ -279,7 +279,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-### HTML元素的类型
+# HTML元素的类型
 >[Content categories - HTML: HyperText Markup Language | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Content_categories)
 
 
@@ -313,19 +313,19 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-#### 块元素
+## 块元素
 
 > 块级别元素是作为块被格式化的元素(即, 占据可用全部宽度),在块元素之前和之后有换行符.
 > 通常来说,块元素可以包含行内元素和其他块元素.
 
 
-#### 内联元素
+## 内联元素
 内联级元素是源文档中不构成新内容块的元素; 内容以行形式分布. ????
 内联元素通常只包含文本和其他内联元素.
 一个内联元素仅仅占据需要的宽度,也不会强制换行.
 
 
-#### 元素类型
+## 元素类型 //待补充
 >[HTML Standard (whatwg.org)](https://html.spec.whatwg.org/multipage/dom.html)
 >
 
@@ -338,7 +338,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-### HTML属性
+# HTML属性
 
 #### 是什么
 
@@ -375,9 +375,9 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-### HTML文档结构/声明/组成
+# HTML文档结构/声明/组成 //待完成
 
-#### 基本结构(4部分)
+## 基本结构(4部分)
 
 * DTD(文档类型声明 `<!DOCTYPE>` declaration)
 * The main container(`<html>` element)
@@ -386,7 +386,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-#### 文档声明类型
+## 文档声明类型
 
 ##### 作用
 
@@ -394,7 +394,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-#### main container: HTML元素
+## main container: HTML元素
 
 ##### 组成
 
@@ -835,6 +835,16 @@ defer是在加载完成后,等到HTML加载完成后再加载.
 > [Async Fragments: Rediscovering Progressive HTML Rendering with Marko (ebayinc.com)](https://tech.ebayinc.com/engineering/async-fragments-rediscovering-progressive-html-rendering-with-marko/)
 
 
+
+
+
+
+
+
+
+# HTML标签/元素
+
+
 ### a标签
 
 
@@ -868,7 +878,20 @@ label {
 ```
 
 
-### crossorigin属性
+
+
+
+
+
+
+
+
+
+
+
+
+
+# crossorigin属性
 #### **概况**
 用在audio,video,img,link,script元素上.
 定义元素如何处理跨域请求,为元素请求数据启用CORS请求的配置.

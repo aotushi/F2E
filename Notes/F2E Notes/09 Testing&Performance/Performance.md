@@ -93,7 +93,92 @@ module.exports = {
 
 
 
-## web API
+## 优化资料
+
+### 雅虎军规
+![](https://image-static.segmentfault.com/984/490/984490192-6265650bc7d5b)
+
+#### cookie
+* 减少cookie大小
+* 静态资源不需要cookie，可以采用其他的域名，不会主动带上cookie
+
+#### content
+* 减少http请求
+* 减少NDS查询
+* 避免重定向
+* 缓存ajax请求
+* 延迟加载
+* 预加载
+* 减少DOM节点数量
+* 尽量减少iframe使用
+* 避免404
+* 划分内容到不同的域名
+
+
+#### images
+* 优化图片
+* 使用css sprite优化
+* 不要在HTML中缩放图片
+* 使用Favicon.icon尽可能小且可缓存
+
+#### css
+* 把样式写在`<head>`中
+* 不要使用css表达式
+* 使用link代替`@import`
+* 避免使用Filters
+
+#### javascript
+* JS放在底部
+* 把JS和css放在外部文件中
+* 压缩JS和css
+* 移除重复脚本
+* 减少dom操作
+* 使用高效的事件处理
+
+#### mobile
+* 保持单个文件小于25k
+* 把打包的内容分为多段文档
+
+#### server
+* 使用cdn
+* 添加Expires或cache-control缓存头
+* 启用Gzip
+* 配置Etags
+* 尽早输出缓冲?
+* ajax使用get请求
+* 避免图片src为空
+
+
+
+#### 总结
+
+#### 避免过多的回流和重绘
+连续触发页面回流操作
+```js
+//这段代码的实现和示意图感觉不相符
+  let cards = document.getElementsByClassName("MuiPaper-rounded");
+  const update = (timestamp) => {
+    for (let i = 0; i <cards.length; i++) {
+      let top = cards[i].offsetTop;
+      cards[i].style.width = ((Math.sin(cards[i].offsetTop + timestamp / 100 + 1) * 500) + 'px')
+    }
+    window.requestAnimationFrame(update)
+  }
+  update(1000);
+```
+
+<iframe src="https://codesandbox.io/embed/bom-requestanimationframe-wtc5bn?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="bom-requestAnimationFrame"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+
+
+## 页面渲染优化
 
 #### 监听窗口激活状态
 
@@ -177,74 +262,286 @@ http 头部大小： transferSize - encodedBodySize
 ```
 
 
-### 雅虎军规
-![](https://image-static.segmentfault.com/984/490/984490192-6265650bc7d5b)
 
-#### cookie
-* 减少cookie大小
-* 静态资源不需要cookie，可以采用其他的域名，不会主动带上cookie
+### 减少重流重绘
 
-#### content
-* 减少http请求
-* 减少NDS查询
-* 避免重定向
-* 缓存ajax请求
-* 延迟加载
-* 预加载
-* 减少DOM节点数量
-* 尽量减少iframe使用
-* 避免404
-* 划分内容到不同的域名
+#### 1.骨架屏
+用css提前占好位置，当资源加载完成即可填充，减少页面的回流与重绘，同时还能给用户最直接的反馈。 图中使用插件：[react-placeholder](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fbuildo%2Freact-placeholder "https://github.com/buildo/react-placeholder")
+关于实现骨架屏还有很多种方案，用`Puppeteer`服务端渲染的挺多的
+
+使用css伪类：[只要css就能实现的骨架屏方案](https://link.juejin.cn/?target=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000020437426 "https://segmentfault.com/a/1190000020437426")
 
 
-#### images
-* 优化图片
-* 使用css sprite优化
-* 不要在HTML中缩放图片
-* 使用Favicon.icon尽可能小且可缓存
-
-#### css
-* 把样式写在`<head>`中
-* 不要使用css表达式
-* 使用link代替`@import`
-* 避免使用Filters
-
-#### javascript
-* JS放在底部
-* 把JS和css放在外部文件中
-* 压缩JS和css
-* 移除重复脚本
-* 减少dom操作
-* 使用高效的事件处理
-
-#### mobile
-* 保持单个文件小于25k
-* 把打包的内容分为多段文档
-
-#### server
-* 使用cdn
-* 添加Expires或cache-control缓存头
-* 启用Gzip
-* 配置Etags
-* 尽早输出缓冲?
-* ajax使用get请求
-* 避免图片src为空
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3666ae07b9eb4d839f7a893b89d83f47~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
 
 
-#### 总结
 
-#### 避免过多的回流和重绘
-连续触发页面回流操作
+#### 窗口化
+
+原理：只加载当前窗口能显示的DOM元素，当视图变化时，删除隐藏的，添加要显示的DOM就可以保证页面上存在的dom元素数量永远不多，页面就不会卡顿
+
+图中使用的插件：[react-window](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fbvaughn%2Freact-window "https://github.com/bvaughn/react-window")
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a459cc811844b7793aff6c9878d19ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+安装：`npm i react-window`
+
+引入：`import { FixedSizeList as List } from 'react-window';`
+
+使用：
 ```js
-  let cards = document.getElementsByClassName("MuiPaper-rounded");
-  const update = (timestamp) => {
-    for (let i = 0; i <cards.length; i++) {
-      let top = cards[i].offsetTop;
-      cards[i].style.width = ((Math.sin(cards[i].offsetTop + timestamp / 100 + 1) * 500) + 'px')
-    }
-    window.requestAnimationFrame(update)
-  }
-  update(1000);
+const Row = ({ index, style }) => (
+  <div style={style}>Row {index}</div>
+);
+ 
+const Example = () => (
+  <List
+    height={150}
+    itemCount={1000}
+    itemSize={35}
+    width={300}
+  >
+    {Row}
+  </List>
+);
+```
+
+
+### 缓存
+
+#### 1.http缓存
+##### keep-alive
+
+判断是否开启：看`response headers`中有没有`Connection: keep-alive` 。开启以后，看`network`的瀑布流中就没有 `Initial connection`耗时了
+
+nginx设置keep-alive（默认开启）
+
+```ini
+# 0 为关闭
+#keepalive_timeout 0;
+# 65s无连接 关闭
+keepalive_timeout 65;
+# 连接数，达到100断开
+keepalive_requests 100;
+复制代码
+```
+
+##### Cache-Control / Expires / Max-Age
+
+设置资源是否缓存，以及缓存时间
+
+##### Etag / If-None-Match
+
+资源唯一标识作对比，如果有变化，从服务器拉取资源。如果没变化则取缓存资源，状态码304，也就是协商缓存
+
+##### Last-Modified / If-Modified-Since
+
+通过对比时间的差异来觉得要不要从服务器获取资源
+
+更多HTTP缓存参数可参考：[使用 HTTP 缓存：Etag, Last-Modified 与 Cache-Control](https://link.juejin.cn/?target=https%3A%2F%2Fharttle.land%2F2017%2F04%2F04%2Fusing-http-cache.html "https://harttle.land/2017/04/04/using-http-cache.html")
+
+
+
+
+
+#### 2.Service worker
+借助webpack插件`WorkboxWebpackPlugin`和`ManifestPlugin`,加载serviceWorker.js,通过`serviceWorker.register()`注册
+
+```js
+new WorkboxWebpackPlugin.GenerateSW({
+    clientsClaim: true,
+    exclude: [/\.map$/, /asset-manifest\.json$/],
+    importWorkboxFrom: 'cdn',
+    navigateFallback: paths.publicUrlOrPath + 'index.html',
+    navigateFallbackBlacklist: [
+        new RegExp('^/_'),
+        new RegExp('/[^/?]+\\.[^/]+$'),
+    ],
+}),
+
+new ManifestPlugin({
+    fileName: 'asset-manifest.json',
+    publicPath: paths.publicUrlOrPath,
+    generate: (seed, files, entrypoints) => {
+        const manifestFiles = files.reduce((manifest, file) => {
+            manifest[file.name] = file.path;
+            return manifest;
+        }, seed);
+        const entrypointFiles = entrypoints.app.filter(
+            fileName => !fileName.endsWith('.map')
+        );
+
+        return {
+            files: manifestFiles,
+            entrypoints: entrypointFiles,
+        };
+    },
+}),
+```
+
+
+
+
+### 预加载&懒加载
+
+#### preload
+就拿demo中的字体举例，正常情况下的加载顺序是这样的：
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6e3226bc21f14a41ac195618456bdde9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+假如preload
+```html
+<link rel="preload" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.119.woff2" as="font" crossorigin="anonymous"/> 
+<link rel="preload" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.118.woff2" as="font" crossorigin="anonymous"/> 
+<link rel="preload" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.116.woff2" as="font" crossorigin="anonymous"/> 
+```
+
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9790c73b17ef43a9acb1701215aca9d4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+
+
+
+
+#### prefetch
+场景：首页不需要这样的字体文件，下个页面需要：首页会以最低优先级Lowest来提前加载
+```html
+<link rel="prefetch" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.113.woff2" as="font"/> 
+<link rel="prefetch" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.118.woff2" as="font"/> 
+<link rel="prefetch" href="https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.117.woff2" as="font"/> 
+```
+
+需要的页面，从`prefetch cache`中取
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/04a0fe68e9634c20b963d1d2817126ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+webpack也是支持这两个属性的:[webpackPrefetch 和 webpackPreload](https://link.juejin.cn/?target=https%3A%2F%2Fwww.cnblogs.com%2Fskychx%2Fp%2Fwebpack-webpackChunkName-webpackPreload-webpackPreload.html "https://www.cnblogs.com/skychx/p/webpack-webpackChunkName-webpackPreload-webpackPreload.html")
+
+
+### 懒加载
+#### 图片
+* 普通图片
+* 渐进式图片(类似高斯模糊),需要出稿时指定这种格式
+* `响应式图片`
+原生模式：`<img src="./img/index.jpg" sizes="100vw" srcset="./img/dog.jpg 800w, ./img/index.jpg 1200w"/>`
+
+
+
+
+#### 路由
+通过函数 + import实现
+
+`const Page404 = () => import(/* webpackChunkName: "error" */'@views/errorPage/404');`
+
+
+### 白屏loading
+
+* 使用`webpack`插件`HtmlWebpackPlugin`将loading资源插入到页面中
+* 
+
+
+
+## 压缩
+
+### Gzip
+开启方式可参考：[nginx开启gzip](https://juejin.cn/post/6844903605187641357 "https://juejin.cn/post/6844903605187641357")
+
+还有一种方式：打包的时候生成gz文件，上传到服务器端，这样就不需要nginx来压缩了，可以降低服务器压力。 可参考：[gzip压缩文件&webPack配置Compression-webpack-plugin](https://link.juejin.cn/?target=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000020976930 "https://segmentfault.com/a/1190000020976930")
+
+### 服务端压缩
+
+
+
+
+### JS/CSS/HTML压缩
+工程化项目中直接使用对应的插件即可，webpack的主要有下面三个：
+
+-   UglifyJS
+-   webpack-parallel-uglify-plugin
+-   terser-webpack-plugin 具体优缺点可参考：[webpack常用的三种JS压缩插件](https://link.juejin.cn/?target=https%3A%2F%2Fblog.csdn.net%2Fqq_24147051%2Farticle%2Fdetails%2F103557728 "https://blog.csdn.net/qq_24147051/article/details/103557728")。`压缩原理`简单的讲就是去除一些空格、换行、注释，借助es6模块化的功能，做了一些`tree-shaking`的优化。同时做了一些代码混淆，一方面是为了更小的体积，另一方面也是为了源码的安全性。
+
+css压缩主要是mini-css-extract-plugin，当然前面的js压缩插件也会给你做好css压缩。使用姿势：
+```js
+npm install --save-dev mini-css-extract-plugin
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+plugins:[
+ new MiniCssExtractPlugin({
+       filename: "[name].css",
+       chunkFilename: "[id].css"
+   })
+]
+```
+
+html压缩可以用`HtmlWebpackPlugin`，单页项目就一个index.html,性能提升微乎其微~
+
+
+### HTTP2首部压缩
+**http2的特点**
+-   二进制分帧
+-   首部压缩
+-   流量控制
+-   多路复用
+-   请求优先级
+-   服务器推送`http2_push: 'xxx.jpg'` 具体升级方式也很简单，修改一下nginx配置，方法请自行`Google`
+
+
+## webpack优化
+
+除了上面提到的几个插件之外,还有以下几种:
+### 1.DllPlugin提升构建速度
+
+通过`DllPlugin`插件，将一些比较大的，基本很少升级的包拆分出来，生成`xx.dll.js`文件,通过`manifest.json`引用
+
+`webpack.dll.config.js`
+```js
+const path = require("path");
+const webpack = require("webpack");
+module.exports = {
+    mode: "production",
+    entry: {
+        react: ["react", "react-dom"],
+    },
+    output: {
+        filename: "[name].dll.js",
+        path: path.resolve(__dirname, "dll"),
+        library: "[name]"
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            name: "[name]",
+            path: path.resolve(__dirname, "dll/[name].manifest.json")
+        })
+    ]
+};
+```
+
+`package.json`
+```js
+"scripts": {
+    "dll-build": "NODE_ENV=production webpack --config webpack.dll.config.js",
+  },
+```
+
+### 2.splitChunks拆包
+
+```js
+optimization: {
+	splitChunks: {
+			cacheGroups: {
+					vendor: {
+							name: 'vendor',
+							test: /[\\/]node_modules[\\/]/,
+							minSize: 0,
+							minChunks: 1,
+							priority: 10,
+							chunks: 'initial'
+					},
+					common: {
+							name: 'common',
+							test: /[\\/]src[\\/]/,
+							chunks: 'all',
+							minSize: 0,
+							minChunks: 2
+					}
+			}
+	}
+},
 ```
 
