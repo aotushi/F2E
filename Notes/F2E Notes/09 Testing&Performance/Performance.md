@@ -436,6 +436,82 @@ webpack也是支持这两个属性的:[webpackPrefetch 和 webpackPreload](https
 * 使用`webpack`插件`HtmlWebpackPlugin`将loading资源插入到页面中
 * 
 
+### 图片资源的优化
+>[🔥 2022 前端性能优化最佳实践 - JavaScript进阶之路 - SegmentFault 思否](https://segmentfault.com/a/1190000041753539)
+
+#### 1.使用雪碧图
+雪碧图的作用就是减少请求数，而且多张图片合在一起后的体积会少于多张图片的体积总和，这也是比较通用的图片压缩方案
+现在很少用了
+
+
+#### 2.降低图片质量
+压缩方法有两种，一是通过在线网站进行压缩，二是通过 webpack 插件 image-webpack-loader。它是基于 [imagemin](https://link.segmentfault.com/?enc=PAoQ%2BkIno1eABSR%2Bi3eflA%3D%3D.7PB%2BfABhYfIPZz805iNFLC73YrooJkNp9aa2idh1joQGH5yBIHzfJcMbYnfpBTfjjxTkQZMeKgY2vrQyQg9W1fLjUTq3CV9K0Xb4jeD%2B9UQ%3D) 这个 Node 库来实现图片压缩的。
+
+使用很简单，我们只要在`file-loader`之后加入 `image-webpack-loader` 即可：
+```js
+npm i -D image-webpack-loader
+```
+
+webpack配置如下:
+```bash
+// config/webpack.base.js
+// ...
+module: {
+    rules: [
+        {
+            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name]_[hash].[ext]',
+                        outputPath: 'images/'
+                    }
+                },
+                {
+                    loader: 'image-webpack-loader',
+                    options: {
+                        // 压缩 jpeg 的配置
+                        mozjpeg: {
+                            progressive: true,
+                            quality: 65
+                        },
+                        // 使用 imagemin**-optipng 压缩 png，enable: false 为关闭
+                        optipng: {
+                            enabled: false
+                        },
+                        // 使用 imagemin-pngquant 压缩 png
+                        pngquant: {
+                            quality: '65-90',
+                            speed: 4
+                        },
+                        // 压缩 gif 的配置
+                        gifsicle: {
+                            interlaced: false
+                        },
+                        // 开启 webp，会把 jpg 和 png 图片压缩为 webp 格式
+                        webp: {
+                            quality: 75
+                        }
+                    }
+                }
+            ]
+        }
+    ];
+}
+```
+
+
+#### 3.图片懒加载
+在页面中，先不给图片设置路径，只有当图片出现在浏览器的可视区域时，才去加载真正的图片，这就是延迟加载。对于图片很多的网站来说，一次性加载全部图片，会对用户体验造成很大的影响，所以需要使用图片延迟加载。
+
+
+#### 4.使用CSS3代替图片
+有很多图片使用 CSS 效果（渐变、阴影等）就能画出来，这种情况选择 CSS3 效果更好。因为代码大小通常是图片大小的几分之一甚至几十分之一。
+
+#### 5.使用webpack格式图片
+`WebP` 是 Google 团队开发的加快图片加载速度的图片格式，其优势体现在它具有更优的图像数据压缩算法，能带来更小的图片体积，而且拥有肉眼识别无差异的图像质量；同时具备了无损和有损的压缩模式、Alpha 透明以及动画的特性，在 JPEG 和 PNG 上的转化效果都相当优秀、稳定和统一。
+
 
 
 ## 压缩
