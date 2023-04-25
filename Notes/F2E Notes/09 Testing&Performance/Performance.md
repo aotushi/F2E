@@ -8,7 +8,7 @@
 * [前端性能优化 24 条建议(2020) - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/121056616?utm_source=com.microsoft.todos&utm_medium=social&utm_oi=41541510889472)
 
 
-# 性能优化大纲
+# 性能优化(雅虎军规)
 
 
 ## 背景
@@ -17,86 +17,13 @@
  更详细的说，就是指，在用户输入url到站点完整把整个页面展示出来的过程中，通过各种优化策略和方法，让页面加载更快；在用户使用过程中，让用户的操作响应更及时，有更好的用户体验。
 
 
-## 调试工具
-
-### Network
-
-Chrome浏览器控制台中Network选项下,可以看到资源加载详情，初步评估影响`页面性能`的因素。
-鼠标右键可以自定义选项卡，页面底部是当前加载资源的一个概览。`DOMContentLoaded` DOM渲染完成的时间，`Load`：当前页面所有资源加载完成的时间
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62898f76c242450eb318b1816428ff65~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-
-使用**ctrl+shift+P**来调出控制台扩展工具,添加规则
-
-
-#### **瀑布流waterfall**
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1613fbeaffb64587a36613271ecfcade~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-
--   `Queueing` 浏览器将资源放入队列时间
--   `Stalled` 因放入队列时间而发生的停滞时间
--   `DNS Lookup` DNS解析时间
--   `Initial connection` 建立HTTP连接的时间
--   `SSL` 浏览器与服务器建立安全性连接的时间
--   `TTFB` 等待服务端返回数据的时间
--   `Content Download` 浏览器下载资源的时间
-
-
-### Lighthouse
--   `First Contentful Paint` 首屏渲染时间，1s以内绿色
--   `Speed Index` 速度指数，4s以内绿色
--   `Time to Interactive` 到页面可交换的时间
-
-根据chrome的一些策略自动对网站做一个质量评估，并且会给出一些优化的建议。
 
 
 
-### Performance
-对网站最专业的分析~后面会多次讲到
-
-
-
-### webPageTest
-可以模拟不同场景下访问的情况，比如模拟不同浏览器、不同国家等等，在线测试地址：[webPageTest](https://link.juejin.cn/?target=https%3A%2F%2Fwww.webpagetest.org%2F "https://www.webpagetest.org/")
-
-下面是两张示意图:
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1da6a84b5944311a4f8c6f78b2f5fa1~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2fd7f9c05be47bb80ad67064fc72917~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-
-
-
-### 资源打包分析
-
-#### webpack-bundle-analyzer
-
-
-### 开启sourcemap
-`bpack.config.js`
-
-```java
-module.exports = {
-    mode: 'production',
-    devtool: 'hidden-source-map',
-}
-复制代码
-```
-
-`package.json`
-
-```json
-"analyze": "source-map-explorer 'build/*.js'",
-复制代码
-```
-
-`npm run analyze`
-
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2057c48588f942579c235925d943c162~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-
-
-
-## 优化资料
-
-### 雅虎军规
+## 雅虎军规图
 ![](https://image-static.segmentfault.com/984/490/984490192-6265650bc7d5b)
+
+
 
 #### cookie
 * 减少cookie大小
@@ -178,7 +105,8 @@ module.exports = {
 
 
 
-## 页面渲染优化
+# 性能优化指标
+
 
 #### 监听窗口激活状态
 
@@ -260,6 +188,159 @@ http 头部大小： transferSize - encodedBodySize
 重定向次数：performance.navigation.redirectCount
 重定向耗时: redirectEnd - redirectStart
 ```
+
+
+
+### Network
+
+Chrome浏览器控制台中Network选项下,可以看到资源加载详情，初步评估影响`页面性能`的因素。
+鼠标右键可以自定义选项卡，页面底部是当前加载资源的一个概览。`DOMContentLoaded` DOM渲染完成的时间，`Load`：当前页面所有资源加载完成的时间
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62898f76c242450eb318b1816428ff65~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+使用**ctrl+shift+P**来调出控制台扩展工具,添加规则
+
+
+#### **瀑布流waterfall**
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1613fbeaffb64587a36613271ecfcade~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+-   `Queueing` 浏览器将资源放入队列时间
+-   `Stalled` 因放入队列时间而发生的停滞时间
+-   `DNS Lookup` DNS解析时间
+-   `Initial connection` 建立HTTP连接的时间
+-   `SSL` 浏览器与服务器建立安全性连接的时间
+-   `TTFB` 等待服务端返回数据的时间
+-   `Content Download` 浏览器下载资源的时间
+
+
+### Lighthouse
+-   `First Contentful Paint` 首屏渲染时间，1s以内绿色
+-   `Speed Index` 速度指数，4s以内绿色
+-   `Time to Interactive` 到页面可交换的时间
+
+根据chrome的一些策略自动对网站做一个质量评估，并且会给出一些优化的建议。
+
+
+
+### Performance
+对网站最专业的分析~后面会多次讲到
+
+
+
+### webPageTest
+可以模拟不同场景下访问的情况，比如模拟不同浏览器、不同国家等等，在线测试地址：[webPageTest](https://link.juejin.cn/?target=https%3A%2F%2Fwww.webpagetest.org%2F "https://www.webpagetest.org/")
+
+下面是两张示意图:
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1da6a84b5944311a4f8c6f78b2f5fa1~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2fd7f9c05be47bb80ad67064fc72917~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+
+
+### 资源打包分析
+
+#### webpack-bundle-analyzer
+
+
+### 开启sourcemap
+`bpack.config.js`
+
+```java
+module.exports = {
+    mode: 'production',
+    devtool: 'hidden-source-map',
+}
+复制代码
+```
+
+`package.json`
+
+```json
+"analyze": "source-map-explorer 'build/*.js'",
+复制代码
+```
+
+`npm run analyze`
+
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2057c48588f942579c235925d943c162~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+
+
+
+# 页面渲染优化
+
+## JS中的性能优化
+#### 1.不要覆盖原生方法
+> 无论你的 JavaScript 代码如何优化，都比不上原生方法。因为原生方法是用低级语言写的（C/C++），并且被编译成机器码，成为浏览器的一部分。当原生方法可用时，尽量使用它们，特别是数学运算和 DOM 操作。
+
+#### 2.使用事件委托(简化DOM操作)
+
+
+#### 3.JS动画
+> 尽量避免添加大量的JS动画，CSS3动画和 Canvas 动画都比 JS 动画性能好。  
+使用`requestAnimationFrame`来代替`setTimeout`和`setInterval`，因为`requestAnimationFrame`可以在正确的时间进行渲染，`setTimeout` 和`setInterval`无法保证渲染时机。不要在定时器里面绑定事件。
+
+
+#### 4.防抖和节流
+```js
+// 在事件被触发n秒后再执行回调，如果在这n秒内又被触发，则重新计时。
+function debounce(func, delay) {
+    let time = null;
+    return function (...args) {
+        const context = this;
+        if (time) {
+            clearTimeout(time);
+        }
+        time = setTimeout(() => {
+            func.call(context, ...args);
+        }, delay);
+    };
+}
+```
+
+```js
+// 规定在一个单位时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效。
+function throttle(func, delay) {
+    let prevTime = Date.now();
+    return function (...args) {
+        const context = this;
+        let curTime = Date.now();
+        if (curTime - prevTime > delay) {
+            prevTime = curTime;
+            func.call(context, ...args);
+        }
+    };
+}
+```
+
+
+
+
+
+## 页面其它优化()
+
+### 避免CSS及JS阻塞
+
+#### CSS阻塞
+我们提到 DOM 和 CSSOM 合力才能构建渲染树。这一点会给性能造成严重影响：默认情况下，CSS 是阻塞的资源。浏览器在构建 CSSOM 的过程中，不会渲染任何已处理的内容，即便 DOM 已经解析完毕了。
+
+只有当我们开始解析 HTML 后、解析到 link 标签或者 style 标签时，CSS 才登场，CSSOM 的构建才开始。 很多时候，DOM 不得不等待 CSSOM。因此我们可以这样总结：
+
+CSS 是阻塞渲染的资源。需要将它尽早、尽快地下载到客户端，以便缩短首次渲染的时间。**尽早（将 CSS 放在 head 标签里）和尽快（启用 CDN 实现静态资源加载速度的优化）**
+
+
+#### JS阻塞
+**JS 的作用在于修改**，它帮助我们修改网页的方方面面：内容、样式以及它如何响应用户交互。这“方方面面”的修改，本质上都是对 DOM 和 CSSDOM 进行修改。因此 JS 的执行会阻止 CSSOM，在我们不作显式声明的情况下，它也会阻塞 DOM。
+**JS 引擎是独立于渲染引擎存在的**。我们的 JS 代码在文档的何处插入，就在何处执行。当 HTML 解析器遇到一个 script 标签时，它会暂停渲染过程，将控制权交给 JS 引擎。JS 引擎对内联的 JS 代码会直接执行，对外部 JS 文件还要先获取到脚本、再进行执行。等 JS 引擎运行完毕，浏览器又会把控制权还给渲染引擎，继续 CSSOM 和 DOM 的构建。 因此与其说是 JS 把 CSS 和 HTML 阻塞了，不如说是 JS 引擎抢走了渲染引擎的控制权。
+
+实际使用,需遵循的原则:
+* CSS 资源优于 JavaScript 资源引入
+- JS 应尽量少影响 DOM 的构建
+- 改变JS阻塞方式
+	- defer(并行下载,在DOM渲染完成后再执行)
+	- async(并行下载,下载完成后立即执行,阻塞dom渲染)
+
+
+
 
 
 
@@ -558,7 +639,7 @@ html压缩可以用`HtmlWebpackPlugin`，单页项目就一个index.html,性能�
 -   服务器推送`http2_push: 'xxx.jpg'` 具体升级方式也很简单，修改一下nginx配置，方法请自行`Google`
 
 
-## webpack优化
+# webpack优化
 
 除了上面提到的几个插件之外,还有以下几种:
 ### 1.DllPlugin提升构建速度

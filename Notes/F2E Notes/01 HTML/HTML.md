@@ -615,6 +615,7 @@ Facebook和twitter提供的元数据协议
 
 
 ### script标签
+> [script](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)
 
 #### 概述
 没有async,defer,type=module属性的脚本,没有type=module属性的**行内脚本(inline script)**,在浏览器继续解析页面之前获取和立即执行.
@@ -625,15 +626,40 @@ Facebook和twitter提供的元数据协议
 #### 属性
 
 **async**
-对传统脚本来说,如果async存在,那传统脚本会在解析的同时并行获取,并在可用时立即执行.
+对传统脚本来说,如果async存在,那传统脚本会在解析的同时并行获取,并在可用时立即执行.(所以其打印位置在DOMContentLoaded前后都可能)
 对模块脚本来说,如果async存在,那脚本和所有的依赖将在延迟队列中执行,所以它们在解析时获取并一旦可用立即执行.
 此属性允许消除**解析器阻塞JavaScript(parser-blocking JS)**，其中浏览器必须在继续解析之前加载和评估脚本。在这种情况下，延迟具有类似的效果
 
 **defer**
-声明之后,表明脚本应该在文档解析之后执行,但是在开始DOMContentLoaded之前.
+这个布尔值属性被设置为,脚本应该在文档解析之后,但是在DOMContentLoaded之前执行.
 如果缺少src属性,则不能使用此属性,其不会起到任何作用.
 对模块脚本没有作用,模块脚本默认延迟.
 带有defer属性的脚本将以它们出现在文档中的顺序来执行
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="./defer.js" defer></script>  //最先打印
+		<script src="./async.js" async></script>  //最后打印
+	</head>
+	<body>
+		<p>
+			Lorem, ipsum
+		</p>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				console.log("dom loaded");  //中间打印
+			});
+		</script>
+	</body>
+</html>
+```
+
 
 
 
