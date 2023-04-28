@@ -3,7 +3,7 @@ alias: 函数
 ---
 
 
-### 概要
+# 概要
 
 在 JavaScript中，函数实际上是对象。每个函数都是Function类型的实例，而Function 也有属性和方法，跟其他引用类型一样。因为函数是对象，所以函数名就是指向函数对象的**[指针](https://www.zhihu.com/question/265576824)**，而且不一定与函数本身紧密绑定。
 
@@ -13,13 +13,13 @@ alias: 函数
 > JavaScript引用指向的是值。如果一个值有10个引用，这些引用指向的都是同一个值，*他们相互之间没有引用/指向关系*。
 > ———《你不知道的JavaScript 中卷》2.5 值和引用，第1版28页。
 
-### 函数定义的方式及比较
+# 函数定义的方式及比较
 
 函数创建有 3 种方式: 函数声明,函数表达式(箭头函数), Function声明.
 
-#### 1. 方式
+## 1. 方式
 
-##### 1.1 函数声明
+### 1.1 函数声明
 
 在关键字'function'之后,必须指定函数的名称. 在函数体中,函数必须将一个值返回给调用方.遇到return语句后,该函数会立即停止执行. 函数定义最后没有加分号.
 
@@ -43,7 +43,7 @@ console.log(obj.newpro, obj['newpro'])
 
 
 
-##### 1.2 函数表达式
+### 1.2 函数表达式
 
 如果 function 是声明中的第一个词，那么就是一个函数声明，否则就是一个函数表达式。
 
@@ -112,13 +112,13 @@ if (condition) {
 
 
 
-##### 1.3 箭头函数(arrow function)
+### 1.3 箭头函数(arrow function)
 
 ```javascript
 let sum = (num1, num2) => {return num1 + num2};
 ```
 
-##### 1.4 Function构造函数
+### 1.4 Function构造函数
 
 使用Function 构造函数. 这个构造函数接收任意多个字符串参数，最后一个参数始终会被当成函数体，而之前的参数都是新函数的参数
 
@@ -137,7 +137,265 @@ let add = new Function('...args', 'return args[0]');
 
 
 
-#### 2. 比较(函数声明和函数表达式)
+# 构造函数(constructor)|类|实例
+
+#### 概念
+
+```javascript
+- 构造函数就是专门创建 对象 的函数
+- 构造函数的定义方式和普通函数的没有区别,调用方式有区别
+- 唯一的不同点,构造函数的需要**首字母大写**   //大驼峰命名法 非强制,也可以小写,只要有new
+
+- 一个函数如果直接调用,那么它就是一个普通函数
+- 一个函数如果使用new来调用,那么它就是一个构造函数  // new 函数名称()
+
+```
+
+
+
+#### new操作符调用构造函数时具体做了什么
+
+> 1.在内存中新建一个对象
+>
+> 2.将新对象内部的[[prototype]]的指针赋值为构造函数的prototype属性
+>
+> 3.更新构造函数内的this(Constructor.apply(obj))为这个对象, 并执行构造函数内部的代码,
+>
+> 4.返回值: 如果构造函数返回非空对象,则返回该对象; 否则,返回刚创建的新对象.
+
+```js
+var obj = {};
+obj.__proto__ = Foo.prototype;
+Foo.call(obj)
+```
+
+
+
+#### 模拟实现new操作符效果
+
+```javascript
+//https://juejin.cn/post/6844903986479251464#heading-39
+//https://juejin.cn/post/7033275515880341512#heading-35
+
+function newOperator(ctor, ...args) {
+  if (typeof ctor !== 'function') {
+    throw new Error('newOperator function the first param must be a function');
+  }
+  let obj = Object.create(ctor.prototype);
+  let res = ctor.apply(obj, args);
+  // let res = ctor.call(obj, [].slice.call(arguments, 1));
+  
+  let isObject = typeof res === 'object' && res !== null;
+  let isFunction = typeof res === 'function';  //????  是不是引用类型
+  
+  return isObject || isFunction ? res : obj;
+}
+
+function createObject(ctor) {
+  let obj = Object.create(null);
+  Object.setPropertyOf(obj, ctor.prototype);
+  
+  const res = ctor.apply(obj, [].slice.call(arguments, 1));
+  
+  return typeof(res) === 'object' ? ret : obj;
+}
+```
+
+
+
+```javascript
+//https://github.com/mqyqingfeng/Blog/issues/13
+
+function newOperator() {
+  let obj = {};
+  Constructor = [].shift.call(arguments);
+  obj.__proto__ = Constructor.prototype; 
+  //let obj = Object.create(Constructor.prototype);
+  let result = Constructor.apply(obj, arguments);
+  return typeof result === 'object' ? result : obj;
+}
+```
+
+
+
+
+
+#### 构造函数显示return的情况
+
+```js
+1.return一个对象(返回复杂数据类型),那么this就指向这个返回的对象;
+2.return返回的不是一个对象(返回基本类型),this仍然指向实例.
+```
+
+
+
+
+
+#### 类与实例
+
+```JavaScript
+# 其他
+- 一个构造函数也称为是一个类,通过该构造函数所创建的对象称为该类实例
+- 通过同一个构造函数所创建的对象称为 一类对象
+
+let per = new Person(); //一个Person类,  per是Person类的实例    
+let per2 = new Person(); //per和per2是同一类对象
+```
+
+
+
+#### instanceof
+
+```JavaScript
+# 计算机判断某个对象是否是某个类的实例
+
+- instanceof 检查某个对象是否是某个类的实例(实例化对象)    
+* 语法:
+	对象 instanceof 类
+	per instanceof Person  //true  不加括号
+```
+
+
+
+#### 普通与构造函数返回值
+
+```JavaScript
+普通函数返回值
+function Person(){} //注意函数内部没有return
+let per = Person();
+console.log(per); // undefined
+
+构造函数返回值
+function Person(){}  //注意函数内部没有return
+let per = new Person();
+console.log(per); // Person {} 
+
+构造函数将新的对象设置为函数中的this,就是Person{} 就是per
+故:
+function Person(){
+    console.log(this);
+}
+let per = new Person(); //返回值就是Person {} 
+
+
+```
+
+
+
+
+
+
+#### 构造函数返回值-更新
+
+```HTML
+0.构造函数可以有返回值也可以没有
+1.没有返回值,则返回实例化对象.
+2.若有返回值则检查其返回值是否为引用类型. 如果是非引用类型(string, number, boolean, null, undefined),则与无返回值相同,实际上返回的是实例化对象.
+ 2.1 例如: function f(){return true;} new f()//new f
+3.若返回值是引用类型,则实际返回值是这个引用类型.
+ 3.1 例如: function f(){return {a:1}}; new f()//new f
+```
+
+
+
+#### 构造函数括号加不加
+
+```HTML
+https://blog.csdn.net/yihanzhi/article/details/80050716
+
+用new创造的构造函数之后的括号用不用加?
+
+1.加不加效果相同
+ function Parent(){this.num = 1;}
+ console.log(new Parent()); //{num:1}
+ console.log(new Parent); //{num:1}
+
+2.加不加效果不同
+ function Parent(){this.num = 1;}
+ console.log(new Parent().num);//1
+ console.log(new Parent.num); //报错
+
+结果分析: new Parent.num的执行优先级是: 先执行Parent.num,此时返回结果为undefined;后执行new, 因为new后面必须跟构造函数,所以new undefined会报错.
+
+new Parent().num的执行顺序是: new Parent(),括号的优先级大于点号,所以相当于(new Parent()).num,所以结果为1.
+
+new的构造函数后跟括号优先级会提升.
+```
+
+
+
+#### 构造函数执行流程
+
+```JavaScript
+# 构造函数的执行流程
+
+1.构造函数执行首先会创建一个新的对象
+2.将新的对象设置为函数中的this, 可以通过this在构造函数内部访问到新建的对象
+3.执行函数中的代码
+4.将新的对象作为返回值返回 //通过上面的返回值可以确认
+
+
+
+
+- 向新建的对象里添加属性
+function Person(){}
+let per = new Person();
+
+per.name = '孙悟空';
+per.age = '18';
+
+如果按照上面这种添加方式,那么构造函数的设置是没有意义的.只能在构造函数里面添加才有意义,所以在构造函数中怎么访问这个对象呢? 通过this.
+
+function Person(){
+    this.name = '孙悟空';
+    this. age = '18';
+}
+let per = new Person();
+
+- 函数更新,使用参数传递变量
+function Person(name, age){
+    this.name = name;
+    this.age = age;
+}
+
+let per = new Person(name, age);
+```
+
+
+
+**案例**
+
+```javascript
+function Person(name, age){   //声明构造函数Person
+    this.name = name;		  //为新对象添加属性和属性值 
+    this.age = age;
+    console.log(this); //这个打印的对象本身 从程序运行上来看打印了2次,分别是{name:'孙悟空', age:18}和猪八戒
+}
+
+let per = new Person('孙悟空', 18);
+let per2 = new Person('猪八戒', 28);
+
+console.log(per);
+console.log(per2);
+
+console.log(per.name);         //孙悟空
+console.log(per.name = '朝天阙'); //朝天阙
+
+
+
+====================instanceof==========================
+* 用来检查某个对象是否是某个类的实例.返回的是布尔值
+* 语法
+	对象 instanceof 类
+	
+	per instanceof Person   per是新建的对象
+
+```
+
+
+
+
+## 2. 比较(函数声明和函数表达式)
 
 > 如果 function 是声明中的第一个词，那么就是一个函数声明，否则就是一个函数表达式。
 
@@ -173,7 +431,7 @@ var sum = function(num1, num2) { return num1 + num2; }
 
 
 
-#### 3. 函数声明的形式- 块级函数
+## 3. 函数声明的形式- 块级函数
 
 在ECMAScript 3和早期版本中，在代码块中声明一个块级函数严格来说是一个语法错误,但是每个浏览器对这个特性的支持都稍有不同，所以最好不要使用这个特性（最好的选择是使用函数表达式）。
 
@@ -208,7 +466,7 @@ console.log(typeof doSomething); //'undefined'
 
 **在定义函数的代码块内，块级函数会被提升至顶部**，所以typeof doSomething的值为"function"，这也佐证了，即使你在函数定义的位置前调用它，还是能返回正确结果；但是一旦if语句代码块结束执行，doSomething()函数将不再存在。
 
-##### 块级函数的使用场景
+### 块级函数的使用场景
 
 块级函数与let函数表达式类似，一旦执行过程流出了代码块，函数定义立即被移除。二者的区别是，在该代码块中，块级函数会被提升至块的顶部，而用let定义的函数表达式不会被提升
 
@@ -229,7 +487,7 @@ console.log(typeof doSomething);
 
 在这段代码中，当执行到typeof doSomething时，由于此时尚未执行let声明语句，doSomething()还在当前块作用域的临时死区中，因此程序被迫中断执行。
 
-##### ES6非严格模式下的块级函数
+### ES6非严格模式下的块级函数
 
 在ECMAScript 6中，即使处于非严格模式下，也可以声明块级函数，但其行为与严格模式下稍有不同。<span style="text-decoration-line:underline; text-decoration-style:dashed;text-decoration-color:red;">这些函数不再提升至代码块的顶部，而是提升至外围函数或全局作用域的顶部。</span>
 
@@ -353,7 +611,7 @@ var a = 10
 
 
 
-### 函数调用
+# 函数调用
 
 定义一个函数并不会自动的执行它。定义了函数仅仅是赋予函数以名称并明确函数被调用时该做些什么。**调用**函数才会以给定的参数真正执行这些动作.
 
@@ -375,7 +633,7 @@ const square = function(n){return n*n};
 
 
 
-### 函数参数
+# 函数参数
 
 ECMAScript 函数既不关心传入的参数个数，也不关心这些参数的数据类型。调用时传入参数数量不要求于定义时参数数值一致.因为ECMAScript 函数的参数在内部表现为一个数组, 在function关键字定义(非箭头)函数时,可以在函数内部访问arguments对象.
 
@@ -422,7 +680,7 @@ function fn(a, b){
 
 
 
-#### ES6-默认参数
+## ES6-默认参数
 
 ##### what
 
@@ -620,7 +878,7 @@ console.log(a); //100
 
 
 
-#### ES6-剩余参数
+## ES6-剩余参数
 
 就是下面的参数收集
 
@@ -836,7 +1094,7 @@ alert(person.name); // "Nicholas"
 
 
 
-### 函数内部
+## 函数内部
 
 在ECMAScript 5 中，函数内部存在两个特殊的对象：arguments 和this。ECMAScript 6 又新增
 了new.target 属性。
@@ -1986,7 +2244,7 @@ let anotherPerson = new anotherPerson('Nicholas'); //抛出错误
 
 
 
-### 函数属性与方法
+# 函数属性与方法
 
 ECMAScript 中的函数是对象，因此有属性和方法。**每个函数都有两个属性：length和prototype**。其中，length 属性保存函数定义的命名参数的个数,剩余参数的加入不会影响length属性的值.
 
@@ -2073,7 +2331,7 @@ prototype 是保存引用类型所有实例方法的地方，这意味着toStrin
 
 
 
-### Function.prototype.call
+#### Function.prototype.call
 
 
 **define**
@@ -2730,7 +2988,7 @@ slice(arguments);
 ```
 
 
-### **实现bind()方法**
+#### **实现bind()方法**
 
 
 ```javascript
@@ -2859,7 +3117,7 @@ new (func.myBind())() //返回的是Bound类对象
 
 
 
-### 尾调用优化
+# 尾调用优化
 
 ECMAScript 6关于函数最有趣的变化可能是尾调用系统的引擎优化. <u>尾调用指的是函数作为另一个函数的最后一条语句被调用:</u>
 
@@ -2960,273 +3218,10 @@ function factorial(n, p = 1) {
 
 当你写递归函数的时候，记得使用尾递归优化的特性，如果递归函数的计算量足够大，则尾递归优化可以大幅提升程序的性能。
 
+# 函数的其它形式
 
 
-
-
-
-### 递归函数
-
-#### 定义
-
-> 程序调用自身时的变成技巧称为递归(recursion)
-
-#### 实现方法
-
-一个函数可以指向并调用自身.调用自身的函数我们称之为**递归函数**. 有三种方法可以达到这个目的:
-
-* 函数名
-* arguments.callee
-* 作用域下的一个指向该函数的变量名
-
-```js
-let foo = function bar(){
-  //statement
-}
-
-//在函数体内以下语句是等价的
-bar()
-arguments.callee() //ES5禁止在严格模式下使用此属性
-foo()
-```
-
-某种意义上说，递归近似于循环。两者都重复执行相同的代码，并且两者都需要一个终止条件（避免无限循环或者无限递归）
-
-```js
-//循环
-let x= 0;
-while(x<10){
-  x++;
-}
-//递归
-function loop(x){
-  if(x>=10) return {console.log(x)};
-  return loop(x+1)
-}
-
-loop(0)
-```
-
-#### 递归中的解耦
-
-```javascript
-//阶乘 非严格模式下-arguments.callee
-//在严格模式下运行的代码是不能访问arguments.callee
-function factorial(num) {
-  if (num <= 1) {
-    return 1;
-  } else {
-    return num * arguments.callee(num - 1);//非严格模式下使用
-  }
-}
-
-//阶乘 严格模式下(非严格模式下也可以用)-命名函数表达式
-const factorial = (function f(num) {
-  if (num <= 1) {
-    return 1;
-  } else {
-    return num * f(num - 1);
-  }
-});
-```
-
-
-
-#### 使用
-
-##### 阶乘
-
-以阶乘为例
-
-```javascript
-function factorial(n) {
-  if (n === 1) return n;
-  return n * factorial(n - 1)
-}
-```
-
-示意图(图片来自 [wwww.penjee.com](https://github.com/mqyqingfeng/Blog/issues/wwww.penjee.com))：
-
-![](https://camo.githubusercontent.com/e7f3e971eebd1f8c6e0bd15be013506e516443ed7caeb27dc29c983bf5b1a2e9/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6d717971696e6766656e672f426c6f672f496d616765732f726563757273696f6e2f666163746f7269616c2e676966)
-
-##### 斐波那契数列
-
-> 一对兔子从出生后的第3个月起，每月可生出一对小兔子。
-> 编写函数，求第n个月时，兔子的对数。
->
-> 斐波那契数列:1 1 2 3 5 8 13 21.....
->
-> 简化: 某一项数是前两项数之和
-
-在[《JavaScript专题之函数记忆》](https://github.com/mqyqingfeng/Blog/issues/46)中讲到过的斐波那契数列也使用了递归：
-
-```javascript
-function fibonacci(n) {
-  return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
-}
-```
-
-
-
-#### 递归条件
-
-从这两个例子中，我们可以看出：
-
-构成递归需具备边界条件、递归前进段和递归返回段，当边界条件不满足时，递归前进，当边界条件满足时，递归返回。阶乘中的 `n == 1` 和 斐波那契数列中的 `n < 2` 都是边界条件。
-
-总结一下递归的特点：
-
-1. 子问题须与原始问题为同样的事，且更为简单；
-2. 不能无限制地调用本身，须有个出口，化简为非递归状况处理。
-
-
-
-#### 执行上下文栈
-
-在[《JavaScript深入之执行上下文栈》](https://github.com/mqyqingfeng/Blog/issues/4)中，我们知道：
-
-当执行一个函数的时候，就会创建一个执行上下文，并且压入执行上下文栈，当函数执行完毕的时候，就会将函数的执行上下文从栈中弹出。
-
-试着对阶乘函数分析执行的过程，我们会发现，JavaScript 会不停的创建执行上下文压入执行上下文栈，对于内存而言，维护这么多的执行上下文也是一笔不小的开销呐！那么，我们该如何优化呢？
-
-答案就是尾调用。
-
-#### 尾调用
-
-尾调用，是指函数内部的最后一个动作是函数调用。该调用的返回值，直接返回给函数。
-
-举个例子:
-
-```javascript
-function f(x) {
-  return g(x);
-}
-```
-
-非尾调用:
-
-```javascript
-function f(x) {
-  return g(x) + 1;
-}
-```
-
-并不是尾调用，因为 g(x) 的返回值还需要跟 1 进行计算后，f(x)才会返回值。
-
-两者又有什么区别呢？答案就是执行上下文栈的变化不一样。
-
-为了模拟执行上下文栈的行为，让我们定义执行上下文栈是一个数组：
-
-```
-    ECStack = [];
-```
-
-我们模拟下第一个尾调用函数执行时的执行上下文栈变化：
-
-```
-// 伪代码
-ECStack.push(<f> functionContext);
-
-ECStack.pop();
-
-ECStack.push(<g> functionContext);
-
-ECStack.pop();
-```
-
-我们再来模拟一下第二个非尾调用函数执行时的执行上下文栈变化：
-
-```
-ECStack.push(<f> functionContext);
-
-ECStack.push(<g> functionContext);
-
-ECStack.pop();
-
-ECStack.pop();
-```
-
-也就说尾调用函数执行时，虽然也调用了一个函数，但是因为原来的的函数执行完毕，执行上下文会被弹出，执行上下文栈中相当于只多压入了一个执行上下文。然而非尾调用函数，就会创建多个执行上下文压入执行上下文栈。
-
-<u>函数调用自身，称为递归。如果尾调用自身，就称为尾递归。</u>
-
-所以我们只用把阶乘函数改造成一个尾递归形式，就可以避免创建那么多的执行上下文。但是我们该怎么做呢？
-
-
-
-#### 阶乘函数优化 ????
-
-我们需要做的就是把所有用到的内部变量改写成函数的参数，以阶乘函数为例：
-
-```javascript
-function factorial(n, res) {
-  if (n == 1) return res;
-  return factorial(n-1, n*res);
-}
-```
-
-然而这个很奇怪呐……我们计算 4 的阶乘，结果函数要传入 4 和 1，我就不能只传入一个 4 吗？
-
-这个时候就要用到我们在[《JavaScript专题之偏函数》](https://github.com/mqyqingfeng/Blog/issues/43)中编写的 partial 函数了：
-
-```
-var newFactorial = partial(factorial, _, 1)
-
-newFactorial(4) // 24
-```
-
-
-
-#### 应用
-
-如果你看过 [JavaScript 专题系列](https://github.com/mqyqingfeng/Blog)的文章，你会发现递归有着很多的应用。
-
-作为专题系列的第十八篇，我们来盘点下之前的文章中都有哪些涉及到了递归：
-
-1.[《JavaScript 专题之数组扁平化》](https://github.com/mqyqingfeng/Blog/issues/36)：
-
-```javascript
-function flatter(arr) {
-  return arr.reduce((prev, crx) => {
-    return prev.concat(Array.isArray(crx) ? flatter(crx) : crx)
-  },[])
-}
-```
-
-2.[《JavaScript 专题之深浅拷贝》](https://github.com/mqyqingfeng/Blog/issues/32)：
-
-```javascript
-let deepCopy = function(obj) {
-  if (typeof obj !== 'object') return;
-  let newObj = obj instanceof Array ? [] : {};
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      newObj[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key];
-    }
-  }
-  return newObj;
-}
-```
-
-3.[JavaScript 专题之从零实现 jQuery 的 extend](https://github.com/mqyqingfeng/Blog/issues/33)：
-
-```javascript
-```
-
-4.[《JavaScript 专题之如何判断两个对象相等》](https://github.com/mqyqingfeng/Blog/issues/41)：
-
-```javascript
-```
-
-5.[《JavaScript 专题之函数柯里化》](https://github.com/mqyqingfeng/Blog/issues/42)：
-
-```javascript
-```
-
-
-
-
-### 立即调用的匿名函数(IIEF)
+## 立即调用的匿名函数(IIEF)
 
 #### 概述
 
@@ -3334,7 +3329,7 @@ console.log(b); //10 函数作用域,函数内部声明的变量是局部变量,
 
 
 
-### 箭头函数
+## 箭头函数
 
 ECMAScript 6 新增了使用胖箭头（=>）语法定义函数表达式的能力。很大程度上，箭头函数实例化的函数对象与正式的函数表达式创建的函数对象行为是相同的。**任何可以使用函数表达式的地方，都可以使用箭头函数**：
 
@@ -3641,264 +3636,275 @@ console.log(boundSum()); //3
 
 
 
-### 构造函数(constructor)|类|实例
-
-#### 概念
-
-```javascript
-- 构造函数就是专门创建 对象 的函数
-- 构造函数的定义方式和普通函数的没有区别,调用方式有区别
-- 唯一的不同点,构造函数的需要**首字母大写**   //大驼峰命名法 非强制,也可以小写,只要有new
-
-- 一个函数如果直接调用,那么它就是一个普通函数
-- 一个函数如果使用new来调用,那么它就是一个构造函数  // new 函数名称()
-
-```
 
 
+# 函数的使用 ?
 
-#### new操作符调用构造函数时具体做了什么
 
-> 1.在内存中新建一个对象
->
-> 2.将新对象内部的[[prototype]]的指针赋值为构造函数的prototype属性
->
-> 3.更新构造函数内的this(Constructor.apply(obj))为这个对象, 并执行构造函数内部的代码,
->
-> 4.返回值: 如果构造函数返回非空对象,则返回该对象; 否则,返回刚创建的新对象.
+## 递归函数
+
+#### 定义
+
+> 程序调用自身时的变成技巧称为递归(recursion)
+
+#### 实现方法
+
+一个函数可以指向并调用自身.调用自身的函数我们称之为**递归函数**. 有三种方法可以达到这个目的:
+
+* 函数名
+* arguments.callee
+* 作用域下的一个指向该函数的变量名
 
 ```js
-var obj = {};
-obj.__proto__ = Foo.prototype;
-Foo.call(obj)
+let foo = function bar(){
+  //statement
+}
+
+//在函数体内以下语句是等价的
+bar()
+arguments.callee() //ES5禁止在严格模式下使用此属性
+foo()
 ```
 
+某种意义上说，递归近似于循环。两者都重复执行相同的代码，并且两者都需要一个终止条件（避免无限循环或者无限递归）
 
+```js
+//循环
+let x= 0;
+while(x<10){
+  x++;
+}
+//递归
+function loop(x){
+  if(x>=10) return {console.log(x)};
+  return loop(x+1)
+}
 
-#### 模拟实现new操作符效果
+loop(0)
+```
+
+#### 递归中的解耦
 
 ```javascript
-//https://juejin.cn/post/6844903986479251464#heading-39
-//https://juejin.cn/post/7033275515880341512#heading-35
-
-function newOperator(ctor, ...args) {
-  if (typeof ctor !== 'function') {
-    throw new Error('newOperator function the first param must be a function');
+//阶乘 非严格模式下-arguments.callee
+//在严格模式下运行的代码是不能访问arguments.callee
+function factorial(num) {
+  if (num <= 1) {
+    return 1;
+  } else {
+    return num * arguments.callee(num - 1);//非严格模式下使用
   }
-  let obj = Object.create(ctor.prototype);
-  let res = ctor.apply(obj, args);
-  // let res = ctor.call(obj, [].slice.call(arguments, 1));
-  
-  let isObject = typeof res === 'object' && res !== null;
-  let isFunction = typeof res === 'function';  //????  是不是引用类型
-  
-  return isObject || isFunction ? res : obj;
 }
 
-function createObject(ctor) {
-  let obj = Object.create(null);
-  Object.setPropertyOf(obj, ctor.prototype);
-  
-  const res = ctor.apply(obj, [].slice.call(arguments, 1));
-  
-  return typeof(res) === 'object' ? ret : obj;
-}
+//阶乘 严格模式下(非严格模式下也可以用)-命名函数表达式
+const factorial = (function f(num) {
+  if (num <= 1) {
+    return 1;
+  } else {
+    return num * f(num - 1);
+  }
+});
 ```
 
 
+
+#### 使用
+
+##### 阶乘
+
+以阶乘为例
 
 ```javascript
-//https://github.com/mqyqingfeng/Blog/issues/13
-
-function newOperator() {
-  let obj = {};
-  Constructor = [].shift.call(arguments);
-  obj.__proto__ = Constructor.prototype; 
-  //let obj = Object.create(Constructor.prototype);
-  let result = Constructor.apply(obj, arguments);
-  return typeof result === 'object' ? result : obj;
+function factorial(n) {
+  if (n === 1) return n;
+  return n * factorial(n - 1)
 }
 ```
 
+示意图(图片来自 [wwww.penjee.com](https://github.com/mqyqingfeng/Blog/issues/wwww.penjee.com))：
 
+![](https://camo.githubusercontent.com/e7f3e971eebd1f8c6e0bd15be013506e516443ed7caeb27dc29c983bf5b1a2e9/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6d717971696e6766656e672f426c6f672f496d616765732f726563757273696f6e2f666163746f7269616c2e676966)
 
+##### 斐波那契数列
 
+> 一对兔子从出生后的第3个月起，每月可生出一对小兔子。
+> 编写函数，求第n个月时，兔子的对数。
+>
+> 斐波那契数列:1 1 2 3 5 8 13 21.....
+>
+> 简化: 某一项数是前两项数之和
 
-#### 构造函数显示return的情况
-
-```js
-1.return一个对象(返回复杂数据类型),那么this就指向这个返回的对象;
-2.return返回的不是一个对象(返回基本类型),this仍然指向实例.
-```
-
-
-
-
-
-#### 类与实例
-
-```JavaScript
-# 其他
-- 一个构造函数也称为是一个类,通过该构造函数所创建的对象称为该类实例
-- 通过同一个构造函数所创建的对象称为 一类对象
-
-let per = new Person(); //一个Person类,  per是Person类的实例    
-let per2 = new Person(); //per和per2是同一类对象
-```
-
-
-
-#### instanceof
-
-```JavaScript
-# 计算机判断某个对象是否是某个类的实例
-
-- instanceof 检查某个对象是否是某个类的实例(实例化对象)    
-* 语法:
-	对象 instanceof 类
-	per instanceof Person  //true  不加括号
-```
-
-
-
-#### 普通与构造函数返回值
-
-```JavaScript
-普通函数返回值
-function Person(){} //注意函数内部没有return
-let per = Person();
-console.log(per); // undefined
-
-构造函数返回值
-function Person(){}  //注意函数内部没有return
-let per = new Person();
-console.log(per); // Person {} 
-
-构造函数将新的对象设置为函数中的this,就是Person{} 就是per
-故:
-function Person(){
-    console.log(this);
-}
-let per = new Person(); //返回值就是Person {} 
-
-
-```
-
-
-
-
-
-
-#### 构造函数返回值-更新
-
-```HTML
-0.构造函数可以有返回值也可以没有
-1.没有返回值,则返回实例化对象.
-2.若有返回值则检查其返回值是否为引用类型. 如果是非引用类型(string, number, boolean, null, undefined),则与无返回值相同,实际上返回的是实例化对象.
- 2.1 例如: function f(){return true;} new f()//new f
-3.若返回值是引用类型,则实际返回值是这个引用类型.
- 3.1 例如: function f(){return {a:1}}; new f()//new f
-```
-
-
-
-#### 构造函数括号加不加
-
-```HTML
-https://blog.csdn.net/yihanzhi/article/details/80050716
-
-用new创造的构造函数之后的括号用不用加?
-
-1.加不加效果相同
- function Parent(){this.num = 1;}
- console.log(new Parent()); //{num:1}
- console.log(new Parent); //{num:1}
-
-2.加不加效果不同
- function Parent(){this.num = 1;}
- console.log(new Parent().num);//1
- console.log(new Parent.num); //报错
-
-结果分析: new Parent.num的执行优先级是: 先执行Parent.num,此时返回结果为undefined;后执行new, 因为new后面必须跟构造函数,所以new undefined会报错.
-
-new Parent().num的执行顺序是: new Parent(),括号的优先级大于点号,所以相当于(new Parent()).num,所以结果为1.
-
-new的构造函数后跟括号优先级会提升.
-```
-
-
-
-#### 构造函数执行流程
-
-```JavaScript
-# 构造函数的执行流程
-
-1.构造函数执行首先会创建一个新的对象
-2.将新的对象设置为函数中的this, 可以通过this在构造函数内部访问到新建的对象
-3.执行函数中的代码
-4.将新的对象作为返回值返回 //通过上面的返回值可以确认
-
-
-
-
-- 向新建的对象里添加属性
-function Person(){}
-let per = new Person();
-
-per.name = '孙悟空';
-per.age = '18';
-
-如果按照上面这种添加方式,那么构造函数的设置是没有意义的.只能在构造函数里面添加才有意义,所以在构造函数中怎么访问这个对象呢? 通过this.
-
-function Person(){
-    this.name = '孙悟空';
-    this. age = '18';
-}
-let per = new Person();
-
-- 函数更新,使用参数传递变量
-function Person(name, age){
-    this.name = name;
-    this.age = age;
-}
-
-let per = new Person(name, age);
-```
-
-
-
-**案例**
+在[《JavaScript专题之函数记忆》](https://github.com/mqyqingfeng/Blog/issues/46)中讲到过的斐波那契数列也使用了递归：
 
 ```javascript
-function Person(name, age){   //声明构造函数Person
-    this.name = name;		  //为新对象添加属性和属性值 
-    this.age = age;
-    console.log(this); //这个打印的对象本身 从程序运行上来看打印了2次,分别是{name:'孙悟空', age:18}和猪八戒
+function fibonacci(n) {
+  return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 }
-
-let per = new Person('孙悟空', 18);
-let per2 = new Person('猪八戒', 28);
-
-console.log(per);
-console.log(per2);
-
-console.log(per.name);         //孙悟空
-console.log(per.name = '朝天阙'); //朝天阙
-
-
-
-====================instanceof==========================
-* 用来检查某个对象是否是某个类的实例.返回的是布尔值
-* 语法
-	对象 instanceof 类
-	
-	per instanceof Person   per是新建的对象
-
 ```
 
 
 
-### 函数变种 ?
+#### 递归条件
+
+从这两个例子中，我们可以看出：
+
+构成递归需具备边界条件、递归前进段和递归返回段，当边界条件不满足时，递归前进，当边界条件满足时，递归返回。阶乘中的 `n == 1` 和 斐波那契数列中的 `n < 2` 都是边界条件。
+
+总结一下递归的特点：
+
+1. 子问题须与原始问题为同样的事，且更为简单；
+2. 不能无限制地调用本身，须有个出口，化简为非递归状况处理。
+
+
+
+#### 执行上下文栈
+
+在[《JavaScript深入之执行上下文栈》](https://github.com/mqyqingfeng/Blog/issues/4)中，我们知道：
+
+当执行一个函数的时候，就会创建一个执行上下文，并且压入执行上下文栈，当函数执行完毕的时候，就会将函数的执行上下文从栈中弹出。
+
+试着对阶乘函数分析执行的过程，我们会发现，JavaScript 会不停的创建执行上下文压入执行上下文栈，对于内存而言，维护这么多的执行上下文也是一笔不小的开销呐！那么，我们该如何优化呢？
+
+答案就是尾调用。
+
+#### 尾调用
+
+尾调用，是指函数内部的最后一个动作是函数调用。该调用的返回值，直接返回给函数。
+
+举个例子:
+
+```javascript
+function f(x) {
+  return g(x);
+}
+```
+
+非尾调用:
+
+```javascript
+function f(x) {
+  return g(x) + 1;
+}
+```
+
+并不是尾调用，因为 g(x) 的返回值还需要跟 1 进行计算后，f(x)才会返回值。
+
+两者又有什么区别呢？答案就是执行上下文栈的变化不一样。
+
+为了模拟执行上下文栈的行为，让我们定义执行上下文栈是一个数组：
+
+```
+    ECStack = [];
+```
+
+我们模拟下第一个尾调用函数执行时的执行上下文栈变化：
+
+```
+// 伪代码
+ECStack.push(<f> functionContext);
+
+ECStack.pop();
+
+ECStack.push(<g> functionContext);
+
+ECStack.pop();
+```
+
+我们再来模拟一下第二个非尾调用函数执行时的执行上下文栈变化：
+
+```
+ECStack.push(<f> functionContext);
+
+ECStack.push(<g> functionContext);
+
+ECStack.pop();
+
+ECStack.pop();
+```
+
+也就说尾调用函数执行时，虽然也调用了一个函数，但是因为原来的的函数执行完毕，执行上下文会被弹出，执行上下文栈中相当于只多压入了一个执行上下文。然而非尾调用函数，就会创建多个执行上下文压入执行上下文栈。
+
+<u>函数调用自身，称为递归。如果尾调用自身，就称为尾递归。</u>
+
+所以我们只用把阶乘函数改造成一个尾递归形式，就可以避免创建那么多的执行上下文。但是我们该怎么做呢？
+
+
+
+#### 阶乘函数优化 ????
+
+我们需要做的就是把所有用到的内部变量改写成函数的参数，以阶乘函数为例：
+
+```javascript
+function factorial(n, res) {
+  if (n == 1) return res;
+  return factorial(n-1, n*res);
+}
+```
+
+然而这个很奇怪呐……我们计算 4 的阶乘，结果函数要传入 4 和 1，我就不能只传入一个 4 吗？
+
+这个时候就要用到我们在[《JavaScript专题之偏函数》](https://github.com/mqyqingfeng/Blog/issues/43)中编写的 partial 函数了：
+
+```
+var newFactorial = partial(factorial, _, 1)
+
+newFactorial(4) // 24
+```
+
+
+
+#### 应用
+
+如果你看过 [JavaScript 专题系列](https://github.com/mqyqingfeng/Blog)的文章，你会发现递归有着很多的应用。
+
+作为专题系列的第十八篇，我们来盘点下之前的文章中都有哪些涉及到了递归：
+
+1.[《JavaScript 专题之数组扁平化》](https://github.com/mqyqingfeng/Blog/issues/36)：
+
+```javascript
+function flatter(arr) {
+  return arr.reduce((prev, crx) => {
+    return prev.concat(Array.isArray(crx) ? flatter(crx) : crx)
+  },[])
+}
+```
+
+2.[《JavaScript 专题之深浅拷贝》](https://github.com/mqyqingfeng/Blog/issues/32)：
+
+```javascript
+let deepCopy = function(obj) {
+  if (typeof obj !== 'object') return;
+  let newObj = obj instanceof Array ? [] : {};
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      newObj[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key];
+    }
+  }
+  return newObj;
+}
+```
+
+3.[JavaScript 专题之从零实现 jQuery 的 extend](https://github.com/mqyqingfeng/Blog/issues/33)：
+
+```javascript
+```
+
+4.[《JavaScript 专题之如何判断两个对象相等》](https://github.com/mqyqingfeng/Blog/issues/41)：
+
+```javascript
+```
+
+5.[《JavaScript 专题之函数柯里化》](https://github.com/mqyqingfeng/Blog/issues/42)：
+
+```javascript
+```
+
+
+
+
+
+
+## 函数变种 ?
 
 > 暂时先用这个名字,表示函数使用的各种的变形
 
@@ -4633,4 +4639,59 @@ for (let i=1; i<=5; i++) {
     console.log(i);
   }, i*1000)
 }
+```
+
+
+## 函数式编程
+
+### 使用函数处理数组
+> JS可以把函数当做对象来处理,意味着可以在JS中使用函数式编程风格.
+
+假设有一个数值数组,我们希望计算这些数值的平均值和标准差.
+
+**非函数风格**
+
+```js
+let data = [1,1,2,5,5]
+
+//平均值等于所有元素之和除以元素个数
+let total = 0
+for (let i=0; i<data.length; i++) {
+	total += data[i]
+}
+let mean = total/data.length //平均值为3
+
+//标准差, 要计算每个元素相对于平均值偏差的平方总和,然后
+total2 = 0
+for (let i=0; i<data.length; i++) {
+	let devitation = data[i] - mean
+	total += deviation * deviation
+}
+let stddev = Math.sqrt(total/(data.length-1))
+```
+
+**数组方法**
+```js
+const sum = (x,y) => x + y
+const square = x => x * x
+
+let data = [1,1,2,5,5]
+let mean = data.reduce(sum) / data.length
+let deviations = data.map(x => x - mean)
+let stddev = Math.sqrt(deviations.map(square).reduce(sum)/(data.length - 1) )
+```
+
+**定义函数方法**
+```js
+const map = function(a, ...args) { return a.map(...args)}
+const reduce = function(a, ...args) { return a.reduce(...args) }
+
+
+const sum = (x,y) => x + y
+const square = x => x * x
+
+const data = [1,1,2,5,5]
+let mean = map(data, sum) / data.length
+let deviations = map(data, x => x -mean)
+let stddev = Math.sqrt(reduce(map(deviations, square), sum) / (data.length - 1))
 ```

@@ -2,11 +2,15 @@
 aliases: 文档对象模型, DOM
 ---
 
+# 资源
+> [Introduction to the DOM - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
+> [Document - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document)
 
 
 
 
-### 文档对象模型/DOM
+
+# 文档对象模型/DOM
 
 #### 是什么
 当浏览器加载一个页面后, 浏览器会为页面创建一个以对象建模的模型,称作文档对象模型(Document Object Module),简称DOM.
@@ -99,7 +103,9 @@ node.nodeType
 
 
 
-### Document
+# Document
+> [Document - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document)
+
 
 `Document`接口代表浏览器中任何加载的网页,并提供作为网页内容的入口点,也就是DOM tree(DOM tree是树结构,其节点代表HTML或XML文档的内容.). DOM tree包含元素,例如`<body>`和 `<table>`,提供对文档的全局功能,例如如何获取页面的URL和创建新的元素.
 
@@ -110,25 +116,89 @@ node.nodeType
 
 
 
-#### 构造函数
+## 构造函数
 
+[`Document()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/Document "Document()")
 
-#### 实例属性
-
-
-#### 实例方法
-
-#### 事件
-
-
-#### 继承
-
-
-#### DOM相关页面
+Document构造函数创建一个新的文档对象,该对象是在浏览器中加载的网页,且作为页面内容的入口.
 
 
 
-#### 来源
+
+## 实例属性
+
+
+## 实例方法
+
+
+
+
+
+
+
+## 事件
+
+
+### selectionchange
+
+#### 概述
+> [Selection API](https://developer.mozilla.org/en-US/docs/Web/API/Selection)的`selectionchange`在Document当前的Selection改变时触发.
+> 这个事件是不能取消的且不会冒泡
+> 可以通过为`selectionchange`添加事件监听器或使用`onselectionchange`事件处理器来处理这个事件.
+
+**注意**
+此事件与`<input>或<textarea>`元素中选中文本变化时触发的`selectionchange`事件不完全一样.
+
+#### 语法
+```js
+addEventListener("selectionchange", (event) => {});
+
+onselectionchange = (event) => {};
+```
+
+#### 案例
+选中文本时更改默认背景颜色为天蓝色
+```js
+// 最简单的方案, 是添加伪类 `::selection {background-color: skyblue;}`
+
+
+//第一种方案 无法实现暂时
+document.addEventListener('selectionchange', function(e) {
+	// 选择用户选择的文本
+	let selection = window.getSelection()
+	// 获取所选文本的范围
+	let range = selection.getRangeAt(0)
+	// 获取所选文本的富节点
+	let parent = range.commonAncestorContainer
+	// 将父节点设置为可编辑状态
+	parent.contentEditable = true
+	// 将选中文本的背景色设置为天蓝色
+	document.execCommand('styleWithCSS', null, true)
+	document.execCommand('backColor', null, 'skyblue')
+	// 取消父节点的可编辑状态
+	parent.contentEditable = false
+})
+
+
+
+```
+
+
+
+
+
+
+
+
+
+## 继承
+
+
+## DOM相关页面
+
+
+
+# 来源
 https://developer.mozilla.org/en-US/docs/Web/API/Document
 
 

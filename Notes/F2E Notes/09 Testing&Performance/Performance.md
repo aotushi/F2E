@@ -266,7 +266,58 @@ module.exports = {
 
 
 
-# 页面渲染优化
+# 优化-页面渲染
+
+## http
+### 减少http请求
+一个完整的 HTTP 请求需要经历 DNS 查找，TCP 握手，浏览器发出 HTTP 请求，服务器接收请求，服务器处理请求并发回响应，浏览器接收响应等过程。
+接下来看一个具体的例子帮助理解 HTTP ：
+![](https://pic4.zhimg.com/80/v2-ff4da0780527ab348f5594c04da5d667_1440w.webp)
+
+
+名词解释：
+-   Queueing: 在请求队列中的时间。
+-   Stalled: 从TCP 连接建立完成，到真正可以传输数据之间的时间差，此时间包括代理协商时间。
+-   Proxy negotiation: 与代理服务器连接进行协商所花费的时间。
+-   DNS Lookup: 执行DNS查找所花费的时间，页面上的每个不同的域都需要进行DNS查找。
+-   Initial Connection / Connecting: 建立连接所花费的时间，包括TCP握手/重试和协商SSL。
+-   SSL: 完成SSL握手所花费的时间。
+-   Request sent: 发出网络请求所花费的时间，通常为一毫秒的时间。
+-   Waiting(TFFB): TFFB 是发出页面请求到接收到应答数据第一个字节的时间。
+-   Content Download: 接收响应数据所花费的时间。
+
+从这个例子可以看出，真正下载数据的时间占比为 `13.05 / 204.16 = 6.39%`，文件越小，这个比例越小，文件越大，比例就越高。这就是为什么要建议将多个小文件合并为一个大文件，从而减少 HTTP 请求次数的原因。
+
+### 使用http2
+HTTP2 相比 HTTP1.1 有如下几个优点：
+
+**解析速度快**
+服务器解析 HTTP1.1 的请求时，必须不断地读入字节，直到遇到分隔符 CRLF 为止。而解析 HTTP2 的请求就不用这么麻烦，因为 HTTP2 是基于帧的协议，每个帧都有表示帧长度的字段。
+
+**多路复用**
+HTTP1.1 如果要同时发起多个请求，就得建立多个 TCP 连接，因为一个 TCP 连接同时只能处理一个 HTTP1.1 的请求。
+在 HTTP2 上，多个请求可以共用一个 TCP 连接，这称为多路复用。同一个请求和响应用一个流来表示，并有唯一的流 ID 来标识。 多个请求和响应在 TCP 连接中可以乱序发送，到达目的地后再通过流 ID 重新组建。
+
+**首部压缩**
+HTTP2 提供了首部压缩功能。
+
+**优先级**
+
+HTTP2 可以对比较紧急的请求设置一个较高的优先级，服务器在收到这样的请求后，可以优先处理。
+
+**流量控制**
+
+由于一个 TCP 连接流量带宽（根据客户端到服务器的网络带宽而定）是固定的，当有多个请求并发时，一个请求占的流量多，另一个请求占的流量就会少。流量控制可以对不同的流的流量进行精确控制。
+
+**服务器推送**
+
+HTTP2 新增的一个强大的新功能，就是服务器可以对一个客户端请求发送多个响应。换句话说，除了对最初请求的响应外，服务器还可以额外向客户端推送资源，而无需客户端明确地请求。
+
+例如当浏览器请求一个网站时，除了返回 HTML 页面外，服务器还可以根据 HTML 页面中的资源的 URL，来提前推送资源。
+
+
+
+
 
 ## JS中的性能优化
 #### 1.不要覆盖原生方法
@@ -313,6 +364,9 @@ function throttle(func, delay) {
 ```
 
 
+#### 注意程序的局部性
+一个编写良好的计算机程序常常具有良好的局部性，它们倾向于引用最近引用过的数据项附近的数据项，或者最近引用过的数据项本身，这种倾向性，被称为局部性原理。有良好局部性的程序比局部性差的程序运行得更快。
+
 
 
 
@@ -333,18 +387,60 @@ CSS 是阻塞渲染的资源。需要将它尽早、尽快地下载到客户端�
 **JS 引擎是独立于渲染引擎存在的**。我们的 JS 代码在文档的何处插入，就在何处执行。当 HTML 解析器遇到一个 script 标签时，它会暂停渲染过程，将控制权交给 JS 引擎。JS 引擎对内联的 JS 代码会直接执行，对外部 JS 文件还要先获取到脚本、再进行执行。等 JS 引擎运行完毕，浏览器又会把控制权还给渲染引擎，继续 CSSOM 和 DOM 的构建。 因此与其说是 JS 把 CSS 和 HTML 阻塞了，不如说是 JS 引擎抢走了渲染引擎的控制权。
 
 实际使用,需遵循的原则:
-* CSS 资源优于 JavaScript 资源引入
+* 将 CSS 放在文件头部，JavaScript 文件放在底部
 - JS 应尽量少影响 DOM 的构建
 - 改变JS阻塞方式
 	- defer(并行下载,在DOM渲染完成后再执行)
 	- async(并行下载,下载完成后立即执行,阻塞dom渲染)
 
 
+### 降低CSS选择器复杂性
+浏览器读取选择器，遵循的原则是从选择器的右边到左边读取。看个示例：
+```css
+#block .text p {
+    color: red;
+}
+```
+1.  查找所有 P 元素。
+2.  查找结果 1 中的元素是否有类名为 text 的父元素
+3.  查找结果 2 中的元素是否有 id 为 block 的父元素
 
+CSS 选择器优先级
+内联 > ID选择器 > 类选择器 > 标签选择器
+
+根据以上两个信息可以得出结论：
+
+1.  减少嵌套。后代选择器的开销是最高的，因此我们应该尽量将选择器的深度降到最低（最高不要超过三层），尽可能使用类来关联每一个标签元素
+2.  关注可以通过继承实现的属性，避免重复匹配重复定义
+3.  尽量使用高优先级的选择器，例如 ID 和类选择器。
+4.  避免使用通配符，只对需要用到的元素进行选择
+
+### 使用字体图标 iconfont 代替图片图标
+字体图标就是将图标制作成一个字体，使用时就跟字体一样，可以设置属性，例如 font-size、color 等等，非常方便。并且字体图标是矢量图，不会失真。还有一个优点是生成的文件特别小。
+
+### 压缩字体文件
+使用 [fontmin-webpack](https://github.com/patrickhulce/fontmin-webpack) 插件对字体文件进行压缩
 
 
 
 ### 减少重流重绘
+
+#### 如何解决?
+**CSS**
+-   避免使用table布局。
+-   尽可能在DOM树的最末端改变class。
+-   避免设置多层内联样式。
+-   将动画效果应用到position属性为absolute或fixed的元素上。
+-   避免使用CSS表达式（例如：calc()）。
+
+**JavaScript**
+-   避免频繁操作样式，最好一次性重写style属性，或者将样式列表定义为class并一次性更改class属性。
+-   避免频繁操作DOM，创建一个documentFragment，在它上面应用所有DOM操作，最后再把它添加到文档中。
+-   也可以先为元素设置display: none，操作结束后再把它显示出来。因为在display属性为none的元素上进行的DOM操作不会引发回流和重绘。
+-   避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。
+-   对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流
+
+
 
 #### 1.骨架屏
 用css提前占好位置，当资源加载完成即可填充，减少页面的回流与重绘，同时还能给用户最直接的反馈。 图中使用插件：[react-placeholder](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fbuildo%2Freact-placeholder "https://github.com/buildo/react-placeholder")
@@ -389,6 +485,17 @@ const Example = () => (
 
 
 ### 缓存
+为了避免用户每次访问网站都得请求文件，我们可以通过添加 Expires 或 max-age 来控制这一行为。Expires 设置了一个时间，只要在这个时间之前，浏览器都不会请求文件，而是直接使用缓存。而 max-age 是一个相对时间，建议使用 max-age 代替 Expires 。
+
+不过这样会产生一个问题，当文件更新了怎么办？怎么通知浏览器重新请求文件？
+
+可以通过更新页面中引用的资源链接地址，让浏览器主动放弃缓存，加载新资源。
+
+具体做法是把资源地址 URL 的修改与文件内容关联起来，也就是说，只有文件内容变化，才会导致相应 URL 的变更，从而实现文件级别的精确缓存控制。什么东西与文件内容相关呢？我们会很自然的联想到利用[数据摘要要算法](https://baike.baidu.com/item/%E6%B6%88%E6%81%AF%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/3286770?fromtitle=%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95&fromid=12011257)对文件求摘要信息，摘要信息与文件内容一一对应，就有了一种可以精确到单个文件粒度的缓存控制依据了。
+
+
+
+
 
 #### 1.http缓存
 ##### keep-alive
@@ -462,6 +569,36 @@ new ManifestPlugin({
 
 
 
+#### 浏览器缓存
+缓存的意义就在于减少请求，更多地使用本地的资源，给用户更好的体验的同时，也减轻服务器压力。所以，最佳实践，就应该是尽可能命中强缓存，同时，能在更新版本的时候让客户端的缓存失效。
+在更新版本之后，如何让用户第一时间使用最新的资源文件呢？机智的前端们想出了一个方法，在更新版本的时候，顺便把静态资源的路径改了，这样，就相当于第一次访问这些资源，就不会存在缓存的问题了
+```js
+entry:{
+    main: path.join(__dirname,'./main.js'),
+    vendor: ['react', 'antd']
+},
+output:{
+    path:path.join(__dirname,'./dist'),
+    publicPath: '/dist/',
+    filname: 'bundle.[chunkhash].js'
+}
+```
+
+综上所述，我们可以得出一个较为合理的缓存方案：
+- HTML：使用协商缓存。
+- CSS、JS和图片：使用强缓存，文件命名带上hash值。
+
+#### 文件名哈希 ?
+Webpack 给我们提供了三种哈希值计算方式，分别是`hash`、`chunkhash`和`contenthash`。
+
+
+
+
+
+
+
+
+
 
 ### 预加载&懒加载
 
@@ -520,12 +657,60 @@ webpack也是支持这两个属性的:[webpackPrefetch 和 webpackPreload](https
 ### 图片资源的优化
 >[🔥 2022 前端性能优化最佳实践 - JavaScript进阶之路 - SegmentFault 思否](https://segmentfault.com/a/1190000041753539)
 
-#### 1.使用雪碧图
-雪碧图的作用就是减少请求数，而且多张图片合在一起后的体积会少于多张图片的体积总和，这也是比较通用的图片压缩方案
-现在很少用了
+
+#### 图片延迟加载
+在页面中，先不给图片设置路径，只有当图片出现在浏览器的可视区域时，才去加载真正的图片，这就是延迟加载。
+首先可以将图片这样设置，在页面不可见时图片不会加载：
+
+```html
+<img data-src="https://avatars0.githubusercontent.com/u/22117876?s=460&u=7bd8f32788df6988833da6bd155c3cfbebc68006&v=4">
+```
+
+等页面可见时，使用 JS 加载图片：
+
+```js
+const img = document.querySelector('img')
+img.src = img.dataset.src
+```
+
+这样图片就加载出来了，完整的代码可以看一下参考资料。
+参考资料：
+
+-  [web 前端图片懒加载实现原理](https://juejin.im/entry/594a483061ff4b006c12cea1)
 
 
-#### 2.降低图片质量
+#### 响应式图片
+响应式图片的优点是浏览器能够根据屏幕大小自动加载合适的图片。
+
+通过 `picture` 实现
+
+```html
+<picture>
+    <source srcset="banner_w1000.jpg" media="(min-width: 801px)">
+    <source srcset="banner_w800.jpg" media="(max-width: 800px)">
+    <img src="banner_w800.jpg" alt="">
+</picture>
+```
+
+通过 `@media` 实现
+```css
+@media (min-width: 769px) {
+    .bg {
+        background-image: url(bg1080.jpg);
+    }
+}
+@media (max-width: 768px) {
+    .bg {
+        background-image: url(bg768.jpg);
+    }
+}
+```
+
+
+
+#### 降低图片质量
+例如 JPG 格式的图片，100% 的质量和 90% 质量的通常看不出来区别，尤其是用来当背景图的时候。我经常用 PS 切背景图时， 将图片切成 JPG 格式，并且将它压缩到 60% 的质量，基本上看不出来区别。
+
 压缩方法有两种，一是通过在线网站进行压缩，二是通过 webpack 插件 image-webpack-loader。它是基于 [imagemin](https://link.segmentfault.com/?enc=PAoQ%2BkIno1eABSR%2Bi3eflA%3D%3D.7PB%2BfABhYfIPZz805iNFLC73YrooJkNp9aa2idh1joQGH5yBIHzfJcMbYnfpBTfjjxTkQZMeKgY2vrQyQg9W1fLjUTq3CV9K0Xb4jeD%2B9UQ%3D) 这个 Node 库来实现图片压缩的。
 
 使用很简单，我们只要在`file-loader`之后加入 `image-webpack-loader` 即可：
@@ -589,9 +774,14 @@ module: {
 
 #### 4.使用CSS3代替图片
 有很多图片使用 CSS 效果（渐变、阴影等）就能画出来，这种情况选择 CSS3 效果更好。因为代码大小通常是图片大小的几分之一甚至几十分之一。
+参考资料：
+-   [img图片在webpack中使用](https://juejin.im/post/5cad99b5518825215d37b894)
 
-#### 5.使用webpack格式图片
-`WebP` 是 Google 团队开发的加快图片加载速度的图片格式，其优势体现在它具有更优的图像数据压缩算法，能带来更小的图片体积，而且拥有肉眼识别无差异的图像质量；同时具备了无损和有损的压缩模式、Alpha 透明以及动画的特性，在 JPEG 和 PNG 上的转化效果都相当优秀、稳定和统一。
+#### 使用webpack格式图片
+> WebP 的优势体现在它具有更优的图像数据压缩算法，能带来更小的图片体积，而且拥有肉眼识别无差异的图像质量；同时具备了无损和有损的压缩模式、Alpha 透明以及动画的特性，在 JPEG 和 PNG 上的转化效果都相当优秀、稳定和统一。
+
+参考资料：
+-  [WebP 相对于 PNG、JPG 有什么优势？](https://www.zhihu.com/question/27201061)
 
 
 
@@ -639,7 +829,16 @@ html压缩可以用`HtmlWebpackPlugin`，单页项目就一个index.html,性能�
 -   服务器推送`http2_push: 'xxx.jpg'` 具体升级方式也很简单，修改一下nginx配置，方法请自行`Google`
 
 
-# webpack优化
+
+
+
+
+
+
+
+
+
+# 优化-webpack
 
 除了上面提到的几个插件之外,还有以下几种:
 ### 1.DllPlugin提升构建速度
@@ -702,3 +901,69 @@ optimization: {
 },
 ```
 
+
+### 减少 ES6 转为 ES5 的冗余代码
+>Babel 插件会在将 ES6 代码转换成 ES5 代码时会注入一些辅助函数
+为了不让这些辅助函数的代码重复出现，可以在依赖它们时通过 `require('babel-runtime/helpers/createClass')` 的方式导入，这样就能做到只让它们出现一次。`babel-plugin-transform-runtime` 插件就是用来实现这个作用的，将相关辅助函数进行替换成导入语句，从而减小 babel 编译出来的代码的文件大小。
+
+首先，安装 `babel-plugin-transform-runtime` ：
+```bash
+npm install babel-plugin-transform-runtime —save-dev
+```
+
+
+然后，修改 `.babelrc` 配置文件为：
+```js
+"plugins": [
+    "transform-runtime"
+]
+```
+
+
+### 提取公共代码
+Webpack 内置了专门用于提取多个Chunk 中的公共部分的插件 CommonsChunkPlugin，我们在项目中 CommonsChunkPlugin 的配置如下：
+```js
+// 所有在 package.json 里面依赖的包，都会被打包进 vendor.js 这个文件中。
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'vendor',
+  minChunks: function(module, count) {
+    return (
+      module.resource &&
+      /\.js$/.test(module.resource) &&
+      module.resource.indexOf(
+        path.join(__dirname, '../node_modules')
+      ) === 0
+    );
+  }
+}),
+// 抽取出代码模块的映射关系
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'manifest',
+  chunks: ['vendor']
+})
+```
+
+
+### 模板预编译
+
+
+### 提取组件的CSS
+当使用单文件组件时，组件内的 CSS 会以 style 标签的方式通过 JavaScript 动态注入。这有一些小小的运行时开销，如果你使用服务端渲染，这会导致一段 “无样式内容闪烁 (fouc) ” 。将所有组件的 CSS 提取到同一个文件可以避免这个问题，也会让 CSS 更好地进行压缩和缓存。  
+查阅这个构建工具各自的文档来了解更多：
+
+-   [webpack + vue-loader](https://link.segmentfault.com/?enc=E6ETqJMKg%2FQSTpVKl1%2BB%2FA%3D%3D.U%2FgkROAzLHjCJjr1sKNgFq87F5XNJuMFnJ75rynfJ04fz0Ebvr3lOFOnsocltHIV3Qj8pEZTtz8dxF8RGWtcf9hNPiQcDPaU17A6xSIuP653sf9rzLlQ7me%2F%2BSo2V0KnbtLdNlwHZg6VG7rSFKimVw%3D%3D) ( vue-cli 的 webpack 模板已经预先配置好)
+-   [Browserify + vueify](https://link.segmentfault.com/?enc=a8FbLJFWK11%2BEgt0lNLOqw%3D%3D.k7kNAi%2FnqSfAIi9wDUgq2rGxfn0RLRFmH%2FEgv03Oi3LCpTE0fZbN2stQt83CcxJY8XKwcYhTZ6tM7QUiUTdMK0R6J%2BE2uG0pJW%2B1P%2FMIC3h6BMr64VUWshmJ4q26o0H2)
+-   [Rollup + rollup-plugin-vue](https://link.segmentfault.com/?enc=6uktLru3oS%2BI0DsgGLtqwQ%3D%3D.Lo2OZbicYbRL6MnJlabjlJ39HdAI56NCCk%2Fat7kVhBxV%2FnXKyGNtMRmr%2BKv4EFo4YHMcxv%2B5Uv7i4FTDdKJIJgzT6gWeIZqU4aC4vxIw09K8%2B5DWQD4M%2FbVhs5aQUXC5o3gaRUOzqdnENhNlHO6AB76KhUlbDc4vnBM32KWcBh0%3D)
+
+
+### 按需加载代码
+通过 Vue 写的单页应用时，可能会有很多的路由引入。当打包构建的时候，JS 包会变得非常大，影响加载。如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应的组件，这样就更加高效了。
+
+
+
+
+# 优化-Vue
+
+
+
+# 
