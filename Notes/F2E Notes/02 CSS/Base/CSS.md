@@ -99,13 +99,12 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 ## CSS选择器
 
-### 分类
+### 分类概述
 * 类型选择器
 * 类选择器
 * ID选择器
 * 属性选择器
-* 伪类选择器
-* 伪元素选择器
+* 伪类和伪元素选择器
 * 组合选择器
 
 ### 类型选择器(type)
@@ -293,14 +292,84 @@ calc() 函数用于动态计算长度值。
 
 
 ### 伪元素选择器(Pseudo-elements)
+>[Pseudo-classes and pseudo-elements - Learn web development | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#what_is_a_pseudo-element)
+>[Pseudo-elements - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements)
 
-> 概述: 
->
-> 伪元素:在盒子的内部,有一前一后两个盒子被称为伪元素, 伪元素默认是 ==<font color="red">**行内显示模式**</font>== 
->
-> 文本用伪元素显示不合适      伪元素中的文本内容不会被搜索引擎抓取
->
-> clear属性只能在块元素身上生效 1103讲解
+
+#### 概述
+伪元素是为选择器添加的关键字,用来装饰选择元素特定的部分.伪元素以双冒号开始`::`,例如`::before`就是一个伪元素的例子.
+
+在一个选择器中你只能用一次伪元素.它必须出现在语句中的简单选择器之后。
+> 注意,一些早起伪元素使用单冒号语法.现代浏览器支持具有单冒号或双冒号语法的早期伪元素，以实现向后兼容性.
+> 但在使用中,双冒号应该代替单冒号.
+
+
+#### 语法
+```css
+selector::pseudo-element {
+	property: value;
+}
+```
+
+
+#### 集合
+##### `::after` `::before`
+>[::before和::after伪元素的用法 - starof - 博客园 (cnblogs.com)](https://www.cnblogs.com/starof/p/4459991.html)
+
+`::before和::after`下特有的content，用于在css渲染中向元素逻辑上的头部或尾部添加内容。
+这些添加不会出现在DOM中，不会改变文档内容，不可复制，仅仅是在css渲染层加入。
+所以不要用:before或:after展示有实际意义的内容，尽量使用它们显示修饰性内容，例如图标。
+举例：网站有些联系电话，希望在它们前加一个icon☎，就可以使用:before伪元素，如下：
+
+```html
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<style type="text/css">
+    .phoneNumber::before {
+    content:'\260E';
+    font-size: 15px;
+}
+</style>
+<p class="phoneNumber">12345645654</p>
+```
+
+这些特殊字符的html，js和css的写法是不同的，具体可查看[html特殊字符的html，js，css写法汇总。](http://www.cnblogs.com/starof/p/4718550.html)
+
+**content属性**
+>[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
+
+::before和::after必须配合content属性来使用，content用来定义插入的内容，content必须有值，至少是空。默认情况下，伪类元素的display是默认值inline，可以通过设置display:block来改变其显示。
+
+content可取以下值。
+
+
+
+
+
+##### `::backdrop`
+
+
+
+
+##### `::cue`
+##### `::cue-region`
+
+##### `::first-letter`
+##### `::first-line`
+##### `::file-selector-button`
+
+##### `::grammar-error`<span style="display:inline-block; width:15px; height:15px; background: center/contain url(https://developer.mozilla.org/static/media/experimental.2f9e05f53c6dbee7791c.svg)"></span>
+
+##### `::marker`
+
+##### `::part()`
+##### `::placeholder`
+
+##### `::selection`
+##### `::slotted()`
+##### `::spelling-error`<span style="display:inline-block; width:15px; height:15px; background: center/contain url(https://developer.mozilla.org/static/media/experimental.2f9e05f53c6dbee7791c.svg)"></span>
+
+##### `::target-text`<span style="display:inline-block; width:15px; height:15px; background: center/contain url(https://developer.mozilla.org/static/media/experimental.2f9e05f53c6dbee7791c.svg)"></span>
 
 
 
@@ -425,6 +494,13 @@ former_element ~ target_element { style properties }
 
 
 # CSS布局
+## 介绍
+
+## Normal flow(流式布局)
+
+
+## Flexbox(弹性盒子)
+[[202303091528|flex]]
 
 
 
@@ -436,6 +512,108 @@ former_element ~ target_element { style properties }
 
 
 ## 属性(Properties)
+
+
+### content
+>[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
+
+#### 概述
+使用生成的值来代替元素.使用content值插入的内容是匿名[替换元素](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element).
+
+CSS生成的内容是不会包含在DOM中(所以才需要哪些注释).所以它在[可访问树](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility#accessibility_apis)不会被表示并且某些辅助技术/浏览器不会描述它.如果内容传达的信息对理解页面的内容很重要,则最好在文档中包含它.
+
+#### 正式定义
+
+| 特征     | 定义                                                                                                                                                                       |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 初始值   | normal                                                                                                                                                                     |
+| 适用范围 | 所有元素,树伪元素和页面边距盒子(tree-abiding pseudo-elements,and page margin boxes)                                                                                        |
+| 继承     | 否                                                                                                                                                                         |
+| [计算值](https://developer.mozilla.org/en-US/docs/Web/CSS/computed_value)   | 在元素上,总是计算为`normal`. 在`::before`和`::after`,如果指定`normal`,则计算为`none`. 否则, 对URI值,计算为绝对URI;对`attr()`值,计算为结果字符串;对其它关键字, 按指定的计算 |
+| 动画类型 |    不相关(discrete)                                                                                                                                                                        |
+
+#### 语法
+```css
+/* Keywords that cannot be combined with other values */
+content: normal;
+content: none;
+
+/* <image> values */
+content: url("http://www.example.com/test.png");
+content: linear-gradient(#e66465, #9198e5);
+content: image-set("image1x.png" 1x, "image2x.png" 2x);
+
+/* alt text for generated content, added in the Level 3 specification */
+content: url("http://www.example.com/test.png") / "This is the alt text";
+
+/* <string> value */
+content: "prefix";
+
+/* list of content values */
+content: "prefix" url("http://www.example.com/test.png");
+content: "prefix" url("http://www.example.com/test.png") "suffix" /
+  "This is some alt text";
+
+/* <counter> values, optionally with <list-style-type> */
+content: counter(chapter_counter);
+content: counter(chapter_counter, upper-roman);
+content: counters(section_counter, ".");
+content: counters(section_counter, ".", decimal-leading-zero);
+
+/* attr() value linked to the HTML attribute value */
+content: attr(value string);
+
+/* Language- and position-dependent keywords */
+content: open-quote;
+content: close-quote;
+content: no-open-quote;
+content: no-close-quote;
+
+/* Except for normal and none, several values can be used simultaneously */
+content: open-quote counter(chapter_counter);
+
+/* Global values */
+content: inherit;
+content: initial;
+content: revert;
+content: revert-layer;
+content: unset;
+```
+
+
+#### 案例
+**清除浮动**
+
+
+
+**模拟float:center效果**
+
+
+**做出各种图形效果**
+
+**不使用图片创建图标**
+
+
+**显示打印网页URL**
+```html
+<style>
+@media print {
+  a[href]:after {
+    content: " (" attr(href) ") ";
+  }
+}
+</style><body>
+<a href="http://www.baidu.com">百度</a>
+</body>
+```
+
+
+**给blockquote添加引号**
+
+**超链接特效**
+
+
+**::before和::after实现多背景图片** !
 
 
 
@@ -494,7 +672,7 @@ Access-Control-Allow-Origin: *
 
 
 
-# CSS构建基础
+# CSS构建基础 (待拆分)
 
 层叠和继承
 
@@ -1858,6 +2036,34 @@ BEM 即为块级元素修饰字符（Block Element Modifier）。在 BEM 中，�
 另一种组织 CSS 的方法是利用一些对于前端开发者可用的工具，它们让你可以稍微更程式化地编写 CSS。有很多工具，我们将它们分成**预处理工具**和**后处理工具**。预处理工具以你的原文件为基础运行，将它们转化为样式表；后处理工具使用你已完成的样式表，然后对它做点手脚——也许是优化它以使它加载得更快。
 
 
+
+# 概念guide
+
+## 动画
+
+## 背景和边框
+
+## 框对齐(box aligment)
+
+## 盒模型(box model)
+## 列(columns)
+
+## 条件规则
+## CSSOM视图
+## 弹性盒子(FlexBox)
+## 流布局(Flowlayout)
+## 字体
+## Grid
+## 图片
+## 列表和计数器(Lists and counters)
+## 逻辑属性(Logical properties)
+## 媒体查询(media queries)
+## 布局
+## 滚动捕捉(scrop snap)
+## 形状(shaps)
+## 文本(Text)
+## 变形(Transform)
+## Transitions(过渡转变)
 
 
 
@@ -7965,10 +8171,59 @@ http://jsfiddle.net/ye0fbg4n/
 
 1.[如何调整CSS盒模型大小](../html&css/如何调整盒模型大小.md)
 
+# 其它
+属于大纲页面内容,但是暂时没有发现具体属于哪个分类的知识
+
+
+## 替换元素(replaced elements)
+
+### 概念
+> 在CSS中,替换元素代表CSS作用域外部的元素;它们是外部内容,其表示形式独立于CSS格式化模型.
+> 简单来说,它们是元素,其内容不受当前文档样式的影响.替换元素的位置可以使用CSS来影响,但不是替换元素内容本身.
+> CSS对替换元素唯一的影响,是有些属性支持控制元素内容在其盒子中的位置. 点击查看 [Controlling object position within the content box](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element#controlling_object_position_within_the_content_box)获取更多信息.
+
+
+### 替换元素
+* `<iframe>`
+* `<video>`
+* `<embed>`
+* `<img>`
+一些在特定情况下被当做替换元素的元素:
+* `<options>`
+* `<audio>`
+* `<canvas>`
+* `<object>`
+* `<applet>`
+
+HTML规范也提到`<input>`元素也能被替代,因为"image"类型的`<input>`元素是与`<img>`相似的替代元素.然而,其它表单控件,包括其它`<input>`元素类型,被明确列为非替换元素(该规范使用术语“小部件”描述其默认平台特定的渲染).
+使用CSS`content`属性插入的对象是匿名替换元素.之所以匿名是因为它们不存在于HTML标记中.
+
+
+### 使用
+
+
+**控制内容框中对象的位置**
+某些 CSS 属性可用于指定替换元素中包含的内容在元素的框区域中的位置。通过[CSS Images]([CSS Images Module Level 3 (csswg.org)](https://drafts.csswg.org/css-images/))规范来定义:(添加在替换元素上的)
+
+`object-fit` 指定替换元素的内容对象应该如何适应包含元素的盒子
+
+`object-position` 指定元素盒子中的替换元素的内容对象对齐方式.
 
 
 
-## CSS最佳实践
+
+# 工具
+## 颜色选择器
+
+## 盒子阴影生成器(Box shadow generator)
+
+## 边框图片生成器(Border image generator)
+
+
+
+
+
+# CSS最佳实践
 
 ### MaintainableCSS
 
@@ -8001,7 +8256,7 @@ https://csswizardry.com/2011/09/writing-efficient-css-selectors/
 
 https://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/
 
-## CSS 网站订阅
+# CSS 网站订阅
 
 
 
