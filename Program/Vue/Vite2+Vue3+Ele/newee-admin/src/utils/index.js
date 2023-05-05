@@ -22,4 +22,7 @@ export const pathMap = {
 	login: "登陆",
 	add: "添加商品",
 	swiper: "轮播图配置",
+	hot: "热销商品配置",
+	new: "新品上线配置",
+	recommend: "为你推荐配置",
 };

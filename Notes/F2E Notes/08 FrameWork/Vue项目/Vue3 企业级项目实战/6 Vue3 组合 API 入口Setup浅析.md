@@ -56,7 +56,7 @@ export default {
 
 `setup` 存在的意义，就是为了让你能够使用新增的组合 API。并且这些组合 API 只能在 `setup` 函数内使用。
 
-`setup` 调用的时机是创建组件实例，然后初始化 `props`，紧接着就是调用 `setup` 函数。从生命周期钩子的角度来看，它会在 `beforeCreate` 钩子之前被调用，所以 `setup` 内是拿不到 `this` 上下文的，这在后面的会详细分析。
+<span style="color:blue">`setup` 调用的时机是创建组件实例，然后初始化 `props`，紧接着就是调用 `setup` 函数。从生命周期钩子的角度来看，它会在 `beforeCreate` 钩子之前被调用，所以 `setup` 内是拿不到 `this` 上下文的</span>，这在后面的会详细分析。
 
 不妨先看看生命周期的对照表：
 
