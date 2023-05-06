@@ -11,8 +11,10 @@
 				</el-popconfirm>
 			</div>
 		</template>
-		<el-table :load="state.loading" :data="state.tableData" tooltip-effect="dark" style="width:100%"
+		<el-table :loading="state.loading" :data="state.tableData" tooltip-effect="dark" style="width:100%"
 			@selection-change="handleSelectionChange">
+			<el-table-column type="selection" width="55">
+			</el-table-column>
 			<el-table-column prop="configName" label="商品名称"></el-table-column>
 			<el-table-column label="跳转链接">
 				<template #default="scope">
@@ -38,7 +40,7 @@
 		<el-pagination background layout="prev,pager,next" :total="state.total" :page-size="state.pageSize"
 			:current-page="state.currentPage" @current-change="changePage"></el-pagination>
 	</el-card>
-	<DialogAddGood ref="addGood" :reload="getIndexConfig" :type="type" :configType="configType"></DialogAddGood>
+	<DialogAddGood ref="addGood" :reload="getIndexConfig" :type="state.type" :configType="state.configType" />
 </template>
 
 <script setup>
@@ -46,7 +48,7 @@ import DialogAddGood from '@/components/DialogAddGood.vue';
 import axios from '@/utils/axios';
 import { Delete, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const configTypeMap = {
@@ -58,6 +60,7 @@ const configTypeMap = {
 
 const router = useRouter()
 const route = useRoute()
+const addGood = ref(null)
 const state = reactive({
 	loading: false,
 	tableData: [],
@@ -66,7 +69,7 @@ const state = reactive({
 	pageSize: 10,
 	type: 'add',
 	configType: 3,// 3-(首页)热销商品 4-(首页)新品上线 5-(首页)为你推荐
-	mutipleSelection: [] //选中项
+	multipleSelection: [] //选中项
 })
 
 // 监听路由变化
@@ -105,8 +108,9 @@ const changePage = val => {
 	state.currentPage = val
 	getIndexConfig()
 }
-// 选中商品
+// 添加商品
 const handleAdd = () => {
+	console.log('handleAdd', addGood)
 	state.type = 'add'
 	addGood.value.open()
 }

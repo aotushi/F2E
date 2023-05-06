@@ -132,8 +132,8 @@ DOM启蒙
 * https://www.joshwcomeau.com/
 * http://www.godbasin.com/
 * https://www.zhangxinxu.com/
-* https://app.daily.de
-* https://exploringjs.com/(https://2ality.com/)
+* https://app.daily.dev
+* https://exploringjs.com/(https://2ality.com)
 * https://calendar.perfplanet.com/
 * https://github.com/ljianshu/Blog
 * https://github.com/zenany/weekly
@@ -258,7 +258,7 @@ DOM启蒙
 * JavaScript数据结构和算法完全解析[javascript-algorithms]
 * https://github.com/halfrost/LeetCode-Go
 
-                                                                                              
+  ​                                                                                            
 
 ## 路径
 

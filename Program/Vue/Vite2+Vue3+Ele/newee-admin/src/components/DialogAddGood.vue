@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="type == 'add' ? '添加商品' : '修改商品'" v-mode="state.visible" width="400px">
+  <el-dialog :title="type == 'add' ? '添加商品' : '修改商品'" v-model="state.visible" width="400px">
     <el-form :model="state.ruleForm" :rules="state.rules" ref="formRef" label-width="100px" class="good-form">
       <el-form-item label="商品名称" prop="name">
         <el-input type="text" v-model="state.ruleForm.name"></el-input>
@@ -24,9 +24,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import axios from '@/utils/axios'
+import axios from '@/utils/axios';
+import { ElMessage } from 'element-plus';
+import { reactive, ref } from 'vue';
 
 const props = defineProps({
   type: String,
@@ -128,7 +128,7 @@ const submitForm = () => {
   })
 }
 
-defineExpose({open ,close})
+defineExpose({ open, close })
 </script>
 
 <style scoped>

@@ -6,9 +6,10 @@ import { ShoppingCart } from "@element-plus/icons-vue";
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
+
 const state = reactive({
 	showMenu: true,
-	defaultOpen: ["1", "2"],
+	defaultOpen: ["1", "2","3"],
 	currentPath: "/",
 });
 const { defaultOpen, currentPath } = state;
@@ -88,6 +89,15 @@ router.beforeEach((to, from, next) => {
 							<el-menu-item index="/recommend">
 								<el-icon><ShoppingCart /></el-icon>为你推荐配置
 							</el-menu-item>
+						</el-menu-item-group>
+					</el-sub-menu>
+					<el-sub-menu index="3">
+						<template #title>
+							<span>模块管理</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/category"><el-icon><Menu/></el-icon>分类管理</el-menu-item>
+							<el-menu-item index="/good"><el-icon><Goods /></el-icon>商品管理</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
 				</el-menu>
