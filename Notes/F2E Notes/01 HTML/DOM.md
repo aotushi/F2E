@@ -28,11 +28,11 @@ document.body的值可能是null
 
 
 
-### DOM选择器
+# DOM选择器
 
 > DOM选择器用于快速定位DOM元素。在原生的JavaScript中有提供根据id、name等属性来查找的传统选择器，也有新型的、更高效的querySelector选择器和querySelectorAll选择器，支持丰富的元素、属性、内容选择等。
 
-#### 选择器种类
+## 选择器种类
 * 通过id定位
 * 通过class定位
 * 通过name属性定位
@@ -161,7 +161,7 @@ querySelectorAll选择器匹配过程与querySelector选择器一样，优先获
 
 但是对于querySelectorAll选择器来说却是一个特例。将id选择器传入querySelectorAll选择器中后，可以通过id获取多个匹配的元素，然后通过索引获取特定的值。
 
-#### HTMLCollection对象与NodeList对象
+# HTMLCollection对象与NodeList对象
 
 > children属性和childNodes属性的不同在本质上是HTMLCollection对象和NodeList对象的不同。HTMLCollection对象与NodeList对象都是DOM节点的集合，但是在节点处理方式上是有差异的。
 
@@ -197,7 +197,7 @@ NodeList(5) [text, p.ﬁrst, text, p.second, text]
 
 
 
-#### HTMLCollection对象
+## HTMLCollection对象
 
 HTMLCollection对象具有length属性，返回集合的长度，可以通过item ()函数和namedItem()函数来访问特定的元素。
 
@@ -256,13 +256,13 @@ HTMLCollection对象可以调用item()函数，通过序号来获取特定的某
 
 
 
-#### NodeList对象
+## NodeList对象
 
 NodeList对象也具有length属性，返回集合的长度，也同样具有item()函数，通过索引定位子元素的位置
 
 
 
-#### HTMLCollection对象和NodeList对象的实时性
+### HTMLCollection对象和NodeList对象的实时性
 
 > HTMLCollection对象和NodeList对象并不是历史文档状态的静态快照，而是具有实时性的。对DOM树新增或者删除一个相关节点，都会立刻反映在HTMLCollection对象与NodeList对象中。
 >
@@ -646,7 +646,7 @@ window.onload = function(){
    ></iframe>
 
 
-## 事件/事件流
+# 事件/事件流
 
 ```js
 https://www.cnblogs.com/starof/p/4066381.html
@@ -1556,7 +1556,7 @@ document.addEventListener('myEvent', function () {
 
 
 
-### 如何自定义事件
+## 如何自定义事件
 
 > [创建和触发 events - 事件参考 | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/Events/Creating_and_triggering_events)
 
@@ -2002,9 +2002,9 @@ Context Menu是一个与用户进行友好交互的菜单，例如鼠标的右�
 
 
 
-## UI事件
+# UI事件
 
-### 一.鼠标事件
+## 一.鼠标事件
 
 #### 1.鼠标事件类型
 
@@ -2292,7 +2292,7 @@ event.target.className
 
 
 
-### 二.移动鼠标
+## 二.移动鼠标
 
 #### 1.mouseover mouseouter
 
@@ -2422,7 +2422,7 @@ https://zh.javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave#sh
 
 
 
-### 三.鼠标拖放事件??
+## 三.鼠标拖放事件??
 
 如何使用鼠标事件来实现拖放
 
@@ -2430,7 +2430,7 @@ https://zh.javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave#sh
 
 
 
-### 四.指针事件??
+## 四.指针事件??
 
 指针事件（Pointer Events）是一种用于处理来自各种输入设备（例如鼠标、触控笔和触摸屏等）的输入信息的现代化解决方案。
 
@@ -2481,7 +2481,7 @@ note:
 
 
 
-### 五.键盘事件keydown和keyup
+## 五.键盘事件keydown和keyup
 
 在现代设备上，还有其他“输入内容”的方法,例如，人们使用语音识别（尤其是在移动端设备上）或用鼠标复制/粘贴。
 
@@ -2643,7 +2643,7 @@ function checkPhoneKey(key) {
 
 
 
-### 六.滚动
+## 六.滚动
 
 
 
@@ -2767,7 +2767,7 @@ img{
 
 
 
-### 八.键盘事件
+## 八.键盘事件
 
 ```JavaScript
 - 键盘事件分为onkeyup(键盘抬起)和onkeydown(键盘按下)两种
@@ -2797,7 +2797,7 @@ window.onload = function(){
 
 
 
-### 九.光标事件
+## 九.光标事件
 
 ```JavaScript
 - 获得焦点 onfocus
@@ -2916,7 +2916,7 @@ function checkAll(){
 
 
 
-### 其他 右键事件
+## 其他 右键事件
 
 #### 是什么
 
@@ -2978,7 +2978,7 @@ load事件会在页面、脚本或者图片加载完成后触发。其中，支�
 
 
 
-## 节点
+# 节点
 
 **什么是节点**
 
@@ -3263,7 +3263,7 @@ innerHTML  适用于不可循环区域
 
 
 
-### 节点增删改
+## 节点增删改
 
 > 都是父元素调用
 
@@ -3640,334 +3640,6 @@ boxNode.detachEvent('onclick', fn2);
 
 
 
-
-
-
-
-## 定时器
-
-### setTimeout /未完成
-
-#### 概述
-
-> 该定时器在定时器到期后执行一个函数或指定的一段代码。
->
-> 第一个参数是函数,没有参数.
-
-#### Syntax
-
-```javascript
-setTimeout(code)
-setTimeout(code, delay)
-
-
-setTimeout(functionRef)
-setTimeout(functionRef, delay)
-setTimeuot(functionRef, delay, arg1)
-setTimeout(functionRef, delay, arg1, arg2)
-setTimeout(functionRef, delay, arg1, arg2, /* ... ,*/ argN)
-```
-
-
-
-#### Parameters
-
-`functionRef`  a function to be executed after the timer expires
-
-`code` 
-
-> an alternative syntax that allows you to include <u>a string instead of a function</u>, which is compiled and executed when the timer expires.
->
-> this syntax <u>is not recommended</u> for the same reasons that make using `eval()` a security risk
-
-`delay` [Optional]
-
-> the time, **in milliseconds** that the timer should wait before the specified function or code is excuted.
->
-> 计时器在执行指定函数或代码之前应等待的时间（以毫秒为单位）
->
-> **If this parameter is omitted**, a value of 0 is used, meaning execute 'immediately', or more accurately , the next event cycle. ???
->
-> Note that in either case ,the actual delay **may be longer than intended**;see [Reasons for delays longer than specified](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified) below.
->
-> also note that if the value isn't a number, implict <span style="color:blue"><u>type coercion</u></span> is silently done on the value to convert it to a number - which can lead to unexpected and suprising results; see [Non-number delay values are silently coerced into numbers](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#non-number_delay_values_are_silently_coerced_into_numbers) for an example.
-
-
-
-如果省略传给setTimeout()的第二个参数,则该参数默认值为0,并不意味着函数会立即被调用,只意味着这个函数会被注册到某个地方,将被'尽可能快地'调用.如果浏览器由于处理用户输入或其他事件而没有空闲,那么调用这个函数的时机可能在10毫秒甚至更长时间以后.
-
-
-
-`args1,...,argsN` [Optional]
-
-Additional arguments which are passed through to the function specified by function
-
-
-
-#### return values
-
-the returned `timeoutId` is <span style="color:blue">a positive integer value</span> which identifies the timer created by the call to `setTimeout()`. 
-
-It is guaranteed that a `timeoutID` value will never be reused by a subsequent call to `setTimeout()` or `setInterval()` on the same object (a window or a worker). ????
-
-However, different objects use separate pools of IDs.
-
-返回值在浏览器中一般是数字,在node中是对象.
-
-#### Desc
-
-##### Non-number delay values are silently coerced into numbers
-
-
-
-##### Working with asynchronous functions
-
-
-
-##### The 'this' problem
-
-> when you pass a method to `setTimeout()`, it will be invoked with a `this` value that may differ from you expectation. The general issue is explained in detail in the JavaScript reference.
-
-
-
-Code executed by `setTimeout()` <span style="background: yellow">is called from</span> <span style="text-decoration:underline wavy blue">an execution context</span> sepatate from the function from which `setTimeout` was called. ????
-
-由 setTimeout（） 执行的代码是在一个独立于调用 setTimeout 的函数的<span style="text-decoration:underline wavy blue">执行上下文</span>中<span style="background: yellow">调用的</span>.
-
-The usual rules for setting the `this` keyword for the called function apply, and if you have not set `this` in the call or with `bind`, it will default to the  `window`(or `global`) object. It will not be the same as the `this` value for the function that called `setTimeout`.
-
-> 为调用的函数应用设置this关键字的通常规则是, 如果调用时或使用bind函数时没有设置this,它将默认指向window对象.它将与调用setTimeout的函数的this值相同.
-
-example:
-
-```javascript
-const myArray = ['zero', 'one', 'two'];
-myArray.myMethod = function (sProperty) {
-  console.log(arguments.length > 0 ? this[sProperty] : this);
-};
-
-myArray.myMethod(); // prints "zero,one,two"
-myArray.myMethod(1); // prints "one"
-
-setTimeout(myArray.myMethod, 1.0*1000) // '[object Windows]'
-setTimeout(myArray.myMethod, 1,5*1000, '1') // 'undefined'
-```
-
-there's no solution to pass a `thisArg` to `setTimeout` as there is in Array methods usch as forEach() and reduce(). As shown below, using `call` to set `this` doesn't work either.
-
-```javascript
-setTimeout.call(myArray, myArray.myMethod, 2.0*1000) //error
-setTimeout.call(myArray, myArray.myMethod, 2.0*1000, 2) //error
-```
-
-
-
-**solutions**
-
-<u>use a wrapper function</u>
-
-a common way to solve the problem is to use a wrapper function that sets `this` to the required value:
-
-```javascript
-setTimeout(function() {myArray.myMethod()}, 2.0*1000) //'zero,one,two'
-setTimeout(function() {myArray.myMethod('1')}, 2.5*1000) //'one'
-```
-
-the wrapper function can be <span style="color:blue">an arrow function</span>
-
-```javascript
-setTimeout(() => {myArray.myMethod()}, 2.0*1000); // prints "zero,one,two" after 2 seconds
-setTimeout(() => {myArray.myMethod('1')}, 2.5*1000); // prints "one" after 2.5 seconds
-```
-
-
-
-<u>use bind()</u>
-
-you can use `bind()`to set the value of `this` for <span style="color: red">all calls to a given function</span>
-
-```javascript
-const myArray = ['zero', 'one', 'two'];
-const myBoundMethod = (function (sProperty) {
-    console.log(arguments.length > 0 ? this[sProperty] : this);
-}).bind(myArray);
-
-myBoundMethod(); // prints "zero,one,two" because 'this' is bound to myArray in the function
-myBoundMethod(1); // prints "one"
-setTimeout(myBoundMethod, 1.0*1000); // still prints "zero,one,two" after 1 second because of the binding
-setTimeout(myBoundMethod, 1.5*1000, "1"); // prints "one" after 1.5 seconds
-```
-
-
-
-##### passing string literals
-
-> Passing a string instead of a function to `setTimeout()` has the same problems as using [`eval()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval).
-
-A string passed to `setTimeout()` is evaluated in the global context, so local symbols in the context where `setTimeout()` was called will not be available when the string is evaluated as code.
-
-传递给 setTimeout（） 的字符串是在全局上下文中计算的，所以当字符串被计算为代码时，调用了setTimeout()的上下文中的局部符号将不可用。????
-
-```javascript
-// Don't do this
-setTimeout("console.log('Hello World!');", 500); //报错拒绝执行
-
-// Do this instead
-setTimeout(function() {
-  console.log('Hello World!');
-}, 500);
-```
-
-
-
-##### Reasons for delays longer than specified
-
-There are a number of reasons why a timeout may take longer to **fire(唤起)** than anticipated. This section describes the most common reasons.
-
-**1.Nested itemouts**  //未完成
-
-As specified in the  [HTML standard](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers), browsers will enforce a minimum timeout of <span style="color:blue">4 milliseconds</span> once a nested call to `setTimeout` has been scheduled 5 times.
-
-```javascript
-```
-
-
-
-**2.Timeouts in inactive tabs**
-
-//未完成
-
-
-
-**3.Throttling of tracking scripts**
-
-//未完成
-
-**4.Late timeouts**
-
-//未完成
-
-**5.Deferral of timeouts during pageload**
-
-//未完成
-
-
-
-
-
-
-
-#### setTimeout()  延迟定时器/单次定时器
-
-setTimeout() 是属于 window 的方法, 在指定的毫秒数后调用函数或计算表达式
-
-```js
-//语法
-setTimeout(code,millisec,param1,param2)
-setTimeout(function,milliseconds,param1,param2)
-
-code/function 必须.代码串或表达式
-millisenonds 可选.默认为0,执行或调用code/function需要等待的时间,以毫秒计.
-param1,param2... 可选. 传给执行函数的其他参数（IE9 及其更早版本不支持该参数）
-
-//返回值
-返回一个 ID（数字），可以将这个ID传递给 clearTimeout() 来取消执行
-
-//描述
-定时器的id的本质就是通过数值去记录定时器的顺序.如果只有一个定时器,清除定时器也可以用clearTimeout(1),不建议使用
-定时器如果不设置时间或者设置时间为0 ,也是异步操作
-
-
-//清除定时器
-要清除定时器, 使用相应的方法, 传入要清楚的定时器id. 定时器id的本质就是通过数值去记录定时器的顺序.但不要使用这种方式去去除,而是要使用定时器id的变量(方法赋值一个变量)
-let timer=setTimeout()
-clearTimeout(timer)
-```
-
-
-
-```js
-//示例
-
-1. 3秒后弹出'hello'
-let myVar;
-function myFun(){
-	myVar=setTimeout(alertFun,3000);
-}
-function alertFun(){alert('hello')}
-
-```
-
-
-
-### setInteveral
-
-#### 循环定时器
-
-##### 参数:
-
-1. 回调函数
-2. 间隔时间
-
-
-
-##### 定时器清除
-
-循环定时器的清除, 我们大多数情况下都是**在循环定时器回调函数的内部**,通过判断进行自动清除的.
-
-
-
-##### 实例
-
-```HTML
-<button id="btn">按钮</button>
-
-<script>
-	window.onload = function(){
-        var btnNode = document.querySelector('#btn');
-        //btnNode.onclick = function(){
-        //    clearInterval(timer);
-        //};
-        var num = 10;
-        var timer = setInterval(function(){//timer回调函数返回值 
-            num--;
-            if(num === 0){
-                clearInterval(timer);
-            }
-            console.log(num);
-        },1000);
-    }
-</script>
-```
-
-
-
-
-
-##### 实例/阅读协议
-
-```HTML
-- 按钮倒计时
-
-<input type="button" disabled value="请阅读（10）秒">
-<script>
-	window.onload = function(){
-        var iptNode = document.querySelector('#btn');
-        var num = 10;
-        var timer = setInterval(function(){
-            num--;
-            if(num === 0){
-                clearInterval(timer);
-                iptNode.disabled = false; // 只要遇到属性名和属性值都相同的属性进行if判断,统一转换成布尔值操作
-                iptNode.value = '关闭';
-            }else{
-                iptNode.value = "请阅读（"+ num +"）秒";
-                
-            }
-        },1000);
-    }
-</script>
-```
 
 
 

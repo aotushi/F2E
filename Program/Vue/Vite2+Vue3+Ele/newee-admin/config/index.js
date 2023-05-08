@@ -8,4 +8,7 @@ export default {
 	release: {
 		baseUrl: "//backend-api-02.newbee.ltd/manage-api/v1", //正式接口域名
 	},
+	production: {
+		baseUrl: "//backend-api-02.newbee.ltd/manage-api/v1", //正式接口域名
+	},
 };

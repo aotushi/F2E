@@ -7,6 +7,7 @@
 		"dev": "vite --mode development",
 		"build:beta": "vite build --mode beta",
 		"build:release": "vite build --mode release",
+		"build:production": "vite build --mode production",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -15,7 +16,8 @@
 		"element-plus": "^2.2.27",
 		"js-md5": "^0.7.3",
 		"vue": "^3.2.45",
-		"vue-router": "^4.1.6"
+		"vue-router": "^4.1.6",
+		"wangeditor": "^4.7.15"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^4.0.0",

@@ -40,7 +40,7 @@ aliases: html
 
 
 
-# HTML元素
+# HTML元素组成
 
 ## 主要组成部分
 
@@ -62,7 +62,7 @@ aliases: html
 
 
 
-# HTML元素参考
+# HTML元素分类
 
 > [HTML 元素参考 - HTML（超文本标记语言） | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)
 
@@ -73,6 +73,7 @@ aliases: html
 | ELement  | Description                    |
 | -------- | ------------------------------ |
 | `<html>` | 代表一个HTML文档的根(顶级元素) | 
+
 
 ## 文档元数据
 元数据(metadata)包含关于页面的信息.包括样式,脚本,帮助软件(搜索引擎,浏览器等)来使用和渲染页面的数据.
@@ -388,7 +389,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 ## 文档声明类型
 
-##### 作用
+### 作用
 
 会通知浏览器即将处理的文档类型,允许它们相应的调整处理机制.这DTD插入一个特殊标签(<!DOCTYPE>),为每个文档采用特定形式.此声明只能出现在文档开始.
 
@@ -396,11 +397,11 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 ## main container: HTML元素
 
-##### 组成
+### 组成
 
 分成两部分: the `<head>` and  the `<body>`
 
-##### \<head>元素
+### \<head>元素
 
 `<head>`部分是文档元信息(metadata)的容器.描述了文档的各种属性信息,包括文档标题,与其他文件的关系等.
 
@@ -415,7 +416,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-##### \<body>元素
+### \<body>元素
 
 文档`<body>`仅仅是可渲染部分的容器.从这开始写你自己的内容(添加标题,段落,图片等),当页面加载时候你的访客立即访问的部分.
 
@@ -455,11 +456,9 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 * name属性主要用于描述网页，比如网页的关键词，叙述等。
 
 ##### description
-
 ```html
 <meta name="description" content="xxx">
 ```
-
 
 
 ##### viewport

@@ -12,6 +12,8 @@ axios.defaults.headers["X-Requested-with"] = "XMLHttpRequest";
 // axios.defaults.headers["token"] = localStorage.getItem("token") || "";
 axios.defaults.headers["token"] = localGet("token") || "";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+// axios.defaults.headers.common["Origin"] = "127.0.0.1:5174";
+// axios.defaults.headers.common["Referer"] = "127.0.0.1:5174";
 
 axios.interceptors.response.use((res) => {
 	if (typeof res.data !== "object") {

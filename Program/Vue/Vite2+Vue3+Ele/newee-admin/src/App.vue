@@ -9,7 +9,7 @@ import { useRoute, useRouter } from "vue-router";
 
 const state = reactive({
 	showMenu: true,
-	defaultOpen: ["1", "2","3"],
+	defaultOpen: ["1", "2", "3", '4'],
 	currentPath: "/",
 });
 const { defaultOpen, currentPath } = state;
@@ -56,7 +56,8 @@ router.beforeEach((to, from, next) => {
 					</div>
 				</div>
 				<div class="line" />
-				<el-menu background-color="#222832" text-color="#fff" router :default-active="currentPath" :default-openeds="defaultOpen">
+				<el-menu background-color="#222832" text-color="#fff" router :default-active="currentPath"
+					:default-openeds="defaultOpen">
 					<!-- 一级栏目 -->
 					<el-sub-menu index="1">
 						<template #title>
@@ -65,10 +66,14 @@ router.beforeEach((to, from, next) => {
 						<!-- 二级栏目 -->
 						<el-menu-item-group>
 							<el-menu-item index="/">
-								<el-icon> <Odometer /> </el-icon>首页
+								<el-icon>
+									<Odometer />
+								</el-icon>首页
 							</el-menu-item>
 							<el-menu-item index="/add">
-								<el-icon> <Plus /> </el-icon>添加商品
+								<el-icon>
+									<Plus />
+								</el-icon>添加商品
 							</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
@@ -78,16 +83,24 @@ router.beforeEach((to, from, next) => {
 						</template>
 						<el-menu-item-group>
 							<el-menu-item index="/swiper">
-								<el-icon> <Picture /> </el-icon>轮播图配置
+								<el-icon>
+									<Picture />
+								</el-icon>轮播图配置
 							</el-menu-item>
 							<el-menu-item index="/hot">
-								<el-icon><StarFilled /></el-icon>热销商品配置
+								<el-icon>
+									<StarFilled />
+								</el-icon>热销商品配置
 							</el-menu-item>
 							<el-menu-item index="/new">
-								<el-icon><Sell /></el-icon>新品上线配置
+								<el-icon>
+									<Sell />
+								</el-icon>新品上线配置
 							</el-menu-item>
 							<el-menu-item index="/recommend">
-								<el-icon><ShoppingCart /></el-icon>为你推荐配置
+								<el-icon>
+									<ShoppingCart />
+								</el-icon>为你推荐配置
 							</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
@@ -96,8 +109,30 @@ router.beforeEach((to, from, next) => {
 							<span>模块管理</span>
 						</template>
 						<el-menu-item-group>
-							<el-menu-item index="/category"><el-icon><Menu/></el-icon>分类管理</el-menu-item>
-							<el-menu-item index="/good"><el-icon><Goods /></el-icon>商品管理</el-menu-item>
+							<el-menu-item index="/category"><el-icon>
+									<Menu />
+								</el-icon>分类管理</el-menu-item>
+							<el-menu-item index="/good"><el-icon>
+									<Goods />
+								</el-icon>商品管理</el-menu-item>
+							<el-menu-item index="/order"><el-icon>
+									<List />
+								</el-icon>订单管理</el-menu-item>
+							<el-menu-item index="/guest"><el-icon>
+									<User />
+								</el-icon>会员管理</el-menu-item>
+						</el-menu-item-group>
+					</el-sub-menu>
+					<el-sub-menu index="4">
+						<template #title>
+							<span>系统管理</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/account">
+								<el-icon>
+									<Lock />
+								</el-icon>修改密码
+							</el-menu-item>
 						</el-menu-item-group>
 					</el-sub-menu>
 				</el-menu>
@@ -138,7 +173,7 @@ router.beforeEach((to, from, next) => {
 	height: 50px;
 }
 
-.head > div {
+.head>div {
 	display: flex;
 	align-items: center;
 }

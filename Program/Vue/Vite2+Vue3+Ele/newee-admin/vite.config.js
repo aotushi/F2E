@@ -35,6 +35,13 @@ export default ({ mode }) =>
 				"/api": {
 					target: "http://backend-api-02.newbee.ltd/manage-api/v1",
 					changeOrigin: true,
+					selfhandlere
+					configure: (proxy, options) => {
+						proxy.on("proxyRes", (proxyRes, req, res) => {
+							console.log("proxy", proxyRes);
+							console.log("req", req);
+						});
+					},
 					rewrite: (path) => path.replace(/^\/api/, ""),
 				},
 			},
@@ -47,5 +54,6 @@ export default ({ mode }) =>
 				},
 			},
 		},
-		base: mode == "development" ? "./" : mode == "beta" ? "//s.baidu.com/beta/xxx" : "//s.baidu.com/release/xxx",
+		// base: mode == "development" ? "./" : mode == "beta" ? "//s.baidu.com/beta/xxx" : "//s.baidu.com/release/xxx",
+		base: "./",
 	});

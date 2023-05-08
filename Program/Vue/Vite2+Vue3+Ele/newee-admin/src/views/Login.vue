@@ -10,23 +10,12 @@
           <div class="tips">Vue3.2 后台管理系统</div>
         </div>
       </div>
-      <el-form 
-        label-position="top" 
-        :model="state.ruleForm"
-        :rules="state.rules"
-        class="login-form"
-        ref="loginForm"
-      >
+      <el-form label-position="top" :model="state.ruleForm" :rules="state.rules" class="login-form" ref="loginForm">
         <el-form-item label="账号" prop="username">
-          <el-input v-model.trim="state.ruleForm.username"  autocomplete="off" />
+          <el-input v-model.trim="state.ruleForm.username" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" prop="password" >
-          <el-input 
-            type="password" 
-            show-password 
-            v-model.trim="state.ruleForm.password" 
-            autocomplete="off" 
-          />
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" show-password v-model.trim="state.ruleForm.password" autocomplete="off" />
         </el-form-item>
         <el-form-item>
           <div style="color:#333">登录表示您已同意<a>服务条款</a></div>
@@ -47,13 +36,13 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const state = reactive({
   ruleForm: {
-    username: '',
-    password: '',
+    username: 'admin',
+    password: '123456',
   },
   checked: true,
   rules: {
-    username: [{ required:'true', message: '账户不能为空', trigger: 'blur'}],
-    password: [{ required:'true', message: '密码不能为空', trigger: 'blur'}]
+    username: [{ required: 'true', message: '账户不能为空', trigger: 'blur' }],
+    password: [{ required: 'true', message: '密码不能为空', trigger: 'blur' }]
   }
 })
 
@@ -68,14 +57,18 @@ const submitForm = async () => {
       axios.post('/adminUser/login', {
         userName: state.ruleForm.username || '',
         passwordMd5: md5(state.ruleForm.password)
-      }).then(res => {
+      }
+      ).then(res => {
+
         // 返回的时候会有一个 token，这个令牌就是我们后续去请求别的接口时要带上的，否则会报错，非管理员。
         // 这里我们将其存储到 localStorage 里面。
         localSet('token', res)
         // 此处登录完成之后，需要刷新页面
-        window.location.href = '/'
+        // window.location.href = '/'
         // router.push('/') 注意: 通过router方法跳转后,axios中的headers.token拿不到值
       })
+
+      // window.location.href = '/'
     } else {
       return false
     }
@@ -128,13 +121,16 @@ const resetForm = () => {
   font-size: 12px;
   color: #999;
 }
+
 .login-form {
   width: 70%;
   margin: 0 auto;
 }
+
 .login-form :deep() .el-form--label-top .el-form-item__label {
   padding: 0
 }
+
 .login-form :deep() .el-form-item {
   margin-bottom: 0;
 }

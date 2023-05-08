@@ -1,9 +1,13 @@
+import Account from "@/views/Account.vue";
 import AddGood from "@/views/AddGood.vue";
 import Category from "@/views/Category.vue";
 import Good from "@/views/Good.vue";
+import Guest from "@/views/Guest.vue";
 import Index from "@/views/Index.vue";
 import IndexConfig from "@/views/IndexConfig.vue";
 import Login from "@/views/Login.vue";
+import Order from "@/views/Order.vue";
+import OrderDetail from "@/views/OrderDetail.vue";
 import Swiper from "@/views/Swiper.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
@@ -66,6 +70,27 @@ const router = createRouter({
 			path: "/good",
 			name: "good",
 			component: Good,
+		},
+
+		{
+			path: "/order",
+			name: "order",
+			component: Order,
+		},
+		{
+			path: "/order_detail",
+			name: "order_detail",
+			component: OrderDetail,
+		},
+		{
+			path: "/guest",
+			name: "guest",
+			component: Guest,
+		},
+		{
+			path: "/account",
+			name: "account",
+			component: Account,
 		},
 	],
 });
