@@ -53,7 +53,7 @@
 
 返回一个代表元素内部宽度的数字.
 
-这个属性对行内元素和没有CSS的元素来说是0;另外,它是元素的像素宽度(以像素为单位).它包含内边距对排除边框,外边距和垂直滚动条(如果存在).
+这个属性对行内元素和没有CSS的元素来说是0;另外,它是元素的像素宽度(以像素为单位).它包含内边距,排除边框,外边距和垂直滚动条(如果存在).
 
 当`clientWidth`在根元素(`<html>`元素, 或在[怪异模式]([Quirks Mode - HTML: HyperText Markup Language | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode))下的`<body>`上),返回视口(viewport)的宽度(排除任何滚动条). 
 

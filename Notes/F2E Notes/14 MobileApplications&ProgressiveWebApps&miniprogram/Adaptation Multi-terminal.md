@@ -1,12 +1,13 @@
 
 
+# 屏幕/视口/像素概念
+​在学习移动端之前，我们先来学习一些基础的概念和专有名词，这些知识会在以后的面试、工作沟通中经常用到。
+> [移动端前端开发之viewport | 思忆技术 (si-yee.com)](https://blog.si-yee.com/2019/04/11/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B9%8Bviewport/)
 
-# 相关概念
-​		在学习移动端之前，我们先来学习一些基础的概念和专有名词，这些知识会在以后的面试、工作沟通中经常用到。
 
 ## 屏幕相关
 
-### 	1.屏幕大小
+### 1.屏幕大小
 ​			指屏幕对角线长度，单位是英寸(inch)。常见的尺寸有： 3.5寸、4.0寸、5.0寸、5.5寸、6.0寸等等。
 
 ​			**<span style="color:red">备注：1英寸(inch) = 2.54厘米(cm)</span>**
@@ -14,7 +15,7 @@
 ![](https://s1.ax1x.com/2020/06/27/NyZQbQ.png)
 
 
-### 	2.屏幕分辨率
+### 2.屏幕分辨率
 ​			是指屏幕在：横向、纵向上的**物理像素点**总数。一般表示用 n * m 表示。
 
 ​			例如：iPhone6 的屏幕分辨率为：<span style="color:red">**750 * 1334**</span>
@@ -39,9 +40,9 @@
 |                       小米10                        |                  2340 x 1080                  |
 |                       小米11                        |                  3200 x 1440                  |
 
-### 	3.屏幕密度
+### 3.屏幕密度
 
-​        又称：屏幕像素密度，是指屏幕上每英寸里包含的物理像素点个数，单位是 ppi （pixels per inch），其实这里还有另一个单位 dpi（dots per inch），两个值的计算方式都一样，只是使用的场景不同。 ppi主要用来衡量屏幕，dpi 用来衡量打印机、投影仪等。
+又称：屏幕像素密度，是指屏幕上每英寸里包含的物理像素点个数，单位是 ppi （pixels per inch），其实这里还有另一个单位 dpi（dots per inch），两个值的计算方式都一样，只是使用的场景不同。 ppi主要用来衡量屏幕，dpi 用来衡量打印机、投影仪等。
 
 <img src="https://s1.ax1x.com/2020/06/27/NyZ1Ej.png" style="zoom: 25%;" />
 
@@ -50,6 +51,7 @@
 ## 像素相关
 
 > https://www.cnblogs.com/houxianzhou/p/14604922.html
+> 
 
 ### 0. css(css pixel, px) 像素
 
@@ -92,10 +94,6 @@ px会受到下面的因素的影响而变化：
 ### 3.设备独立像素
 
 设备独立像素简称 DIP （device-independent pixel），又称：**屏幕密度无关像素**。表示*与设备无关的逻辑像素*，<span style="color:blue">代表可以通过程序控制使用的虚拟像素</span>。是一个总体概念，包括了`css`像素。可以理解为：<span style="color:blue">`CSS像素 = 设备独立像素 = 逻辑像素`。</span>在`iOS`、`Android`和`React Native`开发中样式单位其实都使用的是设备独立像素。
-
-> 页面的缩放系数 = css像素 / 设备独立像素   ???
-
-
 
 **出现的原因?**
 
@@ -293,34 +291,19 @@ $$
 简单理解，视口（viewport）是用户在**网页**上的可见区域。
 
 Viewport 的大小取决于屏幕的大小：
-
 * 在尺寸较大的设备中，应用显示区域不一定是全屏的，viewport 是浏览器窗口的大小。
 * 在大多数移动设备中，浏览器是全屏的，viewport 是整个屏幕的大小。
 * 在全屏模式下，viewport 是设备屏幕的范围，浏览器窗口小于或等于视口的大小（全屏模式快捷键`F11`,）
 
-<span style="color:blue">     **概括地说，viewport 基本上是当前文档的可见部分。**</span>
+<span style="color:blue">概括地说，viewport 基本上是当前文档的可见部分</span>
 
 
 
-### 种类
-
-一般我们把`viewport`分为三类：
-
-#### 布局视口(layout viewport)
-
-浏览器默认的`viewport`，可以通过`document.documentElement.clientWidth`来获取。
-布局视口是网页布局的基准窗口，在`PC`浏览器上，布局视口就等于当前浏览器的窗口大小（不包括`borders`、`margins`、滚动条）。
-在移动端，宽度通常大于浏览器可视区域的宽度。因为如果把移动设备上浏览器的可视区域设为`viewport`的话，一些网站就会因为`viewport`太窄而显示错乱，所以浏览器厂商就决定把默认的`viewport`设为一个较宽的值，比如`980px`，这样的话即使是那些为桌面设计的网站也能在移动浏览器上正常显示了。
 
 
 
 #### 视觉视口(visual viewport)
 
-用户通过屏幕真实看到的区域，默认等于浏览器窗口的大小（包括滚动条宽度）。可以通过`window.innerWidth`来获取，宽度等于浏览器可视区域的宽度。当用户对浏览器进行缩放时，不会改变布局视口的大小，所以页面布局是不变的，但是缩放会改变视觉视口的大小。
-例如：用户将浏览器窗口放大了200%，这时浏览器窗口中的`CSS`像素会随着视觉视口的放大而放大，这时一个`CSS`像素会跨越更多的物理像素。
-所以，布局视口会限制你的`CSS`布局而视觉视口决定用户具体能看到什么。
-
-<span style="color:blue">视觉视口要么跟布局视口相同，要么更小</span>
 
 
 
@@ -335,8 +318,7 @@ Viewport 的大小取决于屏幕的大小：
 
 
 ### pc端视口
-
-​        在pc端，视口的默认宽度和**浏览器窗口**的宽度一致。在 css 标准文档中，视口也被称为：<u>初始包含块</u>，它是所有 css 百分比宽度推算的根源，在pc端可通过如下几种方式获取宽度：
+在pc端，视口的默认宽度和**浏览器窗口**的宽度一致。在 css 标准文档中，视口也被称为：<u>初始包含块</u>，它是所有 css 百分比宽度推算的根源，在pc端可通过如下几种方式获取宽度：
 
 ```js
 console.log('最干净的显示区域',document.documentElement.clientWidth);//常用
@@ -353,23 +335,30 @@ console.log('与浏览器无关，当前设备显示分辨率横向的值',scree
 
 
 
-#### 1. 布局视口
-
+#### 1. 布局视口(layout viewport)
+**概况**
+布局视口是网页布局的基准窗口，在`PC`浏览器上，布局视口就等于当前浏览器的窗口大小。
 一般移动设备的浏览器都默认设置了一个 viewport 元标签，定义一个虚拟的布局视口（layout viewport），用于解决早期的页面在手机上显示的问题。iOS, Android 基本都将这个视口分辨率设置为 980px，所以 PC 上的网页基本能在手机上呈现，只不过元素看上去很小，一般默认可以通过手动缩放网页。
 
 
+**示意图**
 
-`在PC端上，布局视口宽度默认等于浏览器窗口的宽度。`而在移动端上，由于要使为PC端浏览器设计的网站能够完全显示在移动端的小屏幕里，此时的布局视口会远大于移动设备的屏幕，就会出现滚动条。
+完全缩小的情况下：visual viewport = layout viewport
+![vvlv](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/vvlv.30uoqdglkio0.webp)
 
-DOM获取:
+不完全缩小的情况下：layout viewport > visual viewport
+![lvvv](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/lvvv.2qbw97frja00.webp)
 
-默认的布局视口宽度为980px.
+
+**获取布局视口:**
+
+默认的布局视口宽度为980px.`clientWidth`不包括border,margin和滚动条(如果存在).
 
 ```javascript
 document.documentElement.clientWidth / clientHeight
 ```
 
-设置
+**设置**
 
 如果显式设置布局视口,可以使用HTML中的meta标签
 
@@ -382,27 +371,31 @@ document.documentElement.clientWidth / clientHeight
  <img src="https://s1.ax1x.com/2020/06/28/NRoBg1.png" style="zoom: 50%;" />
 
 
-#### 2. 视觉视口
+#### 2. 视觉视口(visual viewport)
+**概况**
+用户通过屏幕真实看到的区域，默认等于浏览器窗口的大小（包括滚动条宽度）。可以通过`window.innerWidth`来获取，宽度等于浏览器可视区域的宽度。
+当用户对浏览器进行缩放时，不会改变布局视口的大小，所以页面布局是不变的，但是缩放会改变视觉视口的大小。
+例如：用户将浏览器窗口放大了200%，这时浏览器窗口中的`CSS`像素会随着视觉视口的放大而放大，这时一个`CSS`像素会跨越更多的物理像素。
+所以，布局视口会限制你的`CSS`布局而视觉视口决定用户具体能看到什么。
+
+**是什么**
 视觉视口(`visual viewport`)：用户通过屏幕真实看到的区域。
 
-<span style="color:blue">视觉视口默认等于当前浏览器的窗口大小<span style="background: #ccc">（包括滚动条宽度）</span>。</span>
 
-用户可以通过缩放操作视觉视口,同时不会影响布局视口.
-
-<u>例如：</u>
-
-用户将浏览器窗口放大了`200%`，这时浏览器窗口中的`CSS像素`会随着视觉视口的放大而放大，这时一个`CSS`像素会跨越更多的物理像素。
-
-所以，布局视口会限制你的`CSS`布局而视觉视口决定用户具体能看到什么。
+**视觉视口与布局视口关系**
+* <span style="color:blue">视觉视口默认等于当前浏览器的窗口大小<span style="background: #ccc">（包括滚动条宽度）</span>。</span>
+>可以把`layout viewport`理解为一张完全遮住并且不能更边大小的白纸，把`visual viewport`理解为一个有边框的透视器，你可以通过这个透视器来查看这张白纸的内容。通过这个透视器你可以一点点的看到白纸部分内容，这里所能看到的就是`visual viewport`。你也可以靠近或者远离的方式来透视白纸（白纸静止不动），你看的内容可以变多或者变少，但是白纸`layout viewport`自身的大小和形状是不会发生改变的。 -- [来源](https://blog.si-yee.com/2019/04/11/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B9%8Bviewport/#:~:text=%E5%8F%AF%E4%BB%A5%E6%8A%8Alayout%20viewport%E7%90%86%E8%A7%A3%E4%B8%BA%E4%B8%80%E5%BC%A0%E5%AE%8C%E5%85%A8%E9%81%AE%E4%BD%8F%E5%B9%B6%E4%B8%94%E4%B8%8D%E8%83%BD%E6%9B%B4%E8%BE%B9%E5%A4%A7%E5%B0%8F%E7%9A%84%E7%99%BD%E7%BA%B8%EF%BC%8C%E6%8A%8Avisual%20viewport%E7%90%86%E8%A7%A3%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%9C%89%E8%BE%B9%E6%A1%86%E7%9A%84%E9%80%8F%E8%A7%86%E5%99%A8%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E8%BF%99%E4%B8%AA%E9%80%8F%E8%A7%86%E5%99%A8%E6%9D%A5%E6%9F%A5%E7%9C%8B%E8%BF%99%E5%BC%A0%E7%99%BD%E7%BA%B8%E7%9A%84%E5%86%85%E5%AE%B9%E3%80%82%E9%80%9A%E8%BF%87%E8%BF%99%E4%B8%AA%E9%80%8F%E8%A7%86%E5%99%A8%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E7%82%B9%E7%82%B9%E7%9A%84%E7%9C%8B%E5%88%B0%E7%99%BD%E7%BA%B8%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%EF%BC%8C%E8%BF%99%E9%87%8C%E6%89%80%E8%83%BD%E7%9C%8B%E5%88%B0%E7%9A%84%E5%B0%B1%E6%98%AFvisual%20viewport%E3%80%82%E4%BD%A0%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%9D%A0%E8%BF%91%E6%88%96%E8%80%85%E8%BF%9C%E7%A6%BB%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E9%80%8F%E8%A7%86%E7%99%BD%E7%BA%B8%EF%BC%88%E7%99%BD%E7%BA%B8%E9%9D%99%E6%AD%A2%E4%B8%8D%E5%8A%A8%EF%BC%89%EF%BC%8C%E4%BD%A0%E7%9C%8B%E7%9A%84%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BB%A5%E5%8F%98%E5%A4%9A%E6%88%96%E8%80%85%E5%8F%98%E5%B0%91%EF%BC%8C%E4%BD%86%E6%98%AF%E7%99%BD%E7%BA%B8layout%20viewport%E8%87%AA%E8%BA%AB%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%92%8C%E5%BD%A2%E7%8A%B6%E6%98%AF%E4%B8%8D%E4%BC%9A%E5%8F%91%E7%94%9F%E6%94%B9%E5%8F%98%E7%9A%84%E3%80%82)
 
 视觉视口和缩放比例的关系为:
 
 > 当前的缩放值 = 理想视口宽度 / 视觉视口宽度   ???
 
-<u>获取:</u>
+
+**获取视觉视口宽度/高度:**
 
 ```javascript
-window.innerwidth / innerHeight
+window.innerwidth
+window.innerHeight
 ```
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bacccff7697542f799ad99cd078de44c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1304:0:0:0.awebp)
@@ -412,32 +405,24 @@ window.innerwidth / innerHeight
 
 
 #### 3. 理想视口
+> 布局视口的默认宽度并不是一个理想的宽度，于是 Apple 和其他浏览器厂商引入了理想视口的概念，它对设备而言是最理想的布局视口尺寸。显示在理想视口中的网站具有最理想的宽度，用户无需进行缩放。
+> 
+> 理想视口的值其实就是屏幕分辨率的值，它对应的像素叫做设备独立像素（device independent pixel, dip）。dip 和设备的物理像素无关，一个 dip 在任意像素密度的设备屏幕上都占据相同的空间。如果用户没有进行`缩放`，那么一个 CSS 像素就等于一个 dip。
 
-移动设备的理想`viewport`，即网站页面在移动端展示的理想大小。可以通过调用`screen.width / height`来获取理想视口大小。没有一个固定的尺寸，不同的设备有不同`ideal viewport`。
-
-
-
-上面在介绍`CSS像素时`曾经提到`页面的缩放系数 = CSS像素 / 设备独立像素`，实际上说`页面的缩放系数 = 理想视口宽度 / 视觉视口宽度`更为准确。????
-
-所以，当页面缩放比例为`100%`时，`CSS像素 = 设备独立像素`，`理想视口 = 视觉视口`。
-
-移动设备一般具有固定的DPR,即在缩放100%时, 用多少个物理像素显示一个逻辑像素,在CSS中就是用多少个物理像素来显示一个CSS像素.
 
 > 理想视口宽度 = 移动设备横向分辨率 / DPR
 
 **获取**
-
-我们可以通过调用`screen.width / height ` 来获取理想视口大小 //获取方式和设备独立像素相同.
-
+我们可以通过调用`screen.width / height ` 来获取理想视口的宽/高
 ```javascript
 screen.width / height
 ```
 
 
 
-### 视口的设置
+### 理想视口设置(viewport)
 
-移动设备默认的`viewport`是`layout viewport`，也就是那个比屏幕要宽的`viewport`，但在进行移动设备网站的开发时，我们需要的是`ideal viewport`。那么怎么才能得到`ideal viewport`呢？这就该轮到`meta`标签出场了。
+移动设备默认的`viewport`默认是`layout viewport`，也就是那个比屏幕要宽的`viewport`，但在进行移动设备网站的开发时，我们需要的是`ideal viewport`。那么怎么才能得到`ideal viewport`呢？这就该轮到`meta`标签出场了。
 
 `meta`元素表示那些不能由其它`HTML`元相关元素之一表示的任何元数据信息，它可以告诉浏览器如何解析页面。我们可以借助`meta`元素的`viewport`来帮助我们设置视口、缩放等，从而让移动端得到更好的展示效果。
 
@@ -447,8 +432,7 @@ screen.width / height
 
 作用是让当前`viewport`的宽度等于设备的宽度，同时不允许用户手动缩放。如果你不这样的设定的话，那就会使用那个比屏幕宽的默认`layout viewport`，就会出现横向滚动条。
 
-viewport 相关选项
-
+#### meta标签 viewport
 1. width  布局视口的宽度  //开启理想视口
 2. initial-scale  【系统】初始缩放比例  //开启理想视口
 3. maximum-scale 允许【用户】缩放的最大比例
@@ -468,8 +452,7 @@ viewport 相关选项
 | user-scalable | 布尔值（yes或者no）   | 如果设置为 no，用户将不能放大或缩小网页。默认值为 yes。      |
 
 
-
-#### 1. width 
+**width** 
 
 > 用来设置页面的布局视口宽度,属性值不带单位,默认单位为像素.其默认值在不同的浏览器中不同,但大多数为980.
 
@@ -477,11 +460,7 @@ viewport 相关选项
 
 在w3schools.com中的解释是:
 
-> `width=device-width` part sets <span style="background: #ccc" >the width of the page</span> to follow <span style="background: #ccc">the screen-width of the device</span>(which will vary depending on the device)
->
-> 这里的 'the width of the page' 应该指的就是布局视口的宽度
->
-> 'the screen-width of the device'指的是设备独立像素
+> `width=device-width` part sets <span style="background: #ccc" >the width of the page</span> to follow <span style="background: #ccc">the screen-width of the device</span>(which will vary depending on the device). 这里的 'the width of the page' 应该指的就是布局视口的宽度. 'the screen-width of the device'指的是设备独立像素.
 
 width能决定布局视口的宽度,实际上并不是唯一决定性因素,设置initial-scale也能影响到布局视口,因为<span style="color: red">布局视口取得是`width`和`视觉视口宽度`的最大值.</span>
 
@@ -507,51 +486,34 @@ device-width = 设备的物理分辨率 / (devicePixelRatio * scale)
 
 
 
-#### 2. initial-scale  
+**initial-scale**  
 
-> mdn
->
-> Possible: a positive number between 0.0 and 10.0
->
-> des: defines the ratio between the <span style="background: #ccc">device width</span>(device-width in portrait mode or device-height in landscape mode) and <span style="background: #ccc">the viewport size</span>.
+>Possible: a positive number between 0.0 and 10.0
+>des: defines the ratio between the <span style="background: #ccc">device width</span>(device-width in portrait mode or device-height in landscape mode) and <span style="background: #ccc">the viewport size</span>.
 
 根据上面的device-width的解释,其值为设备屏幕宽度,也就是设备独立像素,其值的获取方式是`screen.width`
-
 1. initial-scale 为页面初始化时的显示比例。  
-
 2. initial-scale = 屏幕宽度(设备独立像素)  /  布局视口宽度。(理想视口宽度 / 视觉视口宽度
-
 3. 只写initial-scale = 1.0 也可以实现完美视口，但为了良好的兼容性，width=device-width, initial-scale=1.0一般一起写。
 
-
-#### 3. maximum-scale 
-
+**maximum-scale** 
 1. 设置允许用户最大缩放比例，苹果浏览器 safari 不认识该属性
-
 2. maximum-scale = 屏幕宽度(设备独立像素) / 视觉视口宽度值
 
 
-#### 4. minimum-scale
-
+**minimum-scale**
 1. 设置允许用户最小缩放比例。
-
 2. minimum-scale = 屏幕宽度(设备独立像素) / 视觉视口宽度值
 
-#### 5. user-scalable
-
+**user-scalable**
   user-scalable的值是no和
-
 ​	是否允许用户通过手指缩放页面。苹果浏览器 safari 不认识该属性
 
-#### 6.viewport-fit
-
-​	值设置为 cover 可以解决『刘海屏』的留白问题
+**viewport-fit**
+值设置为 cover 可以解决『刘海屏』的留白问题
 
  
-
-
-
-**总结**
+#### 注意事项
 
 要把当前的`viewport`宽度设为`ideal viewport`的宽度，既可以设置`width=device-width`，也可以设置`initial-scale=1`。但这两者各有一个小缺陷，就是`iPhone`、`iPad`以及`IE`会横竖屏不分，通通以竖屏的`ideal viewport`宽度为准。所以，最完美的写法应该是，两者都写上去，这样就`initial-scale=1`解决了`iPhone`、`iPad`的毛病，`width=device-width`则解决了`IE`的毛病。当两个设置冲突时，布局视口取两者最大值。
 
@@ -570,7 +532,7 @@ device-width = 设备的物理分辨率 / (devicePixelRatio * scale)
 
 
 
-### 获取浏览器窗口大小
+### 获取各种窗口大小
 
 - window.screen.height：获取获屏幕取理想视口高度，在`pc`端和`innerHeight`相等，在移动端可能还包含浏览器头部和底部`bar`的高度。这个数值是固定的，设备的分辨率/设备像素比。
 - window.screen.availHeight：浏览器窗口可用的高度。
@@ -612,7 +574,7 @@ window.onresize=()=>{
 #### 移动端缩放
 放大时
 - 布局视口不变
-- 视觉视口变小
+- 视觉视口变小  ?? 或许这个结论就不正确.
 
 缩小时
 - 布局视口不变
@@ -622,7 +584,7 @@ window.onresize=()=>{
 
 
 
-## 移动端适配方案
+# 适配方案
 
 WEB端开发
 
@@ -635,19 +597,18 @@ WEB端开发
 
 
 
-移动端开发
+## 移动端适配原因
 
 通常在PC端`1个设备独立像素 = 1个设备像素`，不用考虑兼容的问题。但在移动端，不同厂商不同型号的设备的`PPI`和`DPR`是不同的，也就是设计图上的1像素在不同设备上占据的实际物理像素值可能不同，所以同样的设计图在不同设备上展示效果是不尽相同的，分辨率越高，图像越缩小。
 
+由于移动端设备的屏幕尺寸大小不一，会出现：同一个元素，在两个不同的手机上显示效果不一样（比例不同）。要想让同一个元素在不同设备上，显示效果一样，就需要适配，**无论采用何种适配方式，中心原则永远是：**<span style="color:#ee0b41">等比</span>！。
 
 
-
-
-**一、为什么要做适配？**
-由于移动端设备的屏幕尺寸大小不一，会出现：同一个元素，在两个不同的手机上显示效果不一样（比例不同）。要想让同一个元素在不同设备上，显示效果一样，就需要适配，**无论采用何种适配方式，中心原则永远是：**<span style="color:#ee0b41">**等比**</span>！。
+## 移动端适配方案
+### 种类
+让元素的宽高和文字的尺寸大小都使用rem单位，然后在不同宽度的设备下设置准确的根字号大小就可以了。
 
 主流的适配方式有三种：
-
 * 媒体查询
 * viewport 适配
 * rem 适配（主流方式，几乎完美适配）
@@ -713,9 +674,7 @@ CSS样式表中的媒体查询:
 ### 2 rem适配 原理
 
 **em 和 rem**
-
 em 和 rem 都是 css 中的长度单位。而且两个都是相对长度单位，不过两个有点区别
-
 * em 相对的是父级元素的字体大小
 * rem 相对的是根元素的字体大小
 
@@ -736,16 +695,12 @@ rem适配的原理：编写样式时统一使用rem为单位，在不同设备�
 淘宝、百度的移动端页面用的此方案
 
 1. 设置完美视口
-2. <span style="color:#ee0b41">通过js设置根字体大小 = **( 当前设备横向独立像素值 *100) / 设计稿宽度**</span>
-3. <span style="color:#ee0b41">编写样式时，直接以rem为单位，值为：**设计值 / 100** </span>  
+2. <span style="color:#ee0b41">通过js设置根字体大小 = ( 当前设备横向独立像素值 *100)/设计稿宽度</span>
+3. <span style="color:#ee0b41">编写样式时，直接以rem为单位，值为：原型上设计值 / 100 </span>  
 4. 增加 JS 代码进行实时适配
 
-
-
 ##### 公式详解
-
 来让我们细化一下公式:
-
 ```html
 还是相同占比的问题:
 
@@ -814,11 +769,9 @@ less写法:
 搜狐、唯品会的移动端页面用的此方案
 
 1. 设置完美视口
-2. <span style="color:#ee0b41">通过js设置根字体大小  = **当前设备横向独立像素值 / 10** </span>
-3. <span style="color:#ee0b41">编写样式时，直接以rem为单位，值为：**设计值 / (设计稿宽度 / 10)**</span>   例如345px/(375px/10)\*rem(41.4px)
+2. <span style="color:#ee0b41">通过js设置根字体大小  = 当前设备横向独立像素值 / 10 </span>
+3. <span style="color:#ee0b41">编写样式时，直接以rem为单位，值为：(设计值/(设计稿宽度/10))*rem</span>   例如345px/(375px/10)\*rem(41.4px)
 4. 增加 JS 代码进行实时适配
-
-
 
 ```javascript
 function adapter() {
@@ -1473,7 +1426,7 @@ images.forEach((img)=>{
 
 
 
-## 移动端事件
+# 移动端事件
 
 ### 事件类型
 
