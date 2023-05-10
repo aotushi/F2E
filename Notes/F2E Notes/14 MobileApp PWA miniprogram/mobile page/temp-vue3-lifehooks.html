@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="https://unpkg.com/vue@3"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+			// new Vue({
+			//   el: '#app',
+			// })
+
+			// const {} from 'vue';
+			const {
+				ref,
+				toRefs,
+				reactive,
+				computed,
+				onBeforeMount,
+				onMounted,
+				onBeforeUpdate,
+				onUpdated,
+				onBeforeUnmount,
+				onUnmounted,
+				onActivated,
+				onDeactivated,
+				onErrorCaptured,
+			} = Vue;
+			const app = Vue.createApp({
+				setup() {
+					const state = reactive({
+						id: 1,
+						name: "tom",
+						num: computed(() => (state.id += 5)),
+					});
+
+					function changeName() {
+						state.name = "lucy";
+					}
+
+					onBeforeMount(() => {
+						console.log("onBeforeMount");
+					});
+
+					onMounted(() => {
+						console.log("onMounted");
+					});
+
+					onBeforeUpdate(() => {
+						console.log("onBeforeUpdate");
+					});
+
+					onUpdated(() => {
+						console.log("onUpdated");
+					});
+
+					onBeforeUnmount(() => {
+						console.log("onBeforeUnmount");
+					});
+
+					onUnmounted(() => {
+						console.log("onUnmounted");
+					});
+
+					onActivated(() => {
+						console.log("onActivated");
+					});
+
+					onDeactivated(() => {
+						console.log("onDeactivated");
+					});
+
+					onErrorCaptured(() => {
+						console.log("onErrorCaptured");
+					});
+
+					return {
+						...toRefs(state),
+						changeName,
+					};
+				},
+			});
+
+			app.mount();
+		</script>
+	</body>
+</html>

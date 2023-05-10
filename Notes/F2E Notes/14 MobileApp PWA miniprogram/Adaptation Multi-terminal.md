@@ -1015,7 +1015,6 @@ sass
 #### 单位
 
 vw和vh是两个相对单位
-
 - vw(Viewport’s width)：`1vw`等于视觉视口的1%。
 - vh(Viewport’s height)：`1vh`为视觉视口高度的1%。
 - vmin：`vw`和`vh`中的较小值。
@@ -1023,80 +1022,157 @@ vw和vh是两个相对单位
 
 如果视觉视口为375px,那么1vw=3.75px, 这时UI给定的一个元素的宽为75px(设备独立像素),我们只需要将它设位置75/3.75 = 20vw.
 
-#### 如何快速换算比例关系?
 
-> 使用`PostCSS`的 `postcss-px-to-viewport` 插件帮我们完成这个过程。写代码时，我们只需要根据`UI`给的设计图写`px`单位即可
+#### vh实践
+>来源: CSS新世界>7.3 rem和vw单位与移动端适配最佳实践
 
-#### 存在的问题 !!
-
-- `px`转换成`vw`不一定能完全整除，因此有一定的像素差。
-- 比如当容器使用`vw`，`margin`采用`px`时，很容易造成整体宽度超过`100vw`，从而影响布局效果。当然我们也是可以避免的，例如使用`padding`代替`margin`，结合`calc()`函数使用等等...
-
-
-
-#### postcss-px-to-viewport
-
-首先安装`postcss-px-to-viewport`插件。该插件主要用来把`px`单位自动转换为`vw`、`vh`、`vmin`、`vmax`这样的`viewport`视窗单位，也是`vw`适配方案的核心插件之一。
-
-可以在`.postcssrc.js`文件中对`postcss`插件进行配置：
-
+vh单位的经典应用，那就是当内容高度不足一屏时，让底部栏贴在浏览器窗口的底部；当内容高度超过一屏时，让底部栏贴在页面最下方。
+```html
+	<div class="container">
+		<content></content>
+		<footer></footer>
+	</div>
 ```
-module.exports = {
-    ‘plugins‘: {
-        ‘postcss-px-to-viewport‘: {
-            viewportWidth: 750,
-            unitPrecision: 6,
-            minPixelValue: 1,
-            viewportUnit: 'vw',
-            mediaQuery: true,
-            selectorBlackList: ['html', 'body'],
-            exclude: /node_modules/
-        }
+
+```css
+.container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+footer {
+	margin-top: auto;
+}
+```
+
+
+#### vw+calc函数实现移动端布局适配方案
+> CSS新世界 7.3 rem和vw单位与移动端适配最佳实践
+
+有了vw单位，再配合calc()函数进行计算，无须使用任何JavaScript代码，我们就可以实现基于设备宽度的移动端布局适配方案。
+
+例如，希望375px～414px的宽度区间的根字号大小是16px～18px，就可以这么设置：
+```css
+html {
+	font-size: 16px;
+}
+
+@media screen and (min-width: 375px) {
+	html {
+	  // 
+		font-size: calc(16px + 2 * (100vw - 375px) / 39); 
+	}
+}
+
+@media screen and (min-width: 414px) {
+	html {
+		font-size: 18px;
+	}
+}
+```
+
+按照上面的计算公式,如果设备宽度是375px,则font-size属性的计算值是16px; 如果设备宽度是400px,则计算值为17.28px; 如果设备宽度是414px，则font-size属性的计算值是18px;
+第二步,将觉稿对应的px尺寸使用rem表示就可以了.例如，视觉稿上图片尺寸是120px×80px，则我们布局的时候使用：
+```css
+img {
+	width: 7.5rem;
+	height: 5rem;
+}
+```
+3px的间隙可以如下表示:
+```css
+.container {
+	gap: calc(3/16rem);
+	/* 也可以直接设置成 gap:.1875rem; */
+}
+```
+
+
+#### 最佳实践范例代码
+>下面这段CSS代码是我最常用的基于rem和vw单位并配合calc()函数的移动端适配代码，大家可以自行微调或者直接复制粘贴到自己的项目中使用，例如screen and可以删除，1000px之后的尺寸可以使用固定值等：
+
+```css
+html {
+    font-size: 16px;
+}
+@media screen and (min-width: 375px) {
+    html {
+        /* 375px作为16px基准，414px宽度时正好对应18px的根字号大小 */
+        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+    }
+}
+@media screen and (min-width: 414px) {
+    html {
+        /* 屏幕宽度从414px到1000px，根字号大小累积增加4px（18px-22px） */
+        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+    }
+}
+@media screen and (min-width: 1000px) {
+    html {
+        /* 屏幕宽度从1000px往后每增加100px，根字号大小就增加0.5px */
+        font-size: calc(22px + 5 * (100vw - 1000px) / 1000);
     }
 }
 ```
 
-如果用的是`vue-cli`的话，也可以在`vue.config.js`文件中进行配置：
 
-```javascript
-module.exports = {
-    css: {
-        loaderOptions: {
-            postcss: {
-                plugins: loader => [
-                    require('postcss-px-to-viewport')({
-                        viewportWidth: 750,
-                        unitPrecision: 6,
-                        minPixelValue: 1,
-                        viewportUnit: 'vw',
-                        mediaQuery: true,
-                        selectorBlackList: ['html', 'body'],
-                        exclude: /node_modules/
-                    })
-                ]
-            }
-        }
-    }
+**起点中文网移动端 适配方案**
+```css
+html {
+  font-size: 16px
+}
+@media screen and (min-width:375px) {
+  html {
+    font-size: calc(100% + 2 * (100vw - 375px)/ 39);
+    font-size: calc(16px + 2 * (100vw - 375px)/ 39)
+  }
+}
+@media screen and (min-width:414px) {
+  html {
+    font-size: calc(112.5% + 4 * (100vw - 414px)/ 586);
+    font-size: calc(18px + 4 * (100vw - 414px)/ 586)
+  }
+}
+@media screen and (min-width:600px) {
+  html {
+    font-size: calc(125% + 4 * (100vw - 600px)/ 400);
+    font-size: calc(20px + 4 * (100vw - 600px)/ 400)
+  }
+}
+@media screen and (min-width:1000px) {
+  html {
+    font-size: calc(137.5% + 6 * (100vw - 1000px)/ 1000);
+    font-size: calc(22px + 6 * (100vw - 1000px)/ 1000)
+  }
 }
 ```
 
-其中相关的几个关键参数：
+#### 范例升级+clamp函数
+>随着越来越多的浏览器支持clamp()函数，我们也可以使用下面这种更加精简的语法：
 
-- viewportWidth：The width of the viewport. 视窗的宽度，对应的是我们设计稿的宽度，一般是750。
-- viewportHeight：The height of the viewport. 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不配置。
-- unitPrecision：The decimal numbers to allow the REM - units to grow to. 指定`px`转换为视窗单位值的小数位数。
-- viewportUnit：Expected units. 指定需要转换成的视窗单位，建议使用`vw`。
-- selectorBlackList：The selectors to - ignore and leave as px. 指定不转换为视窗单位的选择器（如标签、类），可以自定义，可以无限添加，建议定义一至两个通用的类名。
-- minPixelValue：Set the minimum pixel value to replace. 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值。
-- mediaQuery：Allow px to be converted in media - queries. 允许在媒体查询中转换`px`。
-
-我们使用`750px`宽度的设计稿，那么`100vw = 750px`，即`1vw = 7.5px`。那么在实际撸码过程，不需要进行任何的计算，直接按照设计图中的标注写`px`的值就行，打包后会转换成对应的`vw`值，因为`vw`可以代表比例，所以可以适配各种不同的设备。
+```css
+html {
+	font-size: 16px;
+	font-size: clamp(16px, calc(16px + 2 * (100vw - 375px) / 39), 22px);
+}
+```
 
 
+#### 纯vw适配方案使用场景
+>CSS新世界 7.3 rem和vw单位与移动端适配最佳实践
 
 
+>在这种纯vw单位的布局方式下，布局尺寸和图文大小既不使用px单位，也不使用rem单位，而是统一使用vw单位。例如，视觉稿上图片的尺寸是120px×80px，使用vw单位表示就是：
 
+```css
+img {
+	width: 32wv;
+	height: 21.333vw;
+}
+```
 
+一切单位皆是vw。于是，开发的时候只需要使用vw单位按照1∶1的尺寸将视觉稿复刻下来，就可以做到无论是什么宽度的设备，都会等比例缩放，不用担心因为设备宽度不一样而出现错位或无法对齐等布局问题。
+但是，不建议在长期维护的大型项目中使用纯vw布局方式，因为这种布局方式一旦确定，后期更换布局的成本会非常高，这种布局方式比较适合用在运营活动页面中。
 
 
 
