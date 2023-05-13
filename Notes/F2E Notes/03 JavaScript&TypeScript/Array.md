@@ -3313,7 +3313,7 @@ console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
 ```
 
 
-### [[202302272171|Array.prototype.sort]]
+#### [[202302272171|Array.prototype.sort]]
 
 
 
