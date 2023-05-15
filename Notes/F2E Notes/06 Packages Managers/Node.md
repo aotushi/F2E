@@ -852,16 +852,17 @@ cnpm i node-sass
 
 #### npm不是内部或外部命令
 > 使用npm报错:npm不是内部或外部命令,也不是可运行的程序
+> is not recognized as an internal or external command
 
 > [关于局部安装npm模块找不到命令的问题分析及解决方案_神一样的男人000的博客-CSDN博客_npm run build:stage 未找到命令](https://blog.csdn.net/qq_21998595/article/details/80460673)
 
-我们安装完包后执行的命令, 其位置是在node_modules中的`.bind`文件夹中, 如果是全局安装的话, 其文件夹中的各个命令执行文件可以被识别, 但局部安装的就无法别识别.
+我们安装完包后执行的命令, 其位置是在node_modules中的`.bin`文件夹中, 如果是全局安装的话, 其文件夹中的各个命令执行文件可以被识别, 但局部安装的就无法别识别.
 
 所以解决方法:(推荐第三种)
 
-1.在系统环境变量Path中添加局部`node_modules/.bin`的路径
+1.在系统环境变量Path中添加局部`node_modules/.bin`的路径  或 使用`npx npm ...`命令. 此命令会在执行时将其添加到环境变量中
 
-2.在当前目录环境下使用命令 `node_modules\.bin\脚本名称 目标文件`这种形式
+2.在当前目录环境下使用命令 `C:\...\node_modules\.bin\脚本名称 目标文件`这种形式
 
 3.在package.json中配置scripts项, 相当于将命令行语句保存下来，之后只要运行简单的命令类似：npm run build，就可以实现了。
 

@@ -20,8 +20,11 @@
 
 * **前端**
   * 基础知识: HTML/CSS/JS
-    * 图像处理 canvas webgl
-    * 可视化 Threejs echarts
+    * HTML
+      * mdn文档(笔记),所有元素/属性整理一遍
+    * CSS
+      * mdn文档(笔记),同上
+    * javascript
   * JS框架 UI框架
     * Vue2/Vue3/Nuxt
     * React/Next
@@ -145,10 +148,18 @@ DOM启蒙
 * https://frontendmasters.com/
 * https://www.coursera.org/
 
+### TypeScript
 
+* http://www.patrickzhong.com/TypeScript/
+* https://ts.yayujs.com/
+* https://ts.xcatliu.com/
 
 ### vue3教程
 * https://vue3.chengpeiquan.com/
+
+### 全栈公开课(react)
+
+* https://fullstackopen.com/zh/
 
 ### React
 * https://github.com/reactnativecn/react-native-guide
