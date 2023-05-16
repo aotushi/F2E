@@ -87,11 +87,18 @@ vue.js中文官网：http://cn.vuejs.org/
 
 
 
-## Vue安装的3种方式
+## Vue开发环境搭建的3种方式
 
 
-### 1.[[202302170957|script标签引入]]
+### 1. CDN模式
 
+[[202302170957|script标签引入]]
+
+[unpkg.com/vue@next](https://link.juejin.cn/?target=https%3A%2F%2Funpkg.com%2Fvue@next) 可以拿到最新的 Vue 版本。
+
+ <script src="https://unpkg.com/vue@next"></script>
+
+静态资源 `CDN` 引入的开发形式，适用于一些简单的活动页、宣传页、官网等小项目，易于灵活的添加修改页面。但不利于项目的模块化开发，所以不适用一些中大型综合项目的开发。
 
 ### 2.NPM安装vue
 构建大型应用
@@ -100,10 +107,54 @@ vue.js中文官网：http://cn.vuejs.org/
 npm i vue
 ```
 
-### 3.命令行工具CLI
-Vue CLI 的文档
+### 3.脚手架
 
 
+#### 3.1 CLI安装
+对于 `Vue 3`，`Vue CLI` 版本也有所升级，目前想要生成 `Vue 3` 项目，需要将其升级到 `4.5.x` 版本，具体操作如下：
+* 以前安装过低版本,需要提前卸载 
+* 全局或局部安装vue cli
+```bash
+// 卸载
+npm uninstall -g @vue/cli
+
+//安装
+npm i -g @vue/cli //全局安装
+# npm i @vue/cli    //局部安装
+
+
+// 查看版本号 确认安装成功
+vue --version
+
+// 初始化项目
+vue create 项目名称
+```
+
+
+#### 3.2 Vite安装
+> 兼容性注意，Vite 需要 [Node.js](https://nodejs.org/en/) 版本 14.18+，16+
+
+vite官网教程:
+
+使用npm
+```bash
+npm create vite
+```
+
+带有附加命令行
+```bash
+# npm 6.x
+npm create vite@latest my-vue-app --template vue
+
+# npm 7+, extra double-dash is needed:
+npm create vite@latest my-vue-app -- --template vue
+
+# yarn
+yarn create vite my-vue-app --template vue
+
+# pnpm
+pnpm create vite my-vue-app --template vue
+```
 
 
 ## Vue实例和选项
