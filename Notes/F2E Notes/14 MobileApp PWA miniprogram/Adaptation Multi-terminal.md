@@ -686,7 +686,7 @@ rem适配的原理：编写样式时统一使用rem为单位，在不同设备�
 
 #### 具体方案
 
-##### 方案一
+##### 方案一 设置值/100
 
 ![rem适配方案1.png](https://i.loli.net/2021/01/05/ziclxkXCKmEVnaM.png)
 
@@ -762,7 +762,7 @@ less写法:
 
 
 
-##### 方法二
+##### 方法二  设计值/(设计稿宽度/10)
 
 ![rem适配方案2.png](https://i.loli.net/2021/01/05/PnVTJDEoRyYHAqO.png)
 

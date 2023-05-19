@@ -8,14 +8,13 @@
 		<script src="https://unpkg.com/vue@3"></script>
 	</head>
 	<body>
-		<div id="app"></div>
+		<div id="app">
+			<p>{{id}} --{{name}} -- {{num}}</p>
+			<button @click="changeName">点击</button>
+		</div>
 		<script>
-			// new Vue({
-			//   el: '#app',
-			// })
-
-			// const {} from 'vue';
 			const {
+				createApp,
 				ref,
 				toRefs,
 				reactive,
@@ -50,9 +49,9 @@
 						console.log("onMounted");
 					});
 
-					onBeforeUpdate(() => {
-						console.log("onBeforeUpdate");
-					});
+					// onBeforeUpdate(() => {
+					// 	console.log("onBeforeUpdate");
+					// });
 
 					onUpdated(() => {
 						console.log("onUpdated");
@@ -83,9 +82,15 @@
 						changeName,
 					};
 				},
+
+				// onBeforeUpdate2(() => {
+				// 	console.log("onBeforeUpdate");
+				// })
+
+		
 			});
 
-			app.mount();
+			app.mount("#app");
 		</script>
 	</body>
 </html>

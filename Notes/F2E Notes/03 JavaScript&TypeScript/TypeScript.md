@@ -6,7 +6,7 @@
 
 
 
-## 基础
+# 基础
 
 JavaScript 仅仅提供了动态类型（dynamic typing），这需要你先运行代码然后再看会发生什么。
 
@@ -14,7 +14,7 @@ JavaScript 仅仅提供了动态类型（dynamic typing），这需要你先运�
 
 
 
-### 显示类型(explicit types)
+## 显示类型(explicit types)
 
 为函数参数添加类型注解(type annotations),描述函数可以支持传入什么样的值.
 
@@ -28,13 +28,13 @@ function greet(person: string, date: Date) {
 
 
 
-### 类型抹除
+## 类型抹除
 
 类型注解并不是 JavaScript 的一部分。所以并没有任何浏览器或者运行环境可以直接运行 TypeScript 代码。这就是为什么 TypeScript 需要一个编译器，它需要将 TypeScript 代码转换为 JavaScript 代码，然后你才可以运行它。所以大部分 TypeScript 独有的代码会被抹除
 
 
 
-### 降级(downleveling)
+## 降级(downleveling)
 
 将高版本的 ECMAScript 语法转为低版本的过程就叫做**降级（downleveling）** 。
 
@@ -44,7 +44,7 @@ TypeScript 默认转换为 `ES3`，一个 ECMAScript 非常老的版本。
 
 
 
-### 配置
+## 配置
 
 #### 严格模式
 
@@ -95,11 +95,11 @@ Example `tsconfig.json` files:
 
 
 
-### 常见类型
+## 常见类型
 
 
 
-#### 原始类型: `string`，`number` 和 `boolean`（The primitives）
+### 原始类型: `string`，`number` 和 `boolean`（The primitives）
 
 
 
@@ -107,7 +107,7 @@ Example `tsconfig.json` files:
 
 
 
-#### 数组(Array)
+### 数组(Array)
 
 声明一个类似于 `[1, 2, 3]` 的数组类型，你需要用到语法 `number[]`。这个语法可以适用于任何类型（举个例子，`string[]` 表示一个字符串数组）。你也可能看到这种写法 `Array<number>`，是一样的。我们会在泛型章节为大家介绍 `T<U>` 语法。
 
@@ -117,7 +117,7 @@ Example `tsconfig.json` files:
 
 
 
-#### any
+### any
 
 TypeScript 有一个特殊的类型，`any`，当你不希望一个值导致类型检查错误的时候，就可以设置为 `any` 。
 
@@ -131,7 +131,7 @@ TypeScript 有一个特殊的类型，`any`，当你不希望一个值导致类�
 
 
 
-#### `noImplicitAny`
+### `noImplicitAny`
 
 如果你没有指定一个类型，TypeScript 也不能从上下文推断出它的类型，编译器就会默认设置为 `any` 类型。
 
@@ -141,7 +141,7 @@ TypeScript 有一个特殊的类型，`any`，当你不希望一个值导致类�
 
 
 
-#### 变量上的类型注解
+### 变量上的类型注解
 
 当你使用 `const`、`var` 或 `let` 声明一个变量时，你可以选择性的添加一个类型注解，显式指定变量的类型：
 
@@ -162,7 +162,7 @@ let myName = "Alice";
 
 
 
-#### 函数
+### 函数
 
 **参数类型注解**
 
@@ -188,7 +188,7 @@ function getFavoriteNumber(): number {
 
 
 
-#### 匿名函数
+### 匿名函数
 
 匿名函数有一点不同于函数声明，当 TypeScript 知道一个匿名函数将被怎样调用的时候，匿名函数的参数会被自动的指定类型。
 
@@ -219,7 +219,7 @@ names.forEach((s) => {
 
 
 
-#### 对象类型
+### 对象类型
 
 定义一个对象类型，我们只需要简单的列出它的属性和对应的类型。
 
@@ -238,7 +238,7 @@ printCoord({ x: 3, y: 7 });
 
 
 
-#### 可选属性
+### 可选属性
 
 对象类型可以指定一些甚至所有的属性为可选的，你只需要在属性名后添加一个 `?` ：
 
@@ -261,7 +261,7 @@ TypeScript 类型系统允许你使用一系列的操作符，基于已经存在
 
 
 
-#### 定义一个联合类型
+#### 定义一个联合类型(管道符)
 
 一个联合类型是由两个或者更多类型组成的类型，表示值可能是这些类型中的任意一个。这其中每个类型都是联合类型的**成员（members）**。
 
@@ -338,9 +338,11 @@ function getFirstThree(x: number[] | string) {
 
 
 
-#### 类型别名
+### 类型别名
 
-有的时候，一个类型会被使用多次，此时我们更希望通过一个单独的名字来引用它。这就是类型别名（type alias）。所谓类型别名，顾名思义，一个可以指代任意类型的名字。类型别名的语法是：
+有的时候，一个类型会被使用多次，此时我们更希望通过一个单独的名字来引用它。这就是类型别名（type alias）。所谓类型别名，顾名思义，一个可以指代任意类型的名字。 其不属于JS中的任何数据类型,在运行时,Fish类型的对象将被视为普通的js对象.
+
+类型别名的语法是：
 
 ```js
 type Point = {
@@ -381,9 +383,9 @@ userInput = "new input";
 
 
 
-#### 接口
+### 接口
 
-接口声明（interface declaration）是命名对象类型的另一种方式：
+接口声明（interface declaration）是*命名对象类型*的另一种方式：
 
 ```js
 interface Point {
@@ -467,7 +469,7 @@ type Window = {
 
 
 
-#### 类型断言
+### 类型断言
 
 让ts知道值的具体类型.
 
@@ -500,7 +502,7 @@ const a = (expr as any) as T;
 
 
 
-#### 字面量类型
+### 字面量类型
 
 除了常见的类型 `string` 和 `number` ，我们也可以将类型声明为更具体的数字或者字符串。
 
@@ -605,7 +607,7 @@ handleRequest(req.url, req.method);
 
 
 
-#### null和undefined
+### null和undefined
 
 JavaScript 有两个原始类型的值，用于表示空缺或者未初始化，他们分别是 `null` 和 `undefined` 。
 
@@ -633,7 +635,7 @@ function doSomething(x: string | null) {
 
 
 
-#### 非空断言操作符(后缀`!`)
+### 非空断言操作符(后缀`!`)
 
 TypeScript 提供了一个特殊的语法，可以在不做任何检查的情况下，从类型中移除 null 和 undefined，这就是在任意表达式后面写上 ! ，这是一个有效的类型断言，表示它的值不可能是 null 或者 undefined
 
@@ -648,13 +650,13 @@ function liveDangerously(x?: number | null) {
 
 
 
-#### 枚举
+### 枚举
 
 
 
 
 
-#### 不常见的原始类型
+### 不常见的原始类型
 
 **binInt**
 
@@ -681,4 +683,409 @@ if (firstName === secondName) {
   // Can't ever happen
 }
 ```
+
+
+
+
+
+## 类型收窄
+
+**将类型推导为更精确类型的过程，我们称之为收窄 (narrowing)**。 
+
+ 在编辑器中，我们可以观察到类型的改变：(vscode中,鼠标移动到参数上会显示)
+
+```js
+function padLeft(padding: number | string, input: string) {
+  if (typeof padding === "number") {
+    return new Array(padding + 1).join(" ") + input;
+  }
+  return padding + input;
+}
+```
+
+
+
+### typeof类型保护
+
+在 TypeScript 中，检查 `typeof` 返回的值就是一种类型保护。TypeScript 知道 `typeof` 不同值的结果，它也能识别 JavaScript 中一些怪异的地方.例如null
+
+```tsx
+function printAll(strs: string | string[] | null) {
+  if (typeof strs === "object") {
+    for (const s of strs) {    //报错
+		  // Object is possibly 'null'.
+      console.log(s);
+    }
+  } else if (typeof strs === "string") {
+    console.log(strs);
+  } else {
+    // do nothing
+  }
+}
+```
+
+
+
+
+
+### 真值收窄
+
+在 JavaScript 中，我们可以在条件语句中使用任何表达式，比如 `&&` 、`||`、`!` 等，举个例子，像 `if` 语句就不需要条件的结果总是 `boolean` 类型
+
+```ts
+function getUsersOnlineMessage(numUsersOnline: number) {
+  if (numUsersOnline) {
+    return `There are ${numUsersOnline} online now!`;
+  }
+  return "Nobody's here. :(";
+}
+```
+
+这是因为 JavaScript 会做隐式类型转换，像 `0` 、`NaN`、`""`、`0n`、`null` `undefined` 这些值都会被转为 `false`，其他的值则会被转为 `true`。
+
+当然你也可以使用 `Boolean` 函数强制转为 `boolean` 值，或者使用更加简短的`!!`：
+
+```js
+// both of these result in 'true'
+Boolean("hello"); // type: boolean, value: true
+!!"world"; // type: true,    value: true
+```
+
+这种使用方式非常流行，尤其适用于防范 `null`和 `undefiend` 这种值的时候。举个例子，我们可以在 `printAll` 函数中这样使用：
+
+```ts
+function printAll(strs: string | string[] | null) {
+  if (strs && typeof strs === "object") {
+    for (const s of strs) {
+      console.log(s);
+    }
+  } else if (typeof strs === "string") {
+    console.log(strs);
+  }
+}
+```
+
+可以看到通过这种方式，成功的去除了错误。
+
+但还是要注意，在基本类型上的真值检查很容易导致错误，比如，如果我们这样写 `printAll` 函数：
+
+```ts
+function printAll(strs: string | string[] | null) {
+  // !!!!!!!!!!!!!!!!
+  //  DON'T DO THIS!
+  //   KEEP READING
+  // !!!!!!!!!!!!!!!!
+  if (strs) {
+    if (typeof strs === "object") {
+      for (const s of strs) {
+        console.log(s);
+      }
+    } else if (typeof strs === "string") {
+      console.log(strs);
+    }
+  }
+}
+```
+
+我们把原本函数体的内容包裹在一个 `if (strs)` 真值检查里，这里有一个问题，就是我们无法正确处理空字符串的情况。如果传入的是空字符串，真值检查判断为 `false`，就会进入错误的处理分支。
+
+如果你不熟悉 JavaScript ，你应该注意这种情况。
+
+另外一个通过真值检查收窄类型的方式是通过`!`操作符。
+
+```js
+function multiplyAll(
+  values: number[] | undefined,
+  factor: number
+): number[] | undefined {
+  if (!values) {
+    return values;
+    // (parameter) values: undefined
+  } else {
+    return values.map((x) => x * factor);
+    // (parameter) values: number[]
+  }
+}
+```
+
+
+
+### 等值收窄
+
+Typescript 也会使用 `switch` 语句和等值检查比如 `===` `!==` `==` `!=` 去收窄类型。比如：
+
+```js
+function exmaple(x:string|number, y:string|boolean) {
+  if (x===y) {
+    // we can call any 'string' method on 'x' or 'y'
+    
+  } else {
+    console.log(x)  // (parameter) x: string | number
+    console.log(y)  // (parameter) y: string | boolean
+  }
+}
+```
+
+在这个例子中，我们判断了 `x` 和 `y` 是否完全相等，如果完全相等，那他们的类型肯定也完全相等。而 `string` 类型就是 `x` 和 `y` 唯一可能的相同类型。所以在第一个分支里，`x` 和 `y` 就一定是 `string` 类型。
+
+
+
+判断具体的字面量值也能让 TypeScript 正确的判断类型。在上一节真值收窄中，我们写下了一个没有正确处理空字符串情况的 `printAll` 函数，现在我们可以使用一个更具体的判断来排除掉 `null` 的情况：
+
+```ts
+function printAll(strs: string | string[] | null) {
+  if (strs !== null) {
+    if (typeof strs === "object") {
+      for (const s of strs) {    //报错
+        // Object is possibly 'null'.
+        console.log(s);
+      }
+    } else if (typeof strs === "string") {
+      console.log(strs);
+    } else {
+      // do nothing
+    }
+  }
+}
+```
+
+JavaScript 的宽松相等操作符如 `==` 和 `!=` 也可以正确的收窄。在 JavaScript 中，通过 `== null` 这种方式并不能准确的判断出这个值就是 `null`，它也有可能是 `undefined` 。对 `== undefined` 也是一样，不过利用这点，我们可以方便的判断一个值既不是 `null` 也不是 `undefined`：
+
+
+
+```ts
+interface Container {
+  value: umber | null | undefined
+}
+
+function multipleValue(container: Container, factor: number) {
+  // remove both 'null' and 'undefined' from the type
+  if (container != null) {
+    console.log(container.value)
+    container.value =* factor
+  }
+}
+```
+
+
+
+### in操作符收窄
+
+JavaScript 中有一个 `in` 操作符可以判断一个对象是否有对应的属性名。TypeScript 也可以通过这个收窄类型。
+
+举个例子，在 `"value" in x` 中，`"value"` 是一个字符串字面量，而 `x` 是一个联合类型：
+
+通过 `"swim" in animal` ，我们可以准确的进行类型收窄。
+
+```ts
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+ 
+function move(animal: Fish | Bird) {
+  if ("swim" in animal) {
+    return animal.swim();
+    // (parameter) animal: Fish
+  }
+ 
+  return animal.fly();
+  // (parameter) animal: Bird
+}
+```
+
+
+
+而如果有可选属性，比如一个人类既可以 `swim` 也可以 `fly` (借助装备)，也能正确的显示出来：
+
+```ts
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+type Human = { swim?: () => void; fly?: () => void };
+ 
+function move(animal: Fish | Bird | Human) {
+  if ("swim" in animal) {
+    animal; // (parameter) animal: Fish | Human
+  } else {
+    animal; // (parameter) animal: Bird | Human
+  }
+}
+```
+
+
+
+### instanceof收窄
+
+`instanceof` 也是一种类型保护，TypeScript 也可以通过识别 `instanceof` 正确的类型收窄：
+
+```ts
+function logVaule(x:Date | string) {
+  if (x instanceof Date) {
+    console.log(x.toUTCString()) // parameter x: Date
+  } else {
+    console.log(x.toUpperCase()) // parameter x: string
+  }
+}
+```
+
+
+
+### 赋值语句
+
+TypeScript 可以根据赋值语句的右值，正确的收窄左值。
+
+```ts
+let x = Math.random() < 0.5 ? 10 : 'hello world'
+
+x = 1
+console.log(x) // x: number
+x = 'goodbye'
+console.log(x) //x : string
+```
+
+注意这些赋值语句都有有效的，即便我们已经将 `x` 改为 `number` 类型，但我们依然可以将其更改为 `string` 类型，这是因为 `x` 最初的声明为 `string | number`，赋值的时候只会根据正式的声明进行核对。
+
+所以如果我们把 `x` 赋值给一个 boolean 类型，就会报错：
+
+```ts
+let x = Math.random() < 0.5 ? 10 : 'hello world'
+
+x = 1
+console.log(x) // x: number
+x = 'goodbye'
+console.log(x) //x : string
+
+x = true // type 'boolean' is not assignable to type 'string | number'
+console.log(x) // x: string| number
+```
+
+
+
+### 控制流分析
+
+看看在 `if` `while`等条件控制语句中的类型保护
+
+```ts
+function padLeft(padding: number | string, input: string) {
+  if (typeof padding === "number") {
+    return new Array(padding + 1).join(" ") + input;
+  }
+  return padding + input;
+}
+```
+
+在第一个 `if` 语句里，因为有 `return` 语句，TypeScript 就能通过代码分析，判断出在剩余的部分 `return padding + input` ，如果 padding 是 `number` 类型，是无法达到 (**unreachable**) 这里的，所以在剩余的部分，就会将 `number`类型从 `number | string` 类型中删除掉。
+
+这种基于**可达性**(**reachability**) 的代码分析就叫做控制流分析(control flow analysis)。在遇到类型保护和赋值语句的时候，TypeScript 就是使用这样的方式收窄类型。而使用这种方式，一个变量可以被观察到变为不同的类型：
+
+```ts
+function example() {
+  let x: string|number|boolean
+  x = Math.random() < 0.5
+  console.log(x) // x: boolean
+  
+  if (Math.random() < 0.5) {
+    x = 'hello'
+    console.log(x) //x:string
+  } else {
+    x = 100
+    console.log(x) //x: number
+  }
+  
+  return x; //x: string|number
+}
+```
+
+
+
+
+
+### 类型判断式(type predicates)
+
+在有的文档里， `type predicates` 会被翻译为**类型谓词**。考虑到 predicate 作为动词还有表明、声明、断言的意思，区分于类型断言（Type Assertion），这里我就索性翻译成类型判断式。
+
+所谓 `predicate` 就是一个返回 `boolean` 值的函数。
+
+
+
+如果你想直接通过代码控制类型的改变， 你可以自定义一个类型保护。实现方式是定义一个函数，这个函数返回的类型是类型判断式，示例如下：
+
+```ts
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+
+function isFish(pet:Fish|Bird): pet is Fish {
+  return (pet as Fish).swim !== undefined
+}
+```
+
+在这个例子中，`pet is Fish`就是我们的类型判断式，一个类型判断式采用 `parameterName is Type`的形式，但 `parameterName` 必须是当前函数的参数名。
+
+当 isFish 被传入变量进行调用，TypeScript 就可以将这个变量收窄到更具体的类型：
+
+```ts
+// Both calls to 'swim' and 'fly' are now okay.
+let pet = getSmallPet();
+ 
+if (isFish(pet)) {
+  pet.swim(); // let pet: Fish
+} else {
+  pet.fly(); // let pet: Bird
+}
+```
+
+注意这里，TypeScript 并不仅仅知道 `if` 语句里的 `pet` 是 `Fish` 类型，也知道在 `else` 分支里，`pet` 是 `Bird` 类型，毕竟 `pet` 就两个可能的类型。
+
+你也可以用 `isFish` 在 `Fish | Bird` 的数组中，筛选获取只有 `Fish` 类型的数组
+
+```ts
+const zoo: (Fish | Bird)[] = [getSmallPet(), getSmallPet(), getSmallPet()];
+const underWater1: Fish[] = zoo.filter(isFish);
+// or, equivalently
+const underWater2: Fish[] = zoo.filter(isFish) as Fish[];
+ 
+// 在更复杂的例子中，判断式可能需要重复写
+const underWater3: Fish[] = zoo.filter((pet): pet is Fish => {
+  if (pet.name === "sharkey") return false;
+  return isFish(pet);
+});
+```
+
+
+
+
+
+### 可辨别联合（Discriminated unions）
+
+让我们试想有这样一个处理 `Shape` （比如 `Circles`、`Squares` ）的函数，`Circles` 会记录它的半径属性，`Squares` 会记录它的边长属性，我们使用一个 `kind` 字段来区分判断处理的是 `Circles` 还是 `Squares`，这是初始的 `Shape` 定义：
+
+```ts
+interface Shape {
+  kind: "circle" | "square";
+  radius?: number;
+  sideLength?: number;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
