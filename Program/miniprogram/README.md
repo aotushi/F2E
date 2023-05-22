@@ -10,11 +10,13 @@
 
 以下图片展示了小程序运行之后的首页/搜索页/详情页及评论页面
 
-![home page](C:\PersonalData\gitlab\imgs\home page.png)
+![home page](./imgs/home page.png)
 
+![search page](./imgs/search page.png)
 
+![detail](./imgs/detail.png)
 
-![search page](C:\PersonalData\gitlab\imgs\search page.png)![detail](C:\PersonalData\gitlab\imgs\detail.png)![commens](C:\PersonalData\gitlab\imgs\commens.png)
+![commens](./imgs/commens.png)
 
 
 
