@@ -5482,7 +5482,7 @@ let result = str.split('').reduce((acc, cur, idx) => {
 
 
 
-双for循环+splice
+**双for循环+splice**
 
 ```JavaScript
 # 去除数组中重复的数字
@@ -5521,16 +5521,70 @@ for (let i=0; i<arr.length; i++) {
 }
 ```
 
-
+**双for循环+新数组**
 
 ```javascript
 //https://juejin.cn/post/6844903482093387783
-//如果 array[i] 的值跟 res[j] 的值相等，就跳出循环，如果都不等于，说明元素是唯一的，这时候 j 的值就会等于 res 的长度，根据这个特点进行判断，将值添加进 res。
 
+var arr = [1,1,'1','1']
+function unique(arr) {
+	var res = []
+	for (var i=0,len=arr.length; i<len; i++) {
+		for (var j=0,len2=res.length; j<len2; j++) { // len变量名称不能一致； var声明的变量没有作用域限制；
+			if (arr[i] === res[j]) {
+				break;
+			}
+
+			if (j === len2) {
+				res.push(arr[i])
+			}
+		}
+	}
+	return res;
+}
+
+
+//如果改用let,两种实现方案
+
+function unique21(arr) {
+	let res = []
+	for (let i=0,len=arr.length; i<len; i++) {
+		for (let j=0, len1=res.length; j<=len1; j++) {
+			if (arr[i] === res[j]) {
+				break;
+			}
+			if (j === len1) {
+				res.push(arr[i])
+			}
+		}
+	}
+}
+
+
+function unique22(arr) {
+  let res = [], j;
+  for (let i = 0, len = arr.length; i < len; i++) {
+    for (j=0; j < res.length; j++) {
+      if (arr[i] === res[j]) {
+        break;
+      }
+    }
+    if (res.length === j) {
+      res.push(arr[i])
+     }
+  }
+  return res;
+}
+
+
+
+// 错误示例
+
+// j无法在作用域外访问
 function unique(array) {
   let res = [];
   for (let i=0; i<array.length; i++) {
-    for (let j=0; j<res.length; j++) {
+    for (let j=0, resLen=res.length; j<len; j++) {
       if (arr[i] === res[j]) {
         break;
       }
@@ -5542,44 +5596,15 @@ function unique(array) {
   }
 }
 
-//以上代码是存在问题的, 原代码是使用的var声明的变量,所以比较 j 和 res.length 的时候不会报错,let则会.
-//如果使用let声明变量, j就需要添加在内层for循环之中,而且判断条件应该更改
+// 死循环
+// 错误示例
+/*
+当内层循环检查结束后，由于 `j===res.length`，故将元素添加到了 res 数组的末尾，此时数组的长度 `res.length` 发生了变化，而内层循环此时的终止条件 `j<=res.length` 中的 `res.length` 已经改变，导致内层循环无法正常停止，从而陷入死循环。
 
-function unique(arr) {
-  let res = [];
-  for (let i=0,len=arr.length;i<len;i++) {
-    for (let j=0,len=res.length; j<=len; j++) {
-      if (arr[i] === res[j]) {
-        break;
-      }
-      
-      if (res.length === j) {
-        res.push(arr[i])
-      }
-    }
-  }
-  return res;
-}
-
-//不用函数的时候同样   !!!!!!
-在全局作用域下运行,如果在内循环中判断: 要注意长度赋值,如果不使用len, 那么就会出现死循环
-let res = [];
-for (let i=0,len=arr.length;i<len; i++) {
-  for (let j=0,len=res.length;j<=len;j++) {
-    if (arr[i] === res[j]) {
-      break;
-    }
-    
-    if (res.length === j) {
-      res.push(arr[i]);
-    }
-  }
-}
-console.log(res);
-
-
+为了解决这个问题，应该将内层循环中的 `res.length` 缓存到一个变量 `len` 中，然后在循环中使用这个变量，这样就保证了循环内部长度不会发生变化：
+*/
 for (let i=0;i<arr.length; i++) {
-  for (let j=0;j<=res.length;j++) {   //死循环
+  for (let j=0;j<=res.length;j++) {
     if (arr[i] === res[j]) {
       break;
     }
@@ -5589,14 +5614,9 @@ for (let i=0;i<arr.length; i++) {
     }
   }
 }
-```
 
 
-
-双for循环+新数组
-
-```javascript
-//错误代码
+// j会递增
 let res = [];
 let j = 0;
 for (let i=0; i<arr.length; i++) {
@@ -5610,33 +5630,12 @@ for (let i=0; i<arr.length; i++) {
     res.push(arr[i]);
   }
 }
-
-//以上代码是错误的. 原因很简单,j为0的时候,res.length也为0,内循环中代码不会执行.所以执行所有的外循环,if判断永远为true, 所以res的里面的值和arr里面的一样.  
-
-//220728  以上结论有问题, 因为res会新增
-let arr = [1,2,3,1,1,4,3,2,5,6,7];
-循环之后的res的结果是:
-[1, 2, 3, 1, 4, 3, 2, 5, 6, 7]  //缺了个1
-
-//正确代码
-let res = []
-let j;
-for (let i = 0; i < arr.length; i++) {
-	for (j = 0; j < res.length; j++) {  //内循环每次都会初始化,不初始化为0是上次循环+1的值
-		if (arr[i] === res[j]) {
-			break;
-		}
-	}
-
-  if (res.length === j) {
-    res.push(arr[i])
-	}
-}
 ```
 
 
 
-双for循环 + 索引判断
+
+**双for循环 + 索引判断**
 
 ```js
 //数组去重 双for循环+索引

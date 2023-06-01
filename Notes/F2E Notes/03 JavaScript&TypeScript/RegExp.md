@@ -4,14 +4,18 @@ aliases: 正则表达式,regexp
 
 
 #### 学习资源
-* mdn https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+* https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 
 * https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md
 * https://github.com/cdoco/common-regex
 * https://github.com/qdlaoyao/js-regex-mini-book
 * https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/regular-expression-language-quick-reference?redirectedfrom=MSDN#Anchor_0
 * https://regexlearn.com/zh-cn/learn  (!!!)
+* [你是如何学会正则表达式的？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/48219401)
 
+
+### 正则可视化工具
+* [Regexper](https://regexper.com/)
 
 
 #### 是什么
