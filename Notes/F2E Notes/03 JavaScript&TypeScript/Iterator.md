@@ -3,17 +3,86 @@ aliases: 迭代器
 ---
 
 
-### 概述
-迭代器(iterator), 是使用户在容器对象上可以遍历访问的对象.简单来说就是帮助对数据结构进行遍历的一个对象.
-在JS中,迭代器也是一个具体的对象,这个对象需要符合[迭代器协议(iterator protocol)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols),同时也提供了对for...of行为的定制.
+## 概述
+>[迭代器和生成器 - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_generators)
+>JavaScript权威指南12章
 
-### 作用
-Iterator称为迭代器，是ES6为不同数据结构迭代所新增的统一访问接口.
-它有以下几个作用:
-* 为任何部署了Iterator接口的数据结构提供统一的访问机制
-* 使得数据结构的成员能够按照某种次序排列
-* 为新的遍历方式for...of提供基础。
 
+for/of循环和扩展操作符可以直接操作可迭代对象
+
+### 关系
+* **可迭代对象**指的是任何具有专用迭代器方法，且该方法返回迭代器对象的对象。
+* **迭代器对象**指的是任何具有next()方法，且该方法返回迭代结果对象的对象。
+* **迭代结果对象**是具有属性value和done的对象。
+
+### 迭代一个可迭代对象
+要迭代一个可迭代对象
+* 1.要调用其迭代器方法获得一个迭代器对象。
+* 2.重复调用这个迭代器对象的next()方法，直至返回done属性为true的迭代结果对象。
+这里比较特别的地方是，可迭代对象的迭代器方法没有使用惯用名称，而是使用了符号Symbol.iterator作为名字。因此可迭代对象iterable的简单for/of循环也可以写成如下这种复杂的形式：
+```js
+let iterable = [99]
+let iterator = iterable[Symbol.iterator]()
+for (let result=iterator.next(); !result.done; result=iterator.next()) {
+	console.log(result.value) // 99
+}
+```
+
+### 注意
+内置可迭代数据类型的迭代器对象本身也是可迭代的（也就是说，它们有一个名为Symbol.iterator的方法，返回它们自己）
+在下面的代码所示的需要迭代“部分使用”的迭代器时，这种设计是有用的：
+```js
+let list = [1,2,3,4,5]
+let iter = list[Symbol.iterator]()
+let head = iter.next().value; //1
+let tail = [...iter] // [2,3,4,5]
+```
+
+
+### 创建可迭代对象/迭代器对象/迭代结果对象
+示例12-1：可迭代的数值Range类
+```js
+
+class Range {
+	constructor(from,to) {
+		this.from = from
+		this.to = to
+	}
+
+	// 让Range对象像数值的集合一样
+	has(x) { return typeof x === 'number' && this.from <= x && x <= this.to; }
+
+  // 使用集合表示法返回当前范围的字符串表示
+  toString() {
+	  return `{x | ${this.from} <= x <= ${this.to}`
+  }
+
+	// 通过返回一个迭代器对象,让Range对象可迭代
+	// 注意这个方法的名字是一个特殊的符号,不是字符串
+	[Symbol.iterator]() {
+		// 每个迭代器实例必须相互独立,互不影响地迭代自己的范围
+		// 因此需要一个状态变量跟踪迭代的位置.从第一个大于等于from的整数开始
+		let next = Math.ceil(this.from)
+		let last = this.to
+		return {
+			// 这个next()方法是迭代器对象的标志
+			// 它必须返回一个迭代器结果对象
+			next() {
+				return (next <= last) //如果没有返回last,则返回next并给它加1,否则返回表示完成的对象
+					? { value: next++ }
+					: { done: true }
+			},
+			//为了方便起见，让迭代器本身也可迭代
+			[Symbol.iterator]() { return this; }
+		}
+	}
+}
+
+
+for (let x of new Range(1,10)) console.log(x) //打印数值1到10
+
+[...new Range(-2, 2)] //[-2,-1,0,1,2]
+```
 
 
 ### 迭代协议

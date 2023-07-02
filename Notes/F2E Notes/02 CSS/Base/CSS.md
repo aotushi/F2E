@@ -100,12 +100,26 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 ## CSS选择器
 
 ### 分类概述
+**1.基本选择器**
+* 全局选择器
 * 类型选择器
 * 类选择器
 * ID选择器
 * 属性选择器
-* 伪类和伪元素选择器
-* 组合选择器
+
+**2.分组选择器**
+* 选择器列表
+
+**3.组合选择器**
+* 后代选择器
+* 直接子代组合器(`a>b`) 选择选择前一个元素的直接子代的节点
+* 一般兄弟选择器(`a~b`) 后一个节点在前一个节点后面的任意位置，并且共享同一个父节点。
+* 相邻兄弟选择器(`a+b`) 后一个元素紧跟在前一个之后，并且共享同一个父节点。
+
+**4.伪选择器**
+* 伪类选择器 伪选择器支持按照未被包含在文档树中的状态信息来选择元素。
+* 伪元素选择器 伪选择器用于表示无法用 HTML 语义表达的实体
+
 
 ### 类型选择器(type)
 
@@ -851,7 +865,7 @@ all: unset;
 
 
 
-### CSS选择器
+## CSS选择器
 
 #### 资料
 
@@ -889,15 +903,15 @@ body {
 
 
 
-### 盒模型
+## 盒模型
 
-#### 是什么
+### 是什么
 
 实质上是一个包围每个 HTML 元素的框。它包括：外边距、边框、内边距以及实际的内容。
 
 
 
-#### 盒模型的内部/外部显示类型
+### 盒模型的内部/外部显示类型
 
 css的box模型有一个外部显示类型，来决定盒子是块级还是内联。
 
@@ -905,7 +919,7 @@ css的box模型有一个外部显示类型，来决定盒子是块级还是内�
 
 但是，我们可以通过使用类似 `flex` 的 `display` 属性值来更改内部显示类型。 如果设置 `display: flex`，在一个元素上，外部显示类型是 `block`，但是内部显示类型修改为 `flex`。 该盒子的所有直接子元素都会成为flex元素，会根据 [弹性盒子（Flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox) [）](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox)规则进行布局
 
-##### 块级盒子和内联盒子
+#### 块级盒子和内联盒子
 
 **块级**盒子 (**block box**) 和 **内联盒子** (**inline box**)**。**这两种盒子会在**页面流**（page flow）和**元素之间的关系**方面表现出不同的行为:
 
@@ -929,7 +943,7 @@ css的box模型有一个外部显示类型，来决定盒子是块级还是内�
 
 
 
-#### 分类
+### 分类
 
 标准盒模型
 
@@ -937,7 +951,7 @@ css的box模型有一个外部显示类型，来决定盒子是块级还是内�
 
 
 
-#### 盒模型组成部分
+### 盒模型组成部分
 
 CSS中组成一个块级盒子需要:
 
@@ -984,7 +998,7 @@ CSS的替代盒模型。使用这个模型，所有宽度都是可见宽度，�
 
 
 
-#### 盒模型的切换
+### 盒模型的切换
 
 <span style="color:blue">默认浏览器会使用标准模型。如果需要使用替代模型，您可以通过为其设置 `box-sizing: border-box` 来实现。</span> 
 
@@ -1010,13 +1024,13 @@ Internet Explorer默认使用替代盒模型，没有可用的机制来切换。
 
 外边距/内边距/边框
 
-#### 外边距margin
+### 外边距margin
 
 `**margin**` 属性为给定元素设置所有四个（上下左右）方向的外边距属性。也就是 [`margin-top`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top)，[`margin-right`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-right)，[`margin-bottom`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom)，和 [`margin-left`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-left) 四个外边距属性设置的[简写](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Shorthand_properties)
 
 
 
-##### 语法
+#### 语法
 
 `margin` 属性接受 1~4 个值。每个值可以是 [`<length>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length)，[`<percentage>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage)，或 `auto`。
 
@@ -1034,7 +1048,7 @@ Internet Explorer默认使用替代盒模型，没有可用的机制来切换。
 
 
 
-##### <u>水平居中</u>
+#### 水平居中
 
 在现代浏览器中实现水平居中
 
@@ -1052,118 +1066,96 @@ margin: 0 auto;
 
 
 
+#### margin常见问题
 
-##### 外边距折叠
+#### 1.外边距折叠
 
-如果你有两个外边距相接的元素，这些外边距将合并为一个外边距，即最大的单个外边距的大小。
+**是什么?**
+外边距折叠现象分为两种，一种是外边距合并现象，一种是塌陷现象。注意有设定[float](https://developer.mozilla.org/zh-CN/docs/Web/CSS/float)和[position=absolute](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute)的元素不会产生外边距重叠行为.
 
-块的[上外边距 (margin-top)](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top)和[下外边距 (margin-bottom)](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom)有时合并 (折叠) 为单个边距，其大小为单个边距的最大值 (或如果它们相等，则仅为其中一个)，这种行为称为**边距折叠**。
+**合并现象**
+**垂直布局**的**相邻的块级元素**(兄弟元素)，上下的margin值会合并。
 
-注意有设定[float](https://developer.mozilla.org/zh-CN/docs/Web/CSS/float)和[position=absolute](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute)的元素不会产生外边距重叠行为
-
-
-
-##### 外边距重叠的 3 种情况
-
-<u>**同一层相邻元素之间**</u>
-
-相邻的两个元素之间的外边距重叠，除非后一个元素加上[clear-fix 清除浮动](https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear)
-
-```html
-<style>
-p:nth-child(1){
-  margin-bottom: 13px;
-}
-p:nth-child(2){
-  margin-top: 87px;
-}
-</style>
-
-<p>下边界范围会...</p>
-<p>...会跟这个元素的上边界范围重叠。</p>
-```
-
-
-
-
-
-<u>**空的块级元素**</u>
-
-当一个块元素上边界`margin-top` 直接贴到元素下边界`margin-bottom`时也会发生边界折叠。
-
-这种情况会发生在一个块元素完全没有设定边框`border`、内边距`padding`、高度`height`、最小高度`min-height` 、最大高度`max-height` 、内容设定为 inline 或是加上[clear-fix](https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear)的时候.
-
-```html
-<style>
-p {
-  margin: 0;
-}
-div {
-  margin-top: 13px;
-  margin-bottom: 87px;
-}
-</style>
-
-<p>上边界范围是 87 ...</p>
-<div></div>
-<p>... 上边界范围是 87</p>
-```
-
-<iframe src="https://codesandbox.io/embed/marginfolding-zrrf96?autoresize=1&fontsize=12&hidenavigation=1&theme=dark"
+**如何解决?**
+1.直接避免上下盒子同时设置上下边距，只给一个设置外边距即可。
+2.给其中一个元素设置一个**父盒子**，再给父盒子触发**BFC**。
+<iframe src="https://codesandbox.io/embed/wai-bian-ju-zhe-die-he-bing-rnljfz?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="marginFolding"
+     title="外边距折叠-合并"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
 
 
-> 问题??
->
-> 按照如图所示的代码,在浏览器中, div的上下margin分别为设置的大小,p的margin也并没有改变
+**塌陷现象**
+外边距塌陷的现象出现的场景：**互相嵌套**的**块级元素**（父子元素），子元素的**margin-top**会作用在父元素上，从而导致父元素一起往下移动。
+解决外边距塌陷的办法：
+1.给父盒子设置一个**border**。
+2.给父盒子设置**padding**。
+3.让父盒子触发**BFC**。
+
+
+#### 2.IE6下双边距问题(了解即可)
+![2009-08-25_012237.png (595×274) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_012237.png)
+产生条件: IE6浏览器下,浮动+block元素+margin.会造成双边距问题.
+解决方法: display:inline
+
+#### 3.margin重叠问题
+css 2.0规范对margin重叠有如下的描述：  
+1.水平边距永远不会重合。  
+2.垂直边距可能在特定的框之间重合：  
+* 常规流向中两个或多个块框相邻的垂直边距会重合。结果的边距宽度是相邻边距宽度中较大的值。如果出现负边距，则在最大的正边距中减去绝对值最大的负边距。如果没有正边距，则从零中减去绝对值最大的负边距。  
+* 在一个浮动框和其它框之间的垂直边距不重合。//这句话是不够严谨，在IE浏览器下确实如此，但是Firefox等浏览器下依旧重合。 
+* “绝对定位的框”与“相对定位的框”边距不重合。//这句话有待斟酌，我在Firefox等浏览器下测试，效果貌似很糟糕的。
+
+解决: IE和非IE浏览器没有什么好的兼容方案.
+<iframe src="https://codesandbox.io/embed/marginchong-die-wen-ti-99mwyw?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin重叠问题"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+#### 4.margin不起作用的情况
+> 单个方块重叠的解决方法：1.浮动。在IE浏览器下（IE8未测过），浮动可以解决margin-top以及margin-bottom重叠的问题。而在Firefox火狐浏览器或是chrome谷歌浏览器下以及opera浏览器下，浮动只能解决同方向上的margin重叠问题。不同方向上的margin重叠的问题依旧存在。
+
+
+#### margin负值相关问题
+#### 1.页面上实现css sprite背景定位效果(了解)
+
+#### 2.在流动性布局中的应用(待办)
+
+#### 3.在选项卡等边框线的处理
+![2009-08-25_025650.png (512×233) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_025650.png)
+
+<iframe src="https://codesandbox.io/embed/margin-zai-xuan-xiang-qia-yang-shi-zhong-de-ying-yong-9n3t26?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin/在选项卡样式中的应用"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   
+
+
+#### 4.图片和文字对齐问题
+图片与文字默认是居底对齐(图片底部和文字底部)了。所以当图片与文字在一起的时候往往都是不对齐的。
+解决方案:
+* img应用vertical-align: middle;  IE兼容性较差
+* img应用vertical-align: text-bottom; 
+* img使用margin: 0 3px -3px 0;
+<iframe src="https://codesandbox.io/embed/margin-tu-pian-he-wen-zi-dui-qi-wen-ti-nn6qlc?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin / 图片和文字对齐问题"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   >
 
 
 
-
-
-**<u>没有内容将父元素和后代元素分开</u>** !!!!
-
- 如果没有边框[`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border)，内边距[`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding)，行内内容，也没有创建[块级格式上下文](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context)或[清除浮动](https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear)来分开一个块级元素的上边界[`margin-top`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top) 与其内一个或多个后代块级元素的上边界[`margin-top`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top)；
-
-或没有边框，内边距，行内内容，高度[`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height)，最小高度[`min-height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/min-height)或 最大高度[`max-height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/max-height) 来分开一个块级元素的下边界[`margin-bottom`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom)与其内的一个或多个后代后代块元素的下边界[`margin-bottom`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom).
-
-则就会出现父块元素和其内后代块元素外边界重叠，重叠部分最终会溢出到父级块元素外面。
-
-```html
-<style type="text/css">
-    section    {
-        margin-top: 13px;
-        margin-bottom: 87px;
-    }
-
-    header {
-        margin-top: 87px;
-    }
-
-    footer {
-        margin-bottom: 13px;
-    }
-</style>
-
-<section>
-    <header>上边界重叠 87</header>
-    <main></main>
-    <footer>下边界重叠 87 不能再高了</footer>
-</section>
-```
-
-
-
-以上这些内容都是发生在 Block-Level 的元素，设定 floating 和 absolutely positioned 的元素完全不用担心边界重叠的问题。
-
-
-
-#### 边框
+### 边框
 
 边框是在边距和填充框之间绘制的。如果您正在使用标准的盒模型，边框的大小将添加到框的宽度和高度。如果您使用的是替代盒模型，那么边框的大小会使内容框更小，因为它会占用一些可用的宽度和高度。
 
@@ -1173,7 +1165,7 @@ div {
 
 
 
-#### 内边距
+### 内边距
 
 内边距位于边框和内容区域之间。与外边距不同，您不能有负数量的内边距，所以值必须是0或正的值。
 
@@ -1226,13 +1218,13 @@ display有一个特殊的值，它在内联和块之间提供了一个中间状�
 
 
 
-### 背景和边框
+## 背景和边框
 
 > [The Shapes of CSS | CSS-Tricks - CSS-Tricks](https://css-tricks.com/the-shapes-of-css/)
 
 
 
-### 元素的显示模式
+## 元素的显示模式
 
 按[新的 HTML 规范](https://www.zhihu.com/question/34952563/answer/60672228)，已经不按 inline 和 block 来区分元素类型了.
 
@@ -1287,7 +1279,7 @@ span等行内元素是可以设置内边距 padding 的，只不过元素本身�
 
 
 
-### 处理不同方向的文本!!
+## 处理不同方向的文本!!
 
 
 
@@ -1329,7 +1321,7 @@ overflow: hidden, scroll; /* overflow-x设置为隐藏, overflow-y设置为scrol
 
 
 
-<iframe class="interactive is-default-height" height="500" src="https://interactive-examples.mdn.mozilla.net/pages/css/overflow.html" title="MDN Web Docs Interactive Example" loading="lazy"></iframe>
+<iframe class="interactive is-default-height" width="100%" height="500" src="https://interactive-examples.mdn.mozilla.net/pages/css/overflow.html" title="MDN Web Docs Interactive Example" loading="lazy"></iframe>
 
 指定除`visible`(默认值) 以外的值将创建一个新的 [块级格式化上下文](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context). 这在技术层面上是必须的——如果一个浮动元素和滚动条相交，它会在每个滚动步骤后强行重新包装内容，从而导致慢滚动体验。???
 
@@ -1344,6 +1336,9 @@ overflow: hidden, scroll; /* overflow-x设置为隐藏, overflow-y设置为scrol
 
 * 设置一个轴为`visible`（默认值），同时设置另一个轴为不同的值，会导致设置`visible`的轴的行为会变成`auto`
 * 即使将 overflow 设置为 hidden，也可以使用 JavaScript [`Element.scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop) 属性来滚动 HTML 元素。
+* 盒子类型使用border-box, 使用overflow:hidden后,文字依然会溢出到父元素的padding-bottom区域.
+* [**overflow:hidden并不隐藏所有溢出的子元素**](https://www.cnblogs.com/propheterLiu/p/5879062.html)
+* [如何解决溢出到padding-bttom的问题]([html - overflow:hidden ignoring bottom padding - Stack Overflow](https://stackoverflow.com/questions/8981811/overflowhidden-ignoring-bottom-padding))
 
 
 
@@ -1352,6 +1347,11 @@ overflow: hidden, scroll; /* overflow-x设置为隐藏, overflow-y设置为scrol
 使用[`overflow-x`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-x)，以在 x 轴方向上滚动，尽管这不是处理长英文词的好办法.
 
 如果你真的需要在小盒子里面和长英文词打交道, 可能需要[`word-break`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break)或者[`overflow-wrap`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-wrap)属性。
+
+
+
+
+
 
 
 
@@ -1473,7 +1473,7 @@ ellipsis
 
 
 
-### CSS值和单位????
+## CSS值和单位????
 
 CSS中使用的每个属性都允许拥有一个或一组值，查看MDN上的任何属性页将帮助您理解对任何特定属性有效的值。
 
@@ -1710,7 +1710,7 @@ width height background背景色
 
 
 
-### 在CSS中调整大小
+## 在CSS中调整大小
 
 #### 原始尺寸/固有尺寸
 
@@ -1780,7 +1780,7 @@ width height background背景色
 
 
 
-### 图像,媒体和表单元素
+## 图像,媒体和表单元素
 
 图像和视频被描述为**[替换元素](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element)**。 这意味着CSS不能影响这些元素的内部布局-仅影响它们在页面上于其他元素中的位置
 
@@ -1788,7 +1788,7 @@ width height background背景色
 
 
 
-#### 调整图像大小
+### 调整图像大小
 
 如果你把一张图片放在一个盒子里，它的原始长和宽都比盒子的小或大，它要么比盒子显得小，要么从盒子里面溢出出去。你需要决定怎么处理溢出。
 
@@ -1817,7 +1817,7 @@ width height background背景色
 
 
 
-#### 布局中的替换元素
+### 布局中的替换元素
 
 在替换元素使用各式 CSS 布局技巧时，你可能深切地体会到他们的展现略微与其他元素不同，例如，在一个 flex 或者 grid 布局中，元素默认会把拉伸到充满整块区域。图像不会拉伸，而是会被对齐到网格区域或者弹性容器的起始处。
 
@@ -1840,7 +1840,7 @@ img {
 
 这将会无条件地拉伸图像，所以很可能不会是你想要的。
 
-#### form元素
+### form元素
 
 用CSS格式化表单元素是一个需要技巧的工作，[HTML Forms module](https://developer.mozilla.org/zh-CN/docs/Learn/Forms) 包含了详细的格式化表单元素的指导
 
@@ -1896,17 +1896,17 @@ img {
 
 
 
-### 样式化表格
+## 样式化表格
 
 
 
-### 调试CSS
+## 调试CSS
 
 #### 如何使用浏览器开发者工具
 
 
 
-### 组织CSS!!
+## 组织CSS!!
 
 #### CSS整洁技巧
 
@@ -2596,6 +2596,11 @@ CJK 文本不断行。Non-CJK 文本表现同 `normal`。
 
 ##### writing-mode
 
+
+#### unicode-range
+> [CSS unicode-range特定字符使用font-face自定义字体 « 张鑫旭-鑫空间-鑫生活 (zhangxinxu.com)](https://www.zhangxinxu.com/wordpress/2016/11/css-unicode-range-character-font-face/#:~:text=unicode%2Drange%20%E7%9A%84%E5%80%BC%E6%AD%A3%E5%A6%82,%E4%B9%9F%E5%B0%B1%E6%98%AF%E6%89%80%E6%9C%89%E5%AD%97%E7%AC%A6%E9%9B%86%E3%80%82&text=%E5%85%B6%E4%B8%AD%EF%BC%8C%20U%2B4%3F%3F,%EF%BC%8C%E5%9B%A0%E6%AD%A4%EF%BC%8C%20U%2B4%3F%3F)
+
+`unicode-range`是一个CSS属性，一般和`@font-face`规则一起使用。
 
 
 

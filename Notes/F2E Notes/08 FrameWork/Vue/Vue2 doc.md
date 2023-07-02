@@ -1,4 +1,4 @@
-## Vue2
+
 
 ## 前端框架出现前的比较
 
@@ -3271,59 +3271,19 @@ Vue.component('组件名', 组件)
 > 请留意，这个 attribute 可以用于常规 HTML 元素，但这些元素将被视为组件，这意味着所有的 attribute **都会作为 DOM attribute 被绑定**。对于像 `value` 这样的 property，若想让其如预期般工作，你需要使用 [`.prop` 修饰器](https://cn.vuejs.org/v2/api/#v-bind)。
 
 
-##### DOM property 与 attribute的差别  !!!!
+##### HTML中的properties和attributes比较
 
-> [API — Vue.js (vuejs.org)](https://cn.vuejs.org/v2/api/#v-bind)
->
+> [API — Vue.js (vuejs.org)](https://v2.cn.vuejs.org/v2/api/#v-bind)
 > [javascript - What is the difference between properties and attributes in HTML? - Stack Overflow](https://stackoverflow.com/questions/6003819/what-is-the-difference-between-properties-and-attributes-in-html#answer-6004028)
 
-###### property vs. attribute
-
-当你写HTML时,可以在HTML元素上定义*attributes*; 
-
-当浏览器解析代码,相关DOM节点将会被创建.这个节点是一个对象,它有*properties*.
-
-对于一个DOM节点对象,*properties*是这个对象的属性, *attributes*是对象的`attributes`属性的元素.
-
-当为一个给定HTML元素创建DOM节点时,很多它的*properties*都与有同样或相似名字的*attributes*相关,但不是一对一的关系.例如:
-
-```html
-<input id="the-input" type="text" value="Name:">
-```
-
-相关DOM节点有`id`, `type`, `value`属性(包括其他)
-
-* The `id` property is a *reflected property* for the `id` attribute: Getting the property reads the attribute value, and setting the property writes the attribute value. `id` is a *pure* reflected property, it doesn't modify or limit the value.
-* The `type` property is a *reflected property* for the `type` attribute: Getting the property reads the attribute value, and setting the property writes the attribute value. `type` isn't a pure reflected property because it's limited to *known values* (e.g., the valid types of an input). If you had `<input type="foo">`, then `theInput.getAttribute("type")` gives you `"foo"` but `theInput.type` gives you `"text"`.
-* In contrast, the `value` property doesn't reflect the `value` attribute. Instead, it's the *current value* of the input. When the user manually changes the value of the input box, the `value` property will reflect this change. So if the user inputs `"John"` into the input box, then:
-
-```javascript
-theInput.value //returns 'John'
-```
-
-whereas:
-
-```javascript
-theInput.getAttribute('value') //returns 'Name:'
-```
-
-The <span style="color:blue">`value` property </span>reflects the **current** text-context inside the input box, whereas the <span style="color:blue">`value` attribute</span> contains the **initial** text-context of the `value` attribute from the HTML source code.
-
-<span style="color:blue">你想知道现在文本框内的值, 读取*property*; 如果你想知道文本框的初始值, 读取*attribute*.</span>
-
-你可以使用*defaultValue* 属性,是*value* attribute的纯粹反映.
-
-```javascript
-//如何获取节点在vue中(ref; id/class)
-//或者直接使用事件对象 e.target.defaultValue e.target.getAttribute('value') e.target.value
-
-theInput.value //returns 'John'
-theInput.getAttribute('value') // returns 'Name:'
-theInput.defaultValue  //returns 'Name:'
-```
-
-
-
+* html元素上定义的是*attributes*， 浏览器解析html元素后创建的DOM对象节点上具有的是*properties*
+* 对一个DOM节点对象来说,*properties*是这个节点对象的属性, *attributes*是这个对象*attributes*属性的元素.
+* DOM节点的很多*properties*与具有相同或类似名字的*attributes*相关,但不是一一对应的关系. 
+	* 例如input元素, `value`的property代表input盒子当前的文本内容,通过`theInput.value`来获取; 而`value`的attribute包含HTML源码`value` attribute的初始文本内容, 通过`theInput.getAttribute('value')` 或`theInput.defaultValue`来获取其原始
+	* 一些*properties*直接代表对应的属性,例如'rel', 'id';
+	* 一些*properties*直接通过稍微不同的名字来代表,例如`HTMLFor`代表`for`的attribute, `className`代表`class`
+	* 一些*properties*代表具有限制或更改的attributes(例如`src`, `href`, `disabled`, `multiple`)
+	* 具体的对应关系可查看文档: [HTML Standard (whatwg.org)](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#reflect)
 
 
 
@@ -13432,11 +13392,7 @@ keep-alive
 
 ## 面试题整理 >>>>>
 
-https://juejin.cn/post/6844903918753808398#heading-20
 
-https://www.yuque.com/cuggz/interview/hswu8g#02b671eb804c1a7a0e637fb68e91d8ac
-
-[史上最强vue总结---面试开发全靠它了 - 掘金 (juejin.cn)](https://juejin.cn/post/6850037277675454478)
 
 
 

@@ -4208,9 +4208,6 @@ getBoolean('true');  // true
 ```
 
 
-
-
-
 #### every
 
 **定义**

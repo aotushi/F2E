@@ -1,5 +1,5 @@
 ---
-aliases: try,catch,throw
+aliases: try/catch/throw
 ---
 
 ### try...catch
@@ -233,7 +233,7 @@ throw expression
 
 #### description
 当抛出异常,表达式指定异常的值.
-throw可以抛出任何javascript值,相应的catch[[try...catch]]可以捕获任何javascript值.
+throw可以抛出任何javascript值,相应的catch[[try..catch throw]]可以捕获任何javascript值.
 
 throw虽然可以抛出任意值,但一般使用Error或其子类.原因
 

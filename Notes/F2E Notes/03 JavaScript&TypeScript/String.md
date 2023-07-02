@@ -24,7 +24,7 @@ otherwise my code is unreadable.";
 
 
 
-### 描述
+## 描述
 
 
 
@@ -157,7 +157,12 @@ str5 === str6;  // false
 
 
 
-#### 转义字符
+## 转义字符
+### js中使用转义字符的原因
+
+[[202301141807#^7c5949]]
+
+
 
 除了普通的可打印字符以外，一些有特殊功能的字符可以通过转义字符的形式放入字符串中
 
@@ -208,20 +213,16 @@ console.log(str);
 ```
 
 
+## Unicode字符
+>[Unicode与前端字符编码全揭秘 - 掘金 (juejin.cn)](https://juejin.cn/post/7070079762429034526)
+
+[[Unicode编码|Unicode]]
 
 
 
 
 
-#### JS中处理转义字符
-
-> https://segmentfault.com/q/1010000024547184
-
-
-
-
-
-### 编码格式
+## 编码格式
 
 在ECMAScript 6出现以前，JavaScript字符串一直基于16位字符编码（UTF-16）进行构建。每16位的序列是一个编码单元（code unit），代表一个字符. length、charAt()等字符串属性和方法都是基于这种编码单元构造的。在过去16位足以包含任何字符，直到Unicode引入扩展字符集，Unicode的目标是为全世界每一个字符提供全球唯一的标识符。如果我们把字符长度限制在16位，码位数量将不足以表示如此多的字符。
 
@@ -2084,6 +2085,8 @@ alert(str.endsWith('to be', 18)); //false
 
 #### substring()
 
+>[String.prototype.substring() - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring)
+
 **定义**
 
 返回一个字符串在开始索引到结束索引之间的一个子集,或从开始索引直到字符串末尾的一个子集.
@@ -2136,6 +2139,70 @@ console.log(str.substring(4,4)); //''
 console.log(str.substring(0));
 console.log(str.substring(0, 7));
 ```
+
+
+
+
+**语法**
+```js
+substring()
+```
+
+
+
+**实例**
+使用substring搭配循环定时器出现文本打字机效果
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 900px;
+        height: 400px;
+        margin: 0 auto;
+        background-color: #000;
+        font-size: 24px;
+        color: #000;
+      }
+      .wrap {
+        word-break: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <span class="wrap"></span>
+    </div>
+    <script>
+      let words = "Don't promise when you're happy, Don't reply when you're angry, and don't decide when you're sad.".split(" ");
+      const wrapNode = document.querySelector(".wrap");
+      let i = 0,
+        j = 0;
+
+      let timeId = window.setInterval(() => {
+        if (i === words.length - 1 && j === words[i].length - 1) {
+          clearInterval(timeId);
+        }
+
+        let preWord = i > 0 ? words.slice(0, i).join(" ") + " " : "";
+        let result =
+          preWord +
+          (i === words.length - 1
+            ? words[i].substring(0, j + 1)
+            : words[i].substring(0, j));
+        wrapNode.innerText = result;
+      }, 100);
+    </script>
+  </body>
+</html>
+
+```
+
 
 
 

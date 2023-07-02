@@ -222,7 +222,7 @@ HTMLCollection对象可以调用item()函数，通过序号来获取特定的某
 通过item()函数定位第一个和第三个子元素，输出结果如下所示。
 
 ```js
-<p class="ﬁrst">ﬁrst</p>
+<p class="first">first</p>
 <p class="third">third</p>
 ```
 
@@ -351,7 +351,7 @@ NodeList对象与HTMLCollection对象相比，存在一些细微的差异，主�
 
 
 
-### 常用的DOM操作
+## 常用的DOM操作
 
 > 文档树是由各种类型节点构成的集合，DOM操作实际是对文档结构中节点的操作。文档结构树中的节点类型众多，但是操作的主要节点类型为元素节点、属性节点和文本节点。
 
@@ -594,6 +594,15 @@ last.innerHTML = '<p style="color: red">这是修改后的文本内容</p>';
 	* 获取元素内容,但只会获取文本,不会获取内部标签
 * innerHTML
 	* 获取元素内部 标签+文本
+
+
+**innerText**
+注意事项: 在Chrome浏览器中,赋值末尾为空格字符串,但浏览器最终没有渲染.
+解决方法: 
+* Unicode 非换行空格字符 `\u00A0`
+* innerHTML + 非断行空格实体 `&nbsp;`
+
+
 
 **textContent vs. innerText**
 当设置或读取的内容为纯文本,两种方法没有区别 innerText与node.textContent
