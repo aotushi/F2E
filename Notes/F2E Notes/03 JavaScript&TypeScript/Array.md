@@ -3313,8 +3313,6 @@ console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
 ```
 
 
-#### [[202302272171|Array.prototype.sort]]
-
 
 
 #### Array.prototype.map()
@@ -4208,7 +4206,7 @@ getBoolean('true');  // true
 ```
 
 
-#### every
+#### Array.prototype.every()
 
 **定义**
 
@@ -4953,11 +4951,10 @@ function myFlat(arr) {
 
 
 
-#### ES6-keys()
+#### Array.keys()
 
 **定义**
-
- `**keys()** `方法返回一个包含数组中每个索引键的`**Array Iterator**`对象
+`**keys()** `方法返回一个包含数组中每个索引键的`**Array Iterator**`对象
 
 **参数**
 
@@ -4987,7 +4984,7 @@ console.log(denseKeys);  // [0, 1, 2]
 
 
 
-#### ES6-values()
+#### Array.values()
 
 **定义**
 
@@ -5050,7 +5047,7 @@ console.log(letter);
 
 
 
-#### ES6-entries()
+#### Array.entries()
 
 **定义**
 
@@ -5170,7 +5167,7 @@ for (let e of iterator) {
 
 
 
-#### ES2022-at()
+#### Array.at() //?待办
 
 
 
