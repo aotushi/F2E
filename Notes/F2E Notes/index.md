@@ -128,7 +128,7 @@ for await...of
 [[set]]
 
 #### Map
-[[Map]]
+[[Map WeakMap]]
 
 
 ### 6.迭代器Iterator与生成器generator

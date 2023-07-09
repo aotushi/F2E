@@ -152,9 +152,13 @@ mapToSet(map14); // Set { [ 'yes', true ], [ 'no', false ] }
 ```
 
 
+## Weak Map
 
 #### 0. 概要
-Weak Map是弱引用Map集合，也用于存储对象的弱引用。**Weak Map集合中的键名必须是一个对象，如果使用非对象键名会报错**；集合中保存的是这些对象的弱引用，如果在弱引用之外不存在其他的强引用，引擎的垃圾回收机制会自动回收这个对象，同时也会移除Weak Map集合中的键值对。但是只有集合的键名遵从这个规则，键名对应的值如果是一个对象，则保存的是对象的强引用，不会触发垃圾回收机制。
+Weak Map是弱引用Map集合，也用于存储对象的弱引用。**Weak Map集合中的键名必须是一个对象或Symbol，如果使用其它键名会报错**；集合中保存的是这些对象的弱引用，如果在弱引用之外不存在其他的强引用，引擎的垃圾回收机制会自动回收这个对象，同时也会移除Weak Map集合中的键值对。但是只有集合的键名遵从这个规则，键名对应的值如果是一个对象，则保存的是对象的强引用，不会触发垃圾回收机制。
+
+>更新: ES2023,weakmap可以使用symbol作为键.
+
 
 **Weak Map集合最大的用途是保存Web页面中的DOM元素**，例如，一些为Web页面打造的JavaScript库，会通过自定义的对象保存每一个引用的DOM元素。
 
@@ -175,6 +179,13 @@ element.parentNode.removeChild(element);
 element = null;
 
 //此时Weak Map集合为空
+
+
+// 使用Symbol作为键
+const weak = new WeakMap()
+const key = Symbol('my ref')
+const someobj = {/*data data data */}
+weak.set(key, someobj)
 ```
 
 与Weak Set集合相似的是，Weak Map集合也不支持size属性，从而无法验证集合是否为空；同样，由于没有键对应的引用，因而无法通过get()方法获取到相应的值，Weak Map集合自动切断了访问这个值的途径，当垃圾回收程序运行时，被这个值占用的内存将会被释放。
