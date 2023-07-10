@@ -110,6 +110,19 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 
 ## 介绍
+### web布局历史
+
+| 时间      | 布局类型                    |
+| --------- | --------------------------- |
+| 1991-1994 | 无布局(流布局)              |
+| 1995-2000 | 表格布局                    |
+| 2000-2009 | Float布局/定位布局/框架布局 |
+| 2010-2017 | 响应式布局(RWD responsive)  |
+| 2018-2020 | Intrinsic(真实内容尺寸?)    |
+| 2020-至今 | 组件驱动(CDWD Composnent-Driven)                            |
+
+
+
 
 ## Normal flow(流式布局)
 
@@ -1498,6 +1511,40 @@ img {
     </body>
 </html>
 ```
+
+
+
+### form表单问题实例
+
+#### 1.单选框或复选框与文字对齐的问题
+> [复选框单选框与文字对齐问题的研究与解决 « 张鑫旭-鑫空间-鑫生活 (zhangxinxu.com)](https://www.zhangxinxu.com/wordpress/2009/08/%e5%a4%8d%e9%80%89%e6%a1%86%e6%88%96%e5%8d%95%e9%80%89%e6%a1%86%e4%b8%8e%e6%96%87%e5%ad%97%e5%af%b9%e9%bd%90%e7%9a%84%e9%97%ae%e9%a2%98%e7%9a%84%e6%b7%b1%e5%85%a5%e7%a0%94%e7%a9%b6%e4%b8%8e%e4%b8%80/)
+
+<iframe src="https://codesandbox.io/embed/form-fu-xuan-kuang-dan-xuan-kuang-yu-wen-zi-dui-qi-gtc5wq?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="form / 复选框单选框与文字对齐"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   
+
+**解决方案**
+* vertical-align: text-bottom
+* vertical-align: text-top
+* vertical-align: bottom
+* vertical-align: top
+* vertical-align: middle
+* vertical-align: -3px;
+
+**推荐方案**
+* vertical-align: bottom
+* vertical-align: middle
+
+**注意事项**
+* Firefox浏览器和chrome浏览器下的单选框和复选框默认是由一个margin值的。其两者的值大小近乎一致，拿chrome浏览器举例。在chrome谷歌浏览器下，radio单选框的默认margin值是：margin:3px 3px 0 5px;checkbox复选框的margin值为margin:3px 3px 3px 4px;而IE浏览器下似乎没有margin值，但是对margin敏感。这是不用hack解决对齐问题的难点之一。
+* 方案3和方案5从兼容性,代码利用率,css消耗等来讲,都给常推荐.
+
+
+
 
 
 

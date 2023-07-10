@@ -1778,7 +1778,7 @@ function(a, b){
 
 
 
-### sort(compareFn)升序可以简写为a-b
+#### sort(compareFn)升序可以简写为a-b
 
 
 ```javascript
@@ -1819,11 +1819,7 @@ a - b = b - a =0 , 排序结果 ===> 保持不变
 
 #### 来源
 [csdn](https://blog.csdn.net/weixin_42207975/article/details/107538527)
-
-
-
-
-### 重写sort
+#### 重写sort
 
 >    本篇文章重要 精读  看不懂
 
@@ -1967,7 +1963,7 @@ arr.sort((a,b) => {
 
 
 
-### sort实例
+#### sort实例
 
 #### 排序有对象的数组
 通过比较属性的值来进行排序
@@ -2073,6 +2069,14 @@ https://juejin.cn/post/6971747560784560165
 
 
 
+### Array.prototype.toSorted()
+通过副本操作数组,非破坏性方法
+```js const arr = ['c', 'a', 'b'];
+ const result = arr.toSorted();
+ console.log(result);  // ['a', 'b', 'c']
+ console.log(arr);     // ['c', 'a', 'b']
+
+```
 
 ### 数组4方法
 
@@ -2827,6 +2831,10 @@ var removed = myFish.splice(-2, 1);
 
 
 
+
+#### Array.prototype.toSpliced()
+通过副本进行操作.非破坏性方法.
+
 #### Array.prototype.concat()
 
 **定义**
@@ -3313,8 +3321,17 @@ console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
 ```
 
 
-#### [[202302272171|Array.prototype.sort]]
 
+
+
+#### Array.prototype.toReversed()
+通过副本操作,非破坏性方法
+```js
+ const arr = ['a', 'b', 'c'];
+ const result = arr.toReversed();
+ console.log(result); // ['c', 'b', 'a']
+ console.log(arr);    // ['a', 'b', 'c']
+```
 
 
 #### Array.prototype.map()
@@ -4208,7 +4225,7 @@ getBoolean('true');  // true
 ```
 
 
-#### every
+#### Array.prototype.every()
 
 **定义**
 
@@ -4353,8 +4370,28 @@ Array.prototype.myFind = function(callback) {
 ```
 
 
+#### Array.prototype.findLast()
+从尾到头搜索数组.它们的用法和 `find()`、`findIndex()` 类似，唯一不同的是它们是 从后向前 遍历数组，这两个方法适用于数组和类数组。
 
 
+#### Array.prototype.findIndex()
+
+
+
+
+
+
+
+
+#### Array.prototype.with()
+该方法会以非破坏性的方式替换给定 index 处的数组元素，即 `arr[index]=value` 的非破坏性版本。
+```js 
+ const arr = ['a', 'b', 'c'];
+ const result = arr.with(1, 'X');
+ console.log(result);  // ['a', 'X', 'c']
+ console.log(arr);     // ['a', 'b', 'c']
+
+```
 
 
 
@@ -4953,11 +4990,10 @@ function myFlat(arr) {
 
 
 
-#### ES6-keys()
+#### Array.keys()
 
 **定义**
-
- `**keys()** `方法返回一个包含数组中每个索引键的`**Array Iterator**`对象
+`**keys()** `方法返回一个包含数组中每个索引键的`**Array Iterator**`对象
 
 **参数**
 
@@ -4987,7 +5023,7 @@ console.log(denseKeys);  // [0, 1, 2]
 
 
 
-#### ES6-values()
+#### Array.values()
 
 **定义**
 
@@ -5050,7 +5086,7 @@ console.log(letter);
 
 
 
-#### ES6-entries()
+#### Array.entries()
 
 **定义**
 
@@ -5170,7 +5206,9 @@ for (let e of iterator) {
 
 
 
-#### ES2022-at()
+#### Array.at() //?待办
+
+
 
 
 

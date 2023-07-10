@@ -500,7 +500,6 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 #### 组成
-
 - 如果设置了 [`name`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-name) 属性，`meta` 元素提供的是文档级别（*document-level*）的元数据，应用于整个页面。
 - 如果设置了 [`http-equiv`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-http-equiv) 属性，`meta` 元素则是编译指令，提供的信息与类似命名的 HTTP 头部相同。
 - 如果设置了 [`charset`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-charset) 属性，`meta` 元素是一个字符集声明，告诉文档使用哪种字符编码。
@@ -520,9 +519,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 <meta name="description" content="xxx">
 ```
 
-
 ##### viewport
-
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1"
 ```
@@ -552,7 +549,7 @@ content的参数有all,none,index,noindex,follow,nofollow。默认是all。
 
 http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equivalent"
 
-##### content-type
+##### http-equiv="content-type"
 
 说明：用于设定网页字符集，便于浏览器解析与渲染页面
 
@@ -562,7 +559,7 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 <meta charset="utf-8"> //HTML5设定网页字符集的方式，推荐使用UTF-8
 ```
 
-##### X-UA-Compatible(浏览器采取何种版本渲染当前页面)
+##### http-equiv="X-UA-Compatible"(浏览器采取何种版本渲染当前页面)
 
 说明：用于告知浏览器以何种版本来渲染页面。（一般都设置为最新模式，在各大框架中这个设置也很常见。）
 
@@ -570,9 +567,9 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/> //指定IE和Chrome使用最新版本渲染当前页面
 ```
 
-##### cache-control(指定请求和响应遵循的缓存机制)
+##### http-equiv="cache-control"(指定请求和响应遵循的缓存机制)
 
-###### 用法1.
+**实例1**
 
 说明：指导浏览器如何缓存某个响应以及缓存多长时间。
 
@@ -590,7 +587,7 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 
 > [参考链接：HTTP缓存](https://link.segmentfault.com/?enc=g0wxoHT0Oi4trg%2F%2Ban326g%3D%3D.dEwDy5%2FLkodWzR2WjHO05GZuB6PtHxTtOBUB1IDUDaERHCm3hXiEiPVHJzbYOa8d8%2Bw1LuwSX3ne0BZ%2FPWKqZ1KNEXjrYZJH41veJo6QM4d%2B5RhdP27jIuR%2B89KmUlmlPVIMpMymxG96ffRTtVU9tat2pi6tP03mSJqyUn3cINY%3D)
 
-###### 用法2.(禁止百度自动转码)
+实例2 禁止百度自动转码
 
 说明：用于禁止当前页面在移动端浏览时，被百度自动转码。虽然百度的本意是好的，但是转码效果很多时候却不尽人意。所以可以在head中加入例子中的那句话，就可以避免百度自动转码了。
 举例：
@@ -599,7 +596,7 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 ```
 
-##### expires
+##### http-equiv="expires"
 
 说明:用于设定网页的到期时间，过期后网页必须到服务器上重新传输。
 
@@ -609,7 +606,7 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 
 
 
-##### Set-Cookie(cookie设定)
+##### http-equiv="Set-Cookie"(cookie设定)
 
 如果网页过期。那么这个网页存在本地的cookies也会被自动删除。
 
@@ -621,7 +618,7 @@ http-equiv顾名思义，相当于http的文件头作用。equiv的全称是"equ
 
 
 
-##### Refresh
+##### http-equiv="Refresh"
 
 meta实现自动刷新
 
