@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/02 CSS/index.md",
+                "file": "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "018475958d59cae1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "F2E Notes/03 JavaScript&TypeScript/Promise.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "a2260bd7b0cce4ab",
@@ -124,7 +137,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/02 CSS/Base/CSS.md",
+                "file": "F2E Notes/03 JavaScript&TypeScript/Promise.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -167,9 +180,11 @@
   },
   "active": "e87644295144ccda",
   "lastOpenFiles": [
+    "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
+    "F2E Notes/03 JavaScript&TypeScript/Promise.md",
+    "F2E Notes/02 CSS/index.md",
     "F2E Notes/02 CSS/CSS_选择器.md",
     "F2E Notes/02 CSS/Base/CSS.md",
-    "F2E Notes/02 CSS/index.md",
     "Front-end-notebook/03 JavaScript&TypeScript/202301181330.md",
     "Front-end-notebook/03 JavaScript&TypeScript/202301181330a.md",
     "Front-end-notebook/03 JavaScript&TypeScript/202301181330b.md",

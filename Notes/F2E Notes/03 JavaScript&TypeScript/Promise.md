@@ -8,15 +8,15 @@ alias: Promise
 https://github.com/wangfupeng1988/js-async-tutorial
 
 
-### 异步编程背景
+# 异步编程背景
 
 * JavaScript引擎是基于<span style="background: #ccc;">单线程（Single-threaded）事件循环</span>的概念构建的，<u>同一时刻只允许一个代码块在执行</u>
 * 即将运行的代码存放在<span style="background: #ccc;">任务队列（job queue）</span>中，每当一段代码准备执行时，都会被添加到任务队列
 * 事件循环（eventloop）是JavaScript引擎中的一段程序，负责监控代码执行并管理任务队列，会执行队列中的下一个任务
 
-### Promises/A+
+# Promises/A+
 
-#### Promise使用原因
+## Promise使用原因
 
 * 指定回调函数的方式更加灵活
   * 旧的:必须在启动异步任务前指定(实际生活中订阅必须在活动开始之前,而promise更加灵活,可随时添加处理程序.)
@@ -27,9 +27,9 @@ https://github.com/wangfupeng1988/js-async-tutorial
 
 
 
-### Promise之前的异步处理
+## Promise之前的异步处理
 
-#### 事件模型
+### 事件模型
 
 > 用户点击按钮或按下键盘上的按键会触发类似onclick这样的事件，它会向任务队列添加一个新任务来响应用户的操作，这是JavaScript中最基础的异步编程形式，直到事件触发时才执行事件处理程序，**且执行时上下文与定义时的相同**
 
@@ -50,13 +50,13 @@ button.onclick = function(event) {
 
 
 
-#### 回调模式
+### 回调模式
 
 > 回调模式与事件模型类似，异步代码都会在未来的某个时间点执行，二者的区别是回调模式中被调用的函数是作为参数传入的
 
 一个知识点:任何回调函数,都会有闭包的产生.
 
-##### **二种类型的回调函数**
+#### **二种类型的回调函数**
 
 * 同步回调
   * 立即执行,完全执行完了才结束,不会放入回调队列中. 
@@ -68,9 +68,9 @@ button.onclick = function(event) {
 
 
 
-#### **异步回调案例** 
+### **异步回调案例** 
 
-##### 在网页中加载脚本和模块
+### 在网页中加载脚本和模块
 
 ```javascript
 //使用给定的src加载脚本
@@ -139,7 +139,7 @@ loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', s
 
 
 
-##### **在回调中回调**
+### **在回调中回调**
 
 我们如何<span style="color:blue">依次加载两个脚本</span>：第一个，然后是第二个？
 
@@ -249,16 +249,16 @@ function step3(error, script) {
 * 名为 `step*` 的函数都是一次性使用的，创建它们就是为了避免“厄运金字塔”。没有人会在行为链之外重用它们。因此，这里的命名空间有点混乱。
 
 
-### Promise介绍
+# Promise介绍
 
-#### 概述
+## 概述
 
 > Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
 >
 > 所谓`Promise`，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
 > 从语法上说，Promise 是一个对象，可以获取异步操作的消息。
 
-#### 类比
+### 类比
 
 > 你是一位歌手, 你承诺（promise）会在单曲发布(结果)的第一时间发给他们。
 > 你给了粉丝们一个列表。他们可以在上面填写他们的电子邮件地址，以便当歌曲发布后，让所有订阅了的人能够立即收到。
@@ -266,7 +266,7 @@ function step3(error, script) {
 
 
 
-#### 作用
+## 作用
 
 ES6推出的新的更好的异步编程解决方案(相对于纯回调的方式)
 
@@ -278,9 +278,9 @@ ES6推出的新的更好的异步编程解决方案(相对于纯回调的方式)
 
 
 
-#### 特点和缺点
+## 特点和缺点
 
-**Promise对象有两个特点:**
+### **Promise对象有两个特点:**
 
 * <u>对象的状态不受影响</u>
   * Promise对象代表一个异步操作,有3种状态: pending,fulfilled,rejected
@@ -289,7 +289,7 @@ ES6推出的新的更好的异步编程解决方案(相对于纯回调的方式)
   * Promise状态改变,只有两种可能.从pending->fulfilled或从pending->rejected
   * 如果状态已改变(称为resolved,已定型).再对Promise对象添加回调,也会立即得到这个结果.
 
-**Promise的缺点:**
+### **Promise的缺点:**
 
 * 无法取消Promise,一旦建立就会立即执行,无法中途取消.
 * 如果不设置回调,Promise内部抛出的错误,不会反应到外部.
@@ -307,11 +307,11 @@ Promise.all([Promise.resolve(1), Promise.resolve(2)])
 
 
 
-### 基本用法
+## 基本用法
 
 ES6 规定，`Promise`对象是一个构造函数，用来生成`Promise`实例。
 
-#### 构造函数语法:
+### 构造函数语法:
 
 ```javascript
 let promise = new Promise(function (resolve, reject) {
@@ -325,10 +325,10 @@ promise.then(function() {
 })
 ```
 
-#### 执行过程
+## 执行过程
 
 
-#### 执行器函数
+## 执行器函数
 
 > 生产者代码, 歌手
 
@@ -366,7 +366,7 @@ let promise = new Promise((resolve, reject) => {
 
 
 
-#### 返回值
+## 返回值
 
 由`new Promise`构造函数<span style="color:blue">返回的`promise`对象</span>具有以下内部属性:
 
@@ -387,7 +387,7 @@ let promise = new Promise((resolve, reject) => {
 
 
 
-#### 总结
+## 总结
 
 1.**只能有一个结果或一个 error**
 * executor 只能调用一个 `resolve` 或一个 `reject`。
@@ -421,11 +421,11 @@ let promise = new Promise(function(resolve, reject) {
 
 
 
-#### then catch finally
+## then catch finally
 
 > 消费者代码 歌手的粉丝
 
-##### 生产者代码和消费者代码关系
+### 生产者代码和消费者代码关系
 
 * Promise对象充当的是 executor（“生产者代码”或“歌手”）和消费函数（“粉丝”）之间的连接，后者将接收结果或 error。
 * 可以通过使用 `.then`、`.catch` 和 `.finally` 方法为消费函数进行注册。(为粉丝进行订阅)
@@ -482,7 +482,7 @@ promise.then(null, function(err) {
 
 
 
-##### catch()
+### catch()
 
 <u>概述</u>
 
@@ -542,7 +542,7 @@ promise.catch(function(error) {
 
 
 
-##### then() + catch()
+### then() + catch()
 
 * then()方法和catch()方法一起使用才能更好地<u>处理异步操作结果</u>。
 
@@ -572,7 +572,7 @@ promise.then(function(contents) {
 
 
 
-##### finally
+### finally
 
 像常规 `try {...} catch {...}` 中的 `finally` 子句一样，promise 中也有 `finally`。
 
@@ -591,7 +591,7 @@ new Promise((resolve, reject) => {
 
 
 
-**finally 与 then 的区别**
+#### **finally 与 then 的区别**
 
 * `finally` 处理程序（handler）没有参数。在 `finally` 中，我们不知道 promise 是否成功。
 * `finally` 处理程序将 <u>结果和 error</u> 传递给下一个处理程序。
@@ -599,11 +599,11 @@ new Promise((resolve, reject) => {
 
 
 
-#### 使用Promise进行错误处理
+## 使用Promise进行错误处理
 
 当一个 promise 被 reject 时，控制权将移交至最近的 rejection 处理程序（handler）。
 
-##### 隐式try...catch
+### 隐式try...catch
 
 Promise 的执行者（executor）和 promise 的处理程序（handler）周围有一个“隐式的 `try..catch`”。如果发生异常，它（译注：指异常）就会被捕获，并被视为 rejection 进行处理。
 
@@ -623,7 +623,7 @@ new Promise((resolve, reject) => {
 }).catch(alert);
 ```
 
-**处理范围**
+### **处理范围**
 
 * executor周围
 * executor函数的处理程序(then, catch)
@@ -656,7 +656,7 @@ Promise.reject(1)
 .catch(alert) //1
 ```
 
-**再次抛出**
+### **再次抛出**
 
 对于 promise 来说, 错误如果无法处理它，可以将其再次抛出,这也是可以的。
 
@@ -687,7 +687,7 @@ new Promise((resolve, reject) => {
 
 
 
-**未处理的rejection**
+### **未处理的rejection**
 
 当一个error没有被处理会发生什么? 例如，我们忘了在链的尾端附加 `.catch`
 
@@ -733,7 +733,7 @@ Promise.reject(3);
 
 
 
-##### Fetch错误处理示例
+### Fetch错误处理示例
 
 比较完善的fetch错误处理
 
@@ -803,7 +803,7 @@ rejected.catch(function(value) {
 
 任何时候都可以调用then()方法或catch()方法，无论Promise是否已解决这两个方法都可以正常运行，但这样就很难知道一个Promise何时被处理。在此示例中，Promise被立即拒绝，但是稍后才被处理。
 
-#### 4.1 Node.js
+### 4.1 Node.js
 
 在Node.js中，处理Promise拒绝时会触发process对象上的两个事件：
 
@@ -880,7 +880,7 @@ setInterval(function() {
 
 
 
-#### 4.2 浏览器
+### 4.2 浏览器
 
 浏览器也是通过触发两个事件来识别未处理的拒绝的，虽然这些事件是在window对象上触发的，但实际上与Node.js中的完全等效。
 
@@ -920,9 +920,9 @@ rejected = Promise.reject(new Error('Explosion'));
 ```
 
 
-### Promise链
+## Promise链
 
-#### 概况
+### 概况
 
 如果异步任务要一个接一个地执行, Promise 提供了一些方案来做到这一点。
 
@@ -941,7 +941,7 @@ new Proise((resolve, reject) => {
 })
 ```
 
-#### 返回Promise
+### 返回Promise
 
 `.then(handler)` 中所使用的处理程序（handler）可以<span style="color:blue">**显式创建并返回**</span>(`return new Promise())`一个 promise。(显式两个字是自己添加的, 因为then的回调函数本身返回一个promise)
 
@@ -965,7 +965,7 @@ new Promise((resolve, reject) => {
 
 
 
-#### 实例1-loadScript
+### 实例1-loadScript
 
 实现上面的多个loadScript调用,按顺序次序加载脚本
 
@@ -1005,7 +1005,7 @@ loadScript("/article/promise-chaining/one.js").then(script1 => {
 
 
 
-#### Thenables  ????
+### Thenables  ????
 
 <span style="color:blue;">then处理程序（handler）返回的不完全是一个 promise</span>，而是返回的被称为 “thenable” 对象 — 一个具有方法 `.then` 的任意对象。它会被当做一个 promise 来对待。
 
@@ -1036,7 +1036,7 @@ JavaScript 检查在 `(*)` 行中由 `.then` 处理程序（handler）返回的�
 
 
 
-#### 实例2-fetch
+### 实例2-fetch
 
 使用 [fetch](https://zh.javascript.info/fetch) 方法从远程服务器加载用户信息,基本语法很简单:
 
@@ -1121,7 +1121,7 @@ loadJson('/article/promise-chaining/user.json')
 
 
 
-### Promise继承
+## Promise继承
 
 Promise与其他内建类型一样，也可以作为基类派生其他类，所以你可以定义自己的Promise变量来扩展内建Promise的功能。例如，假设你想创建一个既支持then()方法和catch()方法又支持success()方法和failure()方法的Promise，则可以这样创建该Promise类型
 
@@ -1159,7 +1159,7 @@ promise.success(function(value) {
 
 
 
-### Promise实现 🚩🚩🚩
+## Promise实现 🚩🚩🚩
 
 > https://juejin.cn/post/6945319439772434469
 >
@@ -1664,7 +1664,7 @@ MyPromise {
 
 
 
-### Promise实现2
+## Promise实现2
 
 > https://github.com/xieranmaya/blog/issues/3
 >
@@ -1680,11 +1680,12 @@ MyPromise {
 
 
 
-### 静态方法 6种
+# 静态方法 6种
 
-#### Promise.resolve()
+### Promise.resolve()
+> 这两个静态方法(Promise.resolve, Promise.reject返回的期约在被返回时并未兑现或拒绝，但它们会在当前同步代码块运行结束后立即兑现或拒绝。通常，这会在几毫秒之后发生，除非有很多待定的异步任务等待运行
 
-
+如果把期约p1传给Promise.resolve()，它会返回一个新期约p2，p2会立即解决，<span style="text-decoration: underline wavy;">但要等到p1兑现或被拒绝时才会兑现或被拒绝。</span>
 
 ##### 实现
 
@@ -1700,7 +1701,7 @@ Promise.myResolve = function(val) {
 
 
 
-#### Promise.reject()
+### Promise.reject()
 
 
 
@@ -1718,7 +1719,7 @@ Promise.myReject = function(err) {
 
 
 
-#### Promise.all()
+### Promise.all()
 
 ##### 概述
 `Promise.all` 接受一个可迭代对象（通常是一个数组项为 promise 的数组），并返回一个新的 promise。
@@ -1911,8 +1912,51 @@ Promise.all(request)
 ```
 
 
+**串行期约**
+> JS权威指南第7版  第13章
 
-#### Promise.allSettled
+动态构建一个函数,并行执行任意数量的请求.
+```js
+function fetchSequentially(urls) {
+	// 保存响应体
+	const bodies = []
+
+	// 只抓取一个URL响应体
+	function fetchOne(url) {
+		return fetch(url)
+			.then(response => response.text())
+			.then(body => {
+				// 保存响应体到数组, 这里故意声乐了返回值
+				bodies.push(body)
+			})
+	}
+
+	//从一个立即(以undefined值)兑现的期约开始
+	let p = Promise.resolve(undefined)
+
+	// 现在循环目标URL, 构建任意长度的期约链
+	// 链的每个环节都会拿取一个URL的响应体
+	for (url of urls) {
+		p = p.then(() => fetchOne(url))
+	}
+
+	// 期约链的最后一个期约兑现后,响应体数组也已经就绪.因此,可以将这个bodies数组通过期约返回.注意,这里并未包含任何错误处理程序,我们希望把错误传播给调用者.
+	return p.then(() => bodies)
+}
+
+
+fetchSequentially(urls)
+	.then(bodies => {/*处理*/})
+	.catch(e => console.error(e))
+```
+
+
+
+
+
+
+
+### Promise.allSettled
 
 ##### 概述
 
@@ -2040,7 +2084,7 @@ function allSettled(promises) {
 
 
 
-#### Promise.any
+### Promise.any
 
 ##### 概述
 
@@ -2143,7 +2187,7 @@ Promise.any = ps => new Promise((resolve, reject) => {
 
 
 
-#### Promise.race   ????
+### Promise.race   ????
 
 ##### 概述
 
@@ -2220,9 +2264,9 @@ Promise.myrace = function(iterator) {
 ```
 
 
-### 原型方法
+# 原型方法
 
-#### Promise.prototype.then()
+### Promise.prototype.then()
 
 Promise实例具有then方法,也就是说,then方法是定义在原型对象上的.
 
@@ -2472,7 +2516,7 @@ someAsyncThing().then(function() {
 
 
 
-#### Promise.prototype.finally()
+### Promise.prototype.finally()
 
 the method returns a `Promise`. when the promises is finally either fulfilled or rejected, the specified callback function is executed. this provides a way for code to be run whether the promise was fulfilled successfully, or instead rejected.
 
@@ -2594,10 +2638,10 @@ Promise.prototype.finally = function(cb) {
 
 
 
-### Promise实例
+# Promise实例
 
 
-#### 重写loadScript
+### 重写loadScript
 
 ```javascript
 function loadScript(src) {
@@ -2646,7 +2690,7 @@ console.log('Hi');
 
 
 
-#### 异步加载图片
+### 异步加载图片
 
 ```javascript
 function loadImageAsync(url) {
@@ -2668,7 +2712,7 @@ function loadImageAsync(url) {
 
 上面代码中，使用`Promise`包装了一个图片加载的异步操作。如果加载成功，就调用`resolve`方法，否则就调用`reject`方法。
 
-#### 实现Ajax操作
+### 实现Ajax操作
 
 ```javascript
 cosnt getJSON = function(url) {
@@ -2708,7 +2752,7 @@ getJSON('/posts.json').then(function(json){
 
 
 
-#### 4.resolve()函数可以是另一个Promise实例
+### 4.resolve()函数可以是另一个Promise实例
 
 ```javascript
 const p1 = new Promise((resulve, reject) => {
@@ -2820,7 +2864,7 @@ Resolved
 ```
 
 
-#### 如何串行执行多个Promise
+### 如何串行执行多个Promise
 
 案例: 一个封装的延迟函数，然后一个装有3,4,5的数组，需求就是在开始执行时依次等待3, 4, 5秒，并在之后打印对应输出
 
@@ -2948,7 +2992,7 @@ dispatch(0)
 
 
 
-#### 30%中奖案例
+### 30%中奖案例
 
 ```html
  // 点击按钮, 1s 后显示是否中奖.  30%概率中奖
@@ -3005,7 +3049,7 @@ dispatch(0)
 
 
 
-#### 读取文件
+### 读取文件
 
 ```html
 //resource文件下有名称为1,2,3的html文件
@@ -3052,7 +3096,7 @@ fs.readFile('./resource/1.htmlx', (err, data) => {
 
 
 
-#### 发送ajax请求
+### 发送ajax请求
 
 ```js
 <scirpt>
@@ -3092,7 +3136,7 @@ p.then((value)=>{
 
 
 
-#### 连接mongoose数据库
+### 连接mongoose数据库
 
 ```js
 //db.js
@@ -3145,7 +3189,7 @@ p.then(value => {
 
 
 
-#### 封装函数读取文件内容
+### 封装函数读取文件内容
 
 ```js
 /**
@@ -3195,7 +3239,7 @@ mineReadFile(path);
 
 
 
-#### promisify
+### promisify
 
 ```
 可以将 fs 模块中的异步的 API, 转化成返回 promise 对象形式的函数
@@ -3228,7 +3272,7 @@ mineReadFile('./resource/1.html')
 
 
 
-####  如何将Promise.then中的值直接return出来
+###  如何将Promise.then中的值直接return出来
 
 > https://www.wenyuanblog.com/blogs/javascript-how-to-return-value-in-promise.html
 
@@ -3294,7 +3338,7 @@ asyncFn().then(value => {
 
 
 
-#### 创建未完成状态的Promise
+### 创建未完成状态的Promise
 
 用Promise构造函数可以创建新的Promise,构造函数只接收一个参数: 包含初始化Promise代码的执行器(executor)函数. 执行器接受两个参数,分别是resolve()函数和reject()函数. 执行器成功完成时调用resolve()函数,反之失败则调用reject()函数. Promise的执行器会立即执行,然后才执行后续流程中的代码.
 
@@ -3313,7 +3357,7 @@ Hi
 
 在执行器中，无论是调用resolve()还是reject()，都会向任务队列中添加一个任务来解决这个Promise。
 
-#### 如何改变promise的状态?
+### 如何改变promise的状态?
 
 3种方式改变状态:
 
@@ -3338,7 +3382,7 @@ console.log(p);
 
 
 
-#### 为Promise对象指定多个成功或失败的回调
+### 为Promise对象指定多个成功或失败的回调
 
 ```js
 //当promise改变为对应状态时都会调用 多次调用then方法
@@ -3366,7 +3410,7 @@ p.then(value => {
 
 
 
-#### 改变promise状态和指定回调函数(then)谁先谁后
+### 改变promise状态和指定回调函数(then)谁先谁后
 
 1.都有可能. 正常是先指定回调再改变状态
 
@@ -3401,7 +3445,7 @@ p.then(val => console.log(val));
 
 
 
-#### promise.then()返回新的promise的结果状态由什么决定
+### promise.then()返回新的promise的结果状态由什么决定
 
 > then方法的返回结果是一个promise对象
 
@@ -3417,7 +3461,7 @@ p.then(val => console.log(val));
 
 
 
-#### promise如何串连多个操作任务?
+### promise如何串连多个操作任务?
 
 * promise的then()返回一个新的promise, 可以开成then()的链式调用
 * 通过then的链式调用串连多个同步/异步任务
@@ -3510,7 +3554,7 @@ mine();
 
 
 
-#### Promise异常穿透
+### Promise异常穿透
 
 * 当使用promise的then链式调用时, 可以在最后指定失败的回调, 
 * 前面任何操作出了异常, 都会传到最后失败的回调中处理
@@ -3532,7 +3576,7 @@ new Promise((resolve, reject) => {
 
 
 
-#### Promise中断链条
+### Promise中断链条
 
 * 返回一个pending状态的promise对象 有且只有这一种方法: 中断方法 return new Promise(()=>{})
 
@@ -3560,7 +3604,7 @@ p.then((value)=>{
 
 
 
-## JS异步之宏队列和微队列
+# JS异步之宏队列和微队列
 
 > [从一道让我失眠的 Promise 面试题开始，深入分析 Promise 实现细节 - 掘金 (juejin.cn)](https://juejin.cn/post/6945319439772434469)
 
