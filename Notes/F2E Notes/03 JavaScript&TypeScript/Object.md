@@ -2231,12 +2231,13 @@ Object.assign(target, ...sources);
 ##### **描述**
 
 * 源对象中的属性会覆盖目标对象中有相同属性的键(key).同样,后面源对象的属性也会覆盖前面相同的属性.
-* 此方法只拷贝源对象自身可枚举<span style="color: blue;"><sup>enumerable</sup></span>的属性到目标对象.
-* 方法在源对象上使用`[[Get]]`,在目标对象上使用`[[Set]]`,所以它会调用[getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) 和 [setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set). 
-* 所以,这个方法分配属性,而不仅仅是复制或定义新的属性
+* 此方法只拷贝源对象自身可枚举<span style="color: blue;"><sup>enumerable</sup></span>的属性到目标对象.不拷贝继承的属性,不能拷贝prototype.
+* 方法在源对象上使用`[[Get]]`,在目标对象上使用`[[Set]]`,所以它会调用[getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) 和 [setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set). 所以,这个方法分配属性,而不仅仅是复制或定义新的属性
 * 如果合并的源对象中包含getters,那么合并新属性到原型上是不适合的.(Therefore it assign properties, versus copying or defining new properties.)
 * <span style="span:hover{color:red;}">为了将属性定义(包括其可枚举性)复制到原型, 应使用`Object.getOwnPropertyDescriptor()` 代替`Object.defineProperty()`.</span>
 * `String` 和 `Symbol` 属性会被拷贝.
+	* 如果该参数不是对象,则会先转成对象,然后返回.undefined,null无法转成对象,如果将这两个值放在第一个参数的位置上会报错: `TypeError: Cannot convert undefined or null to object`
+	* 字符串合入目标对象,数值和布尔值会被忽略.因为只有字符串的包装对象,会产生可枚举属性.
 * 为了预防错误,,例如,一个属性是不可写的,会出现一个类型错误,如果在报错之前添加了任意属性那么`target`对象会改变.
 
 > Note:
@@ -2245,7 +2246,14 @@ Object.assign(target, ...sources);
 >
 > 不会抛出`null`或`undefined`源
 
+```js
+let str = Object.assign('123', {a:1})
+console.log(str) // String {'123', a:1 }
+console.log(str.toString()) // '123'
 
+
+let err = Object.assign()
+```
 
 
 

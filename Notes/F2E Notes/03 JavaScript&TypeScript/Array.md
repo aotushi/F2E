@@ -242,6 +242,7 @@ console.log(fruits.length); // 2
 
 
 以下表格列举了更改原始数组的方法,和对应的不更改数组的方法.
+
 | 更改的方法     | 对应的非更改的方法 |
 | -------------- | ------------------ |
 | copyWith()     | 无                 |
@@ -4311,7 +4312,7 @@ Array.prototype.myEvery = function(callback) {
 
 
 
-#### ES6-find()/findIndex()
+#### ES6- find()/findIndex()
 
 ##### 概况
 

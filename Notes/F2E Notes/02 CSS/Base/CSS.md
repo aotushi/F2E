@@ -1050,6 +1050,7 @@ CSS 中有所谓**块级排版上下文（****Block Formatting Context，BFC）*
 **`text-overflow`** [CSS](https://developer.mozilla.org/zh-CN/docs/Web/CSS) 属性用于确定如何提示用户存在隐藏的溢出内容。其形式可以是裁剪、显示一个省略号（“`…`”）或显示一个自定义字符串.
 
 `text-overflow` 属性只对那些在块级元素溢出的内容有效，但是必须要与块级元素*内联*（inline）方向一致（举个反例：文本无法在盒子的下方溢出）
+省略号效果在flex项中无效
 
 ##### 语法
 
