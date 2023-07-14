@@ -4120,6 +4120,19 @@ if (!Array.prototype.mapUsingReduce) {
 ```
 
 
+11.获取所有cookie并转为对象
+```js
+const getCookies = () => document.cookie
+	.split(';')
+	.map(item => item.split('='))
+	.reduce((acc, [k,v]) => acc[k.trim().replace('"','') && acc, {})
+```
+
+
+12.将URL参数转换为对象
+```js
+const getUrlParams = query = Array.from(new URLSearchParams(query)).reduce((acc,[k,v]) => Object.assign({}, p, {[k]: p[k] ? (Array.isArray(p[k]) ? p[k] : [p[k]]).concat(v) : v}),{})
+```
 
 #### Array.prototype.some
 

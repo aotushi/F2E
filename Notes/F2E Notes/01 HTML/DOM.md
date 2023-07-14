@@ -3152,7 +3152,11 @@ parentNode 获取父节点
 
 parentElementNode 获取父元素节点
 
+#### 查找某个元素的所有兄弟元素
 
+```js
+const a = el => [].slice.call(el.parentNode.children).filter(child => child !== el)
+```
 
 **总结**  ???
 

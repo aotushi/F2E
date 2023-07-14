@@ -128,7 +128,37 @@ Document构造函数创建一个新的文档对象,该对象是在浏览器中�
 ## 实例属性
 
 
+### activeElement
+>[Document: activeElement property - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement)
 
+#### 是什么
+>此只读属性接口返回当前是否被聚焦(focus)的元素DOM.
+>通常情况下, 如果 [`HTMLInputElement`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLInputElement) 或者 [`HTMLTextAreaElement`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLTextAreaElement)元素中有文字被选中时， `activeElement`属性就会返回该元素。这时，你可以调用该元素的`selectionStart` 和 `selectionEnd` 属性获取更多选中文字的信息。其他情况下，焦点元素也可能是[`<select>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/select)元素 (menu) 或者一个别的 [`<input>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input) 元素，比如 `"button"`、`"checkbox"` 或者 `"radio"`。
+
+**注意事项**
+> Focus(接收用户input事件的元素)与selection(当前文档高亮部分)不是一回事.
+> 你可以通过使用'window.getSelection()'得到当前选中内容.
+
+### 语法
+
+```js
+element = DocumentOrShadowRoot.activeElement
+```
+
+返回值:
+* 当前获得焦点的Element
+* 如果没有焦点元素, 会返回`<body>`或`null`
+
+### 实例
+**获取选中的文本**
+```js
+function onMouseUp(e) {
+	const activeTextarea = document.activeElement
+	const selection = activeTextarea.value.substring(
+		activeTextarea.selectionStart, activeTextarea.selectionEnd
+	)
+}
+```
 
 
 

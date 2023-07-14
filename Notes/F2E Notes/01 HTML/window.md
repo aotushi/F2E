@@ -115,6 +115,16 @@ Window.navigator的别名
 
 
 
+### 实例
+
+**返回上一个页面**
+```js
+const goBack = () => history.go(-1)
+```
+
+
+
+
 ## Window.indexDB <span style="font-size:12px;border:1px solid #ccc;border-radius: 6px;" title="This value may not be changed." class="badge inline readonly">Read only</span>
 
 

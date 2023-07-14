@@ -165,7 +165,31 @@
 
 # 实例方法
 
+
+
+
 # 事件
+
+## mouseup
+> [Element: mouseup event - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseup_event)
+
+### 概况
+>`mousedonw`事件,是在指针设备（如鼠标或触控板）位于元素内部时，当按钮释放时，在该元素上触发的事件。
+>与'mousedown'事件对象.
+
+### 语法
+
+```js
+addEventListener('mouseup', (event) => {})
+
+onmouseup = (event) => {}
+```
+
+
+## mouseudonw
+
+
+
 
 # 继承
 ## Node
