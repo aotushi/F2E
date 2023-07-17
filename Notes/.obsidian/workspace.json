@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/03 JavaScript&TypeScript/Promise.md",
+                "file": "F2E Notes/08 FrameWork/Project vue react mini other.md",
                 "mode": "source",
                 "source": false
               }
@@ -99,7 +99,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "代码规范",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -117,7 +117,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -137,7 +137,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/03 JavaScript&TypeScript/Promise.md",
+                "file": "F2E Notes/08 FrameWork/Project vue react mini other.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -178,7 +178,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e87644295144ccda",
+  "active": "018475958d59cae1",
   "lastOpenFiles": [
     "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
     "F2E Notes/03 JavaScript&TypeScript/Promise.md",
