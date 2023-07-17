@@ -2721,6 +2721,11 @@ console.log(result);  //[1, {a: 'aa', b: 'b'}, {c: 'c'}]
 
 **实例**
 
+0.访问数组最后一位
+```js
+const lastItem = arr => arr.slice(-1)[0]
+```
+
 1.复制数组
 
 ```JavaScript
@@ -2742,6 +2747,10 @@ let result = [].slice.call(arrLike);
 Array.of(arguments)
 ```
 
+将字符串第一个字符变小写
+```js
+const lowerCaseFirst = str => `${str.charAt(0).toLowerCase()}${str.slice(1)}`
+```
 
 
 **代码实现**
@@ -3866,6 +3875,7 @@ arr.reduce((acc, crt) =>
     	? acc.concat(crt.flat(Infinity))
         : acc.concat(crt)
 ,[])
+
 ```
 
 
@@ -4134,6 +4144,38 @@ const getCookies = () => document.cookie
 const getUrlParams = query = Array.from(new URLSearchParams(query)).reduce((acc,[k,v]) => Object.assign({}, p, {[k]: p[k] ? (Array.isArray(p[k]) ? p[k] : [p[k]]).concat(v) : v}),{})
 ```
 
+
+13.将数组转换为对象
+```js
+const arrayToObject = (arr, key) => arr.reduce((acc, crt) => ({...a, [b[key]]:b}), {})
+
+const arrToObject2 = (arr, key) => arr.reduce((acc, crt) => {
+	acc[crt[key]] = crt
+	return acc
+}, {})
+```
+
+14.将数组按照属性计数
+```js
+const countBy = (arr, prop) => arr.reduce((acc,crt) => ((acc[crt[prop]] = ++prev[acc[prop]] || 1),acc) {})
+```
+
+15.反转对象的key-value
+```js
+const invert = obj => Object.keys(obj).reduce((acc,crt) => ({...acc,acc[obj[key]]:key}), {})
+
+const invert2 = obj => Object.keys(obj).reduce((acc,crt) => Object.assign(acc,{obj[key]:key}))
+```
+
+16.其它
+```js
+//从对象中删除值为null/undefined
+
+const removeNullAndUndefined = obj => 
+	Object.entries(obj).reduce((acc,[k,v]) => v==null ? (a : (a[key]:v),a)), {})
+```
+
+
 #### Array.prototype.some
 
 **定义**
@@ -4323,6 +4365,10 @@ Array.prototype.myEvery = function(callback) {
 
 ```
 
+1.检测多个对象是否相等
+```js
+const isEqual = (...objs) => objs.every(obj => JSON.stringify(obj) === JSON.stringfiy(objs[0]))
+```
 
 
 #### ES6- find()/findIndex()
@@ -4425,7 +4471,7 @@ arr.fill(value[, start[, end]])
 
 `start` **可选**  起始索引，默认值为0。
 
-`end`   **可选**      终止索引，默认值为 `this.length`
+`end`   **可选**  终止索引，默认值为 `this.length`
 
 **返回值**
 
@@ -4468,6 +4514,14 @@ arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
 //https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/fill
 ```
 
+**实例**
+```js
+const randomIP = () => Array(4).fill(0).
+	map((_, i) => Math.floor(Math.random()*255) + (i===0 ? 1 : 0)).
+	join('.')
+
+//ip地址第一个数字不能为0
+```
 
 
 #### ES6-copyWithin()

@@ -362,7 +362,7 @@ alert(`$(d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`);
 
 
 
-#### day.js
+#### day.js(首选)
 
 > https://dayjs.gitee.io/zh-CN/
 
