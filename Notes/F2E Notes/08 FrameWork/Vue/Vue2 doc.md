@@ -1,8 +1,8 @@
 
 
-## 前端框架出现前的比较
+# 前端框架出现前的比较
 
-### 页面局部刷新
+## 页面局部刷新
 
 > [前端框架的出现 | 深入理解Vue.js实战 (godbasin.github.io)](https://godbasin.github.io/vue-ebook/vue-ebook/0.html#前端的飞速发展)
 
@@ -40,7 +40,7 @@ div.appendChild(p)
 
 回流的花销跟 render tree 有多少节点需要重新构建有关系，所以使用`innerHTML()`可能会导致更多的开销。
 
-### 非框架和框架就某个功能的实现比较
+## 非框架和框架就某个功能的实现比较
 
 > [前端框架的出现 | 深入理解Vue.js实战 (godbasin.github.io)](https://godbasin.github.io/vue-ebook/vue-ebook/0.html#前端框架的出现-2)
 
@@ -56,11 +56,11 @@ div.appendChild(p)
 
 
 
-## Vue简介
+# Vue简介
 
 > [Vue简介-Vue是什么？-CSDNVue入门技能树](https://edu.csdn.net/skill/vue/vue-712ec6452ab547478479a4509f787517?a=vue-f92d37226dc14bb58918663305bfc15b)
 
-### 什么是Vue
+## 什么是Vue
 > 构建用户界面的**渐进式**前端框架(用到哪一块就用哪一块，不需要全部用上)
 
 渐进式
@@ -70,7 +70,7 @@ div.appendChild(p)
 就是说你既可以只用最核心的视图层渲染功能来快速开发一些需求,也可以使用一整套全家桶来开发大型应用.
 
 
-### Vue兼容性及资源
+## Vue兼容性及资源
 
 #### 版本
 
@@ -84,13 +84,10 @@ vue.js中文官网：http://cn.vuejs.org/
 
 
 
+# Vue开发环境搭建的3种方式
 
 
-
-## Vue开发环境搭建的3种方式
-
-
-### 1. CDN模式
+## 1. CDN模式
 
 [[202302170957|script标签引入]]
 
@@ -100,17 +97,17 @@ vue.js中文官网：http://cn.vuejs.org/
 
 静态资源 `CDN` 引入的开发形式，适用于一些简单的活动页、宣传页、官网等小项目，易于灵活的添加修改页面。但不利于项目的模块化开发，所以不适用一些中大型综合项目的开发。
 
-### 2.NPM安装vue
+## 2.NPM安装vue
 构建大型应用
 ```js
 #最新稳定版
 npm i vue
 ```
 
-### 3.脚手架
+## 3.脚手架
 
 
-#### 3.1 CLI安装
+### 3.1 CLI安装
 对于 `Vue 3`，`Vue CLI` 版本也有所升级，目前想要生成 `Vue 3` 项目，需要将其升级到 `4.5.x` 版本，具体操作如下：
 * 以前安装过低版本,需要提前卸载 
 * 全局或局部安装vue cli
@@ -131,7 +128,7 @@ vue create 项目名称
 ```
 
 
-#### 3.2 Vite安装
+### 3.2 Vite安装
 > 兼容性注意，Vite 需要 [Node.js](https://nodejs.org/en/) 版本 14.18+，16+
 
 vite官网教程:
@@ -157,15 +154,10 @@ pnpm create vite my-vue-app --template vue
 ```
 
 
-## Vue实例和选项
+# Vue实例和选项
 
 ### [[202302171119|vue选项]]
 文档位置: https://v2.cn.vuejs.org/v2/api
-
-
-
-
-
 
 
 ### [[202302171122|vue实例]]
@@ -182,7 +174,7 @@ let vm = new Vue({
 
 
 
-## 模板语法
+# 模板语法
 
 > Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。
 
