@@ -183,27 +183,27 @@ let vm = new Vue({
 
 
 
-### 插值
+## 插值
 
 
 
 
 
-### 指令
+## 指令
 
 > 指令 (Directives) 是带有 `v-` 前缀的特殊 attribute。指令 attribute 的值预期是**单个 JavaScript 表达式** (`v-for` 是例外情况)。指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM.
 >
 
-#### 语法
+### 语法
 
-##### 参数
+#### 参数
 
 > 一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，`v-bind` 指令可以用于响应式地更新 HTML attribute：
 
 
 
 
-#### 事件绑定注意事项
+### 事件绑定注意事项
 
 0.v-on指令监听DOM事件,接收JS代码或方法名称(事件回调).//
 1.事件的回调都配置在methods对象中
@@ -397,6 +397,130 @@ props->methods->data->computed->watch
 
 
 ```
+
+
+### 5.生命周期函数hooks调用
+>https://blog.csdn.net/hbiao68/article/details/111404861
+>组件的所有生命周期钩子都可以通过`@hook:钩子名称`来监听触发
+
+**使用案例**
+* 定时器清除
+* 外部监听生命周期函数
+
+#### 定时器清除案例
+>生成和清除定时器可以定义在一个地方,便于理解和维护
+
+```js
+//未添加hook方法
+mounted() {
+	this.timer = setInterval(() => {
+		this.level++
+	}, 1000)
+}
+
+beforeDestory() {
+	if (timer) {
+		clearInterval(timer)
+		this.timer = null
+	}
+}
+```
+
+```js
+//添加hook方法
+mounted() {
+	this.timer = setInterval(() => {
+		this.level++
+	}, 1000)
+
+	// 在销毁之前执行hook方法
+	this.$once('hook:beforeDestory', () => {
+		if (this.timer) {
+			clearInterval(this.timer)
+		}
+	})
+
+	// hook函数可以执行多次
+	this.$once('hook:beforeDestory', () => {
+		// ...
+	})
+}
+```
+
+
+#### 外部监听生命周期函数
+使用场景:
+* 使用的第三方组件，对于开发者来说内部就是一个沙盒，不了解内部的逻辑，并且不能修改内部代码 
+* 希望监听类似change事件，或者是在组件加载完之后执行某个业务逻辑
+
+```js
+<template>
+  <!--通过@hook:updated监听组件的updated生命钩子函数-->
+  <!--组件的所有生命周期钩子都可以通过@hook:钩子函数名 来监听触发-->
+  <custom-select @hook:updated="myUpdated" />
+</template>
+<script>
+import CustomSelect from '../components/custom-select'
+export default {
+  components: {
+    CustomSelect
+  },
+  methods: {
+    myUpdated() {
+      console.log('custom-select组件的updated钩子函数被触发')
+    }
+  }
+}
+</script>
+```
+
+
+### 6.高精度权限控制-自定义指令directive
+#### 背景
+> 通常给一个元素添加v-if / v-show，来判断该用户是否有权限，但如果判断条件繁琐且多个地方需要判断，这种方式的代码不仅不优雅而且冗余。针对这种情况，我们可以封装了一个指令权限，能简单快速的实现按钮级别的权限判断。
+
+#### 实现
+新建个array.js文件，用于存放与权限相关的全局函数; 将array文件挂载到全局中; 最后我们在页面中就可以通过自定义指令 v-permission来判断：
+
+```js
+// array.js
+export function checkArray (key) {
+	let arr = ['admin', 'editor']
+	let index = arr.includes(key)
+	if (index) {
+		return true //有权限
+	} else {
+		return false /无权限
+	}
+}
+```
+
+
+```js
+// main.js
+import {checkArray} from './common/array'
+
+Vue.directive('permission', {
+	inserted(el, binding) {
+		let permission = binding.value
+		if (permission) {
+			let hasPermission = checkArray(permission)
+			if (!permission) {
+				el.parentNode && el.parentNode.removeChild(el)
+			}
+		}
+	}
+})
+```
+
+```vue
+ <div class="btns">  
+    <button v-permission="'admin'">权限按钮1</button>  // 会显示  
+    <button v-permission="'visitor'">权限按钮2</button> //无显示  
+    <button v-permission="'editor'">权限按钮3</button> // 会显示  
+  </div>
+```
+
 
 
 
@@ -5882,6 +6006,19 @@ Vue.component('anchored-heading', {
   }
 })
 ```
+
+
+<iframe src="https://codesandbox.io/embed/templateyi-zhi-duo-pan-duan-you-hua-7tslll?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="template一值多判断优化"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+
+
 
 
 
@@ -12622,7 +12759,7 @@ $parent：代表父组件对象
 
 
 
-## Vue开发问题
+## Vue开发实例
 
 > https://juejin.cn/post/6844903632815521799 (待完成)
 
@@ -12863,7 +13000,7 @@ watch: {
 
 
 
-### 如何保存页面当前的状态?
+### 2.如何保存页面当前的状态?
 
 > https://www.yuque.com/cuggz/interview/hswu8g#02b671eb804c1a7a0e637fb68e91d8ac
 
@@ -12906,7 +13043,7 @@ watch: {
 keep-alive
 
 
-### 获取vue组件的实例
+### 3.获取vue组件的实例
 在JS文件中获取组件实例
 * 根组件  暴露
 * 单文件组件 
@@ -12927,16 +13064,82 @@ keep-alive
 > https://mp.weixin.qq.com/s/i2wR2oVn8ionY9sCkxNOjQ
 
 
+### 3.简化template模板中大量的一值多判断
+> https://mp.weixin.qq.com/s/0Yekkc08ozbNxuquHVGveg
 
 
+### 4. 组件注册简化版
+使用webpack的require方法来自动将公共组件注册到vue中,省去繁琐引入.
+在这个components文件里使用require.context 动态将需要的高频组件统统打包进来。然后在main.js文件中引入global.js的文件。
+
+类似案例 [[Tool-webpack#API]]
+
+```js
+// components/global.js
+
+import Vue from 'vue'
+function changeStr(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+const requireComponent = require.context('./', false, '\.vue$')
+//查找同级目录下的vue结尾的组件
+const install = () => {
+	requireComponent.keys().forEach(fileName => {
+		let config = requireComponent(fileName)
+		let componentName = changeStr(
+			fileName.repalce(/^\.\//, '').replace(/\.\w+$/, '')
+				)
+		Vue.component(componentName, config.default || config)
+	})
+}
+
+export default {
+	install
+}
+
+// main.js
+import index from './components/global.js'
+Vue.use(index)
+```
 
 
+### hook
 
-## 面试题整理 >>>>>
+**背景**
+>创建一个定时器，在组件被销毁之前，这个定时器也要销毁。但是这种写法有个很明显的弊端：定时器timer的创建和清理并不是在一个地方，这样很容易导致忘记去清理！
 
+```js
+mounted() {  
+  // 创建一个定时器  
+    this.timer = setInterval(() => {  
+      // ......  
+    }, 500);  
+  },  
+  // 销毁这个定时器。  
+  beforeDestroy() {  
+    if (this.timer) {  
+      clearInterval(this.timer);  
+      this.timer = null;  
+    }  
+  }
+```
 
+使用hook对代码整合,更容易维护:
+```js
+mounted() {
+	let timer = setInterval(() => {
+		// ...
+	}, 500)
 
-
+	this.$once('hook:beforeDestroy', function() {
+		if (timer) {
+			clearInterval(timer)
+			timer = null
+		}
+	})
+}
+```
 
 
 

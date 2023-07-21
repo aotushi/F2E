@@ -1,9 +1,9 @@
 
 
 
-## axios
+# axios
 
-### 概述
+## 概述
 
 ```js
 文档:http://www.axios-js.com/zh-cn/docs/
@@ -28,7 +28,7 @@ Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js �
 
 
 
-### 二次封装
+## 二次封装
 
 ```javascript
 import axios from 'axios';
@@ -62,7 +62,7 @@ service.interceptors.response.use(
 
 
 
-#### 1.axios拦截器
+### 1.axios拦截器
 
 ```js
 axios拦截器
@@ -126,7 +126,7 @@ export default axios;
 
 
 
-#### 2.项目中的axios的使用
+### 2.项目中的axios的使用
 
 #### 2.1 axios
 
@@ -396,4 +396,287 @@ axios.get(that.baseUrl+"/vat/myinfo",{
 		'params1':value
 	}
 }).then((res)=>{});
+```
+
+
+# axios封装
+
+### 来源
+> https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&mid=2651578212&idx=2&sn=3a4bdc17b0c1808f2b5649d84eff93a1&chksm=802508a5b75281b366dca8441c3ab2dc63b93adcd139ec5bb002dc8b10fef80efa49d49d92c2&scene=21#wechat_redirect
+
+
+## axios的封装
+
+### 引入
+> 一般在src目录中创建一个http(或request或api)文件夹,然后再里面新建一个http.js, 一个api.js.
+> http.js用于axios的封装; api.js用来管理接口
+
+```js
+// http.js中
+
+import axios from 'axios'
+import {Toast} from 'vant'; //提示框组件
+import router from '../router'
+import store from '../store/index'
+```
+
+### 设置不同环境下的基础URL
+我们的项目环境可能有开发环境、测试环境和生产环境。我们通过node的环境变量来匹配我们的默认的接口url前缀。axios.defaults.baseURL可以设置axios的默认请求地址
+
+```js
+// 环境的切换  
+if (process.env.NODE_ENV == 'development') {      
+    axios.defaults.baseURL = 'https://www.baidu.com';}   
+else if (process.env.NODE_ENV == 'debug') {      
+    axios.defaults.baseURL = 'https://www.ceshi.com';  
+}   
+else if (process.env.NODE_ENV == 'production') {      
+    axios.defaults.baseURL = 'https://www.production.com';  
+}
+```
+
+
+### 创建实例&&设置请求超时
+通过axios.defaults.timeout设置默认的请求超时时间。例如超过了5s，就会告知用户当前请求超时，请刷新等。
+```js
+const instance = axios.create({
+	timeout: 1000*5
+})
+```
+
+
+### post请求头设置
+post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为`application/x-www-form-urlencoded;charset=UTF-8`
+```js
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+```
+
+
+### 请求拦截
+```js
+// 请求拦截器  
+
+instance.interceptors.request.use(      
+    config => {          
+        // 登录流程控制中，根据本地是否存在token判断用户的登录情况          
+        // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token          
+        // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码          
+        // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。          
+        const token = store.state.token;          
+        token && (config.headers.Authorization = token);          
+        return config;      
+    },      
+    error => Promise.error(error))
+```
+
+
+### 响应链接
+```js
+
+// 提示函数
+const tip = msg => {
+	Toast({
+		message: msg,
+		duration: 1000,
+		forbidClick: true
+	})
+}
+
+// 跳转登录页
+const toLogin = () => {
+	router.replace({
+		path: '/login',
+		query: {
+			redirect: router.currentRoute.fullPath
+		}
+	})
+}
+
+// 请求失败后的错误统一处理
+const errorHandle = (satus, other) => {
+	// 状态码判断
+	switch(status) {
+		// 401: 未登录状态，跳转登录页  
+		case 401:  
+				toLogin();  
+				break;  
+		// 403 token过期  
+		// 清除token并跳转登录页  
+		case 403:  
+				tip('登录过期，请重新登录');  
+				localStorage.removeItem('token');  
+				store.commit('loginSuccess', null);  
+				setTimeout(() => {  
+						toLogin();  
+				}, 1000);  
+				break;  
+		// 404请求不存在  
+		case 404:  
+				tip('请求的资源不存在');   
+				break;  
+		default:  
+				console.log(other);	
+	}
+}
+
+instance.interceptors.response.use(      
+    // 请求成功  
+    res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),      
+    // 请求失败  
+    error => {  
+        const { response } = error;  
+        if (response) {  
+            // 请求已发出，但是不在2xx的范围   
+            errorHandle(response.status, response.data.message);  
+            return Promise.reject(response);  
+        } else {  
+            // 处理断网的情况  
+            // eg:请求超时或断网时，更新state的network状态  
+            // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏  
+            // 关于断网组件中的刷新重新获取数据，会在断网组件中说明  
+            if (!window.navigator.onLine) {  
+               store.commit('changeNetwork', false);  
+            } else {  
+                return Promise.reject(error);  
+            }  
+        }  
+    });
+
+//暴露实例
+export default instance
+
+```
+
+
+# API接口管理
+
+>新建了一个api文件夹，里面有一个index.js和一个base.js，以及多个根据模块划分的接口js文件。index.js是一个api的出口，base.js管理接口域名，其他js则用来管理各个模块的接口。
+
+index.js
+```js
+/**   
+ * api接口的统一出口  
+ */  
+// 文章模块接口  
+import article from '@/api/article';  
+// 其他模块的接口……  
+  
+// 导出接口  
+export default {      
+    article,  
+    // ……  
+}
+```
+
+
+base.js
+通过base.js来管理我们的接口域名，不管有多少个都可以通过这里进行接口的定义。即使修改起来，也是很方便的。
+```js
+/**  
+ * 接口域名的管理  
+ */  
+const base = {      
+    sq: 'https://xxxx111111.com/api/v1',      
+    bd: 'http://xxxxx22222.com/api'  
+}  
+  
+export default base;
+```
+
+article.js
+```js
+/**  
+ * article模块接口列表  
+ */  
+  
+import base from './base'; // 导入接口域名列表  
+import axios from '@/utils/http'; // 导入http中创建的axios实例  
+import qs from 'qs'; // 根据需求是否导入qs模块  
+  
+const article = {      
+    // 新闻列表      
+    articleList () {          
+        return axios.get(`${base.sq}/topics`);      
+    },
+    // 新闻详情,演示      
+    articleDetail (id, params) {          
+        return axios.get(`${base.sq}/topic/${id}`, {              
+            params: params          
+        });      
+    },  
+    // post提交      
+    login (params) {          
+        return axios.post(`${base.sq}/accesstoken`, qs.stringify(params));      
+    }  
+    // 其他接口…………  
+}
+
+export default article;
+```
+
+
+### api挂载到vue原型上
+
+```js
+// main.js
+import Vue from 'vue'  
+import App from './App'  
+import router from './router' // 导入路由文件  
+import store from './store' // 导入vuex文件  
+import api from './api' // 导入api接口  
+  
+Vue.prototype.$api = api; // 将api挂载到vue的原型上
+```
+
+然后可以在页面中调用接口
+```js
+methods: {      
+    onLoad(id) {        
+        this.$api.article.articleDetail(id, {          
+            api: 123        
+        }).then(res=> {  
+            // 执行某些操作        
+        })      
+    }    
+}
+```
+
+
+# 断网提示
+> 在断网的时候，来更新vue中network的状态，那么这里我们根据network的状态来判断是否需要加载这个断网组件。断网情况下，加载断网组件，不加载对应页面的组件。当点击刷新的时候，我们通过跳转refesh页面然后立即返回的方式来实现重新获取数据的操作。因此我们需要新建一个refresh.vue页面，并在其`beforeRouteEnter`钩子中再返回当前页面。
+
+```vue
+// app.vue
+<template>    
+    <div id="app">      
+        <div v-if="!network">        
+            <h3>我没网了</h3>        
+            <div @click="onRefresh">刷新</div>        
+        </div>      
+        <router-view/>        
+    </div>  
+</template>  
+  
+<script>    import { mapState } from 'vuex';  
+    export default {    
+        name: 'App',    
+        computed: {      
+            ...mapState(['network'])    
+        },    
+        methods: {      
+            // 通过跳转一个空页面再返回的方式来实现刷新当前页面数据的目的  
+            onRefresh () {        
+                this.$router.replace('/refresh')      
+            }    
+        }  
+    }</script>
+```
+
+```js
+// refresh.vue
+beforeRouteEnter(to,from,next) {
+	next(vm => {
+		vm.$router.replace(from.fullPath)
+	})
+}
 ```

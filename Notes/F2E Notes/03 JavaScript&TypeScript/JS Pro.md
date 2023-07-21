@@ -4800,6 +4800,7 @@ let copyObj = function(obj) {
 * 递归手写
 
 * JSON.parse(JSON.stringify())
+* structruedClone
 
   
 
@@ -4815,6 +4816,22 @@ let obj1 = {
 let obj2 = _.cloneDeep(obj1);
 console.log(obj1.b.f === obj2.b.f); //false
 ```
+
+Lodash深拷贝可能存在的风险,按需引入中脚手架工具是否进行了(tree shaking)处理
+```js
+import cloneDeep from 'lodash/cloneDeep'   17.4k(gipped: 5.3k)
+import {cloneDeep} from 'lodash'           71.5k(gzipped: 25.2k)
+```
+
+**[Lodash按需引入的几种方案](https://www.cnblogs.com/fancyLee/p/10932050.html):**
+1.引入单个函数
+
+2.借助lodash-webpack-plugin,babel-plugin-lodash插件优化
+
+3.lodash-es结合tree-shaking
+
+
+
 
 #### 2.Jquery.extend()
 
@@ -5480,9 +5497,34 @@ function deepClone(source) {
 
 
 
+#### 6.structuredClone
 
+> https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
 
+特点:
+* 使用结构化克隆算法对给定值进行深拷贝
+* 支持把原始值中的可转移对象转义到新对象,而不是把属性引用拷贝过去
+* 可以拷贝无限嵌套的对象和数组
+* 可拷贝循环引用
 
+不能做的:
+*  [Function](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FReference%2FGlobal_Objects%2FFunction "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function") 对象是不能被结构化克隆算法复制的；如果你尝试这样子去做，这会导致抛出 DATA_CLONE_ERR 的异常。
+- 企图去克隆 DOM 节点同样会抛出 DATA_CLONE_ERR 异常。
+- 对象的某些特定参数也不会被保留 ??
+
+语法
+```js
+structuredClone(value)
+structuredClone(value, options)
+```
+
+对比JSON,Lodash, structuredClone三种深拷贝方法
+
+| 名称                            | 优点                           | 缺点                                 |
+| ------------------------------- | ------------------------------ | ------------------------------------ |
+| JSON.parse(JSON.stringify(obj)) | 简单,兼容性好,处理简单数据方便 | 无法处理Date,null,function等         |
+| cloneDeep                       | 兼容性好,功能强大              | 注意处理tree-shaking否则会有性能损耗 |
+| structuredClone                 | 浏览器原生支持                 | 兼容性不好                                     |
 
 
 ### 练习

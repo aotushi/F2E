@@ -4147,7 +4147,7 @@ const getUrlParams = query = Array.from(new URLSearchParams(query)).reduce((acc,
 
 13.将数组转换为对象
 ```js
-const arrayToObject = (arr, key) => arr.reduce((acc, crt) => ({...a, [b[key]]:b}), {})
+const arrayToObject = (arr, key) => arr.reduce((acc, crt) => ({...acc, [acc[key]]:crt}), {})
 
 const arrToObject2 = (arr, key) => arr.reduce((acc, crt) => {
 	acc[crt[key]] = crt
@@ -4157,7 +4157,7 @@ const arrToObject2 = (arr, key) => arr.reduce((acc, crt) => {
 
 14.将数组按照属性计数
 ```js
-const countBy = (arr, prop) => arr.reduce((acc,crt) => ((acc[crt[prop]] = ++prev[acc[prop]] || 1),acc) {})
+const countBy = (arr, prop) => arr.reduce((acc,crt) => ((acc[crt[prop]] = ++acc[crt[prop]] || 1),acc) {})
 ```
 
 15.反转对象的key-value

@@ -208,7 +208,7 @@ function axios({url, params={}, data={}, method='GET'}) {
 
 - 前台:
 
-  - <script src="目标url?callback=fn" />
+  - `<script src="目标url?callback=fn" />`
 
   - 接收响应数据的函数: function fn (data) {}
 
