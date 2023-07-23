@@ -1,12 +1,5 @@
 
-
-<hr style="background:red"/>
-
-
-
-
-
-### 一些方法论
+# 一些方法论
 
 >理解不是0或1的，而是复杂有多层次，不同的人看完一本书，他们的理解范围和深度都是不同的。可能“自以为理解了，其实是错的”，或者“本身有10层，只理解了5层”；比如在第1，2，3，4次看到FreeMonad，和之后也许会有的第5，6，7，8次，如果别人提到，我都可以说“哦， FreeMonad，我知道哪个”，然而“知道”和“知道”天差地远。
 >如果没有一个超理解力的大脑，或者有老师带路，对于无法理解的东西，那么可能增加新的数据，让更多更新的数据来调整自己的理解，通过多角度审视问题，特别是在这个知识数据爆炸的年代，或许是我们最有效率的学习方式。--[阿莱克西斯](https://zhuanlan.zhihu.com/p/52518198)
@@ -14,7 +7,7 @@
 
 
 
-## target(2023+3)
+# target(2023+3)
 
 应该熟练的:
 
@@ -50,36 +43,59 @@
 
 
 
-## TODO
+# TODO
 
-#### 项目
+## 项目
 
-* 张鑫旭博客每日1-2篇
-* 大漠博客每日1篇
-* 掘金next官网项目
-* uniapp微信小程序美食项目
-* 其它课程
-
+### HTML/CSS/JavaScript
 - [ ] 百度前端学院
+- [ ] 张鑫旭博客每日1篇
+- [ ] 大漠博客每日1篇
+
+### **工程化**
+- [ ] [吃透前端工程化](https://www.xiufm.com/1138.html)
+- [ ] 
+
+
+### **Vue3项目**
 - [x] Vue3企业级项目实战(掘金)
 - [ ] [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/)
+- [ ] Vue3+Pinia+Vite+TS外卖App项目  IT程序员社区
+- [ ] [Vue3 + TS仿知乎专栏企业级项目](https://www.xiufm.com/2755.html)
+- [ ] [Vue3实战商城后台管理系统开发](https://www.xiufm.com/2733.html)
 
-#### 代码片段
+### **React**
+- [ ] [React18+TS 通用后台管理系统](https://www.xiufm.com/3871.html)
+- [ ] [React18+TS+NestJS+GraphQL 全栈开发在线教育平台](https://www.xiufm.com/3842.html)
+- [ ] [React18+Next.Js13+TS-高仿问卷星](https://www.xiufm.com/3715.html)
+- [ ] 
+
+### **uniapp项目**
+- [ ] uniapp开发美团(书籍)
+- [ ] uniapp项目开发
+- [ ] 
+
+### **小程序**
+- [ ] [小程序全栈](https://www.xiufm.com/3935.html) IT程序员社区
+- [ ] 
+
+
+### 代码片段
 - [ ] [30 seconds of code](https://www.30secondsofcode.org/)
 - [ ] [CSS-Tricks - Tips, Tricks, and Techniques on using Cascading Style Sheets.](https://css-tricks.com/)
 https://exercism.org/
 
 
-#### JS书籍
+# JS书籍
 
-##### ==语言基础==
+### ==语言基础==
 - [ ] JavaScript Dom 编程艺术
 - [ ] JS权威指南 进行中
 - [ ] JS高程 进行中
 - [ ] 现代JS教程 进行中
 - [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)  和这本书相关的其它系列
 
-##### ==快速过一遍的==
+### ==快速过一遍的==
 - [ ] 编写可维护的JS 进行中
 - [ ] JS设计模式 书买了
 - [ ] JS语言精粹 书买了
@@ -88,20 +104,20 @@ https://exercism.org/
 - [ ] 编写高质量代码: 改善JavaScript程序的188个建议 微信读书
 - [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍) 暂时不看
 
-##### ==横向扩展==
+### ==横向扩展==
 - [ ] JS忍者秘籍
 - [ ] JavaScript框架设计 书买了
 - [ ] JS设计模式与开发实践 书买了
 - [ ] 学习数据结构与算法类的书籍
 
-##### ==语言细节与历史==
+### ==语言细节与历史==
 - [ ] 你不知道的JS 进行中
 - [ ] how javascript works
 - [ ] JS语言精髓与编程实践
 - [ ] [标准文档ECMA](https://tc39.es/ecma262/)
 - [ ] [标准组织TC39](https://github.com/tc39/proposa)
 
-##### ==其它书籍==
+### ==其它书籍==
 - [ ] JS迷你正则书    忘光了基本
 - [x] JS重难点实例精讲
 - [x] 深入理解ES6
@@ -136,7 +152,7 @@ DOM启蒙
 
 
 
-## RSS
+# RSS
 
 * https://www.joshwcomeau.com/
 * http://www.godbasin.com/
@@ -149,7 +165,7 @@ DOM启蒙
 * https://github.com/ascoders/weekly
 
 
-### 在线课程
+# 在线课程
 
 * https://frontendmasters.com/
 * https://www.coursera.org/
@@ -164,7 +180,6 @@ DOM启蒙
 * https://vue3.chengpeiquan.com/
 
 ### 全栈公开课(react)
-
 * https://fullstackopen.com/zh/
 
 ### React

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
+                "file": "F2E Notes/README.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,8 +31,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "a2260bd7b0cce4ab",
@@ -116,8 +115,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -137,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/08 FrameWork/Project vue react mini other.md",
+                "file": "F2E Notes/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -178,9 +176,17 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "018475958d59cae1",
+  "active": "d58a9b773b274ed9",
   "lastOpenFiles": [
+    "F2E Notes/18 前端工程化/前端工程化入门.md",
+    "F2E Notes/18 前端工程化/New 文本文档.txt",
+    "F2E Notes/18 前端工程化",
+    "F2E Notes/New folder",
+    "F2E Notes/index.md",
     "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
+    "F2E Notes/08 FrameWork/Project vue react mini other.md",
+    "F2E Notes/202307180911.md",
+    "F2E Notes/07 Build Tools/构建工具.md",
     "F2E Notes/03 JavaScript&TypeScript/Promise.md",
     "F2E Notes/02 CSS/index.md",
     "F2E Notes/02 CSS/CSS_选择器.md",
