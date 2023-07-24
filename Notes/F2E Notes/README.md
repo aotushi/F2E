@@ -68,7 +68,7 @@
 - [ ] [React18+TS 通用后台管理系统](https://www.xiufm.com/3871.html)
 - [ ] [React18+TS+NestJS+GraphQL 全栈开发在线教育平台](https://www.xiufm.com/3842.html)
 - [ ] [React18+Next.Js13+TS-高仿问卷星](https://www.xiufm.com/3715.html)
-- [ ] 
+- [ ] https://fullstackopen.com/zh/
 
 ### **uniapp项目**
 - [ ] uniapp开发美团(书籍)
@@ -179,8 +179,7 @@ DOM启蒙
 ### vue3教程
 * https://vue3.chengpeiquan.com/
 
-### 全栈公开课(react)
-* https://fullstackopen.com/zh/
+
 
 ### React
 * https://github.com/reactnativecn/react-native-guide

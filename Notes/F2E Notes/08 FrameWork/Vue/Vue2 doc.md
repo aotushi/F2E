@@ -6243,7 +6243,7 @@ Vue.component('anchored-heading', {
 
 
 
-## 工具??
+# 工具??
 
 ### 单文件组件
 
@@ -6317,7 +6317,7 @@ Vue.component('anchored-heading', {
 
 
 
-### 生产环境部署??
+# 生产环境部署??
 
 以下大多数内容在你使用 [Vue CLI](https://cli.vuejs.org/zh/) 时都是默认开启的。该章节仅跟你自定义的构建设置有关。
 
@@ -6631,7 +6631,7 @@ new Vue({
 
 
 
-## 风格指南
+# 风格指南
 
 > https://cn.vuejs.org/v2/style-guide/
 
@@ -7513,7 +7513,7 @@ Vue 的模板是被编译为 JavaScript 的，而其中的表达式会作为渲�
 
 
 
-## API
+# API
 
 #### render函数
 
@@ -7582,7 +7582,7 @@ export default {
 
 
 
-## 其他
+# Vue项目实例
 
 ### Vue脚手架
 
@@ -7638,90 +7638,6 @@ vue.js :
 
 
 
-
-
-
-
-### ref
-
-```html 
-ref使用:
-1.标签中直接写 ref='xxx'
-2.通过this.$refs.xxx获取
-3. 3.1若给html内置标签加ref,获取到的是真实DOM节点
-   3.2若给组件标签加ref,获取到的是组件实例对象.
-
-
-```
-
-
-
-### props
-
-```html
-//作用: 父组件给子组件传递数据
-//接收位置: 子组件<script>中,与data函数同级的props.
-//读取方式:
-	1.只指定名称: props:['xxx','yyy']
-	2.指定名称和类型:props:{xxx:String, yyy:Number}
-	3.指定名称/类型/必要性/默认值: props:{xxx:{type:String,required:true, default:xxx}}
-
-=============================
-//声明传递  -通过父级组件模板标签中的子组件标签传递属性
-
-<template>
-	<组件名称 :username='username'/>
-</template>
-
-//声明接收
-//声明的props和data是平级的.可以直接使用插值语法访问.
-//模板中如何访问
-
-- 最完整的写法:限制了类型,控制了必要性,指定了默认值
-data(){},
-props:{
-	username:{       //usename和被传递的属性要保持一致
-		type:String, //类型
-    required:true,//必需要传, 不传报错.
-    default:'默认值' //默认值
-                
-	}
-}
-
-- 次完整写法:只限制了类型
-props:{
-    type:String
-}
-
-- 精简写法:不限制.数组形式接收
-props:['username']
-```
-
-
-
-
-
-### 解决样式冲突scoped
-
-```HTML
-<style scoped> //关键字scope,让多个组件的重名样式互不干扰;公共样式不加,App中的style不加.
-    .demo{}
-</style>
-```
-
-### 组件名称固定
-
-```HTML
-//在组件script交互中,指定name属性.用来固定组件名称,加上之后再父组件中更改,也不影响其在开发者工具中的名称显示.
-
-export default{
-	name:'School',
-	data(){}
-}
-```
-
-
-
 ### 临时关闭eslint语法检查
 
 ```js
@@ -7740,427 +7656,10 @@ module.exports={
 
 
 
-
-
-### todo-list案例
-
-```HTML
-(1).组件data中的数据、接到的props、methods中的方法、computed中的属性，都在vc对象上。
-(2).<input v-model="x" @click="demo"/> 会先执行demo函数，再维护x的值.所以在事件回调中打印checked的值还是之前的.
-(3).使用计算属性时，只是读取用get，修改记得要用set
-(4).methods、computed、watch并没有严格意义上的界定，视具体功能而定，有时用什么都可以实现。
-5. 计算属性中可以套娃,例如里面的属性可以借用.
-
-
-```
-
-
-
-### 浏览器本地存储Web Storage
-
-```HTML
-//浏览器查看位置: application=>storage
-
-(1). Cookie, SessionStorage, LocalStorage这三者都可以被用来在浏览器端存储数据，而且都是字符串类型的键值对！
-(2). 注意：session和SessionStorage不是一个概念！！！
-在服务端有一种存储方式叫做：session会话存储，常常被简称session。
-
-
-SessionStorage和LocalStorage都是浏览器本地存储，统称为Web Storage。
-(3). 存储内容大小一般支持5-10MB
-(4). 浏览器端通过 Window.sessionStorage 和 Window.localStorage 属性来实现本地存储机制。
-(5). 相关API：
-1. xxxStorage.setItem('key', 'value'); //value必须是json数据. JSON.stringify(value)
-该方法接受一个键名和值作为参数，将会把键值对添加到存储中，如果键名存在，则更新其对应的值。
-
-2. var data = xxxxxStorage.getItem('person');
-该方法接受一个键名作为参数，返回键名对应的值。
-
-3. xxxxxStorage.removeItem('key');
-该方法接受一个键名作为参数，并把该键名从存储中删除。
-
-4. xxxxxStorage.clear()
-调用该方法会清空存储中的所有键名
-
-备注：
-SessionStorage存储的内容会随着浏览器窗口关闭而消失。
-LocalStorage存储的内容，需要手动清除才会消失。
-xxxxxStorage.getItem(xxx)如果xxx对应的value获取不到，那么getItem的返回值是null
-JSON.parse(null)的结果依然是null
-使用try catch语句进行读取操作
-
-```
-
-
-
-```js
-sessionStorage.setItem('name', JSON.stringify(变量)) //变量可以是数组,对象
-
-const result=sessionStorage.getItem('person');
-try{
-	console.log(JSON.parse(result))
-}catch(error){
-    console.log(error.message);
-    sessionStorage.removeItem('person')
-}
-```
-
-
-
-
-
-### todo-list本地存储
-
-```HTML
-data() {
-	let localData = localStorage.getItem("todos");
-	let todos;
-try {
-///解析localStorage中的数据，如有数据直接使用，无数据null使用空数组。
-	todos = JSON.parse(localData)||[];
-} catch (error) {
-	alert("浏览器缓存异常 数据重置");
-	localStorage.clear("todos");
-	todos = [];
-}
-
-return { todos };
-}
-
-
-```
-
-
-
-### todo-list深度监视
-
-```js
-//监视两种: 自定义的watch,vue的监视
-(1).Vue中的watch默认只能监测自身一层的数据,浅层次的监视.
-(2).配置deep:true可以检测所有层次的数据. 默认没有开启,效率问题
-
-如果data是一个函数,使用watch监视data中属性的变化,只能获取到最新的属性值.因为更改一次,data就会重新调用一次,函数作用域不同,无法获取到原先的值.
-
-watch:{
-	todos:{
-        deep:true,
-        handler(vlaue){ 如果data是函数形式,只能获取到newValue值 
-            console.log(value)
-        }
-    }
-}
-
-```
-
-
-
-### 自定义事件(2种)++
-
-```js
-//自定义事件: 给Demo组件实例对象定义了一个事件,只要Demo组件实例对象触发了事件,那么就会调用对应的函数.
-
-1.绑定自定义事件: 子组件给父组件传递数据
- 第1种方式：
- - 父组件中:<Demo @haha="test"/> 添加'@自定义事件=回调函数'.回调函数test的参数是子组件传递的值.
- - 子组件中:一般在methods中的回调函数中触发, 也可以直接绑定到事件上.
-   - methods中触发的: this.$emit('haha', 传递的值)可提供多个value
-   - 绑定到事件上: <button @click="$emit('自定义事件名称', 传递的值)" >
-
- 第2种方式： $on 表示绑定
-    父组件中:<Demo ref="demo"/>, mounted函数中：this.$refs.demo.$on('haha',this.test)
-    子组件中(同上,没变化):一般在methods中触发, this.$emit('haha', value)
-
-
-//总结:
-1.适用范围: 适合子组件给父组件传数据.代替通过props传递的回调函数,不适合兄弟组件和隔层组件,因为有嵌套.
-2.使用方法: 
-    2.1 若,父组件想让子组件给自己传数据，那么就要给子组件绑定自定义事件   $emit
-    2.2.父组件需要在子组件身上绑定自定义事件 @自定义事件名称="回调函数" //回调函数的参数是传递的值
-
-
-//扩展: props传递回调函数实现子到父的组件通讯
- 1.父组件中,给子组件绑定动态属性: <Demo :test='test'/> + 父组件的methods中有名为test()的函数
- 2.子组件中,使用props获取: props:['test'], test在实例身上. 可在methods中调用this.test(value)
- 3.子组件中调用父组件中的函数并传参
-```
-
-
-
-```HTML
-//App.vue 建议采用第一种简单形式
-<template>
-	<h2></h2>
-    <!--自定义事件-第一种方式: 给Demo组件实例绑定了一个自定义事件 -->
-    <Demo @haha='test'/>
-    <!--自定义事件-第二种方式: 给Demo组件实例绑定了一个自定义事件 -->
-    <Demo ref='demo'/>
-</template>
-
-<script>
-	import Demo from './components/Demo';
-    export default{
-        name:'App',
-        components:{Demo},
-        methods:{
-            test(x,y,z){console.log('收到了数据:',x,y,z)}
-        },
-        mounted(){
-            this.$refs.demo.$on('haha', this.test);
-        }
-    }
-</script>
-<style>
-....
-</style>
-
-================
-//Demo
-<template>
-	<button @click='sendData'>点我给ap传递数据</button>
-</template>
-<script>
-	export default{
-        name:'Demo',
-        data(){
-            name:'xxx'
-        },
-        methods:{
-            sendData(){
-                //触发传过来的自定义事件
-                //$emit 是vue原型上的,用来触发自定义事件的.
-                this.$emit('haha', this.name)
-            }
-        }
-    }
-</script>
-<style>
-
-</style>
-```
-
-
-
-
-
-### 全局事件总线+++
-
-#### 基本介绍
-
-```js
-//基本介绍 全局事件总线GlobalEventBus  基于vue自定义事件的事件总线
-
-1.	Vue原型对象上包含事件处理的方法
-1)	$on(eventName, listener): 绑定自定义事件监听
-2)	$emit(eventName, data): 分发自定义事件
-3)	$off(eventName): 解绑自定义事件监听
-4)	$once(eventName, listener): 绑定事件监听, 但只能处理一次
-
-2.	//所有组件对象的原型对象的原型对象就是Vue的原型对象  +++
-1)	所有组件对象都能看到Vue原型对象上的属性和方法
-2)	Vue.prototype.$bus = new Vue(), 所有的组件对象都能看到$bus这个属性对象
-
-3.	全局事件总线
-1)	包含事件处理相关方法的对象(只有一个)
-2)	所有的组件都可以得到
-
-```
-
-#### 解析+
-
-```JS
-$bus:总线
-// 全局事件总线优缺点:
- 优点: 适用任何组件间通信
- 缺点: 管理不够集中
-
-//使用
- 给谁绑定的事件,就去触发谁的emit
-
-
-//为什么全局事件总线要绑定在Vue的原型上?
-0.组件实例对象VueComponent(vc)是源码生成的,
-1.每一个组件生成的实例化对象VueComponent都是不一样的.
-2.每个组件的实例化对象都能访问Vue原型上的属性和方法
-
-// 查看原型链:
-打印组件的this,顺序: 
-//打印版:
-VueComponent->__proto__->__proto__->__protot__
-//解释:
-实例对象vc-> VueComponent.prototype||Vue的实例 ->Vue.prototype->Object
-
-继承的原理:子类的原型对象(VueComponent.prototype)等于父类的实例(new Vue/Vue.prototype)
-
-
-<!--  *****
-  
-组件对象vc-->原型对象-->原型对象(Vue原型对象)
-组件对象vc-->__proto__-->__proto__
-    
-继承本质: 子类原型=父类实例
-子类的实例化对象.__proto__===子类.prototype===父类实例
-父类实例.__proto__===父类.prototype
-子类的实例化对象.__proto__.__proto__===父类.prototype
--->
-
-//Vue.prototype.p=100, 在main.js中的位置不能在new Vue()之后
-//$on, $emit在Vue的原型上.?? 
-//谁能调用$on,$emit? vm和vc,vc也是找到的vm身上的.
-//this.$bus.$on/$emit  $bus是原型上的 $on/$emit是this(vm)身上的.
-    
-    
-    
-```
-
-
-
-#### 流程步骤+
-
-```js
-================流程步骤================
-(1).安装全局事件总线，在main.js中配置
-    new Vue({
-        beforeCreate() {
-            Vue.prototype.$bus = this //安装事件总线到vm身上.
-    },
-        el:'#app',
-        render:h => h(App)
-    })
-(2).要提供数据的组件中触发事件： //给谁绑定的事件就去触发谁的$emit  数据可以传多个,一般包装成对象.
-    this.$bus.$emit('xxxx',数据)
-
-
-(3).需要接收数据的组件在 [mounted] 中给$bus绑定自定义事件和在 [beforeDestroy] 中给$bus绑定销毁
-mounted() {
-    this.$bus.$on('xxxx',this.y)   //y函数没有括号, 是methods中的方法,可接受参数,但这里不用传递.
-   //this.$bus.$on('xxxx', function test(){this})  //函数中的this是vm 
-}
-beforeDestroy(){
-	this.$bus.$off('xxxx')
-}
-备注：上方的y，若要配置在当前组件的methods中，则this是当前组件vc
-     上方的y, 若直接写成函数形式, 则函数中的this是vm.
-     
-
-
-(4).注销事件总线
-	在绑定的位置注销.  
-
-//其他:
-1.谁接数据，谁就$on('xxx-xxx',this.yyy)
-2.谁发数据，谁就$emit('xxx-xxxx',数据)
-3.上方的数据可以传递多个，例如$emit('xxx-xxxx',数据1,数据2，数据3),但一般传递多个的时候，我们包装成一个对象传递
-```
-
-
-
-
-
-```js
-const vm=new Vue({
-	el:'#app',
-    render:h=>h(App)
-})
-Vue.prototype.p=vm; //报错,vm实例已经生成,无法再向上添加属性. 所以需要beforeCreate钩子
-
-new Vue({
-    beforeCreate(){
-        Vue.prototype.p=this;
-    },
-	el:'#app',
-    render:h=>h(App)
-})
-
-```
-
-
-
-
-
-### 复习
-
-```HTML
-1.vue浏览器插件,如果页面没有使用,则更改后不会再插件上更新
-2.自定义事件的书写形式
-3.
-```
-
-
-
-
-
-### 插槽slot
-
-```JS
-//作用：向组件指定位置中插入html结构
-//分类：
-    默认插槽：<slot></slot>
-    命名插槽：<slot name="s1"></slot>
-    作用域插槽：后期项目中会讲到
-//使用：	
-    
-    - 父组件中：
-	<子组件名称 title='game'>//父传子props属性 以前的:title="game"是获取动态属性值
-        <template slot="s1">
-            具体html结构
-        </template>
-	</子组件名称>
-
-    - 子组件中：//使用<slot>标签来占位,<slot></slot>标签之间没有内容
-    <slot></slot>  //搭配默认template模板,没有name属性. 
-	或
-	<slot name="s1"></slot> //搭配模板中有name属性的模板
-
-```
-
-
-
-```HTML
-1.父组件中:子组件引入,注册,和使用子组件名称的双标签<子组件名称></子组件名称>
-2.<子组件名称>标签中使用模板标签<template slot='name'><div>...</div></template> //div是根标签 name不加表示这是默认插槽
-    2.1 可以在父组件模板中使用多组相同的子组件标签
-3.div中加入动态HTML结构
-4.子组件中使用插槽: <slot></slot>||<slot name='name'></slot>    
-    
-```
-
-
-
-
-
-### github搜索案例
-
-```HTML
-1.link中url写法: <link rel="stylesheet" href="<%= BASE_URL %>css/bootstrap.css">
-2.查询字符串写法:
-3.import不分家,中间混入其他语句也是在所有的import执行后再执行的.
-4.List组件中多个状态使用一个对象包裹
-5.消息订阅与发布中,订阅消息的
-6.query查询参数的写法:params  在axios中讲过.
-
-```
-
-
-
-#### 全局事件总线版
-
-```HTML
-
-```
-
-#### Pubsub版
-
-```HTML
-
-```
-
-
-
-#### vue-resource版
-
-```HTML
-
-```
+### 路由角色权限
+来源:https://juejin.cn/post/7250386282400596029
+>角色权限，简单来说就是登录的用户能看到系统的哪些页面，不能看到系统的哪些页面。能看到系统的哪些按钮，不能看到系统的哪些按钮。
+ 一般是后台管理系统才会涉及到如此复杂的角色权限。
 
 
 
@@ -8386,7 +7885,7 @@ for (let key in obj) {
 }
 ```
 
-## Vuex
+# Vuex
 
 ### 基本介绍
 
@@ -9988,7 +9487,7 @@ export default {
 
 
 
-## 路由Router
+# 路由Router
 
 ### 安装
 
@@ -12043,7 +11542,7 @@ Wrapper对象拥有一个.trigger()方法，可以使用它来触发单击事件
 
 
 
-## Vue Loader
+# Vue Loader
 > 创建个性化webpack配置
 
 ### 文档
@@ -12174,7 +11673,7 @@ module.exports = {
 
 
 
-## 组件间10种通信
+# 组件间10种通信
 
 **组件间10种通信方式:**
 
@@ -12480,7 +11979,32 @@ vm.$emit('inc', '传递的数据')
 ```
 
 
+```js
 
+1.绑定自定义事件: 子组件给父组件传递数据
+ 第1种方式：
+ - 父组件中:<Demo @haha="test"/> 添加'@自定义事件=回调函数'.回调函数test的参数是子组件传递的值.
+ - 子组件中:一般在methods中的回调函数中触发, 也可以直接绑定到事件上.
+   - methods中触发的: this.$emit('haha', 传递的值)可提供多个value
+   - 绑定到事件上: <button @click="$emit('自定义事件名称', 传递的值)" >
+
+ 第2种方式： $on 表示绑定
+    父组件中:<Demo ref="demo"/>, mounted函数中：this.$refs.demo.$on('haha',this.test)
+    子组件中(同上,没变化):一般在methods中触发, this.$emit('haha', value)
+
+
+//总结:
+1.适用范围: 适合子组件给父组件传数据.代替通过props传递的回调函数,不适合兄弟组件和隔层组件,因为有嵌套.
+2.使用方法: 
+    2.1 若,父组件想让子组件给自己传数据，那么就要给子组件绑定自定义事件   $emit
+    2.2.父组件需要在子组件身上绑定自定义事件 @自定义事件名称="回调函数" //回调函数的参数是传递的值
+
+
+//扩展: props传递回调函数实现子到父的组件通讯
+ 1.父组件中,给子组件绑定动态属性: <Demo :test='test'/> + 父组件的methods中有名为test()的函数
+ 2.子组件中,使用props获取: props:['test'], test在实例身上. 可在methods中调用this.test(value)
+ 3.子组件中调用父组件中的函数并传参
+```
 
 
 #### Vue全局事件总线EventBus
@@ -12539,6 +12063,66 @@ this.$bus.$on('eventName', (data) => {})
 ```
 
 
+```js
+
+1.	Vue原型对象上包含事件处理的方法
+1)	$on(eventName, listener): 绑定自定义事件监听
+2)	$emit(eventName, data): 分发自定义事件
+3)	$off(eventName): 解绑自定义事件监听
+4)	$once(eventName, listener): 绑定事件监听, 但只能处理一次
+
+2.	//所有组件对象的原型对象的原型对象就是Vue的原型对象  +++
+1)	所有组件对象都能看到Vue原型对象上的属性和方法
+2)	Vue.prototype.$bus = new Vue(), 所有的组件对象都能看到$bus这个属性对象
+
+3.	全局事件总线
+1)	包含事件处理相关方法的对象(只有一个)
+2)	所有的组件都可以得到
+
+
+
+$bus:总线
+// 全局事件总线优缺点:
+ 优点: 适用任何组件间通信
+ 缺点: 管理不够集中
+
+//使用
+ 给谁绑定的事件,就去触发谁的emit
+
+
+//为什么全局事件总线要绑定在Vue的原型上?
+0.组件实例对象VueComponent(vc)是源码生成的,
+1.每一个组件生成的实例化对象VueComponent都是不一样的.
+2.每个组件的实例化对象都能访问Vue原型上的属性和方法
+
+// 查看原型链:
+打印组件的this,顺序: 
+//打印版:
+VueComponent->__proto__->__proto__->__protot__
+//解释:
+实例对象vc-> VueComponent.prototype||Vue的实例 ->Vue.prototype->Object
+
+继承的原理:子类的原型对象(VueComponent.prototype)等于父类的实例(new Vue/Vue.prototype)
+
+
+<!--  *****
+  
+组件对象vc-->原型对象-->原型对象(Vue原型对象)
+组件对象vc-->__proto__-->__proto__
+    
+继承本质: 子类原型=父类实例
+子类的实例化对象.__proto__===子类.prototype===父类实例
+父类实例.__proto__===父类.prototype
+子类的实例化对象.__proto__.__proto__===父类.prototype
+-->
+
+//Vue.prototype.p=100, 在main.js中的位置不能在new Vue()之后
+//$on, $emit在Vue的原型上.?? 
+//谁能调用$on,$emit? vm和vc,vc也是找到的vm身上的.
+//this.$bus.$on/$emit  $bus是原型上的 $on/$emit是this(vm)身上的.
+    
+    
+```
 
 ### 4: `$attrs与$listeners`
 
@@ -12759,7 +12343,7 @@ $parent：代表父组件对象
 
 
 
-## Vue开发实例
+# Vue开发实例
 
 > https://juejin.cn/post/6844903632815521799 (待完成)
 

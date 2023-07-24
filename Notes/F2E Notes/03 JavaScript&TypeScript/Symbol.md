@@ -10,9 +10,7 @@ alias: symbol
 
 ### 是什么
 
-> ES6引入新的原始数据类型, 表示独一无二的值
->
-> 每个从`Symbol()`返回的symbol值都是唯一的。一个symbol值能作为对象属性的标识符；这是该数据类型仅有的目的.
+> ES6引入新的原始数据类型,`Symbol()` 函数返回 `symbol`类型的值，通过 `Symbol`创建返回的 `symbol` 值都是**唯一**的。一个`symbol` 值能作为对象属性的标识符；这是该**数据类型**仅有的目的。
 >
 > symbol值不能跟任何值进行计算. 
 >
@@ -119,7 +117,18 @@ Object.defineProperty(a, mySymbol, {value: 'Hello'})
 console.log(a[mySymbol]); // "Hello!"
 ```
 
-10. Symbol 作为属性名，该属性不会出现在 for...in、for...of 循环中，也不会被 Object.keys()、Object.getOwnPropertyNames()、JSON.stringify() 返回。但是，它也不是<u>私有属性</u>，有一个 Object.getOwnPropertySymbols 方法，可以获取指定对象的所有 Symbol 属性名。
+10. <span style="color:blue">Symbol创建的值是**不可枚举**的</span>, 以下方式遍历对象的结果不会包含`symbol`内容:
+	* `for...in`循环: 循环会遍历对象的可枚举属性,但会忽略不可枚举的属性. (for...in内部是调用对象的[[Enumerate]]方法来遍历键的,而[[Enumerate]]只会返回字符串键)
+	* `Object.keys()`: 方法返回一个数组,其中包含对象所有可枚举属性的名称.不可枚举的属性不会被包含在返回的数组中.
+	* `JSON.stringify()`: 只会序列化对象的可枚举属性,而不会包含不可枚举属性.
+		* `JSON.stringify` 直接转换 `symbol`类型数据,转换后的结果为 `undefined`
+		* `JSON.stringify` 的时候，如果对象中 `key` 或者 `value`都是 `Symbol`类型时候。转换过程会把它忽略掉
+	* `Object.assign()`: 用于将源对象中可枚举属性复制到目标对象. 不可枚举属性不会复制.
+	* `Object.getOwnPropertyNames()`: 返回一个数组,包含对象的所有属性(包括不可枚举属性)的名称,但是不包含使用**symbol**值作为名称的属性
+ 可以将`Symbol`类型数据遍历出来的函数:
+   * `Object.getOwnPropertySymbols`方法可以获取指定对象的所有`Symbol`属性名
+   * `Reflect.ownKeys`方法可以获取执行对象的所有`Symbol`属性名
+   * `Object.assign` 将属性从源对象复制到目标对象，会包含 `Symbol` 类型作为 `key` 的属性
 ```javascript
 var obj = {};
 var a = Symbol('a');
@@ -132,6 +141,25 @@ var objectSymbols = Object.getOwnPropertySymbols(obj);
 
 console.log(objectSymbols);
 // [Symbol(a), Symbol(b)]
+
+// 对象的Symbol键的enumerable属性为true,但不会在for...in循环中被遍历,但会出现在Object.assign的可枚举属性中
+const symbolKey = Symbol('key');  
+const source = {  
+  [symbolKey]: 'Symbol Property',  
+  regularProperty: 'Regular Property'  
+};
+const target = {}
+
+Object.getOwnPropertyDescriptors(source)[symbolKey].enumerable; //true
+
+Object.assign(target, source);
+
+console.log(target); // {regularProperty: 'Regular Property', Symbol(key): 'Symbol Property'}
+
+// chrome浏览器开发者工具在打印target后,当你点击对象旁边的三角扩展开这个对象时候,会有个提示:
+"this value was evaluated upon first time. it my has changed since then".
+// 这种情况出现的两种原因(官方文档): 对象属性的值是函数或Symbol类型; console.log打印对象时展开了该属性
+
 ```
 
 11. 如果我们希望使用同一个 Symbol 值，可以使用 Symbol.for。它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的 Symbol 值。如果有，就返回这个 Symbol 值，否则就新建并返回一个以该字符串为名称的 Symbol 值。
@@ -219,108 +247,6 @@ Symbol是原始值，且ECMAScript 6同时扩展了typeof操作符，支持返�
 let symbol = Symbol('test symbol');
 console.log(teypof symbol); //'symbol'
 ```
-
-
-### 3. Symbol的使用场景
-#### 用作对象属性名
-在使用Symbol类型的数据时，存在几种不同的写法，遵循的一个原则就是为对象字面量新增属性时需要使用方括号\[\]。不能通过点运算符为对象添加Symbol属性
-```js
-// 新增一个symbol属性
-let PROP_NAME = Symbol();
-
-// 第一种写法
-let obj = {};
-obj[PROP_NAME] = 'Hello';
-
-// 第二种写法
-let obj = {
-    [PROP_NAME]: 'Hello'
-};
-
-// 第三种写法
-let obj = {};
-Object.deﬁneProperty(obj, PROP_NAME, {
-    value: 'Hello' 
-});
-```
-
-```js
-const PROP_NAME = Symbol();
-const obj = {};
-
-obj.PROP_NAME = 'Hello!';
-console.log(obj[PROP_NAME]);  // undeﬁned
-console.log(obj['PROP_NAME']); // 'Hello'
-```
-
-
-#### 用于属性区分
->我们可能会遇到这样一种场景，即通过区分两个属性来做对应的处理。
-
-例如: 求图形的面积
-```js
-// 求图形的面积
-function getArea(shape, options) {
-    let area = 0;
-    switch (shape) {
-        case 'triangle':
-            area = .5 * options.width * options.height;
-            break;
-        case 'rectangle':
-            area = options.width * options.height;
-            break;
-    }
-    return area;
-}
-console.log(getArea('triangle', { width: 100, height: 100 }));  // 5000
-console.log(getArea('rectangle', { width: 100, height: 100 })); // 10000
-```
-在上面的写法中，字符串'triangle'和'rectangle'会强耦合在代码中
-而事实上，我们仅想区分各种不同的形状，并不关心每个形状使用什么字符串表示，我们只需要知道每个变量的值是独一无二的即可，此时使用Symbol就会很合适。
-```js
-// 事先声明两个Symbol值，用于作判断
-let shapeType = {
-    triangle: Symbol('triangle'),
-    rectangle: Symbol('rectangle')
-};
-
-function getArea(shape, options) {
-    let area = 0;
-    switch (shape) {
-        case shapeType.triangle:
-            area = .5 * options.width * options.height;
-            break;
-        case shapeType.rectangle:
-            area = options.width * options.height;
-            break;
-    }
-    return area;
-}
-
-console.log(getArea(shapeType.triangle, { width: 100, height: 100 }));  // 5000
-console.log(getArea(shapeType.rectangle, { width: 100, height: 100 })); // 10000
-```
-
-#### 用于属性名遍历
-使用Symbol作为属性名时，不能通过Object.keys()函数或者for...in来枚举，可以将一些不需要对外操作和访问的属性通过Symbol来定义。
-```js
-let obj = {
-    [Symbol('name')]: 'Hello',
-    age: 18,
-    title: 'Engineer'
-};
-
-console.log(Object.keys(obj));   // ['age', 'title']
-
-for (let p in obj) {
-    console.log(p);  // 分别会输出：'age' 和 'title'
-}
-
-console.log(Object.getOwnPropertyNames(obj));   // ['age', 'title']
-```
-
-因为Symbol属性不会出现在属性遍历的过程中，所以在使用JSON.stringify()函数将对象转换为JSON字符串时，Symbol值也不会出现在结果中。
-**如何获取?** [[JS Base#对象自身方法#Object.getOwnPropertySymbols()]]
 
 
 
@@ -426,7 +352,7 @@ let uid = Symbol.for('uid'),
 
 Symbol与JavaScript中的非空值类似，其等价布尔值为true
 
-### 6. Symbol属性检索
+### Symbol属性检索
 
 Object.keys()方法和Object.getOwnPropertyNames()方法可以检索对象中所有的属性名：前一个方法返回所有可枚举的属性名；后一个方法不考虑属性的可枚举性一律返回。然而为了保持ECMAScript 5函数的原有功能，这两个方法都不支持Symbol属性，而是在ECMAScript 6中添加一个**Object.getOwnPropertySymbols()**方法来检索对象中的Symbol属性。
 
@@ -500,6 +426,56 @@ game[methodDown]();
 
 ### Symbol属性/方法
 
+#### Symbol.toStringTag
+**概述**
+> `Symbol.toStringTag` 官方描述是一个字符串值属性，用于创建对象的默认字符串描述。由 `Object.property.toString()` 方法内部访问
+
+`MDN` 描述: `Object.property.toString()` 返回一个表示该对象的字符串。旨在重写(自定义)派生类对象的类型转换逻辑。最常用的场景是判断类型.
+举个例子:
+```js
+const toStringCallFun = Object.prototype.toString.call
+toStringCallFun(new Date); //[object Date]
+toStringCallFun(new String);  // [object String]  
+toStringCallFun(Math); // [object Math]  
+toStringCallFun(undefined); // [object Undefined]  
+toStringCallFun(null); // [object Null]
+```
+
+默认情况下，`toString()` 方法被每个 `Object` 对象继承，如果此方法在自定义对象中未被覆盖，`toString()` 返回`“[object type]”`，其中 `type` 是对象的类型。
+
+`Symbol.toStringTag` 官方已经说了它定义了 `Object.prototype.toString()` 方法的返回值。在`ES6` 之后大多数内置的对象提供了它们自己的 `Symbol.toStringTag` 标签，`toString` 时回默认返回 `Symbol.toStringTag` 键对应的值。比如常见的如下
+```js
+Object.prototype.toString.call(new Map());       // "[object Map]"  
+Object.prototype.toString.call(function* () {}); // "[object GeneratorFunction]"  
+Object.prototype.toString.call(Promise.resolve()); // "[object Promise]"  
+// ... and more
+```
+但是在早期不是所有对象都有 `toStringTag` 属性，没有 `toStringTag` 属性的对象也会被`toString()` 方法识别并返回特定的类型标签。如下：
+```js
+let toStringFunc = Object.prototype.toString  
+toStringFunc.call('foo')                        // '[object String]'  
+toStringFunc.call([1, 2])                       // '[object Array]'  
+toStringFunc.call(3)                            // '[object Number]'  
+toStringFunc.call(true)                         // '[object Boolean]'  
+toStringFunc.call(undefined)                    // '[object Undefined]'  
+toStringFunc.call(null)                         // '[object Null]'
+```
+我们可以 `Symbol.toStringTag` 做点什么? 我们自己创建的类，`toString()` 可就找不到 `toStringTag` 属性喽！只会默认返回 `Object` 标签
+```js
+class TestClass{}  
+Object.prototype.toString.call(new TestClass());// '[object Object]'
+```
+我们给类增加一个 `toStringTag` 属性，自定义的类也就拥有了自定义的类型标签
+```js
+class TestClass{  
+    get [Symbol.toStringTag](){  
+        return "TestToStringTag"  
+    }  
+}  
+Object.prototype.toString.call(new TestClass());// '[object TestToStringTag]'
+```
+
+
 #### Symbol.prototype.valueOf()
 
 **Define**
@@ -534,7 +510,7 @@ Object(Symbol("foo")).toString() + "bar";
 
 
 
-### 8. 其他
+### 其他
 
 #### 1. Symbol内置属性
 
@@ -589,3 +565,338 @@ https://www.zhihu.com/question/316717095/answer/628772556
 >
 > 未来的第七种原始类型 `BigInt()`，因为同样的原因，也不能被 `new`
 
+
+
+
+### Symbol的使用场景
+#### 用作对象属性名
+在使用Symbol类型的数据时，存在几种不同的写法，遵循的一个原则就是为对象字面量新增属性时需要使用方括号\[\]。不能通过点运算符为对象添加Symbol属性
+```js
+// 新增一个symbol属性
+let PROP_NAME = Symbol();
+
+// 第一种写法
+let obj = {};
+obj[PROP_NAME] = 'Hello';
+
+// 第二种写法
+let obj = {
+    [PROP_NAME]: 'Hello'
+};
+
+// 第三种写法
+let obj = {};
+Object.deﬁneProperty(obj, PROP_NAME, {
+    value: 'Hello' 
+});
+```
+
+```js
+const PROP_NAME = Symbol();
+const obj = {};
+
+obj.PROP_NAME = 'Hello!';
+console.log(obj[PROP_NAME]);  // undeﬁned
+console.log(obj['PROP_NAME']); // 'Hello'
+```
+
+
+#### 用于属性区分
+>我们可能会遇到这样一种场景，即通过区分两个属性来做对应的处理。
+
+例如: 求图形的面积
+```js
+// 求图形的面积
+function getArea(shape, options) {
+    let area = 0;
+    switch (shape) {
+        case 'triangle':
+            area = .5 * options.width * options.height;
+            break;
+        case 'rectangle':
+            area = options.width * options.height;
+            break;
+    }
+    return area;
+}
+console.log(getArea('triangle', { width: 100, height: 100 }));  // 5000
+console.log(getArea('rectangle', { width: 100, height: 100 })); // 10000
+```
+在上面的写法中，字符串'triangle'和'rectangle'会强耦合在代码中
+而事实上，我们仅想区分各种不同的形状，并不关心每个形状使用什么字符串表示，我们只需要知道每个变量的值是独一无二的即可，此时使用Symbol就会很合适。
+```js
+// 事先声明两个Symbol值，用于作判断
+let shapeType = {
+    triangle: Symbol('triangle'),
+    rectangle: Symbol('rectangle')
+};
+
+function getArea(shape, options) {
+    let area = 0;
+    switch (shape) {
+        case shapeType.triangle:
+            area = .5 * options.width * options.height;
+            break;
+        case shapeType.rectangle:
+            area = options.width * options.height;
+            break;
+    }
+    return area;
+}
+
+console.log(getArea(shapeType.triangle, { width: 100, height: 100 }));  // 5000
+console.log(getArea(shapeType.rectangle, { width: 100, height: 100 })); // 10000
+```
+
+#### 用于属性名遍历
+使用Symbol作为属性名时，不能通过Object.keys()函数或者for...in来枚举，可以将一些不需要对外操作和访问的属性通过Symbol来定义。
+```js
+let obj = {
+    [Symbol('name')]: 'Hello',
+    age: 18,
+    title: 'Engineer'
+};
+
+console.log(Object.keys(obj));   // ['age', 'title']
+
+for (let p in obj) {
+    console.log(p);  // 分别会输出：'age' 和 'title'
+}
+
+console.log(Object.getOwnPropertyNames(obj));   // ['age', 'title']
+```
+
+因为Symbol属性不会出现在属性遍历的过程中，所以在使用JSON.stringify()函数将对象转换为JSON字符串时，Symbol值也不会出现在结果中。
+**如何获取?** [[JS Base#对象自身方法#Object.getOwnPropertySymbols()]]
+
+#### 自定义迭代器之Symbol.iterator
+`Symbol.iterator` 为每一个可遍历对象定义了默认的迭代器。该迭代器可以被`for of`循环使用。`Array,Map,Set,String` 都有内置的迭代器。 但是普通对象是不支持迭代器功能的，也就不能使用 `for of` 循环遍历。 接下来我们使用 `Symbol.iterator` 实现一个可迭代对象
+
+```js
+let symbolObjTest1 = {  
+    0:"a",  
+    1:"b",  
+    2:"c",  
+    length:3,  
+    [Symbol.iterator]:function(){  
+        let index = 0;  
+        return {  
+            next(){ // 迭代器返回的对象需要有next函数  
+                return {  
+                    value:symbolObjTest1[index++], // value为迭代器生成的值  
+                    done:index>symbolObjTest1.length // 迭代器的终止条件，done为true时终止遍历  
+                }  
+            }  
+        }  
+    }  
+}  
+for(const iterator1 of symbolObjTest1){  
+    console.log(iterator1); // 打印 a b c  
+}
+```
+
+
+#### Symbol.iterator属性中使用Generator
+```js
+let symbolObjTest2 = {  
+    0:"d",  
+    1:"e",  
+    2:"f",  
+    length:3,  
+    [Symbol.iterator]:function*(){ // 注意Generator函数格式  
+        let index = 0;  
+        while(index<symbolObjTest2.length){  
+            yield symbolObjTets2[index++]  
+        }  
+    }  
+}  
+for(const iterator2 of symbolObjTest2){  
+    console.log(iterator2);//打印 d e f  
+}
+```
+
+#### 不影响原始对象遍历，遍历正常返回key value
+```js
+const obj = {a:1,b:2,c:3};  
+obj[Symbol.iterator] = function*(){  
+    for(const key of Object.keys(this)){  
+        yield [key,this[key]]  
+    }  
+}  
+for(const [key,value] of obj){  
+    console.log(`${key}:${value}`); // 打印  
+}
+```
+
+#### 将一个class对象实现支持迭代器
+```js
+class Animal{  
+    constructor(name,sex,isMammal){  
+        this.name = name;  
+        this.sex = sex;  
+        this.isMammal = isMammal;  
+    }  
+}  
+  
+class Zoo{  
+ constructor(){  
+    this.animals = [];  
+ }  
+ addAnimals(animal){  
+    this.animals.push(animal);  
+ }  
+ [Symbol.iterator](){  
+    let index = 0;  
+    const animals = this.animals;  
+    return {  
+        next(){  
+            return {  
+                value:animals[index++],  
+                done:index>animals.length  
+            }  
+        }  
+    }  
+ }  
+}  
+  
+const zoo = new Zoo();  
+zoo.addAnimals(new Animal('dog','victory',true));  
+zoo.addAnimals(new Animal('pig','defeat',false));  
+zoo.addAnimals(new Animal('cat','defeat',false));  
+for (const animal of zoo) {  
+    console.log(`${animal.name};${animal.sex};${animal.isMammal}`)  
+}  
+// 打印 dog;victory;true     pig;defeat;false    cat;defeat;false
+```
+
+
+#### Symbol.asyncIterator 实现对象异步迭代器
+> `Symbol.asyncIterator` 可用于实现以一个对象的异步迭代器,多用于处理异步数据流场景.
+
+举个使用的例子: 假设开发的业务中一个功能，需要调用大量的异步请求(网络请求、数据库查询、或者文件操作)，但是这个功能需要这些异步请求依次获取数据，根据 `before after` 结果统计出最后内容，因此需要使用异步迭代器完成。
+
+```js
+// 异步迭代器demo  
+class AsyncRequest{  
+    constructor(request){  
+        this._request = request;  
+    }  
+    async *[Symbol.asyncIterator](){  
+        for (const item of this._request) {  
+            const res = await this._dealAsyncRequest(item);  
+            yield res;  
+        }  
+    }  
+    async _dealAsyncRequest(item){  
+        // 模拟异步处理数据请求的过程  
+        return new Promise((resolve)=>{  
+            setTimeout(()=>{  
+                resolve(item*100);  
+            },1000)  
+        })  
+    }  
+}  
+(async function dealData(){  
+    const dataSource = new AsyncRequest([1,2,3,4]);  
+    for await(const data of dataSource){  
+        console.log(data)  
+    }  
+})()
+```
+
+使用 `for await of` 进行异步迭代时，每次迭代都会等待前一个异步操作完成，然后再进行下一次迭代，这样可确保按顺序处理每个异步操作的结果
+
+#### Symbol 基础类型（Reflect.Meta应用）
+
+>在定义元数据的时候 `Reflect.Meta` 其实它是一个全局变量，这里面的 `key` 很多使用 `Symbol` 类型，防止出现重复内容。 比如Nest框架的实现，在使用`Reflect.Meta`定义 `http method` 元数据时，也都会使用 `Symbol,`我想也是防止**其他库**也使用装饰器定义出相同的 `key`，使用 `Symbol('path')` 可以避免重复问题
+
+```ts
+  
+export const pathMetadataKey = Symbol('path');  
+
+export function GET(path: string) {  
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {  
+    Reflect.defineMetadata(pathMetadataKey, path, target, propertyKey);  
+    implementProcess(Method.GET, path, target, propertyKey, descriptor);  
+  }  
+}
+```
+
+#### 手动实现一个Symbol
+在这里仅实现一个尽量满足 `Symbol` 特点的函数，因为有一些能力是互相冲突的，进行了一些取舍，具体实现的能力直接在代码中进行了注释。欢迎提建议交流
+```js
+(function(){  
+    let root = this;  
+    // 因为symbol一个特殊的能力就是可以保证对象key的唯一性  
+    const generateName = (function(){  
+        let postfix = 0;  
+        return function(descStr){  
+            postfix++;  
+            return `&&_${descStr}_&&_${postfix}`;  
+        }  
+    })()  
+    const CustomSymbol = function(desc){  
+        // 不可以 new  
+        if(this instanceof CustomSymbol) throw new TypeError('Symbol is not a constructor')  
+        // desc 如果不是undefined会被toString  
+        let descStr =desc === undefined ? undefined : String(desc);  
+        // 需保证 symbol 值唯一性  
+        let symbol = Object.create({  
+            toString:function(){  
+                return this.__Name__;  
+                // 没有直接返回Symbol字符串是和保证作为对象key的唯一性有冲突，选择了后者 obj[symbol1] obj[symbol2]  
+                // return 'Symbol('+this.__Desc__+')';  
+            },  
+            // 显示调用返回该值 隐式调用(会先调用对象的valueOf函数，如果没有返回基本值，就会再调用toString方法)  
+            valueOf:function(){  
+                return this;  
+            }  
+        });  
+        // 保证 symbol 值唯一性  
+        Object.defineProperties(obj,{  
+            '__Desc__':{  
+                value:descStr,  
+                writable:false,  
+                enumerable:false,  
+                configurable:false,  
+            },  
+            // __Name__的generateName保证作为对象key时唯一性  
+            '__Name__':{  
+                value:generateName(descStr),  
+                writable:false,  
+                enumerable:false,  
+                configurable:false,  
+            }  
+        });  
+        return symbol;  
+    }  
+      let forMap = {}  
+    Object.defineProperties(customSymbol,{  
+        // 实现 Symbol.for  
+        'for':{  
+            value:function(desc){  
+                let descStr = des  
+                if(!Reflect.has(forMap,key)){  
+                    Reflect.set(forMap,key,customSymbol(descStr))  
+                }  
+                return Reflect.get(forMap,key)  
+            },  
+            writable:false,  
+            enumerable:false,  
+            configurable:false,  
+        },  
+        // 实现 Symbol.keyFor  
+        'keyFor':{  
+            value:function(symbolValue){  
+                for (const [key,value] of forMap.entries()) {  
+                    if(value === symbolValue) return key  
+                }  
+            },  
+            writable:false,  
+            enumerable:false,  
+            configurable:false  
+        }  
+    })  
+    root.symbol = CustomSymbol;  
+})()
+```
