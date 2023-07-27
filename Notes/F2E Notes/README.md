@@ -260,24 +260,6 @@ DOM启蒙
 
 
 
-### interview
-* https://github.com/haizlin/fe-interview
-* https://github.com/haizlin/fe-interview/blob/master/category/history.md
-* https://q.shanyue.tech/
-* https://github.com/lgwebdream/FE-Interview
-* https://www.yuque.com/cuggz/interview
-* [Docs (feishu.cn)](https://bytedance.feishu.cn/base/app8Ok6k9qafpMkgyRbfgxeEnet?table=tblEnSV2PNAajtWE&view=vewJHSwJVd)                                                                                                                             
-* [30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度） - 掘金 (juejin.cn)](https://juejin.cn/post/6844903918753808398)                                                                                                                              
-* [前端开发面试题大收集，前端面试集锦](https://github.com/paddingme/Front-end-Web-Development-Interview-Question)                                                                                                                            
-* [宇宙最强的前端面试指南](https://github.com/azl397985856/fe-interview)                                                                                                                              
-* [前端内参](https://github.com/coffe1891/frontend-hard-mode-interview)                                                                                                                              
-* [我是依扬（木易杨），公众号「高级前端进阶」作者，每天搞定一道前端大厂面试题，祝大家天天进步，一年后会看到不一样的自己](https://github.com/Advanced-Frontend/Daily-Interview-Question)                                                                                                                              
-* [语音打卡社群维护的前端面试题库，包含不限于Vue面试题，React面试题，JS面试题，HTTP面试题，工程化面试题，CSS面试题，算法面试题，大厂面试题，高频面试题](https://github.com/febobo/web-interview)                                                                                                                                                                                                                                                                                                                        
-* https://juejin.cn/post/7146973901166215176    
-* [Daily-Question](https://github.com/shfshanyue/Daily-Question)
-* https://lucifer.ren/fe-interview/#/
-*  [Trivia questions in front end interviewsFront End Interview Handbook](https://www.frontendinterviewhandbook.com/zh/trivia/)
-
 
 ### 正则表达式
 * https://regex101.com/

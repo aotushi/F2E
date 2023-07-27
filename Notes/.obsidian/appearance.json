@@ -4,5 +4,6 @@
   "enabledCssSnippets": [
     "obsidian"
   ],
-  "translucency": false
+  "translucency": false,
+  "baseFontSize": 17
 }

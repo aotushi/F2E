@@ -94,6 +94,7 @@
 
 ## 内容分区
 内容分区元素允许你组织文档内容为逻辑块. 使用分区元素来为页面内容创建大致轮廓,包含header和footer导航, 及识别内容分区的heading元素.
+
 | Element | Description |
 | ------- | ----------- |
 | `<address>`                 | 表示包含的HTML为个人或组织提供联系信息  |
@@ -465,6 +466,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 `<head>`部分是文档元信息(metadata)的容器.描述了文档的各种属性信息,包括文档标题,与其他文件的关系等.
 
+#### 分类
 此元数据可以根据使用的元素分成5类.
 
 * The document's title: 简要描述文档中处理的主题.这是必要的一项,使用`<title>`元素插入.
@@ -473,6 +475,22 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 * Meta statement: 定义自定义的属性和值. 使用`<meta>`元素插入.
 * Relational information: 表示与文档以某种方式相关的资源. 使用`<link>`标签插入.
 * base
+
+
+#### 顺序及性能
+>html 中的 \<head> 元素通常放了一堆脚本、样式和 meta 等内容，你可能从未在意过这些内容的摆放顺序，但是错误的顺序会直接影响网页的加载和渲染效率，这个演讲中提到了原理：https://youtube.com/watch?v=uqLl-Yew2o8&t=2873s，作者建议遵循如下顺序：
+
+1. preconnect
+2. script-async
+3. css-contains-@ import
+4. sync-js
+5. sync-css
+6. preload
+7. script-defer
+8. prefetch / prerender
+9. seo-relative
+
+有一个工具叫做 capo.js，https://github.com/rviscomi/capo.js，使用它可以快速识别和优化性能问题，同时也提供了一个 Chrome 插件，可以安装试一试：https://chrome.google.com/webstore/detail/capo-get-your-%EF%B9%A4%F0%9D%9A%91%F0%9D%9A%8E%F0%9D%9A%8A%F0%9D%9A%8D%EF%B9%A5/ohabpnaccigjhkkebjofhpmebofgpbeb
 
 
 
