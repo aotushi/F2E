@@ -136,172 +136,6 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 
 
-# 参考引用
-
-## 模块(modules)
-
-
-
-
-## 属性(Properties)
-
-
-### content
->[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
-
-#### 概述
-使用生成的值来代替元素.使用content值插入的内容是匿名[替换元素](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element).
-
-CSS生成的内容是不会包含在DOM中(所以才需要哪些注释).所以它在[可访问树](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility#accessibility_apis)不会被表示并且某些辅助技术/浏览器不会描述它.如果内容传达的信息对理解页面的内容很重要,则最好在文档中包含它.
-
-#### 正式定义
-
-| 特征     | 定义                                                                                                                                                                       |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 初始值   | normal                                                                                                                                                                     |
-| 适用范围 | 所有元素,树伪元素和页面边距盒子(tree-abiding pseudo-elements,and page margin boxes)                                                                                        |
-| 继承     | 否                                                                                                                                                                         |
-| [计算值](https://developer.mozilla.org/en-US/docs/Web/CSS/computed_value)   | 在元素上,总是计算为`normal`. 在`::before`和`::after`,如果指定`normal`,则计算为`none`. 否则, 对URI值,计算为绝对URI;对`attr()`值,计算为结果字符串;对其它关键字, 按指定的计算 |
-| 动画类型 |    不相关(discrete)                                                                                                                                                                        |
-
-#### 语法
-```css
-/* Keywords that cannot be combined with other values */
-content: normal;
-content: none;
-
-/* <image> values */
-content: url("http://www.example.com/test.png");
-content: linear-gradient(#e66465, #9198e5);
-content: image-set("image1x.png" 1x, "image2x.png" 2x);
-
-/* alt text for generated content, added in the Level 3 specification */
-content: url("http://www.example.com/test.png") / "This is the alt text";
-
-/* <string> value */
-content: "prefix";
-
-/* list of content values */
-content: "prefix" url("http://www.example.com/test.png");
-content: "prefix" url("http://www.example.com/test.png") "suffix" /
-  "This is some alt text";
-
-/* <counter> values, optionally with <list-style-type> */
-content: counter(chapter_counter);
-content: counter(chapter_counter, upper-roman);
-content: counters(section_counter, ".");
-content: counters(section_counter, ".", decimal-leading-zero);
-
-/* attr() value linked to the HTML attribute value */
-content: attr(value string);
-
-/* Language- and position-dependent keywords */
-content: open-quote;
-content: close-quote;
-content: no-open-quote;
-content: no-close-quote;
-
-/* Except for normal and none, several values can be used simultaneously */
-content: open-quote counter(chapter_counter);
-
-/* Global values */
-content: inherit;
-content: initial;
-content: revert;
-content: revert-layer;
-content: unset;
-```
-
-
-#### 案例
-**清除浮动**
-
-
-
-**模拟float:center效果**
-
-
-**做出各种图形效果**
-
-**不使用图片创建图标**
-
-
-**显示打印网页URL**
-```html
-<style>
-@media print {
-  a[href]:after {
-    content: " (" attr(href) ") ";
-  }
-}
-</style><body>
-<a href="http://www.baidu.com">百度</a>
-</body>
-```
-
-
-**给blockquote添加引号**
-
-**超链接特效**
-
-
-**::before和::after实现多背景图片** !
-
-
-
-### `mask-*`
-#### 定义
-mask缩写属性通过在特定的点遮罩(masking)或裁剪(cliping)图片来隐藏元素.
-
->注意: mask缩写属性重设`mask-border`为它的初始值. 所以推荐使用mask缩写而不是其它缩写或单个属性来重写任何前面级联中的mask设置. 这将确保`mask-border`已经重置,以允许新样式生效.
-
-#### 组成的属性
-mask属性是下面CSS属性的缩写:
-* mask-clip
-* mask-composite
-* mask-image
-* mask-mode
-* mask-origin
-* mask-position
-* mask-repeat
-* mask-size
-
-#### 语法
-
-
-
-#### 正式定义
-
-
-
-#### mask-image
-**定义**
-> 这个属性设置图片用来做为元素的遮罩层(mask layer).默认这意味着遮罩图片的alpha通道将与元素的alpha通道相乘,可以通过mask-mode属性来控制.
-
-**语法**
-values
-* none 此关键字被解释为不透明的白色图像图层。
-* `<mask-resource>` 一个`<mask>`或一个CSS图片的 [`url()`](https://developer.mozilla.org/en-US/docs/Web/CSS/url)的引用.
-* `<image>` 用作遮罩图片层的图片值
-
-
-**注意事项**
-`mask-image: url(https://...)`中的图片地址会引起跨域问题.但同样的地址使用background-image不会出现跨域问题.
-原因: 它们在处理跨域方面有不同的行为。使用这两个属性时，跨域策略的处理有区别
-background-image
-`background-image` 属性用于设置元素的背景图像。在大多数情况下，浏览器允许你从其他域加载背景图像。当你使用 `background-image` 设置一个跨域的 URL 时，浏览器通常不会触发跨域错误。这主要是因为背景图片的用途通常仅仅是装饰性的，不涉及敏感数据的交换。
-
-mask-image
-`mask-image` 属性用于设置元素的遮罩图像。遮罩图像可以用来修改元素的可见部分，因此可能会涉及到敏感数据。由于安全原因，浏览器对于遮罩图像的跨域策略更加严格。当你使用 `mask-image` 设置一个跨域的 URL 时，浏览器会触发跨域错误，除非服务器在响应头中设置了适当的 CORS（跨域资源共享）策略。
-
-要解决这个问题，你可以请求图片所在服务器的管理员为图片资源添加适当的 CORS 头部信息。例如，他们可以添加以下头部信息来允许所有域访问图片资源：
-```js
-Access-Control-Allow-Origin: *
-```
-
-
-
-
 
 
 # CSS构建基础 (待拆分)
@@ -6427,7 +6261,7 @@ animation-fill-mode:forwars
 
 
 
-## 响应式布局
+## 响应式布局 !!!!
 
 ##### 左侧固定右侧自适应
 
@@ -7870,6 +7704,222 @@ HTML规范也提到`<input>`元素也能被替代,因为"image"类型的`<input>
 
 
 
+
+# 参考引用
+> https://developer.mozilla.org/en-US/docs/Web/CSS
+
+## 模块(modules)
+
+
+
+
+## 属性(Properties)
+
+
+### content
+>[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
+
+#### 概述
+使用生成的值来代替元素.使用content值插入的内容是匿名[替换元素](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element).
+
+CSS生成的内容是不会包含在DOM中(所以才需要哪些注释).所以它在[可访问树](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility#accessibility_apis)不会被表示并且某些辅助技术/浏览器不会描述它.如果内容传达的信息对理解页面的内容很重要,则最好在文档中包含它.
+
+#### 正式定义
+
+| 特征     | 定义                                                                                                                                                                       |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 初始值   | normal                                                                                                                                                                     |
+| 适用范围 | 所有元素,树伪元素和页面边距盒子(tree-abiding pseudo-elements,and page margin boxes)                                                                                        |
+| 继承     | 否                                                                                                                                                                         |
+| [计算值](https://developer.mozilla.org/en-US/docs/Web/CSS/computed_value)   | 在元素上,总是计算为`normal`. 在`::before`和`::after`,如果指定`normal`,则计算为`none`. 否则, 对URI值,计算为绝对URI;对`attr()`值,计算为结果字符串;对其它关键字, 按指定的计算 |
+| 动画类型 |    不相关(discrete)                                                                                                                                                                        |
+
+#### 语法
+```css
+/* Keywords that cannot be combined with other values */
+content: normal;
+content: none;
+
+/* <image> values */
+content: url("http://www.example.com/test.png");
+content: linear-gradient(#e66465, #9198e5);
+content: image-set("image1x.png" 1x, "image2x.png" 2x);
+
+/* alt text for generated content, added in the Level 3 specification */
+content: url("http://www.example.com/test.png") / "This is the alt text";
+
+/* <string> value */
+content: "prefix";
+
+/* list of content values */
+content: "prefix" url("http://www.example.com/test.png");
+content: "prefix" url("http://www.example.com/test.png") "suffix" /
+  "This is some alt text";
+
+/* <counter> values, optionally with <list-style-type> */
+content: counter(chapter_counter);
+content: counter(chapter_counter, upper-roman);
+content: counters(section_counter, ".");
+content: counters(section_counter, ".", decimal-leading-zero);
+
+/* attr() value linked to the HTML attribute value */
+content: attr(value string);
+
+/* Language- and position-dependent keywords */
+content: open-quote;
+content: close-quote;
+content: no-open-quote;
+content: no-close-quote;
+
+/* Except for normal and none, several values can be used simultaneously */
+content: open-quote counter(chapter_counter);
+
+/* Global values */
+content: inherit;
+content: initial;
+content: revert;
+content: revert-layer;
+content: unset;
+```
+
+
+#### 案例
+**清除浮动**
+
+
+
+**模拟float:center效果**
+
+
+**做出各种图形效果**
+
+**不使用图片创建图标**
+
+
+**显示打印网页URL**
+```html
+<style>
+@media print {
+  a[href]:after {
+    content: " (" attr(href) ") ";
+  }
+}
+</style><body>
+<a href="http://www.baidu.com">百度</a>
+</body>
+```
+
+
+**给blockquote添加引号**
+
+**超链接特效**
+
+
+**::before和::after实现多背景图片** !
+
+
+
+### `mask-*`
+#### 定义
+mask缩写属性通过在特定的点遮罩(masking)或裁剪(cliping)图片来隐藏元素.
+
+>注意: mask缩写属性重设`mask-border`为它的初始值. 所以推荐使用mask缩写而不是其它缩写或单个属性来重写任何前面级联中的mask设置. 这将确保`mask-border`已经重置,以允许新样式生效.
+
+#### 组成的属性
+mask属性是下面CSS属性的缩写:
+* mask-clip
+* mask-composite
+* mask-image
+* mask-mode
+* mask-origin
+* mask-position
+* mask-repeat
+* mask-size
+
+#### 语法
+
+
+
+#### 正式定义
+
+
+
+#### mask-image
+**定义**
+> 这个属性设置图片用来做为元素的遮罩层(mask layer).默认这意味着遮罩图片的alpha通道将与元素的alpha通道相乘,可以通过mask-mode属性来控制.
+
+**语法**
+values
+* none 此关键字被解释为不透明的白色图像图层。
+* `<mask-resource>` 一个`<mask>`或一个CSS图片的 [`url()`](https://developer.mozilla.org/en-US/docs/Web/CSS/url)的引用.
+* `<image>` 用作遮罩图片层的图片值
+
+
+**注意事项**
+`mask-image: url(https://...)`中的图片地址会引起跨域问题.但同样的地址使用background-image不会出现跨域问题.
+原因: 它们在处理跨域方面有不同的行为。使用这两个属性时，跨域策略的处理有区别
+background-image
+`background-image` 属性用于设置元素的背景图像。在大多数情况下，浏览器允许你从其他域加载背景图像。当你使用 `background-image` 设置一个跨域的 URL 时，浏览器通常不会触发跨域错误。这主要是因为背景图片的用途通常仅仅是装饰性的，不涉及敏感数据的交换。
+
+mask-image
+`mask-image` 属性用于设置元素的遮罩图像。遮罩图像可以用来修改元素的可见部分，因此可能会涉及到敏感数据。由于安全原因，浏览器对于遮罩图像的跨域策略更加严格。当你使用 `mask-image` 设置一个跨域的 URL 时，浏览器会触发跨域错误，除非服务器在响应头中设置了适当的 CORS（跨域资源共享）策略。
+
+要解决这个问题，你可以请求图片所在服务器的管理员为图片资源添加适当的 CORS 头部信息。例如，他们可以添加以下头部信息来允许所有域访问图片资源：
+```js
+Access-Control-Allow-Origin: *
+```
+
+
+
+### `text-*`
+
+#### text-wrap
+
+**是什么**
+> 控制元素内部的文字如何包裹.
+
+**语法**
+```js
+/* Keyword values */
+text-wrap: wrap;
+text-wrap: nowrap;
+text-wrap: balance;
+
+/* Global values */
+text-wrap: inherit;
+text-wrap: initial;
+text-wrap: revert;
+text-wrap: revert-layer;
+text-wrap: unset;
+```
+
+**值**
+`wrap`(计算机中自动换行)
+
+
+`nowrap`
+文本不会跨行换行
+
+`balance`
+可以让每一行文字的个数尽可能的相等，即使宽度足够的大。
+这种文字排版布局，特别适合用在居中描述信息的呈现中，尤其是官网首页的slogan等信息。
+
+
+**兼容性和polyfill等**
+text-wrap:balance 属于CSS Text Level 4规范内容，比较新，目前仅Chrome及其内核的浏览器支持。
+![](https://image.zhangxinxu.com/image/blog/202307/2023-07-25_114728.png)
+
+虽然兼容性一般，但是业界提供了成熟的polyfill解决方案，是Adobe出品的。
+
+项目地址见：https://github.com/adobe/balance-text
+
+目前项目有1.3K的star数，兼容IE浏览器。
+
+
+
+
+
+
 # 工具
 ## 颜色选择器
 
@@ -7916,7 +7966,7 @@ https://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-c
 
 # CSS 网站订阅
 
-
+https://github.com/chokcoco/iCSS  (CSS奇技淫巧)
 
 https://2020.stateofcss.com/zh-Hans/
 

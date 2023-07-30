@@ -190,7 +190,7 @@ nvm list available
 ```bash
 nvm install 版本号
 
-//如果只写大的版本号,那么会安装当前版本号的最新版本
+//如果只写大的版本号,那么会安装当前版本号的最新版本; lts表示最新版本
 ```
 
 
@@ -221,6 +221,7 @@ nvm uninstall 版本号
 - nvm use [version] [arch]：使用指定版本的node。可指定32位或64位。
 - nvm uninstall \<version>: 卸载指定版本的node。
 * nvm version：查看nvm版本号。version可简化为v。
+* nvm proxy url  设置代理地址
 
 
 
