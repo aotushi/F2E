@@ -78,9 +78,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "f765c8812088bfd3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "F2E Notes/08 FrameWork/Vue/Vue3.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 6
       },
       {
         "id": "a2260bd7b0cce4ab",
@@ -160,7 +172,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "background-image",
+                "query": "npx",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -178,7 +190,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -198,7 +210,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/02 CSS/Base/CSS.md",
+                "file": "F2E Notes/08 FrameWork/Vue/Vue3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -239,17 +251,18 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e87644295144ccda",
+  "active": "f765c8812088bfd3",
   "lastOpenFiles": [
-    "F2E Notes/02 CSS/Base/CSS-framework-element bootstrap ant.md",
-    "F2E Notes/02 CSS/Base/CSS-new-less scss.md",
-    "F2E Notes/02 CSS/Base/CSS.md",
-    "F2E Notes/01 HTML/HTML.md",
-    "F2E Notes/06 Packages Managers/Node.md",
-    "F2E Notes/02 CSS/CSS_选择器.md",
+    "F2E Notes/08 FrameWork/Vue/Vue2 doc.md",
     "F2E Notes/18 前端工程化/前端工程化入门.md",
     "F2E Notes/README.md",
     "F2E Notes/08 FrameWork/Project vue react mini other.md",
+    "F2E Notes/02 CSS/Base/CSS.md",
+    "F2E Notes/02 CSS/Base/CSS-framework-element bootstrap ant.md",
+    "F2E Notes/02 CSS/Base/CSS-new-less scss.md",
+    "F2E Notes/01 HTML/HTML.md",
+    "F2E Notes/06 Packages Managers/Node.md",
+    "F2E Notes/02 CSS/CSS_选择器.md",
     "F2E Notes/note 面试题/09_问题.md",
     "F2E Notes/index.md",
     "F2E Notes/TODO.md",
@@ -268,7 +281,6 @@
     "Front-end-notebook/03 JavaScript&TypeScript/202301181331.md",
     "Front-end-notebook/index.md",
     "Front-end-notebook/临时.md",
-    "Front-end-notebook/03 JavaScript&TypeScript/202301181348.md",
-    "Front-end-notebook/03 JavaScript&TypeScript/202301181349.md"
+    "Front-end-notebook/03 JavaScript&TypeScript/202301181348.md"
   ]
 }
