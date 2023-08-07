@@ -93,6 +93,20 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 ![](https://mdn.mozillademos.org/files/11781/rendering.svg)
 
+
+## CSS数据类型
+> CSS新世界 2.1 互通互联的CSS数据类型
+
+CSS数据类型非常多，保守估计，至少有50个，这里介绍几个常见且值得一提的数据类型。
+
+CSS数据类型定义的是CSS属性中具有代表性的值，在规范的语法格式中，使用关键字外加一对尖括号（“<”和“>”）表示，例如数值类型是`<number>`、色值类型是`<color>`等。
+
+
+
+
+
+
+
 # CSS构建
 >[CSS building blocks - Learn web development | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks)
 
@@ -469,6 +483,21 @@ html {
 如果想要深入理解，请看 [the CSS Tricks article on box-sizing](https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/)。 ?? 没太明白.
 
 Internet Explorer默认使用替代盒模型，没有可用的机制来切换。（译者注：IE8+ 支持使用`box-sizing` 进行切换 .
+
+#### 容器尺寸计算方式
+容器尺寸有确切尺寸, 不确定的尺寸两种类型
+**明确的尺寸:** 
+>指的是不需要执行布局就可以确定盒子的大小。也就是说，显式地给容器设置一个固定值，或内容所占区域的大小，或一个容器块的初始大小，或通过其他计算方式得到的尺寸，比如 Flexbox 布局中的“拉伸和收缩”（Stretch-fit），即 flex-grow 和 flex-shrink 。
+
+![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.54kgs3dna700.webp)
+
+**不明确的尺寸**
+在 CSS 中，任何一个容器都有四种自动计算尺寸大小的方式：
+* auto ：会根据格式化上下文自动计算容器的尺寸；
+* min-content ：是在不导致溢出的情况下，容器的内容的最小尺寸；
+* max-content ：容器可以容纳的最大尺寸，如果容器中包含未格式化的文本，那么它将显示为一个完整的长字符串；
+* fit-content ：如果给定轴中的可用空间是确定的，则等于 min(max-content, max(min-content, stretch-fit)) ，反之则等于 max-content。
+> 注意: CSS 中的宽高比属性，即 aspect-ratio 也可以决定一个容器的尺寸。
 
 
 
@@ -7915,6 +7944,28 @@ text-wrap:balance 属于CSS Text Level 4规范内容，比较新，目前仅Chro
 
 目前项目有1.3K的star数，兼容IE浏览器。
 
+
+
+### `min-*`
+
+
+#### `min-block-size`
+
+
+#### `min-height`
+
+
+
+#### `min-width`
+
+**定义**
+>其用来设置元素的最小宽度值. 阻止width值比`min-width`变得更小
+
+
+**语法**
+```css
+min-width: <length>|<percentage>|keyword|global
+```
 
 
 
