@@ -97,9 +97,55 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 ## CSS数据类型
 > CSS新世界 2.1 互通互联的CSS数据类型
 
+CSS数据类型定义的是CSS属性中具有代表性的值，在规范的语法格式中，使用关键字外加一对尖括号（“<”和“>”）表示，例如数值类型是`<number>`、色值类型是`<color>`等。
+
 CSS数据类型非常多，保守估计，至少有50个，这里介绍几个常见且值得一提的数据类型。
 
-CSS数据类型定义的是CSS属性中具有代表性的值，在规范的语法格式中，使用关键字外加一对尖括号（“<”和“>”）表示，例如数值类型是`<number>`、色值类型是`<color>`等。
+### 数据类型示例
+
+```css
+shape-outside: none | <shape-box> || <basic-shape> | <image>
+```
+
+``<shape-box>`支持的属性值如下：
+* `<box>`
+	* margin-box
+	* content-box；
+	* padding-box
+	* border-box
+
+`<basic-shape>`支持的属性值:
+* inset()
+* circle()
+* ellipse()
+* polygon()
+* path()
+
+`<image>`支持的属性值如下:
+* `<url>`
+* `<gradient>`
+* element()
+* image()
+* image-set()
+* cross-fade()
+* paint()
+上述属性值中`<url>`也是一种数据类型，用于表示使用url()函数调用的图像资源；`<gradient>`也是一种数据类型，用于表示渐变图像。
+
+
+```css
+color: <color>
+```
+
+这里的`<color>`数据类型支持的属性值如下：
+* `<rgb()>`
+* `<rgba()>`
+* `<hsl()>`
+* `<hsla()>`
+* `<hex-color>`
+* `<named-color>`
+* `currentColor`
+* `<deprecated-system-color>`
+最后一个属性值`<deprecated-system-color>`指废弃的系统颜色
 
 
 
