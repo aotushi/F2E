@@ -8010,9 +8010,13 @@ text-wrap:balance 属于CSS Text Level 4规范内容，比较新，目前仅Chro
 
 **语法**
 ```css
-min-width: <length>|<percentage>|keyword|global
+min-width: auto | <length-percentage> | min-content | max-content | fit-content
 ```
 
+
+**使用场景**
+* 多语言版本的文字宽度设置
+* 网站上的标签云的每项宽度设置
 
 
 
