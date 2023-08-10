@@ -28,37 +28,7 @@ Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js �
 
 
 
-## 二次封装
 
-```javascript
-import axios from 'axios';
-import NProgress from 'nprogress/nprogress';
-import 'nprogress/nprogress.css';
-
-const service=axios.create({
-    baseURL:'/api',
-    timeout:20000
-})
-
-service.interceptors.request.use(
-	(config)=>{
-        NProgress.start();
-        return config;
-    },
-    //()=>{}
-);
-
-service.interceptors.response.use(
-	(response)=>{
-        NProgress.done();
-        return response.data;
-    },
-    (error)=>{
-        NProgress.done();
-        return new Promise(()=>{})
-    }
-)
-```
 
 
 
@@ -399,13 +369,46 @@ axios.get(that.baseUrl+"/vat/myinfo",{
 ```
 
 
-# axios封装
+# axios 二次封装
 
-### 来源
-> https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&mid=2651578212&idx=2&sn=3a4bdc17b0c1808f2b5649d84eff93a1&chksm=802508a5b75281b366dca8441c3ab2dc63b93adcd139ec5bb002dc8b10fef80efa49d49d92c2&scene=21#wechat_redirect
+## 简略版
+
+```javascript
+import axios from 'axios';
+import NProgress from 'nprogress/nprogress';
+import 'nprogress/nprogress.css';
+
+const service=axios.create({
+    baseURL:'/api',
+    timeout:20000
+})
+
+service.interceptors.request.use(
+	(config)=>{
+        NProgress.start();
+        return config;
+    },
+    //()=>{}
+);
+
+service.interceptors.response.use(
+	(response)=>{
+        NProgress.done();
+        return response.data;
+    },
+    (error)=>{
+        NProgress.done();
+        return new Promise(()=>{})
+    }
+)
+```
+
 
 
 ## axios的封装
+
+### 来源
+> https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&mid=2651578212&idx=2&sn=3a4bdc17b0c1808f2b5649d84eff93a1&chksm=802508a5b75281b366dca8441c3ab2dc63b93adcd139ec5bb002dc8b10fef80efa49d49d92c2&scene=21#wechat_redirect
 
 ### 引入
 > 一般在src目录中创建一个http(或request或api)文件夹,然后再里面新建一个http.js, 一个api.js.
