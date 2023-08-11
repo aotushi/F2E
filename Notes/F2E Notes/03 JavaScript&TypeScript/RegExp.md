@@ -44,21 +44,6 @@ let re = /\w+/
 ```
 
 
-## 字符串相关方法
-
-### String.prototype.match()
-
-
-### String.prototype.split()
-
-
-### String.prototype.replace()
-
-
-### String.prototype.search()
-
-
-
 
 ## 断言
 
@@ -150,6 +135,23 @@ let ripe_oranges = oranges.filter( fruit => fruit.match(/(?<=ripe )orange/));
 console.log(ripe_oranges); // [ 'ripe orange A ', 'ripe orange C' ]
 ```
 
+
+## 字符串相关方法
+
+### String.prototype.match()
+
+
+### String.prototype.split()
+
+
+### String.prototype.replace()
+
+
+### String.prototype.search()
+
+
+
+## 正则表达式方法
 
 
 
