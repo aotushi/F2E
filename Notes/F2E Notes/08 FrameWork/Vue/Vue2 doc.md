@@ -10921,13 +10921,13 @@ beforeRouteLeave (to, from, next) {
 - beforeEnter：路由独享守卫
 - beforeRouteEnter：路由组件的组件进入路由前钩子。
 - beforeResolve：路由全局解析守卫
-- <u>afterEach：路由全局后置钩子</u>
+- afterEach：路由全局后置钩子
 - beforeCreate：组件生命周期，不能访问this。
 - created;组件生命周期，可以访问this，不能访问dom。
 - beforeMount：组件生命周期
-- <u>deactivated：离开缓存组件a，或者触发a的beforeDestroy和destroyed组件销毁钩子。</u>
+- deactivated：离开缓存组件a，或者触发a的beforeDestroy和destroyed组件销毁钩子。
 - mounted：访问/操作dom。
-- <u>activated：进入缓存组件，进入a的嵌套子组件（如果有的话）。</u>
+- activated：进入缓存组件，进入a的嵌套子组件（如果有的话）。
 - 执行beforeRouteEnter回调函数next。
 
 

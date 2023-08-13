@@ -23,7 +23,7 @@ aliases: 正则表达式,regexp
 正则表达式是一种匹配模式,要么匹配位置或要么[[202301181205a|匹配字符]]。在 JavaScript 中，正则表达式也是对象。
 
 
-## 创建正则表达式
+## 正则表达式创建的2种方式
 
 ### 字面量
 ```js
@@ -45,7 +45,7 @@ let re = /\w+/
 
 
 
-## 3.2.2 断言
+## 断言
 
 断言包括边界，它表示行和词的开头和结尾，以及以某种方式表示可能存在匹配的其他模式（包括前看、后看和条件表达式）。
 
@@ -135,6 +135,23 @@ let ripe_oranges = oranges.filter( fruit => fruit.match(/(?<=ripe )orange/));
 console.log(ripe_oranges); // [ 'ripe orange A ', 'ripe orange C' ]
 ```
 
+
+## 字符串相关方法
+
+### String.prototype.match()
+
+
+### String.prototype.split()
+
+
+### String.prototype.replace()
+
+
+### String.prototype.search()
+
+
+
+## 正则表达式方法
 
 
 

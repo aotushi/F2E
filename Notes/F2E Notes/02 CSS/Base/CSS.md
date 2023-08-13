@@ -455,6 +455,43 @@ css的box模型有一个外部显示类型，来决定盒子是块级还是内�
 
 
 
+
+
+### CSS逻辑属性
+
+随着 CSS 的逻辑属性的出现，CSS 的坐标系就不再以 `x` 轴 和 `y` 轴来定义，而是以 **内联** （Inline）和 **块** （Block）来区分，并且内联方向的称之为 **内联轴** （Inline Axis），也就是书写模式的方向；块方向的称之为 **块轴** （Block Axis），也就是块盒子自然流的方向。它们随着 CSS 的书写模式改变
+
+![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.6c4sttbml5c0.webp)
+
+如此一来，在 CSS 中就有**物理坐标系** 和 **逻辑坐标系** 之分，它们的对应关系如下：
+
+| **物理属性**     | **逻辑属性(`horizontal-tb`)** | **逻辑属性(`vertical-lr`)** | **逻辑属性(`vertical-rl`)** |
+| ---------------- | ----------------------------- | --------------------------- | --------------------------- |
+| `x` 轴（水平轴） | Inline 轴（内联轴）           | Block 轴（块轴）            | Block 轴（块轴）            |
+| `y` 轴（垂直轴） | Block 轴（块轴）              | Inline 轴（内联轴）         | Inline 轴（内联轴）         |
+
+
+
+### 容器和容器空间
+
+HTML 的每一个元素在 CSS 中都是一个盒子，这个盒子又被称为 **容器** 。它主要由 CSS 的 `display` 属性的值来决定，比如：
+
+- `block` 时称为块容器；
+
+- `inline` 时称为内联容器；
+
+- `flex` 或 `inline-flex` 时称为Flexbox容器；
+
+- `grid` 或 `inline-grid` 时称为 Grid 容器（网格容器）
+
+
+
+
+
+
+
+
+
 ### 分类
 
 标准盒模型
@@ -6735,8 +6772,8 @@ portrait  竖屏   高度大于宽度
 	height: 500px;
 	background: pink;
 }
-```        
-    
+```
+
 
 #### 方案3：rem响应式布局
 
