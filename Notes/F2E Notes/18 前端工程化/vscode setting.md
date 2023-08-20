@@ -55,7 +55,7 @@ window上下载后软件v2ray后，在文件管理器地址栏路绝中输入`\\
 **执行v2ray**
 
 ```bash
-username@Null:~/Downloads/v2ray-linux-64$ ./v2ray run
+username@Null:~/Downloads/v2ray-linux-64$ ./v2ray
 ```
 
 **修改firefox浏览器代理配置**
@@ -72,5 +72,11 @@ sudo apt install firefox
 
 ```
 
+在更改firefox配置后,之前我们已经启动了v2ray.可以看到可以访问.
+
+
+
+### 安装中文输入法
+> [wsl2官方gui安装IDEA踩坑记录 | MonkeyWie's Blog](https://monkeywie.cn/2021/09/26/wsl2-gui-idea-config/)
 
 
