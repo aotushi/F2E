@@ -301,6 +301,81 @@
 
 
 
+
+
+
+
+### title
+
+> 全局属性,包含表示与其所属元素相关的公告信息文本
+
+使用场景包括:
+
+* `<iframe>`元素, 
+* data table
+* `<link rel='stylesheet'>`
+* `<abbr>`
+* `<input>` 更推荐使用`<label>`
+
+
+
+**多行title**
+
+使用`U+000A LINE FEED` (`LF`)代表换行符.
+
+```html
+<p>
+  Newlines in <code>title</code> should be taken into account. This
+  <span
+    title="This is a
+multiline title">
+    example span
+  </span>
+  has a title a attribute with a newline.
+</p>
+<hr />
+<pre id="output"></pre>
+
+//js
+const span = document.querySelector("span");
+const output = document.querySelector("#output");
+output.textContent = span.title;
+```
+
+
+
+
+
+**限制**
+
+以下场景存在使用问题:
+
+* 使用只能触摸的设置
+* 使用键盘导航
+* 使用辅助技术导航,例如屏幕阅读或屏幕放大
+* 有认知问题的人/有控制障碍的人
+
+因为浏览器支持的不一致,再加上浏览器呈现页面的额外辅助技术解析. 如果需要一个提示功能,更推荐使用[高访问性技术.](https://inclusive-components.design/tooltips-toggletips/)
+
+
+
+#### 高访问性技术
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 内容分类
 > https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
 
