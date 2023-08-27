@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/note 面试题/09_问题.md",
+                "file": "F2E Notes/README.md",
                 "mode": "source",
                 "source": false
               }
@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/02 CSS/Base/CSS.md",
+                "file": "F2E Notes/README.md",
                 "mode": "source",
                 "source": false
               }
@@ -49,7 +49,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
+                "file": "F2E Notes/01 HTML/articles/aria-label,aria-labelledby,aria-describedby.md",
                 "mode": "source",
                 "source": false
               }
@@ -73,7 +73,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/02 CSS/Base/202303091528.md",
+                "file": "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,18 +86,6 @@
               "type": "markdown",
               "state": {
                 "file": "F2E Notes/01 HTML/HTML.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "1ed55ea9e3e21138",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "F2E Notes/README.md",
                 "mode": "source",
                 "source": false
               }
@@ -121,14 +109,37 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/16 Tools/Tool-API vscode vim git github devtools.md",
+                "file": "F2E Notes/02 CSS/Base/CSS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "6b65af18693dc90f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "F2E Notes/03 JavaScript&TypeScript/202308261743.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "bc42e081e31d874c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "F2E Notes/03 JavaScript&TypeScript/202301171439.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       },
       {
         "id": "a2260bd7b0cce4ab",
@@ -220,7 +231,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "vim",
+                "query": "运算符优先级",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -257,7 +268,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
+                "file": "F2E Notes/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -306,42 +317,42 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "1f753775f2bf3040",
+  "active": "2f7bfaab64b575fc",
   "lastOpenFiles": [
-    "未命名.md",
+    "F2E Notes/note 面试题/09_问题.md",
     "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
-    "F2E Notes/01 HTML/articles",
+    "F2E Notes/02 CSS/Base/202303091528.md",
+    "F2E Notes/08 FrameWork/Project vue react mini other.md",
+    "F2E Notes/01 HTML/articles/aria-label,aria-labelledby,aria-describedby.md",
+    "F2E Notes/README.md",
+    "F2E Notes/02 CSS/Base/CSS.md",
+    "F2E Notes/03 JavaScript&TypeScript/202308261743.md",
+    "F2E Notes/03 JavaScript&TypeScript/未命名.md",
+    "F2E Notes/index.md",
+    "F2E Notes/03 JavaScript&TypeScript/202301171524.md",
+    "F2E Notes/03 JavaScript&TypeScript/202301171439.md",
+    "F2E Notes/note 面试题/01_JS基础.md",
+    "F2E Notes/note 面试题/02_ES6+.md",
+    "F2E Notes/02 CSS/Base/CSS-framework-element bootstrap ant.md",
+    "F2E Notes/02 CSS/Base/CSS-new-less scss.md",
+    "F2E Notes/02 CSS/CSS_选择器.md",
+    "F2E Notes/02 CSS/index.md",
+    "F2E Notes/02 CSS/网站设计风格收集.md",
     "F2E Notes/01 HTML/HTML.md",
+    "F2E Notes/16 Tools/Tool-API vscode vim git github devtools.md",
     "F2E Notes/18 前端工程化/前端工程化入门.md",
+    "未命名.md",
+    "F2E Notes/01 HTML/articles",
     "F2E Notes/08 FrameWork/Vue/Vue2 doc.md",
     "F2E Notes/06 Packages Managers/Node.md",
-    "F2E Notes/16 Tools/Tool-API vscode vim git github devtools.md",
     "F2E Notes/02 CSS/Base/202303091143a2.md",
-    "F2E Notes/02 CSS/Base/202303091143a1.md",
-    "F2E Notes/02 CSS/Base/202302221541Index.md",
-    "F2E Notes/02 CSS/Base/202303091143.md",
-    "F2E Notes/08 FrameWork/Project vue react mini other.md",
-    "F2E Notes/02 CSS/Base/CSS.md",
-    "202308092244.md",
-    "F2E Notes/02 CSS/Base/202303091528.md",
     "F2E Notes/18 前端工程化/templatevue2/package.json",
     "F2E Notes/18 前端工程化/templatevue2/test.vue",
     "F2E Notes/18 前端工程化/templatevue2/test.js",
     "F2E Notes/18 前端工程化/templatevue2/package-lock.json",
     "F2E Notes/18 前端工程化/templatevue2",
-    "F2E Notes/08 FrameWork/Vue/Vue3.md",
-    "F2E Notes/README.md",
-    "F2E Notes/02 CSS/Base/CSS-framework-element bootstrap ant.md",
-    "F2E Notes/02 CSS/Base/CSS-new-less scss.md",
-    "F2E Notes/02 CSS/CSS_选择器.md",
-    "F2E Notes/note 面试题/09_问题.md",
-    "F2E Notes/index.md",
-    "F2E Notes/TODO.md",
     "F2E Notes/18 前端工程化/New 文本文档.txt",
     "F2E Notes/18 前端工程化",
-    "F2E Notes/New folder",
-    "F2E Notes/03 JavaScript&TypeScript/202307112269.md",
-    "F2E Notes/202307180911.md",
-    "F2E Notes/07 Build Tools/构建工具.md"
+    "F2E Notes/New folder"
   ]
 }

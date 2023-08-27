@@ -45,6 +45,12 @@
 
 # TODO
 
+### 现在
+* Tooltips & Toggletips
+* 掘金小册 现在web布局
+* 微信收藏 JS设计模式
+* 博客园-笔记 多态
+
 ## 项目
 
 ### HTML/CSS/JavaScript
@@ -295,4 +301,14 @@ DOM启蒙
 | [Software Engineering Books (software-engineering-books.com)](https://software-engineering-books.com/#personal_development?continueFlag=3abdb5f5d944298cd84d8b8df87a853b) |                                                              |      |
 |                                                              |                                                              |      |
 |                                                              |                                                              |      |
+
+
+## 如何记笔记?
+
+保留内容的4个标准:
+1. Inspiring
+2. Useful
+3. Easily Lost
+4. Personal
+
 
