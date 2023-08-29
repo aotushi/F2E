@@ -383,44 +383,33 @@ console.log(a.length); // 0
 > https://juejin.cn/post/6844904025993773063#heading-14
 
 **介绍**
+数组的空位是指数组中某些索引位置没有任何值.通常发生在直接给一个数组的非连续索引赋值时.
 
-使用数组字面量初始化数组时，可以使用一串逗号来创建空位（hole）。ECMAScript 会将逗号之间相应索引位置的值当成空位，ES6 规范重新定义了该如何处理这些空位。
+
 
 **ES5和ES6的不同表现**
+- ES5 对空位的处理，就非常不一致，大多数情况下会忽略空位
+	* `forEach()`, `filter()`, `reduce()`, `every()` 和 `some()` 都会跳过空位。
+	* `map()` 会跳过空位，但会保留这个值。
+	* `join()` 和 `toString()` 会将空位视为 `undefined`，而 `undefined` 和 `null` 会被处理成空字符串。
 
-**ES5 对空位的处理，就非常不一致，大多数情况下会忽略空位。**
+* ES6 则是明确将空位转为`undefined`
+	* `entries()`、`keys()`、`values()`、`find()`和 `findIndex()` 会将空位处理成 `undefined`。
+	* `for...of` 循环会遍历空位。
+	* `fill()` 会将空位视为正常的数组位置。
+	* `copyWithin()` 会连空位一起拷贝。
+	* 扩展运算符（`...`）也会将空位转为 `undefined`。
+	* `Array.from` 方法会将数组的空位，转为 `undefined`。
 
-* `forEach()`, `filter()`, `reduce()`, `every()` 和 `some()` 都会跳过空位。
+**最佳实践**
+注意 由于行为不一致和存在性能隐患，因此实践中要避免使用数组空位。如果确实需要空位，则可以显式地用undefined 值代替。
 
-* `map()` 会跳过空位，但会保留这个值。
-
-* `join()` 和 `toString()` 会将空位视为 `undefined`，而 `undefined` 和 `null` 会被处理成空字符串。
-
-
-
-
-**ES6 则是明确将空位转为`undefined`**，
-
-* `entries()`、`keys()`、`values()`、`find()`和 `findIndex()` 会将空位处理成 `undefined`。
-
-* `for...of` 循环会遍历空位。
-
-* `fill()` 会将空位视为正常的数组位置。
-
-* `copyWithin()` 会连空位一起拷贝。
-
-* 扩展运算符（`...`）也会将空位转为 `undefined`。
-
-* `Array.from` 方法会将数组的空位，转为 `undefined`。
-
-
-
-```javascript
+```js
 //ES5 的方法则会忽略这个空位，但具体的行为也会因方法而异：
 
 const options = [1,,,,5];
 // map()会跳过空位置
-console.log(options.map(() => 6)); // [6, undefined, undefined, undefined, 6]
+console.log(options.map(() => 6)); // [6, empty*3, 6]
 // join()视空位置为空字符串
 console.log(options.join('-')); // "1----5"
 
@@ -456,9 +445,7 @@ for (const option of options) {
 // false
 ```
 
-**实践使用**
 
-注意 由于行为不一致和存在性能隐患，因此实践中要避免使用数组空位。<u>如果确实需要空位，则可以显式地用undefined 值代替。</u>
 
 
 
