@@ -9496,26 +9496,19 @@ export default {
 [Unpkg.com (opens new window)](https://unpkg.com/)提供了基于 NPM 的 CDN 链接。
 
 安装最新版本:
-
 `https://unpkg.com/vue-router/dist/vue-router.js`
 
 安装指定版本:
-
 `https://unpkg.com/vue-router@2.0.0/dist/vue-router.js`
 
 省略的写法:
-
 `https://unpkg.com/vue-router@2`
 
-
 **实例**
-
 ```html
 <script src="https://unpkg.com/vue@2"></script>
 <script src="https://unpkg.com/vue-router@3"></script>
 ```
-
-
 
 #### NPM
 
@@ -9530,9 +9523,6 @@ import VueRouter from 'vue-router'
 
 Vue.sue(VueRouter)
 ```
-
-如果使用全局的 script 标签，则无须如此 (手动安装)。
-
 
 
 #### Vue CLI
@@ -9609,42 +9599,28 @@ import router from './router';
 });
 ```
 **3.添加特殊组件`<router-view>`**
-为了让它显示到页面上，需要添加一个特殊的组件<router-view/>
-然后，在模板中，将<router-view />放到任何你想让路由所返回的组件被显示的地方。
+为了让它显示到页面上，需要添加一个特殊的组件`<router-view/>`
+然后，在模板中，将`<router-view />`放到任何你想让路由所返回的组件被显示的地方。
+
+#### 注意事项
+* 通过注入路由器，在任何组件内通过 `this.$router` 访问路由器，也可以通过 `this.$route` 访问当前路由
+* 使用 `this.$router` 的原因是我们并不想在每个独立需要封装路由的组件中都导入路由。
+* 当 `<router-link>` 对应的路由匹配成功，将自动设置class属性值 `.router-link-active`
 
 
 
+### 路由模式
 
-
-
-
-**注意事项**
-
-通过注入路由器，在任何组件内通过 `this.$router` 访问路由器，也可以通过 `this.$route` 访问当前路由：
-
-留意一下 `this.$router` 和 `router` 使用起来完全一样。我们使用 `this.$router` 的原因是我们并不想在每个独立需要封装路由的组件中都导入路由。
-
-当 `<router-link>` 对应的路由匹配成功，将自动设置 class 属性值 `.router-link-active`
-
-
-
-### 路由Hash模式
+#### Hash模式
 
 > [浅谈前端路由原理hash和history - 掘金 (juejin.cn)](https://juejin.cn/post/6993840419041706014)
->
-> 
 
->  `vue-roter` 的两种路由模式，及差异化，简单来讲就是，`hash` 路由兼容梗好，但是带#显得丑些， `histroy` 和正常 url 路径一样，但是需要在服务器进行单独配置。大
+>`vue-roter` 的两种路由模式，及差异化，简单来讲就是，`hash` 路由兼容更好，但是带#显得丑些; `histroy` 和正常 url 路径一样，但是需要在服务器进行单独配置
 
-#### Hash概述及特点
+##### 概述及特点
 
 ##### 定义
-
 > `hash` 模式是一种把前端路由的路径用井号 `#` 拼接在真实 `url` 后面的模式。当井号 `#` 后面的路径发生变化时，浏览器并不会重新发起请求，而是会触发 `onhashchange` 事件。
-
-
-
-
 
 `vue-router` 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。
 
@@ -9693,9 +9669,9 @@ window.location.hash 的值可读可写，读取来判断状态是否改变，�
 
 
 
-### 路由History模式
+#### History模式
 
-#### History概述及特点
+##### 概述及特点
 
 **定义**
 history模式的URL中没有#，它使用的是传统的路由分发模式，即用户在输入一个URL时，服务器会接收这个请求，并解析这个URL，然后做出相应的逻辑处理。
