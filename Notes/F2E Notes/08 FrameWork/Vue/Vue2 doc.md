@@ -5486,7 +5486,25 @@ export default {
    ></iframe>
 
 
-
+另一种处理防抖方案:
+```js
+export default {
+	install(Vue) {
+		Vue.directive('preventReClick', {
+			inserted(el, binding) {
+				el.addEventListener('click', () => {
+					if (!el.disabled) {
+						el.disabled = true
+						setTimeout(() => {
+							el.disabled = false
+						}, binding.value || 3000)
+					}
+				})
+			}
+		})
+	}
+}
+```
 
 
 ##### v-emoji
@@ -12700,6 +12718,23 @@ mounted() {
 	})
 }
 ```
+
+
+
+### 5.生产环境下禁止`console.*`打印
+不实用插件配置,直接重写方法
+> [【实用】Vue线上环境禁止打印console.log\_vue线上log打印都没有是在哪配置的\_AndyHu99的博客-CSDN博客](https://blog.csdn.net/qq_42281321/article/details/125599433)
+
+```js
+// console方法
+function rewriteConsole(methods = ['log']) {
+	methods.forEach(method => {
+		const originalMethod = console[method]
+		console[method] = process.env.NODE_ENV === 'production' ? () => {} : orignalMehtod;
+	})
+}
+```
+
 
 
 
