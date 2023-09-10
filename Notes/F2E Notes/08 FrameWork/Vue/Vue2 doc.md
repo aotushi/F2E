@@ -112,6 +112,10 @@ npm i vue
 * 以前安装过低版本,需要提前卸载 
 * 全局或局部安装vue cli
 ```bash
+// 搜索是否安装(全局)
+
+vue --version
+
 // 卸载
 npm uninstall -g @vue/cli
 
