@@ -114,6 +114,25 @@ npm config set cache  "D:\Promgram Files\nodejs\node_cache"
 验证方式变成了`cnpm config get registry` 或 `cnpm config list`
 
 
+## nrm管理多个npm镜像地址
+全局安装nrm后, 即可设置切换多个镜像地址
+```bash
+# 全局安装
+npm i -g nrm
+
+
+# 添加镜像
+# nrm add <registry name> <registry url>
+nrm add china-tower http://10.34.53.35:7001/
+
+
+# 使用镜像
+nrm use china-tower
+
+# 展示当前所有镜像
+nrm ls
+
+```
 
 ## 使用nvm管理多个nodejs版本
 > 以下内容是仓库地址github.com/nvm-sh/nvm下的.

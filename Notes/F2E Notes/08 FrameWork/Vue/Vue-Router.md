@@ -2026,3 +2026,61 @@ Wrapper对象拥有一个.trigger()方法，可以使用它来触发单击事件
     expect(clicked).toBe(true);
 ```
 
+
+## 实际问题
+
+### 1.重新加载当前页面
+#### 方法的举例
+* `window.location.reload()`方法
+* 路由配置中添加唯一查询参数
+* router-view添加唯一的key
+* watch监听$route路由变化
+* 跳转到中转页面,再跳回来
+
+#### window.location.reload
+
+> 不推荐. 它违反了单页面应用的原则，它会重新加载整个SPA应用
+> 在某些情况下，例如当你需要清除所有的JavaScript状态，或者当你的应用遇到无法恢复的错误时，使用 `window.location.reload()` 可能是有用的。但在大多数情况下，尽量避免使用它来刷新你的Vue组件或页面。
+
+
+#### 路由配置中添加唯一query参数
+
+```js
+this.$router.push({
+	path: routerPath,
+	query: { unique: new Date().getTime() }
+})
+```
+
+
+
+#### router-view添加key
+> 这种方案更适合路径相同,但是参数不同的情况.
+> 例如, /user/data, /user/data/1, user/data/2, 三个页面公用user/data路径对应的组件.
+
+
+```vue
+<template>
+	<router-view :key="$route.fullPath"></router-view> 
+</template>
+```
+
+
+#### watch监听路由变化
+可以给路由添加一些其它内容来触发更新. 例如meta中添加unique参数
+
+```js
+watch: {
+	'$route': {
+		immediate: true,
+		deep: true,
+		handler: 'refreshData'
+	}
+},
+
+methods: {
+	refreshData() {
+		// 方法
+	}
+}
+```
