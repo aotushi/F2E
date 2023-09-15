@@ -35,7 +35,7 @@ vue-vconsole-devtools项目地址： [链接](https://github.com/Zippowxk/vue-vc
 import Vconsole from 'vconsole';
 import { initPlugin } from 'vue-vconsole-devtools';
 
-if ([2,3]).indexOf(private_environment) >= 0) {
+if (process.env.NODE_ENV === 'development') {
   initPlugin(new Vconsole());
   window.__Vue_DEVTOOLS_GLOBAL_HOOK__.emit('init', Vue);
 }
