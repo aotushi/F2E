@@ -416,7 +416,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-# HTML元素的类型
+# HTML元素的类型 //todo
 >[Content categories - HTML: HyperText Markup Language | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Content_categories)
 
 
@@ -462,14 +462,18 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 一个内联元素仅仅占据需要的宽度,也不会强制换行.
 
 
-## 元素类型 //待补充
+## 元素类型 最新分类
 >[HTML Standard (whatwg.org)](https://html.spec.whatwg.org/multipage/dom.html)
 >
 
 
 最新的HTML规范已经不按inline和block来区分元素.在规范中每个元素会规定如下两项:
-* categories 该元素本身的分类
-* element    规定了合法的元素的内容（子元素、文本等）类型。
+> [a 标签为什么能够包含块级元素？ - 知乎](https://www.zhihu.com/question/34952563/answer/60672228)
+
+
+
+* [categories](https://html.spec.whatwg.org/multipage/dom.html#element-dfn-categories) 该元素本身的分类
+* [content model](https://html.spec.whatwg.org/multipage/dom.html#%3Cspan%20data-search-entity=)   规定了合法的元素的内容（子元素、文本等）类型。
 
 
 
@@ -512,7 +516,7 @@ An HTML comment begins with `<!--`, and ends with `-->`, as shown in the example
 
 
 
-# HTML文档结构/声明/组成 //待完成
+# HTML文档结构/声明/组成 //todo
 
 ## 基本结构(4部分)
 
@@ -1020,7 +1024,11 @@ defer是在加载完成后,等到HTML加载完成后再加载.
 # HTML标签/元素
 
 
-### a标签
+### `<a>`
+
+#### 是什么
+
+
 
 
 #### a标签案例
@@ -1036,7 +1044,7 @@ defer是在加载完成后,等到HTML加载完成后再加载.
 
 
 
-### label标签
+### `<label>`
 #### 概述
 
 
@@ -1057,7 +1065,7 @@ label {
 
 
 
-
+### `<img>`
 
 
 

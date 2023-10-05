@@ -326,11 +326,8 @@ list在每次append新元素li时，都会引发一次重排的操作。
 ### 存储方式
 
 - cookie
-
 - sessionStorage
-
 - localStorage
-
   注意: session后台数据存储
 
 

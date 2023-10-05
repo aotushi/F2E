@@ -10710,6 +10710,434 @@ function rewriteConsole(methods = ['log']) {
 ```
 
 
+### 6.vue中阻止重复请求
+> [vue阻止重复请求 - 掘金](https://juejin.cn/post/7189231050806001719)
+
+
+#### 1.定时器方案
+**概述**
+适用于业务简单,例如同一个按钮防止多次点击,我们可以用定时器做防抖处理
+当用户连续点击多次同一个按钮,最后一次点击之后,过小段时间后才发起一次请求 **原理**:每次调用方法后都产生一个定时器,定时器结束以后再发请求,如果重复调用方法,就取消当前的定时器,创建新的定时器,等结束后再发请求,工作当中可以用第三方封装的工具函数例如`lodash`的`debounce`方法来简化防抖的代码
+
+**代码**
+lodash.debounce()
+```js
+<script>
+// 定义请求接口
+function sendPost(data){
+    return axios({
+        url: 'https://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test',
+        method: 'post',
+        data
+    })
+}
+
+
+new Vue({
+    el: '#app',
+    methods: {
+        // 调用lodash的防抖方法debounce,实现连续点击按钮多次,0.3秒后调用1次接口
+        onClick: _.debounce(async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求的结果', res.data)
+        }, 300),
+    },
+})
+</script>
+```
+
+vue中使用插件+计时器
+```js
+
+// 插件 extension.js
+export default {
+	install(Vue) {
+		Vue.directive('preventReClick', {
+			inserted(el, binding) {
+				el.addEventListener('click', () => {
+					if (!el.disabled) {
+						el.disabled = true
+						setTimeout(() => {
+							el.disabled = false
+						}, binding.value || 4000)
+					}
+				})
+			}
+		})
+	}
+}
+
+
+
+
+```
+
+**存在的问题**
+无法解决多个按钮件的重复请求的发送问题,例如下面两种情况
+
+1.情况1, 在点击事件上做防抖
+按钮事件间是相互独立的,调用的是不同方法,做不到按钮间防抖效果
+
+```html
+<body>
+    <div id="app">
+        <button @click="onClick1" ref="btn1">请求1</button>
+        <button @click="onClick2" ref="btn2">请求2</button>
+    </div>
+</body>
+<script>
+  
+let sendPost = function(data){
+    return axios({
+        url: 'http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test',
+        method: 'post',
+        data
+    })
+}
+new Vue({
+    el: '#app',
+    mounted() {
+        this.$refs.btn1.click()
+        this.$refs.btn2.click()
+    },
+    methods: {
+        // 使用lodash对请求方法做防抖
+        //这里有问题,只是对每个按钮的点击事件单独做了防抖,但是两个按钮之间做不到防抖的效果
+        onClick1: _.debounce(async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求1的结果', res.data)
+        }, 300),
+        onClick2: _.debounce(async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求2的结果', res.data)
+        }, 300),
+    },
+})
+</script>
+```
+
+2.情况2, 在接口方法上做防抖
+按钮间调用的方法是相同的,是可以对方法做防抖处理,但是处理本身对方法做了一次封装,会影响到之前方法的返回值接收,需要对之前的方法做更多处理,变得更加复杂,不推荐
+
+```html
+<body>
+    <div id="app">
+        <button @click="onClick1" ref="btn1">请求1</button>
+        <button @click="onClick2" ref="btn2">请求2</button>
+    </div>
+</body>
+<script>
+// 使用lodash对请求方法做防抖,    
+let sendPost = _.debounce(function(data){
+    //这里有问题,这里的返回值不能作为sendPost方法执行的返回值,因为debounce内部包裹了一层
+    return axios({
+        url: 'http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test',
+        method: 'post',
+        data
+    })
+}, 300)
+new Vue({
+    el: '#app',
+    mounted() {
+        this.$refs.btn1.click()
+        this.$refs.btn2.click()
+    },
+    methods: {
+        onClick1: async function(){
+            //这里有问题,sendPost返回值不是promise,而是undefined
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求1的结果', res)
+        },
+        onClick2: async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求2的结果', res)
+        },
+    },
+})
+</script>
+```
+
+
+#### 通过取消ajax请求
+**概述**
+直接对请求方法做处理,通过ajax库的api方法把重复的请求给取消掉
+
+**原理**
+通过调用`XMLHttpRequest`对象实例的`abort`方法把请求给取消掉
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+//原生ajax的语法    
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test?username=zs&age=20", true);
+xhr.onload = function(){
+    console.log(xhr.responseText)
+}
+xhr.send();
+//在谷歌浏览器的低速3g下面测试
+//通过XMLHttpRequest实例的abort方法取消请求
+setTimeout(() => xhr.abort(), 100);
+</script>
+</html>
+```
+
+**axios取消请求**
+通过`axios`的`CancelToken`对象实例`cancel`方法把请求给取消掉
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js" type="application/javascript"></script>
+</head>
+<body>
+</body>
+<script>
+/*axios的取消的语法*/
+// 方式1-通过axios.CancelToken.source产生cancelToken和cancel方法
+/*
+const source =  axios.CancelToken.source();
+axios.get('http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test', {
+    params: {username: 'zs', age: 20}, 
+    cancelToken: source.token
+}).then(res=>{
+    console.log('res', res.data)
+}).catch(err=>{
+    console.log('err', err)
+})
+//在谷歌浏览器的低速3g下面测试
+//通过调用source的cancel方法取消
+setTimeout(() => source.cancel(), 100);
+*/
+
+/**/
+// 方式2-通过new axios.CancelToken产生cancelToken和cancel方法
+let cancelFn 
+const cancelToken =  new axios.CancelToken(cancel=>{
+    cancelFn = cancel
+});
+axios.get('http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test', {
+    params: {username: 'zs', age: 20}, 
+    cancelToken: cancelToken
+}).then(res=>{
+    console.log('res', res.data)
+}).catch(err=>{
+    console.log('err', err)
+})
+//在谷歌浏览器的低速3g下面测试
+//通过调用cancelFn方法取消
+setTimeout(() => cancelFn(), 100);
+
+</script>
+</html>
+
+```
+
+
+**代码**
+
+1.通过axios请求拦截器取消重复请求
+> 通过`axios`请求拦截器,在每次请求前把请求信息和请求的取消方法放到一个map对象当中,并且判断map对象当中是否已经存在该请求信息的请求,如果存在取消上传请求
+
+
+#### 通过缓存ajax结果
+**概述**
+直接对请求方法做处理,通过ajax库的api方法在请求之前先访问缓存列表,如果有结果那么从缓存当中获取结果,如果没有再向服务器索要数据
+
+**代码**
+步骤1-通过axios请求拦截器,设置config.adapter自定义处理请求
+设置config.adapter后,请求会被拦截,不会再向服务器发请求
+
+
+步骤2-定义缓存对象,在请求和响应拦截器使用缓存
+定义缓存对象,提供查询和添加的方法,并且缓存需要设置大小和超时时间
+
+```html
+<body>
+    <div id="app">
+        <button @click="onClick1" ref="btn1">请求1</button>
+        <button @click="onClick2" ref="btn2">请求2</button>
+    </div>
+</body>
+<script>
+// 缓存对象
+let cache = {
+    // 缓存列表
+    list: [],
+    // 最大缓存数
+    MAX_NUM: 100,
+    // 最大缓存时间
+    EXPIRED_TIME: 60000,
+    // 根据请求的信息(请求方式,url,请求get/post数据),产生map的key
+    getRequestKey(config){
+        const { method, url, params, data } = config;
+        return [method, url, Qs.stringify(params), Qs.stringify(data)].join("&");
+    },
+    // 添加缓存结果
+    add({config, data}){
+        if(config.data) config.data = JSON.parse(config.data)
+        let key = this.getRequestKey(config)
+        let i = this.list.findIndex(t=>t.key === key)
+        if(i>-1){
+            // 保存请求结果
+            this.list[i].data = data
+            // 把结果给接口
+            this.list[i].resolve(data)
+        }else{
+            // 添加到缓存列表中
+            this.list.push({ time: Date.now(), key, data })
+        }
+    },
+    // 查找缓存结果
+    find(config){
+        // 根据请求信息生成key
+        let key = this.getRequestKey(config)
+        let i = this.list.findIndex(t=>  t.key === key)
+        // 判断缓存当中是否有该请求结果
+        if(i>-1){
+            let f = this.list[i]
+            // 判断是否超出了最大缓存时间
+            if(Date.now() - f.time > this.EXPIRED_TIME){
+                // 清除该缓存
+                this.list.splice(i, 1)
+            }else{
+                // 返回缓存
+                return f
+            }
+        }
+        // 添加缓存信息
+        let t = {key, time: Date.now()}
+        t.data = new Promise((resolve)=>{
+            t.resolve = resolve
+        })
+        // 判断是否超出了最大缓存数量
+        if(this.list.length === this.MAX_NUM){
+            this.list.shift()
+        }
+        this.list.push(t)
+        // 返回undefined,让请求拦截不执行config.adapter
+        return undefined
+    }
+}   
+
+let sendPost = function(data){
+    return axios({
+        url: 'http://nodejs-cloud-studio-demo-bkzxs.nodejs-cloud-studio-demo.50185620.cn-hangzhou.fc.devsapp.net/test',
+        method: 'post',
+        data
+    })
+}
+axios.interceptors.request.use(async function (config) {
+    let f =  cache.find(config)
+    // 查看缓存当中有没有
+    if(f){
+        // 通过config.adapter,允许自定义处理请求
+        config.adapter = function (config) {
+            return new Promise((resolve) => {
+                const res = {
+                    status: 200,
+                    statusText: 'OK',
+                    headers: { 'content-type': 'application/json; charset=utf-8' },
+                    config,
+                    request: {}
+                }
+                // 判断缓存当中data是否是Promise?
+                //   如果是,代表数据正在获取中
+                //   如果不是代表请求已经获取过
+                if(f.data instanceof Promise){
+                    f.data.then(data=>{
+                        resolve({ ...res, data })
+                    })
+                }else{
+                    resolve({ ...res, data: f.data })
+                }
+            })
+        }
+    }
+    return config
+})
+axios.interceptors.response.use(
+  (response) => {
+        //请求成功
+        //缓存结果到缓存中
+        cache.add(response)
+        return response;
+   }
+);
+
+new Vue({
+    el: '#app',
+    mounted() {
+        this.$refs.btn1.click()
+        this.$refs.btn2.click()
+    },
+    methods: {
+        // 使用lodash对请求方法做防抖
+        //这里有问题,只是对每个按钮的点击事件单独做了防抖,但是两个按钮之间做不到防抖的效果
+        onClick1: async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求1的结果', res.data)
+        },
+        onClick2: async function(){
+            let res = await sendPost({username:'zs', age: 20})
+            console.log('请求2的结果', res.data)
+        },
+    },
+})
+</script>
+</html>
+
+```
+
+
+### 7.vue刷新当前页面
+>[vue刷新当前页面 - 掘金](https://juejin.cn/post/7188103333440127037)
+
+* 通过location.reload和$router.go(0)方法
+* 通过空白页面
+* 通过provide和inject
+* 通过router-view绑定key属性
+
+#### location.reload和$router.go(0)
+通过`location.reload`和`$router.go(0)`都可以实现页面刷新,它利用浏览器刷新功能,相当于按下了`f5`键刷新页面  
+**优点**:足够简单  
+**缺点**:会出现页面空白,用户体验不好
+
+
+#### 通过空白页面
+通过`$router.replace`方法,跳转一个空白页面,然后再调回之前页面,它利用`vue-router`切换页面会把页面销毁并新建新页面的特性  
+**优点**:不会出现页面空白,用户体验好  
+**缺点**:地址栏会出现快速切换的过程
+
+
+#### 通过provide和inject
+通过在父页面的`<router-view></router-view>`上添加`v-if的控制`来销毁和重新创建页面的方式刷新页面,并且用到`provide`和`inject`实现多层级组件通信方式,父页面通过`provide`提供`reload`方法,子页面通过`inject`获取`reload`方法,调用方法做刷新  
+**优点**:不会出现页面空白,地址栏会不会出现快速切换的过程,用户体验好  
+**缺点**:实现稍复杂,涉及到`provide`和`inject`多层级组件间的通信,和`v-if`控制组件创建和销毁,和`$nextTick`事件循环的应用
+
+  
+
+#### 通过给router-view添加key属性
+
+通过在父页面的`<router-view></router-view>`上绑定和切换`key`属性,来销毁和重新创建页面的方式刷新页面,具体的方式是指定key的值为`$route.fullPath`,通过在子页面通过`this.$router.push(this.$route.path+'?t='+Date.now())`来改变`$route.fullPath`的值,从而刷新页面
+
+**优点**:不会出现页面空白,并且代码简单 **缺点**:地址栏出现随机参数
+
+
+
+
 
 
 ## Vue3

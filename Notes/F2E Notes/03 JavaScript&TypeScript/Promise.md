@@ -2640,7 +2640,31 @@ Promise.prototype.finally = function(cb) {
 
 # Promise实例
 
+### 动态加载JS文件
+>[九个超级好用的 Javascript 技巧 - 掘金](https://juejin.cn/post/7223938976158957624)
 
+```js
+function loadJS(files, done) {
+	// 获取head标签
+  const head = document.queryElementsByTagName('head')[0]
+  Promise.all(files.map(file => {
+    return new Promise(resolve => {
+      // 创建script标签并添加到head
+      const s = document.createElement('script')
+      s.type = 'text/javascript'
+      s.async = true
+      s.src = file
+      //监听load事件
+      s.addEventListener('load', e => resolve(), false)
+      head.appendChild(s)
+    })
+  })).then(done)  //所有均完成,执行用户的回调事件
+}
+
+loadJS(['test1.js', 'test2.js'], () => {
+  // 用户的回调逻辑
+})
+```
 ### 重写loadScript
 
 ```javascript

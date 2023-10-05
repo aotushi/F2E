@@ -159,10 +159,23 @@ DOM启蒙
 > [WTF学院, Web3 Open University | WTF学院](https://wtf.academy/)
 
 
+## JS仓库
+> [有哪些必看的 JS 库？ - 知乎](https://www.zhihu.com/question/429436558/answer/1567994458)
+
+
+
+
+
+
+
 
 # RSS
-
+* [前端专栏 - 知乎](https://zhuanlan.zhihu.com/tw1993)
+* [大前端\_大前端-InfoQ\_InfoQ精选频道](https://www.infoq.cn/topic/1208)
+* [JavaScript — Smashing Magazine](https://www.smashingmagazine.com/category/javascript)
 * https://www.joshwcomeau.com/
+* [JavaScript Weekly Archives](https://javascriptweekly.com/issues)
+* [2ality – JavaScript and more](https://2ality.com/)
 * http://www.godbasin.com/
 * https://www.zhangxinxu.com/
 * https://app.daily.dev
@@ -244,6 +257,7 @@ DOM启蒙
 * https://github.com/chokcoco/iCSS	
 * https://github.com/chokcoco/CSS-Inspiration	
 * https://github.com/brickspert/blog
+* [成为前端大师，看这20个github库就够了 - 知乎](https://zhuanlan.zhihu.com/p/465197334)
 
 
 

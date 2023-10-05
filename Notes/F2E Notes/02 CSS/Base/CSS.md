@@ -8078,6 +8078,8 @@ min-width: auto | <length-percentage> | min-content | max-content | fit-content
 
 > [Rendering Performance (web.dev)](https://web.dev/rendering-performance/)
 
+[50个有价值的css实践](https://medium.com/before-semicolon/50-css-best-practices-guidelines-to-write-better-css-c60807e9eee2)
+
 
 ### css规范
 
@@ -8101,6 +8103,11 @@ https://github.com/hengg/styled-components-docs-zh/blob/master/Basics.md
 https://csswizardry.com/2011/09/writing-efficient-css-selectors/
 
 https://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/
+
+
+
+# CSS容易出现的问题
+
 
 # CSS 网站订阅
 

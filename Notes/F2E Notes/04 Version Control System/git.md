@@ -1319,6 +1319,10 @@ git bisect reset
 然后通过上面介绍的 rebase edit 操作对错误分支进行修改。
 
 
+### [一些常用的 Git 进阶知识与技巧 - 知乎](https://zhuanlan.zhihu.com/p/431093836)
+
+
+
 
 ## GitHub
 

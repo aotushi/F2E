@@ -2823,6 +2823,10 @@ Object.entries(obj).forEach(([key, value]) => console.log(`${key}: ${value}`))
 ```
 
 
+**注意事项**
+> [为什么Object.entries和Array.prototype.entries的返回值类型不同? - 知乎](https://www.zhihu.com/question/465364604/answer/1945950621)
+
+所以所有的 XXX.prototype.keys/values/entries （Array、Map、Set，还有Web APIs的集合类）返回的都是迭代器。 只有Object.keys/values/entries是例外，返回的是数组。原因其实很简单，就是这组API是ES5时代加入的，那个时候还没有迭代器（ES6加入的）。其中一个重要理由可能是，对于大集合，分配一个很大的数组，性能会很差，而迭代器则没有这个负担。
 
 
 

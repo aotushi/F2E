@@ -478,3 +478,7 @@ while (!result.done) {
 console.log("Iterated over sequence of size: ", result.value); // 5
 ```
 
+
+### 迭代器如何关闭/todo
+> [JavaScript迭代器如何关闭? - 知乎](https://www.zhihu.com/question/462012759/answer/1914177301)
+

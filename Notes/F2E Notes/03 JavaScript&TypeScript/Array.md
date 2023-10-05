@@ -1110,6 +1110,8 @@ for...in和for...of语句都迭代一些内容.主要区别是具体迭代什么
 for...in语句迭代对象的可枚举字符串属性(enumerable string property)
 for...of语句迭代可迭代对象(iterable object)定义的应被迭代的值.
 
+for...of在对象上使用会报错, '对象不是一个可迭代对象'
+for...in可以在可迭代对象上使用
 
 ### enumerable string property
 
@@ -2078,241 +2080,6 @@ https://juejin.cn/post/6971747560784560165
 
 
 
-#### push()
-
-**定义**
-
-`**push()**` 方法将<u>一个或多个元素</u>添加到数组的末尾，并返回该数组的**新长度**
-
-**返回值**
-
-新的`length`属性
-
-**描述**
-
-`push` 方法具有通用性。该方法和 [`call()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 一起使用时，可应用在类似数组的对象上。`push` 方法根据 `length` 属性来决定从哪里开始插入给定的值。如果 `length` 不能被转成一个数值，则插入的元素索引为 0，包括 `length` 不存在时。当 `length` 不存在时，将会创建它。
-
-唯一的原生类数组（array-like）对象是 [`Strings`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String)，尽管如此，它们并不适用该方法，因为字符串是不可改变的。
-
-**实例**
-
-向数组中添加元素
-
-```javascript
-let sports = ['soccer', 'baseball']
-let total = sports.push('football', 'swimming')
-
-console.log(sports)  // ['soccer', 'baseball', 'football', 'swimming']
-console.log(total)   // 4
-```
-
-合并两个数组
-
-```javascript
-let vegetables = ['parsnip', 'potato']
-let moreVegs = ['celery', 'beetroot']
-
-// Merge the second array into the first one
-vegetables.push(...moreVegs);
-
-//另一种写法
-Array.prototype.push.apply(vegetables, moreVegs);
-[].push.apply(vegetables, moreVegs)
-console.log(vegetables)  // ['parsnip', 'potato', 'celery', 'beetroot']
-
-//也可以使用concat()方法
-let vegetables = ['parsnip', 'potato']
-let moreVegs = ['celery', 'beetroot']
-let result = vegetables.concat(moreVegs);
-console.log(result); // ['parsnip', 'potato', 'celery', 'beetroot']
-```
-
-用类数组方式使用对象([Using an object in an array-like fashion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#using_an_object_in_an_array-like_fashion))
-
-`push`是通用的,`Array.prototype.push`也能在对象上使用.
-
-我们无需创建一个数组来存储对象集合,反而,我们可以用对象集合存储它自己,在`Array.prototype.push`上使用`call`来调用, ,让方法认为在处理数组. 
-
-```javascript
-let obj = {
-  length: 0,
-  addElem: function addElem(elem) {
-    // obj.length is automatically incremented
-    // every time an element is added.
-    [].push.call(this, elem);
-  }
-};
-
-obj.addElem({});
-obj.addElem({});
-
-console.log(obj.length); //2
-```
-
-
-
-**实现**
-
-```javascript
-//https://juejin.cn/post/6844903986479251464#heading-39
-
-Array.prototype.push = function(...items) {
-  let O = Object(this)
-  let len = O.length >>> 0
-  let argCount = items.length >>> 0
-  // 2** 53-1 为JS能表示的最大的数
-  if (len+argCount > 2**53-1) {
-    throw new TypeError('The number of array is over the max value restricted!')
-  }
-  
-  for (let i=0; i<argCount; i++) {
-    O[len+i] = items[i]
-  }
-  
-  let newLength = len + argCount
-  O.length = newLength
-  
-  return newLength
-}
-```
-
-
-
-#### [[202304100929|Array.prototype.pop]]
-
-**定义**
-
-`**pop()**`方法从数组中删除最后一个元素，并返回该元素的值。此方法更改数组的长度。
-
-**返回值**
-
-从数组中删除的元素(当数组为空时返回[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined))。
-
-**描述**
-
-`pop` 方法有意具有通用性。该方法和 [`call()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 一起使用时，可应用在类似数组的对象上。`pop`方法根据 `length`属性来确定最后一个元素的位置。如果不包含`length`属性或`length`属性不能被转成一个数值，会将`length`置为0，并返回`undefined`。
-
-如果你在一个空数组上调用 pop()，它返回  [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)。
-
-
-
-
-
-#### unshift()
-
-> 队列解构  先进先出   待补充
-
-**定义**
-
-**`unshift()`** 方法将一个或多个元素添加到数组的**开头**，并返回该数组的**新长度**(该方法修改原有数组**)**。
-
-**Syntax**
-
-```javascript
-unshift(element0)
-unshift(element0, element1, ...,elementN)
-```
-
-**Return value**
-
-this new length property of the object upon which the method was called.
-
-
-
-**描述**
-
-`unshift` 方法会在调用它的<u>类数组对象</u>的开始位置插入给定的参数。 (数组, arguments对象)
-
-`unshift` 特意被设计成具有通用性；这个方法能够通过 [`call`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 方法作用于类数组对象上。不过对于没有 length 属性的对象，调用该方法可能没有任何意义。
-
-注意, 如果传入多个参数，它们会被以块的形式插入到对象的开始位置，它们的顺序和被作为参数传入时的顺序一致。 于是，传入多个参数调用一次 `unshift` ，和传入一个参数调用多次 `unshift` (例如，循环调用)，它们将得到不同的结果.
-
-**实例**
-
-```javascript
-let arr = [4,5,6];
-arr.unshift(1,2,3);
-console.log(arr); // [1, 2, 3, 4, 5, 6]
-
-arr = [4,5,6]; // 重置数组
-arr.unshift(1);
-arr.unshift(2);
-arr.unshift(3);
-console.log(arr); // [3, 2, 1, 4, 5, 6]
-```
-
-
-
-**实现**
-
-```javascript
-// https://juejin.cn/post/6844903986479251464#heading-39
-
-//自己的
-Array.prototype.pop = function() {
-  let O = Object(this)
-  let len = O.length >>> 0
-   
-  let deleteItem = O[len - 1]
-  
-  O.length = len - 1;
-  
-  return deleteItem;
-}
-
-//完善的
-Array.prototype.pop = function() {
-  let O = Object(this)
-  let len = O.length >>> 0
-  
-  if (len === 0) {
-		O.length = 0 //???
-    return undefind
-  }
-  
-  len--
-  let value = O[len]
-  delete O[len]
-  O.length = len
-  return value
-}
-```
-
-
-
-#### shift()
-
-**定义**
-
-`shift()` 方法从数组中删除**第一个**元素，并返回该元素的值。此方法更改数组的长度。
-
-**返回值**
-
-从数组中删除的元素; 如果数组为空则返回[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined) 。
-
-**描述**
-
-`shift` 方法移除索引为 0 的元素(即第一个元素)，并返回被移除的元素，其他元素的索引值随之减 1。如果 [`length`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/length) 属性的值为 0 (长度为 0)，则返回 [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)。
-
-`shift` 方法并不局限于数组：这个方法能够通过 [`call`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 方法作用于类似数组的对象上。
-
-**实例**
-
-```javascript
-//shift() 方法经常用于while loop的环境中.。下例中每个循环将要从一个数组中移除下一项元素，直至它成为空数组。
-
-var names = ["Andrew", "Edward", "Paul", "Chris" ,"John"];
-
-while( (i = names.shift()) !== undefined ) {
-    console.log(i);
-}
-// Andrew, Edward, Paul, Chris, John
-```
-
-
-
-
-
 ### 数组方法分类
 
 
@@ -2561,28 +2328,17 @@ arr.reduce((acc, pre, idx) => {
 
 ### 数组方法
 
+数组方法之多，大致可以分为
+
+* **改变数组本身**
+* **不改变数组本身**的(返回一个新的数组)
+* **其他**对数组本身功能性作用的方法
 
 
 
 
 
-
-#### 破坏性方法和非破坏性方法
-
-| 非破坏性方法名称           | 返回值                                                       |
-| -------------------------- | ------------------------------------------------------------ |
-| Array.prototype.toString() | 字符串                                                       |
-| Array.prototype.slice()    | 对数组进行截取,返回截取的数组                                |
-| Array.prototype.concat()   | 连接2个或多个数组,并返回结果                                 |
-| Array.prototype.indexOf()  | 查询元素第一次出现在数组的位置并返回,没有返回-1              |
-| Array.prototype.join()     | 将一个数组（或一个[类数组对象](https://developer.mozilla.org/zh-CN_docs/Web/JavaScript/Guide/Indexed_collections#working_with_array-like_objects)）的所有元素连接成一个字符串并返回这个字符串 |
-| Array.prototype.some()     | 检测数组中是否有元素符合指定条件                             |
-| Array.prototype.every()    | 检测数组元素是否都符合条件                                   |
-| Array.prototype.filter()   | 返回符合检测条件的元素并返回符合条件的所有元素组成的数组     |
-| Array.prototype.map()      | 通过指定函数处理每个元素,并解放者处理后的数组                |
-| Array.prototype.valueOf()  | 返回数组对象的原始值                                         |
-
-
+#### 方法分类
 
 | 破坏性方法                | 返回值                                       |
 | ------------------------- | -------------------------------------------- |
@@ -2593,6 +2349,455 @@ arr.reduce((acc, pre, idx) => {
 | Array.prototype.shift()   | 删除并返回数组的第一个元素                   |
 | Array.prototype.reverse() | 反转数组的元素顺序                           |
 | Array.prototype.sort()    | 对数组元素进行排序                           |
+
+
+
+| 非破坏性方法名称              | 返回值                                                       |
+| ----------------------------- | ------------------------------------------------------------ |
+| Array.prototype.toString()    | 字符串                                                       |
+| Array.prototype.slice()       | 对数组进行截取,返回截取的数组                                |
+| Array.prototype.concat()      | 连接2个或多个数组,并返回结果                                 |
+| Array.prototype.join()        | 将一个数组（或一个[类数组对象](https://developer.mozilla.org/zh-CN_docs/Web/JavaScript/Guide/Indexed_collections#working_with_array-like_objects)）的所有元素连接成一个字符串并返回这个字符串 |
+| Array.prototype.some()        | 检测数组中是否有元素符合指定条件                             |
+| Array.prototype.every()       | 检测数组元素是否都符合条件                                   |
+| Array.prototype.filter()      | 返回符合检测条件的元素并返回符合条件的所有元素组成的数组     |
+| Array.prototype.map()         | 通过指定函数处理每个元素,并解放者处理后的数组                |
+| Array.prototype.valueOf()     | 返回数组对象的原始值                                         |
+| Array.prototype.reduce()      |                                                              |
+| Array.prototype.reduceRight() |                                                              |
+| Array.prototype.copyWithin()  |                                                              |
+| Array.prototype.fill()        |                                                              |
+| Array.prototype.flatMap()     |                                                              |
+| Array.prototype.with()        | 兼容性不好,node>20                                           |
+| Array.prototype.toReversed()  | 兼容性不好                                                   |
+| Array.prototype.toSroted()    | 兼容性不好                                                   |
+| Array.prototype.toSpliced()   | 兼容性不好                                                   |
+
+
+
+| 功能性方法                       | 说明       |
+| -------------------------------- | ---------- |
+| forEach                          |            |
+| Array.from()                     |            |
+| Array.fromAsync()                |            |
+| Array.isArray()                  |            |
+| Array.prototype.includes()       |            |
+| Array.prototype.indexOf()        |            |
+| Array.prototype.lastIndexOf()    |            |
+| Array.prototype.find()           |            |
+| Array.prototype.findIndex()      |            |
+| Array.prototype.findLast()       | 兼容性问题 |
+| Array.prototype.findLstIndex     | 兼容性问题 |
+| Array.prototype.at()             | 兼容性问题 |
+| Array.of()                       |            |
+| Array.prototype.flat()           |            |
+| Array.prototype.every()          |            |
+| Array.prototype.some()           |            |
+| Array.prototype.join()           |            |
+| Array.prototype.toString()       |            |
+| Array.prototype.toLocaleString() |            |
+| Array.prototype.entries()        |            |
+| Array.prototype.keys()           |            |
+| Array.prototype.values()         |            |
+
+
+
+#### 破坏性方法
+
+
+
+#### Array.prototype.splice-删除 替换 新增
+
+**定义**
+
+**`splice()`** 方法通过**删除或替换**现有元素或者**原地添加**新的元素来修改数组,并以数组形式返回被修改的内容。此方法会改变原数组。
+
+**参数**
+
+```javascript
+array.splice(start[, deleteCount[, item1[, items[, ...]]]])
+```
+
+`start`
+
+* 如果为空. 则返回一个空数组
+* 指定修改的开始位置（从0计数）。可以将其视为新的长度.
+* 如果超出了数组的长度，则从数组末尾开始添加内容；
+* 如果是负值，则表示从数组末位开始的第几位（从-1计数，这意味着-n是倒数第n个元素并且等价于`array.length-n`）；
+* 如果负数的绝对值大于数组的长度，则表示开始位置为第0位。
+
+`deleteCount` 可选
+
+* 整数，表示要移除的数组元素的个数。
+* 如果 `deleteCount` 大于 `start` 之后的元素的总数，则从 `start` 后面的元素都将被删除（含第 `start` 位）。
+* 如果 `deleteCount` 被省略了，或者它的值大于等于`array.length - start`(也就是说，如果它大于或者等于`start`之后的所有元素的数量)，那么`start`之后数组的所有元素都会被删除。
+* 如果 `deleteCount` 是 0 或者负数，则不移除元素。返回空数组.
+
+`item1, item2,...`
+
+* 要添加进数组的元素,从`start` 位置开始。如果不指定，则 `splice()` 将只删除数组元素
+
+**返回值**
+
+由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删除元素，则返回空数组。
+
+**实例**
+
+```javascript
+1.从第2位开始删除1个元素,插入'drum'
+let myFish = ['angel',"clown", "mandarin", "sturgeon"]
+myFish.splice(2,1,'drum')
+
+2.从倒数第2位开始删除1个元素
+var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+var removed = myFish.splice(-2, 1);
+// 运算后的 myFish: ["angel", "clown", "sturgeon"]
+// 被删除的元素: ["mandarin"]
+
+```
+
+
+
+**代码实现** ????
+
+```js
+// https://juejin.cn/post/6844903986479251464#heading-39
+
+
+```
+
+
+
+
+
+#### Array.prototype.push()
+
+**定义**
+
+`**push()**` 方法将<u>一个或多个元素</u>添加到数组的末尾，并返回该数组的**新长度**
+
+**返回值**
+
+新的`length`属性
+
+**描述**
+
+`push` 方法具有通用性。该方法和 [`call()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 一起使用时，可应用在类似数组的对象上。`push` 方法根据 `length` 属性来决定从哪里开始插入给定的值。如果 `length` 不能被转成一个数值，则插入的元素索引为 0，包括 `length` 不存在时。当 `length` 不存在时，将会创建它。
+
+唯一的原生类数组（array-like）对象是 [`Strings`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String)，尽管如此，它们并不适用该方法，因为字符串是不可改变的。
+
+**实例**
+
+向数组中添加元素
+
+```javascript
+let sports = ['soccer', 'baseball']
+let total = sports.push('football', 'swimming')
+
+console.log(sports)  // ['soccer', 'baseball', 'football', 'swimming']
+console.log(total)   // 4
+```
+
+合并两个数组
+
+```javascript
+let vegetables = ['parsnip', 'potato']
+let moreVegs = ['celery', 'beetroot']
+
+// Merge the second array into the first one
+vegetables.push(...moreVegs);
+
+//另一种写法
+Array.prototype.push.apply(vegetables, moreVegs);
+[].push.apply(vegetables, moreVegs)
+console.log(vegetables)  // ['parsnip', 'potato', 'celery', 'beetroot']
+
+//也可以使用concat()方法
+let vegetables = ['parsnip', 'potato']
+let moreVegs = ['celery', 'beetroot']
+let result = vegetables.concat(moreVegs);
+console.log(result); // ['parsnip', 'potato', 'celery', 'beetroot']
+```
+
+用类数组方式使用对象([Using an object in an array-like fashion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#using_an_object_in_an_array-like_fashion))
+
+`push`是通用的,`Array.prototype.push`也能在对象上使用.
+
+我们无需创建一个数组来存储对象集合,反而,我们可以用对象集合存储它自己,在`Array.prototype.push`上使用`call`来调用, ,让方法认为在处理数组. 
+
+```javascript
+let obj = {
+  length: 0,
+  addElem: function addElem(elem) {
+    // obj.length is automatically incremented
+    // every time an element is added.
+    [].push.call(this, elem);
+  }
+};
+
+obj.addElem({});
+obj.addElem({});
+
+console.log(obj.length); //2
+```
+
+
+
+**实现**
+
+```javascript
+//https://juejin.cn/post/6844903986479251464#heading-39
+
+Array.prototype.push = function(...items) {
+  let O = Object(this)
+  let len = O.length >>> 0
+  let argCount = items.length >>> 0
+  // 2** 53-1 为JS能表示的最大的数
+  if (len+argCount > 2**53-1) {
+    throw new TypeError('The number of array is over the max value restricted!')
+  }
+  
+  for (let i=0; i<argCount; i++) {
+    O[len+i] = items[i]
+  }
+  
+  let newLength = len + argCount
+  O.length = newLength
+  
+  return newLength
+}
+```
+
+
+
+#### Array.prototype.pop
+
+**定义**
+
+`**pop()**`方法从数组中删除最后一个元素，并返回该元素的值。此方法更改数组的长度。
+
+**返回值**
+
+从数组中删除的元素(当数组为空时返回[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined))。
+
+**描述**
+
+`pop` 方法有意具有通用性。该方法和 [`call()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 一起使用时，可应用在类似数组的对象上。`pop`方法根据 `length`属性来确定最后一个元素的位置。如果不包含`length`属性或`length`属性不能被转成一个数值，会将`length`置为0，并返回`undefined`。
+
+如果你在一个空数组上调用 pop()，它返回  [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)。
+
+
+
+
+
+#### Array.prototype.unshift()
+
+> 队列解构  先进先出   待补充
+
+**定义**
+
+**`unshift()`** 方法将一个或多个元素添加到数组的**开头**，并返回该数组的**新长度**(该方法修改原有数组**)**。
+
+**Syntax**
+
+```javascript
+unshift(element0)
+unshift(element0, element1, ...,elementN)
+```
+
+**Return value**
+
+this new length property of the object upon which the method was called.
+
+
+
+**描述**
+
+`unshift` 方法会在调用它的<u>类数组对象</u>的开始位置插入给定的参数。 (数组, arguments对象)
+
+`unshift` 特意被设计成具有通用性；这个方法能够通过 [`call`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 方法作用于类数组对象上。不过对于没有 length 属性的对象，调用该方法可能没有任何意义。
+
+注意, 如果传入多个参数，它们会被以块的形式插入到对象的开始位置，它们的顺序和被作为参数传入时的顺序一致。 于是，传入多个参数调用一次 `unshift` ，和传入一个参数调用多次 `unshift` (例如，循环调用)，它们将得到不同的结果.
+
+**实例**
+
+```javascript
+let arr = [4,5,6];
+arr.unshift(1,2,3);
+console.log(arr); // [1, 2, 3, 4, 5, 6]
+
+arr = [4,5,6]; // 重置数组
+arr.unshift(1);
+arr.unshift(2);
+arr.unshift(3);
+console.log(arr); // [3, 2, 1, 4, 5, 6]
+```
+
+
+
+**实现**
+
+```javascript
+// https://juejin.cn/post/6844903986479251464#heading-39
+
+//自己的
+Array.prototype.pop = function() {
+  let O = Object(this)
+  let len = O.length >>> 0
+   
+  let deleteItem = O[len - 1]
+  
+  O.length = len - 1;
+  
+  return deleteItem;
+}
+
+//完善的
+Array.prototype.pop = function() {
+  let O = Object(this)
+  let len = O.length >>> 0
+  
+  if (len === 0) {
+		O.length = 0 //???
+    return undefind
+  }
+  
+  len--
+  let value = O[len]
+  delete O[len]
+  O.length = len
+  return value
+}
+```
+
+
+
+#### Array.prototype.shift()
+
+**定义**
+
+`shift()` 方法从数组中删除**第一个**元素，并返回该元素的值。此方法更改数组的长度。
+
+**返回值**
+
+从数组中删除的元素; 如果数组为空则返回[`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined) 。
+
+**描述**
+
+`shift` 方法移除索引为 0 的元素(即第一个元素)，并返回被移除的元素，其他元素的索引值随之减 1。如果 [`length`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/length) 属性的值为 0 (长度为 0)，则返回 [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)。
+
+`shift` 方法并不局限于数组：这个方法能够通过 [`call`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [`apply`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) 方法作用于类似数组的对象上。
+
+**实例**
+
+```javascript
+//shift() 方法经常用于while loop的环境中.。下例中每个循环将要从一个数组中移除下一项元素，直至它成为空数组。
+
+var names = ["Andrew", "Edward", "Paul", "Chris" ,"John"];
+
+while( (i = names.shift()) !== undefined ) {
+    console.log(i);
+}
+// Andrew, Edward, Paul, Chris, John
+```
+
+
+
+#### Array.prototype.reverse()
+
+**定义**
+
+`reverse()` 方法将数组中元素的位置颠倒，并返回该数组。数组的第一个元素会变成最后一个，数组的最后一个元素变成第一个。该方法会改变原数组。
+
+**参数**
+
+```javascript
+arr.reverse()
+```
+
+**返回值**
+
+颠倒后的数组。
+
+**描述**
+
+* `reverse` 方法颠倒数组中元素的位置，改变了数组，并返回该数组的引用
+* reverse方法是特意类化的；此方法可被 [called](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [applied](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)于类似数组对象。
+* 对象如果不包含反映一系列连续的、基于零的数值属性中的最后一个长度的属性，则该对象可能不会以任何有意义的方式运行。
+
+**重写**
+
+```javascript
+Array.prototype.myReverse = function() {
+  let temp;
+  
+  //偶数
+  if (this.length % 2 === 0) {
+    for (let i=0; i<this.length/2; i++) {
+      temp = this[i];
+      this[i] = this[this.length-1-i];
+      this[this.length-1-i] = temp;
+      temp = null;
+    }
+  }
+  
+  
+  //奇数
+  if (this.length % 2 !== 0) {
+    for (let i=0; i<=Math.ceil(this.length / 2); i++) {
+    	if (Math.ceil(this.length/2) === i) {
+        this[i] = this[i]
+      }
+      
+      temp = this[i];
+      this[i] = this[this.length-1-i];
+      this[this.length-1-i] = temp;
+      temp = null;
+    }
+  }
+  
+  return this;
+}
+```
+
+
+
+**实例**
+
+颠倒类数组中的元素
+
+```javascript
+const a = {0: 1, 1: 2, 2: 3, length: 3};
+
+console.log(a); // {0: 1, 1: 2, 2: 3, length: 3}
+
+Array.prototype.reverse.call(a); //same syntax for using apply()
+[].reverse.call(a)
+
+console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
+```
+
+
+
+#### Array.prototype.sort() 空
+
+
+
+
+
+
+
+
+
+
+
+#### 非破坏性方法
+
+
+
+
+
+#### 功能性方法
 
 
 
@@ -2765,66 +2970,6 @@ Array.prototype.mySlice = function(start, end) {
 ```
 
 
-
-
-
-#### Array.prototype.splice-删除 替换 新增
-
-**定义**
-
-**`splice()`** 方法通过**删除或替换**现有元素或者**原地添加**新的元素来修改数组,并以数组形式返回被修改的内容。此方法会改变原数组。
-
-**参数**
-
-```javascript
-array.splice(start[, deleteCount[, item1[, items[, ...]]]])
-```
-
-`start`
-* 如果为空. 则返回一个空数组
-* 指定修改的开始位置（从0计数）。可以将其视为新的长度.
-* 如果超出了数组的长度，则从数组末尾开始添加内容；
-* 如果是负值，则表示从数组末位开始的第几位（从-1计数，这意味着-n是倒数第n个元素并且等价于`array.length-n`）；
-* 如果负数的绝对值大于数组的长度，则表示开始位置为第0位。
-
-`deleteCount` 可选
-* 整数，表示要移除的数组元素的个数。
-* 如果 `deleteCount` 大于 `start` 之后的元素的总数，则从 `start` 后面的元素都将被删除（含第 `start` 位）。
-* 如果 `deleteCount` 被省略了，或者它的值大于等于`array.length - start`(也就是说，如果它大于或者等于`start`之后的所有元素的数量)，那么`start`之后数组的所有元素都会被删除。
-* 如果 `deleteCount` 是 0 或者负数，则不移除元素。返回空数组.
-
-`item1, item2,...`
-
-* 要添加进数组的元素,从`start` 位置开始。如果不指定，则 `splice()` 将只删除数组元素
-
-**返回值**
-
-由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删除元素，则返回空数组。
-
-**实例**
-
-```javascript
-1.从第2位开始删除1个元素,插入'drum'
-let myFish = ['angel',"clown", "mandarin", "sturgeon"]
-myFish.splice(2,1,'drum')
-
-2.从倒数第2位开始删除1个元素
-var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
-var removed = myFish.splice(-2, 1);
-// 运算后的 myFish: ["angel", "clown", "sturgeon"]
-// 被删除的元素: ["mandarin"]
-
-```
-
-
-
-**代码实现** ????
-
-```js
-// https://juejin.cn/post/6844903986479251464#heading-39
-
-
-```
 
 
 
@@ -3242,82 +3387,6 @@ let result = arr.join()
 
 
   
-
-#### Array.prototype.reverse()
-
-**定义**
-
-`reverse()` 方法将数组中元素的位置颠倒，并返回该数组。数组的第一个元素会变成最后一个，数组的最后一个元素变成第一个。该方法会改变原数组。
-
-**参数**
-
-```javascript
-arr.reverse()
-```
-
-**返回值**
-
-颠倒后的数组。
-
-**描述**
-
-* `reverse` 方法颠倒数组中元素的位置，改变了数组，并返回该数组的引用
-* reverse方法是特意类化的；此方法可被 [called](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call) 或 [applied](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)于类似数组对象。
-* 对象如果不包含反映一系列连续的、基于零的数值属性中的最后一个长度的属性，则该对象可能不会以任何有意义的方式运行。
-
-**重写**
-
-```javascript
-Array.prototype.myReverse = function() {
-  let temp;
-  
-  //偶数
-  if (this.length % 2 === 0) {
-    for (let i=0; i<this.length/2; i++) {
-      temp = this[i];
-      this[i] = this[this.length-1-i];
-      this[this.length-1-i] = temp;
-      temp = null;
-    }
-  }
-  
-  
-  //奇数
-  if (this.length % 2 !== 0) {
-    for (let i=0; i<=Math.ceil(this.length / 2); i++) {
-    	if (Math.ceil(this.length/2) === i) {
-        this[i] = this[i]
-      }
-      
-      temp = this[i];
-      this[i] = this[this.length-1-i];
-      this[this.length-1-i] = temp;
-      temp = null;
-    }
-  }
-  
-  return this;
-}
-```
-
-
-
-**实例**
-
-颠倒类数组中的元素
-
-```javascript
-const a = {0: 1, 1: 2, 2: 3, length: 3};
-
-console.log(a); // {0: 1, 1: 2, 2: 3, length: 3}
-
-Array.prototype.reverse.call(a); //same syntax for using apply()
-[].reverse.call(a)
-
-console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
-```
-
-
 
 
 
