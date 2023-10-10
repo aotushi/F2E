@@ -378,7 +378,7 @@ html{
 
 
 
-#### 案例//todo??
+#### 案例1
 ```css
 /* pc width > 1100px */
 html, body { margin: 0;padding: 0;width: 100%;height: 100%;}
@@ -467,6 +467,34 @@ main {
 }
 ```
 
+
+#### 案例2-rem和vw单位在移动端最佳实践
+> CSS新世界 7.3rem和vw单位 -张鑫旭
+
+有了vw单位，再配合calc()函数进行计算，无须使用任何JavaScript代码，我们就可以实现基于设备宽度的移动端布局适配方案。
+```css
+html {
+    font-size: 16px;
+}
+@media screen and (min-width: 375px) {
+    html {
+        /* 375px作为16px基准，414px宽度时正好对应18px的根字号大小 */
+        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+    }
+}
+@media screen and (min-width: 414px) {
+    html {
+        /* 屏幕宽度从414px到1000px，根字号大小累积增加4px（18px-22px） */
+        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+    }
+}
+@media screen and (min-width: 1000px) {
+    html {
+        /* 屏幕宽度从1000px往后每增加100px，根字号大小就增加0.5px */
+        font-size: calc(22px + 5 * (100vw - 1000px) / 1000);
+    }
+}
+```
 
 
 ### 纯CSS方案

@@ -1,5 +1,5 @@
 
-# 资源
+# 性能优化资源
 * https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNTIwMzU5OQ==&action=getalbum&album_id=1783331624198144008&scene=173&from_msgid=2247493765&from_itemidx=1&count=3&nolastread=1#wechat_redirect
 
 * [barretlee/performance-column: 🚅 性能专栏](https://github.com/barretlee/performance-column)

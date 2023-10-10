@@ -350,7 +350,25 @@ props->methods->data->computed->watch
 | computed | 4        | 同上                      | 函数       | 简单数据计算(相对) |                                                              |
 | watch    | 2        | 函数                      | 函数       | 复杂的数据计算     |                                                              |
 
-
+```md
+1. `beforeCreate`: 在实例创建之后，数据观测(data observer)、事件监听和指令等尚未被初始化时被调用。
+    
+2. 初始化`props`和`methods`。
+    
+3. 初始化`data`和`data`观测。
+    
+4. `created`: 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算，`watch`事件回调。然而，挂载阶段还没开始，`$el`属性目前不可见。
+    
+5. 初始化`computed`属性和`watch`监听器。
+    
+6. `beforeMount`: 在挂载开始之前被调用：相关的`render`函数首次被调用。
+    
+7. 创建`vm.$el`并用它替换`el`，然后挂载到实例上去。
+    
+8. `mounted`: `el`被新创建的`vm.$el`替换，并挂载到实例上去之后调用该钩子。
+    
+9. 当`data`变化时，`watch`监听器和`computed`属性会被触发。
+```
 
 ### 3.父子组件的生命周期
 
@@ -777,7 +795,7 @@ vm.a = 2 // => new: 2, old: 1
   * 通过vm.$watch监视
 * 深度监视 deep:true
 * 在watch中修改源数据,会导致原数据的丢失.这种场景适合使用计算属性
-* mounted 钩子函数会在 watch 中的 handler 函数之前执行，因为 mounted 是在组件渲染完毕后执行的，而 watch 监听的数据变化需要等到组件渲染完毕后才能触发。
+* <span style="color:red;"> mounted 钩子函数会在 watch 中的 handler 函数之前执行，因为 mounted 是在组件渲染完毕后执行的，而 watch 监听的数据变化需要等到组件渲染完毕后才能触发</span>
 
 
 
@@ -844,6 +862,13 @@ vm.a = 2 // => new: 2, old: 1
 ### 实例方法 vm.$watch
 
 
+### 实例问题
+
+在项目中,从上一级页面使用params传递参数到当前页面的接收的props中, 在使用watch监视(没有使用immediate)时候, 发现watch中的没有调用console.
+
+```md
+Vue的`watch`观察者是异步的：在同步代码（例如你的`created`或`mounted`方法）执行完之后，所有的观察者回调才会被调用。也就是说，在你的`created`或`mounted`方法中看到的值，可能在`watch`观察者回调执行前就已经被设置了。
+```
 
 
 

@@ -44,6 +44,17 @@
 
 
 # TODO
+计划
+1. 打好基础，js css html
+2. 三大框架精通一个，建议 vue 或 react
+3. 学习 vite 原理，它是新一代的构建工具
+4. 熟练掌握 ts
+5. 熟练掌握性能优化
+6. 掌握 nodejs
+7. 掌握前端工程化
+8. 了解微服务
+9. 了解 Serverless
+10. 低代码平台可以了解一下
 
 ### 现在
 * Tooltips & Toggletips
