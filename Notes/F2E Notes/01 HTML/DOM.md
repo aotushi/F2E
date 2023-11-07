@@ -1055,7 +1055,7 @@ $("#div1").mousedown(function(event){
 
 
 
-**3. event.target==event.currentTarget，让触发事件的元素等于绑定事件的元素，也可以阻止事件冒泡；**
+**3. `event.target==event.currentTarget`，让触发事件的元素等于绑定事件的元素，也可以阻止事件冒泡；**
 
 ```html
 <body>

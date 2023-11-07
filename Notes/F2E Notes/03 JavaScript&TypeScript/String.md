@@ -1,5 +1,6 @@
 ---
-alias: 字符串
+aliases:
+  - 字符串
 ---
 
 
@@ -1110,6 +1111,14 @@ values.sort(function(first, second) {
 
 对于startsWith()、endsWith()及includes()这3个方法，如果你没有按照要求传入一个字符串，而是传入一个正则表达式，则会触发一个错误产生；而对于indexOf()和???
 
+### String.prototype.padStart
+#### 概述
+
+
+#### 语法
+
+
+#### 实例
 
 ### String.prototype.padEnd
 
