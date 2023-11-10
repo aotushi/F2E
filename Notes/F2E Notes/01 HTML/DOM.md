@@ -1092,9 +1092,15 @@ $("#div1").mousedown(function(event){
 ```
 
 
+#### 3.6 html中自定义属性中的应用
+在html元素上可以添加`data-xx`形式的自定义属性, 使用`event.target.dataset.xxx`来获取自定义属性.
+```vue
+<div @click="onSearch" :data-name='iconState'>
+	<van-icon :data-name1='iconState' />
+</div>
+```
 
-
-
+注意, 当鼠标点击div元素时候, `event.target.dataset`中是name, 当改为touch事件(手机)时候, 点击div元素时候,`event.target.dataset`中是name1.
 #### 阻止默认行为
 
 **介绍**
