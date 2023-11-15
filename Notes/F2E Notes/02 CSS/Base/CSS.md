@@ -7828,6 +7828,64 @@ HTML规范也提到`<input>`元素也能被替代,因为"image"类型的`<input>
 ## 属性(Properties)
 
 
+### `-moz-*`
+
+
+### `-webkit-*`
+
+
+### `accent-color`
+
+
+
+### `align-*`
+
+
+### all
+
+
+### `animation-*`
+
+
+
+
+### appearance
+
+
+
+### aspect-ratio
+
+
+### backdrop-filter
+
+
+### backface-visibility
+
+
+
+### `background-*`
+
+
+### `block-size`
+
+
+### `border-*`
+
+
+### bottom
+
+
+### `box-*`
+
+#### box-decoration-break
+
+
+#### box-shadow
+
+
+
+
+
 ### content
 >[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
 
