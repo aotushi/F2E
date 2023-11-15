@@ -922,7 +922,7 @@ for (let p in o) {
 
 返回名字是符号的自有属性,无论是否可枚举.
 
-Reflect.wonkeys()
+##### Reflect.wonkeys()
 
 返回所有属性名,包括可枚举和不可枚举属性,以及字符串属性和符号属性.
 
@@ -5432,3 +5432,33 @@ let result = arr.reduce((acc, cur) => {
 
 
 
+#### 判断对象是空对象
+
+```js
+let data = {}
+let b = JSON.stringify(data) == '{}'
+console.log(b) //true
+```
+
+
+**getOwnPropertyNames() && getOwnPropertySymbols()**
+```js
+const a = {[Symbol()]: 'a'}
+const b = {a: 'a'}
+const c = {}
+
+console.log(Object.getOwnPropertyNames(a).length === 0 && Object.getOwnPropertySymbols(a).length === 0)  // false 
+console.log(Object.getOwnPropertyNames(b).length === 0 && Object.getOwnPropertySymbols(b).length === 0)  // false
+console.log(Object.getOwnPropertyNames(c).length === 0 && Object.getOwnPropertySymbols(c).length === 0)  // true
+```
+
+
+**Reflect.ownKeys()**
+```js
+const a = { [Symbol()]: 'a' } 
+const b = { a: 'a' } 
+const c = {} 
+console.log(Reflect.ownKeys(a).length === 0) // false
+console.log(Reflect.ownKeys(b).length === 0) // false 
+console.log(Reflect.ownKeys(c).length === 0) // true
+```
