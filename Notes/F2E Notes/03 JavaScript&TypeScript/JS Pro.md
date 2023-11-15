@@ -3060,6 +3060,26 @@ container.onmousemove = getUserAction;
 * 如果你在一个事件触发的 n 秒内又触发了这个事件，以新的事件的时间为准，n 秒后才执行.
 * 就是要等你触发完事件 n 秒内不再触发事件
 
+
+普通版本
+```js
+function debounce(fn, delay) {
+	let timer = null
+	return function(...args) {
+		if (timer) {
+			clearTimeout(timer)
+			timer = null
+		}
+
+		timer = setTimeout(() => {
+			fn.apply(this, args)
+			clearTimeout(timer)
+			timer = null
+		}, delay)
+	}
+}
+```
+
 ### 第一版
 
 ```javascript
