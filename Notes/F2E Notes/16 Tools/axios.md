@@ -683,3 +683,179 @@ beforeRouteEnter(to,from,next) {
 	})
 }
 ```
+
+
+# 配置
+### 更改baseURL
+项目中可能会有几个请求不使用baseURL配置,可以在请求的第三个参数中使用`{baseURL: '/test'}`来变更基础路径
+
+
+
+
+# 问题
+
+## 在处理异步请求时，如何确保数据的一致性和同步性?
+### 背景介绍
+假设,某个页面分a和b两个tab页, 同时a和b页面上的echarts图表使用同一个组件,其数据通过页面初始化和切换时请求获取.页面初始化时展示a页,如果我频繁进行a和b页的切换,echarts会出现数据叠加的问题.也就是数据不一致和不同步.
+
+竞态条件（Race Condition）是一个术语，用于描述一个系统或者过程的输出依赖于不受控制的事件发生顺序或者时机的情况。在并发编程中，当两个或多个并发进程（或线程）访问和操作某些共享数据，并且最终结果取决于这些进程的执行顺序时，就可能发生竞态条件。如果有多个HTTP请求并发地尝试更新同一个ECharts图表的数据，而这些请求的响应返回顺序无法预测，那么就可能出现竞态条件。例如：
+1. 请求A开始执行并请求数据。
+2. 请求B开始执行并请求数据（此时请求A尚未完成）。
+3. 请求B的数据返回并更新了图表。
+4. 请求A的数据返回并尝试更新图表（此时可能会覆盖或与请求B的数据混合）。
+如果请求A和请求B都没有适当的同步机制来控制对图表数据的访问，那么最终图表显示的数据可能是不正确的，因为它可能反映了两个请求中的某一个，或者两者的混合结果。
+
+### 代码示例
+```vue
+<div class="box">
+	<div class="projects mgb-15">
+		<div class="projects__main">
+			<div class="projects__item" v-for="(item, index) in progress.type" :key="index" style="width: 33.3%">
+				<span
+					class="projects__inner"
+					:class="progress.active == item.id ? 'projects__inner--current' : ''"
+					@click="updateActive('progress', item.id);handleChangeTabs('progress', item.id)"
+>
+					{{item.name}}>>>>
+				</span>
+			</div>
+		</div>
+	</div>
+	<van-tabs v-model="orderProgressTab.active" class="init-tabs mgb-10">
+		<van-tab name="a" title="整体情况111111">
+			<div style="height: 260px; width:100%;">
+				<BarLine :data="orderProgressTotal" v-if="orderProgressTab.active == 'a'" ></BarLine>
+			</div>
+		</van-tab>
+		<van-tab name="b" title="日变化趋势222222" >
+			<div style="height: 260px; width:100%;">
+				<BarLine :data="orderProgressTrend" v-if="orderProgressTab.active == 'b'" ></BarLine>
+			</div>
+		</van-tab>
+	</van-tabs>
+</div>
+
+<script>
+	    updateActive(type, id) {
+      console.log('updateActive>type,id>',type,id)
+      if (type == 'order' && this.order.active != id) {
+        this.order.active = id;
+      } else if (type == 'progress' && this.progress.active != id) {
+        this.progress.active = id;
+        if(this.progress.active == '1') {
+          this.progress.activeName = '订单';
+        } else if (this.progress.active == '2') {
+          this.progress.activeName = '铁塔';
+        } else if (this.progress.active == '3') {
+          this.progress.activeName = '机房';
+        }
+      }
+    },  
+    //切换
+    handleChangeTabs: debounce(function(type, id) {
+      console.log('handleChangeTabs>>type,id>>', type,id)
+      this.barLineKey++;
+      this.linesChartKey++;
+      if (type == 'order') {
+        if (this.order.active == id) {
+          // this.order.active = id
+          this.getSummaryData()
+          this.getLinesData()
+          this.getBarLineData()
+        }
+      } else if (type == 'progress') {
+        if (this.progress.active == id) {
+          // this.progress.active = id
+          // if(this.progress.active == '1') {
+          //   this.progress.activeName = '订单'
+          // } else if (this.progress.active == '2') {
+          //   this.progress.activeName = '铁塔'
+          // } else if (this.progress.active == '3') {
+          //   this.progress.activeName = '机房'
+          // }
+          this.getOrderProgress()
+          this.getOrderChange()
+          this.getQrderChangeTotal()
+          this.getOrderProgressTotal()
+          this.getOrderProgressTrend()
+        }
+      }
+    },300),
+
+
+
+		getOrderProgressTotal() {
+      if (this.cancelTokenSources.orderProgressTotal) {
+        this.cancelTokenSources.orderProgressTotal.cancel('Cancelled the previous request');
+      }
+
+      // 创建一个新的CancelToken
+      this.cancelTokenSources.orderProgressTotal = axios.CancelToken.source();
+
+      let params = {
+        statDate: this.datePicker.selectDate,
+        areaId: this.areaId,
+        type: this.progress.active
+      }
+
+			// 清空数据以避免重复
+			  this.orderProgressTotal.dataX = [];
+        this.orderProgressTotal.data.forEach((dataset) => {
+          dataset.values = [];
+        });
+      console.log('getOrderProgressTotal>请求开始')
+      this.$http.post('/api/quality/curingOverall', params, {
+        cancelToken: this.cancelTokenSource.token
+      }).then(res => {
+        // 请求成功，清空取消令牌源
+        this.cancelTokenSource = null;
+
+        // 清空数据以避免重复  <<<<这里注意
+        this.orderProgressTotal.dataX = [];
+        this.orderProgressTotal.data.forEach((dataset) => {
+          dataset.values = [];
+        });
+
+        // 处理响应数据
+        let list = res.qrAuditupdateData
+        list.forEach(item => {
+          if (this.progress.active == '1') {
+            this.orderProgressTotal.data[0].name = '已起租塔类订单数量'
+            this.orderProgressTotal.data[1].name = '沉淀固化塔类订单数量'
+            this.orderProgressTotal.data[2].name = '沉淀固化塔类订单占已起租塔类订单比'
+          } else if (this.progress.active == '2') {
+            this.orderProgressTotal.data[0].name = '铁塔资源数量'
+            this.orderProgressTotal.data[1].name = '沉淀固化铁塔资源数量'
+            this.orderProgressTotal.data[2].name = '沉淀固化铁塔资源占铁塔资源比'
+          } else if (this.progress.active == '3') {
+            this.orderProgressTotal.data[0].name = '机房资源数量'
+            this.orderProgressTotal.data[1].name = '沉淀固化机房资源数量'
+            this.orderProgressTotal.data[2].name = '沉淀固化机房资源占机房资源比'
+          }
+          this.orderProgressTotal.dataX.push(item.AREA_NAME)
+          this.orderProgressTotal.data[2].values.push(item.COL1)
+          this.orderProgressTotal.data[1].values.push(item.COL2)
+          this.orderProgressTotal.data[0].values.push(item.COL3)
+      }).catch(error => {
+        if (axios.isCancel(error)) {
+          console.log('请求被取消', error.message);
+        } else {
+          // 处理错误
+          console.error('发生错误：', error);
+        }
+      })
+    },
+</script>
+
+```
+
+
+### 处理方式
+为了避免竞态条件，可以采取以下措施：
+
+- 使用互斥锁（mutex）或其他同步机制来控制对共享资源的并发访问。
+- 使用取消令牌（cancel tokens）来取消之前的请求，确保只有最新的请求会更新数据。
+- 在每次请求开始之前清空数据，以确保不会有旧数据残留。
+- 在更新数据时进行适当的检查，以确保只处理预期的响应。
+
+
