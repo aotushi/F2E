@@ -7882,8 +7882,60 @@ HTML规范也提到`<input>`元素也能被替代,因为"image"类型的`<input>
 
 #### box-shadow
 
+**介绍**
+* 为元素框架添加阴影效果.你可以设置多个逗号分隔的效果.一个盒子阴影是由相对于元素的X和Y偏移量、模糊和扩散半径以及颜色来描述的。
+* 如果元素上定义了`border-radius`, 则`box-shadow`也作用在圆角上.
+* 多个盒子阴影的z-排序与多个文本阴影相同（首先指定的阴影在顶部）。
+
+**语法**
+* 2个,3个或4个长度值
+	* 如果只给两个值,会被解释为`<offset-x>`和`<offset-y>`值.
+	* 如果给了第三个值,会被解释为`<blur-radius>`模糊半径
+	* 如果给了第四个值,会被解释为`<spread-radius>`扩散半径
+* 可选, `inset`关键字
+* 可选, `<color>`值
+
+```css
+/* Keyword values */
+box-shadow: none;
+
+/* A color and two length values */
+/* <color> | <length> | <length> */
+box-shadow: red 60px -16px;
+
+/* Three length values and a color */
+/* <length> | <length> | <length> | <color> */
+box-shadow: 10px 5px 5px black;
+
+/* Four length values and a color */
+/* <length> | <length> | <length> | <length> | <color> */
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+/* inset, length values, and a color */
+/* <inset> | <length> | <length> | <color> */
+box-shadow: inset 5em 1em gold;
+
+/* Any number of shadows, separated by commas */
+box-shadow:
+  3px 3px red inset,
+  -1em 0 0.4em olive;
+
+/* Global values */
+box-shadow: inherit;
+box-shadow: initial;
+box-shadow: revert;
+box-shadow: revert-layer;
+box-shadow: unset;
+```
 
 
+**实例**
+* [效果示例网站](https://getcssscan.com/css-box-shadow-examples?ref=producthunt)
+
+
+```css
+box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+```
 
 
 ### content
