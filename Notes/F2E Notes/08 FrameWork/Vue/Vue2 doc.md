@@ -8207,7 +8207,7 @@ export default {
 ```
 
 **将mapState结合到计算属性**
-使用扩展运算符结合两个对象.使用了对象展开符，那么可能会需要像Babel这样的编译工具来确保最大限度的浏览器支持。
+使用展开运算符结合两个对象.使用了对象展开符，那么可能会需要像Babel这样的编译工具来确保最大限度的浏览器支持。
 ```js
 computed: {
 	doubleFoo() {
@@ -9368,7 +9368,7 @@ mapState放在那里?  获取state属性,放在computed计算属性对象中
 
 mapState是vuex中的一个方法(需要import),形参是对象或数组,返回值是一个对象({he:f}),可以简写成数组. //和计算属性的get函数相似
 mapState({sum:'sum'}) 变量sum对应页面上的sum,字符串sum对应可以获取vc上的state上的sum的值的函数,代替computed繁琐获取
-放在computed中需要对mapState使用扩展运算符 ...mapState({sum:'sum'}). 变成key:value形式
+放在computed中需要对mapState使用展开运算符 ...mapState({sum:'sum'}). 变成key:value形式
 mapState可以简写的条件: 传入对象的属性名和值相同可省略,对象变数组形式,带着引号.
 
 //手动获取sum的值(也是mapState生成的代码形式):

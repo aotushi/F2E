@@ -7,7 +7,7 @@ alias: map
 
 ECMAScript 6中的Map类型是一种储存着许多**键值对的有序列表**，其中的键名和对应的值支持所有的数据类型。<u>键名的等价性判断是通过调用Object.is()方法实现的</u>，所以数字5与字符串“5”会被判定为两种类型，可以分别作为独立的两个键出现在程序中，这一点与对象中不太一样，因为对象的属性名总会被强制转换成字符串类型。
 
-它类似于==对象和集合==，也是键值对的集合。但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。Map也实现了iterator接口，所以可以使用『扩展运算符』和『for…of…』进行遍历
+它类似于==对象和集合==，也是键值对的集合。但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。Map也实现了iterator接口，所以可以使用『展开运算符』和『for…of…』进行遍历
 
 
 
@@ -51,7 +51,7 @@ console.log(map.size); //2
 
 ### Map与其它数据结构转换
 **Map转换为数组**
-Map转换为数组，可以通过扩展运算符实现。
+Map转换为数组，可以通过展开运算符实现。
 ```js
 //Map转换为数组
 const map = new Map();
@@ -110,7 +110,7 @@ console.log(mapToJson(myMap)); // {"yes":true,"no":false}
 ```js
 // Map转换为JSON,通过数组
 function mapToArrayJson(map) {
-    // 先通过扩展运算符转换为数组，再转换为JSON
+    // 先通过展开运算符转换为数组，再转换为JSON
     return JSON.stringify([...map]);
 }
 let myMap2 = new Map().set(true, 7).set({foo: 3}, ['abc']);

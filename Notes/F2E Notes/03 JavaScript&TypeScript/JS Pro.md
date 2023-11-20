@@ -3873,7 +3873,7 @@ var a, b;
 console.log(a);//1
 console.log(b);//7
 
-- 案例//配合扩展运算符下的解构后依然是一个数组
+- 案例//配合展开运算符下的解构后依然是一个数组
 let [a, ...arr]=[1,2,3,4]//log:a=1, arr=[2,3,4]
 let [x, y, ...z]=['a'] //log: x='a', y=undefined, z=[]
 let[a, [b], d]=[1, [2,3], 4];//log:a=1, b=2, d=4
@@ -4505,9 +4505,9 @@ console.log(sortArguments(5,3,7,1)); //log: 1,3,5,7
 
 
 
-### spread扩展运算符
+### spread展开运算符
 
-> 扩展运算符也是...   ,是rest参数的逆运算 把数组和对象展开,变成以逗号分隔的参数序列 .
+> 展开运算符也是...   ,是rest参数的逆运算 把数组和对象展开,变成以逗号分隔的参数序列 .
 >
 > 可以展开实现了迭代器的的数据.(Array string set map Nodelist typearray arguments)
 >
@@ -4515,7 +4515,7 @@ console.log(sortArguments(5,3,7,1)); //log: 1,3,5,7
 
 
 
-#### 数组使用扩展运算符
+#### 数组使用展开运算符
 
 ```js
 - 数组的展开
@@ -4557,10 +4557,10 @@ console.log(newArr);//log结果: Object { 0: 9, 1: 10, 2: 11, 3: 8 }
 
 
 
-#### 对象使用扩展运算符
+#### 对象使用展开运算符
 
 ```js
-- 对象没有迭代结构,所以直接使用扩展运算符会报错.但可以使用大括号,浅克隆.但函数方法会丢失
+- 对象没有迭代结构,所以直接使用展开运算符会报错.但可以使用大括号,浅克隆.但函数方法会丢失
 let obj={a:1, b:2, c:3};
 console.log(...obj);//报错 对象原型上没有迭代器
 console.log({...obj});//正常输出
@@ -4598,7 +4598,7 @@ var array = [...obj]; // TypeError: obj is not iterable
 
 
 
-#### 字符串使用扩展运算符
+#### 字符串使用展开运算符
 
 ```js
 [...'hello'] //["h", "e", "l", "l", "o"]
@@ -4608,7 +4608,7 @@ var array = [...obj]; // TypeError: obj is not iterable
 
 
 
-### spread扩展运算符应用
+### spread展开运算符应用
 
 ```js
 //1.数组的合并
@@ -4750,7 +4750,7 @@ arr2[2].username = 'wade';
 console.log(arr); //[ 1, 3, { username: 'wade' } ]
 ```
 
-`扩展运算符`
+`展开运算符`
 
 ```javascript
 //obj

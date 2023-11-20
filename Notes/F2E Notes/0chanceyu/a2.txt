@@ -30493,7 +30493,7 @@
         "date": "2022-10-26"
       },
       {
-        "title": "乱用「扩展运算符」造成的事故！大家一定要慎用！",
+        "title": "乱用「展开运算符」造成的事故！大家一定要慎用！",
         "link": "https://mp.weixin.qq.com/s?__biz=Mzg2NjY2NTcyNg==&mid=2247487067&idx=1&sn=f5d2ff33ebdb9252a78724ac80d1efd9&chksm=ce461bcaf93192dc6a10b8665c74a2b58e6b52953c5c50db581c58fce0ed0d7957e8fb3b38a1#rd",
         "date": "2022-10-25"
       },

@@ -722,7 +722,7 @@ removeDuplicateChar2(str);  // 'heloJavscriptm'
 
 将字符串处理成数组，然后作为参数传递给Set的构造函数，通过new运算符生成一个Set的实例。
 
-将Set通过扩展运算符（...）转换成数组形式，最终转换成字符串获得需要的结果。
+将Set通过展开运算符（...）转换成数组形式，最终转换成字符串获得需要的结果。
 
 ```js
 // 算法3
@@ -848,9 +848,9 @@ isPalindromicStr3(str2);  // false
 * for循环
 * for + replace
 
-首先应该能想到的是for循环, 扩展运算符这两种.
+首先应该能想到的是for循环, 展开运算符这两种.
 ```js
-//扩展运算符
+//展开运算符
 let str = 'string'
 
 let [s, ...str] = str

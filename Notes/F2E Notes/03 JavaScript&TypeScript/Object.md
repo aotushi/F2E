@@ -4743,7 +4743,7 @@ let clone = Object.assign({}, user);
 
 * slice
 * concat
-* 扩展运算符
+* 展开运算符
 
 深层克隆
 
@@ -5289,7 +5289,7 @@ function (obj1, obj2) {
 
 
 //Set
-使用集合代替扩展运算符
+使用集合代替展开运算符
 
 
 //

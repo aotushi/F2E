@@ -1916,7 +1916,7 @@ bar(3); //a:2, b:3
 
 这两种方法都需要传入一个参数当作this的绑定对象。如果函数并不关心this的话，你仍然需要传入一个占位值，这时null可能是一个不错的选择，就像代码所示的那样。
 
-注意: ES6中使用扩展运算符来代替apply来展开数组.
+注意: ES6中使用展开运算符来代替apply来展开数组.
 
 <span style="color:blue">存在的问题及解决方法:</span>
 
@@ -2504,7 +2504,7 @@ Function.prototype.myCall = function() {
 
 
 ```javascript
-//推荐使用ES6的扩展运算符来代替arguments   听别人说的,还没验证
+//推荐使用ES6的展开运算符来代替arguments   听别人说的,还没验证
 
 
 Function.prototype.myCall = function(...items) {
