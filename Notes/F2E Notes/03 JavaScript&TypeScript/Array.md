@@ -6300,6 +6300,8 @@ console.log(unique([NaN, NaN])); //[NaN]
 //toString + split
 let arr = [1, [2, [3, [4, 5]]], 6];// -> [1, 2, 3, 4, 5, 6]
 let str = arr.toString().split(',')
+
+数组上的toString方法
 ```
 
 

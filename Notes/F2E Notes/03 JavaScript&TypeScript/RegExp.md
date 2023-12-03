@@ -260,3 +260,19 @@ JavaScript 正则表达式迷你书 > 速查表
 ```js
 const isRelative = path => !/^([a-z]+:)?[\\/]/i.test(path)
 ```
+
+#### 检查设备是否是IOS
+>https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+
+```js
+[
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  // iPad on iOS 13 detection
+  || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+```

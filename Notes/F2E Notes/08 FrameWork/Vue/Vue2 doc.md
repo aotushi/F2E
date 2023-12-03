@@ -205,6 +205,60 @@ let vm = new Vue({
 > 一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，`v-bind` 指令可以用于响应式地更新 HTML attribute：
 
 
+### 实例
+
+在H5项目中,禁用苹果手机页面的'橡皮筋'效果.场景是展示弹窗+阴影效果时,背后的主页面在苹果手机上可以弹性滑动,安卓手机上不存在这种效果.
+```js
+//main.js
+import directives from './utils/directives'
+Object.keys(directives).forEach(direcitveName => Vue.directive(directiveName, directives[directiveName]))
+
+//directives/stopBounceDirective
+// const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream  差方法
+const isIos = ['iPad Simulator','iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+const stopBounceDirective = {
+	bind(el) {
+		if (!isIos) {
+			return;
+		}
+		el.stopBounceObserver = new MutationObserver(mutations => {
+			mutations.forEach(mutation => {
+				if (mutation.type === 'attribute' && mutation.attributeName === 'style') {
+					const displayValue = window.getComputedStyle(el).display;
+					if (displayValue === 'none') {
+						document.body.removeEventListener('touchmove', stopBounceDirective.preventTouchMove, {passive: false});
+					} else {
+						document.body.addEventListener('touchmove', stopBounceDirective.preventTouchMove, {passive: false});
+					}
+				}
+			})
+		})
+
+		const config = {attributes: true, atributeFilter: ['style']}
+		el.stopBounceObserver.observe(el, config)
+	},
+
+	unbind(el) {
+		if (el.stopBounceObserver) {
+			el.stopBounceObserver.disconnect();
+			document.body.removeEventListener('touchmove', stopBounceDirective.preventTouchMove, {passive: false})
+		}
+	},
+
+	preventTouchMove(event) {
+		event.preventDefault();
+	}
+};
+
+export default stopBounceDirective;
+```
+
+
+
+
+
+
+
 
 
 ### 事件绑定注意事项
