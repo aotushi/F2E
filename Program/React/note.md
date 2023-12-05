@@ -85,7 +85,7 @@ npm create vite
 root = true
 [*]
 charset = utf-8
-indent_style = space
+indent_style = tab
 indent_size = 2
 end_of_line = lf
 insert_final_newline = true
@@ -100,11 +100,99 @@ root=true 对所有文件生效
 end_of_line= lf 不同操作系统换行符不同
 end_of_line
 lf | cr | crlf (大小写不限）
-复制代码
+
 end_of_line设置的换行符的表示方式。先看一下这几个值是什么意思
 lf：全拼Line Feed，意思是换行，用符号 \n 表示
 cr: 全拼Carriage Return， 意思是回车， 用符号 \r 表示
 crlf：cr 和 lf的结合，回车换行，用符号 \r\n
 insert_final_newline = true 代码最后新增一行
 trim_trailing_whitespace = true 修剪尾随空格
+
+### 2-5项目配置
+
+#### npm和yarn修改配置
+
+##### 本项目中修改npm或yarn配置
+
+在项目根目录下创建`.npmrc`, `.yarnrc`文件,并各自编辑内容如下:
+```bash
+//npmrc
+registry=https://registry.npm.taobao.org
+
+//yarnrc
+registry=https://registry.npm.taobao.org
+```
+
+
+
+##### 全局修改下载地址
+
+```bash
+//npm
+npm config set registry https://registry.npm.taobao.org
+
+//yarn
+yarn config set registry https://registry.npm.taobao.org
+```
+
+
+
+#### pnpm
+
+
+
+
+
+### 2-6 prettier配置
+
+官网:prettier.cn
+
+配置项: https://prettier.io/docs/en/options
+
+使用介绍: [vscode使用prettier格式化代码不起作用、配置不生效的解决方法_vscode prettier不生效_云帆Plan的博客-CSDN博客](https://blog.csdn.net/a843334549/article/details/115391605)
+
+#### 安装
+
+```bash
+npm i prettier -D
+```
+
+
+
+#### 根目录下创建`prettier.cjs`文件
+
+在此文件中添加相关配置项
+
+```cjs
+```
+
+
+
+#### 自动格式化
+
+1.在vscode中安装prettier插件
+
+2.根目录下创建`.vscode>settings.json`文件,来实现项目局部格式化
+
+```json
+//settings.json
+
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode", //编辑器默认使用prettier格式化
+  "editor.formatOnSave": true,  //自动保存格式化
+  "editor.codeActionOnSave": {  //代码自动修复 配合eslint使用
+    "source.fixAll": true
+  }
+}
+```
+
+
+
+3.
+
+
+
+### 问题: 
+
+prettierrc中的内容更改后,自动保存使用的格式化配置还是更改之前的.
 

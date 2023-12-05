@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/02 CSS/PC适配与移动端适配.md",
+                "file": "F2E Notes/18 前端工程化/前端工程化入门.md",
                 "mode": "source",
                 "source": false
               }
@@ -56,7 +56,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "运算符优先级",
+                "query": "editorconfig",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -73,7 +73,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -93,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/02 CSS/PC适配与移动端适配.md",
+                "file": "F2E Notes/18 前端工程化/前端工程化入门.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -154,12 +155,31 @@
   },
   "active": "ca17cc3792d5f517",
   "lastOpenFiles": [
+    "F2E Notes/note 面试题/09_问题.md",
+    "F2E Notes/note 笔记题目/HTML.md",
+    "F2E Notes/note 笔记题目/json-server.md",
+    "F2E Notes/note 笔记题目/09_问题.md",
+    "F2E Notes/note 笔记题目/08_webpack.md",
+    "F2E Notes/note 笔记题目/07_React.md",
+    "F2E Notes/note 笔记题目/06_4_vue_后台admin.md",
+    "F2E Notes/note 笔记题目/06_6_Vue3.md",
+    "F2E Notes/note 笔记题目/06_5_Vue项目优化.md",
+    "F2E Notes/note 笔记题目/06_3_vue_前台PC.md",
+    "F2E Notes/note 笔记题目/06_2_vue_组件间通信.md",
+    "F2E Notes/note 笔记题目/06_1_vue.md",
+    "F2E Notes/note 笔记题目/05_jQuery.md",
+    "F2E Notes/note 笔记题目/03_WebAPI.md",
+    "F2E Notes/note 笔记题目/04_手写代码.md",
+    "F2E Notes/note 笔记题目/02_ES6+.md",
+    "F2E Notes/note 笔记题目/01_JS基础.md",
+    "F2E Notes/note 笔记题目",
+    "F2E Notes/note 面试题/02_ES6+.md",
+    "F2E Notes/02 CSS/PC适配与移动端适配.md",
     "F2E Notes/01 HTML/HTML.md",
     "F2E Notes/08 FrameWork/Vue/Vue2 doc.md",
     "F2E Notes/02 CSS/assets/Pasted image 20231005181534.png",
     "F2E Notes/02 CSS/assets/Pasted image 20231003161642.png",
     "F2E Notes/02 CSS/assets",
-    "F2E Notes/02 CSS/PC适配与移动端适配.md",
     "F2E Notes/02 CSS/Base/assets/Pasted image 20231003112329.png",
     "F2E Notes/02 CSS/Base/assets/Pasted image 20231003111926.png",
     "F2E Notes/02 CSS/Base/assets/Pasted image 20231003112227.png",
@@ -173,29 +193,11 @@
     "F2E Notes/08 FrameWork/Project vue react mini other.md",
     "F2E Notes/01 HTML/articles/aria-label,aria-labelledby,aria-describedby.md",
     "F2E Notes/README.md",
-    "F2E Notes/02 CSS/Base/202303091528.md",
-    "F2E Notes/08 FrameWork/Vue/Vue-Router.md",
-    "F2E Notes/06 Packages Managers/Node.md",
-    "F2E Notes/02 CSS/Base/202302221541Index.md",
-    "F2E Notes/02 CSS/Base/202302221541d.md",
-    "F2E Notes/03 JavaScript&TypeScript/202301171439.md",
-    "F2E Notes/03 JavaScript&TypeScript/202308261743.md",
-    "F2E Notes/02 CSS/Base/CSS.md",
-    "F2E Notes/18 前端工程化/前端工程化入门.md",
-    "F2E Notes/03 JavaScript&TypeScript/未命名.md",
-    "F2E Notes/note 面试题/09_问题.md",
-    "F2E Notes/index.md",
-    "F2E Notes/03 JavaScript&TypeScript/202301171524.md",
-    "F2E Notes/note 面试题/01_JS基础.md",
-    "F2E Notes/note 面试题/02_ES6+.md",
-    "F2E Notes/02 CSS/Base/CSS-framework-element bootstrap ant.md",
-    "F2E Notes/02 CSS/Base/CSS-new-less scss.md",
     "F2E Notes/01 HTML/articles",
     "F2E Notes/18 前端工程化/templatevue2/package.json",
     "F2E Notes/18 前端工程化/templatevue2/test.vue",
     "F2E Notes/18 前端工程化/templatevue2/test.js",
     "F2E Notes/18 前端工程化/templatevue2/package-lock.json",
-    "F2E Notes/18 前端工程化/templatevue2",
-    "F2E Notes/18 前端工程化/New 文本文档.txt"
+    "F2E Notes/18 前端工程化/templatevue2"
   ]
 }
