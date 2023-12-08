@@ -151,7 +151,7 @@ yarn config set registry https://registry.npm.taobao.org
 
 使用介绍: [vscode使用prettier格式化代码不起作用、配置不生效的解决方法_vscode prettier不生效_云帆Plan的博客-CSDN博客](https://blog.csdn.net/a843334549/article/details/115391605)
 
-#### 安装
+#### 1.安装prettier包和vscode扩展Prettier-Code formatter
 
 ```bash
 npm i prettier -D
@@ -159,20 +159,38 @@ npm i prettier -D
 
 
 
-#### 根目录下创建`prettier.cjs`文件
+#### 2.根目录下创建`prettier.cjs`文件
 
 在此文件中添加相关配置项
 
 ```cjs
+module.exports = {
+// 每行最大列，超过换行
+printWidth: 120,
+// 使用制表符而不是空格缩进
+useTabs: false,
+// 缩进
+tabWidth: 2,
+// 结尾不用分号
+semi: false,
+// 使用单引号
+singleQuote: true,
+// 在JSX中使用单引号而不是双引号
+jsxSingleQuote: true,
+// 箭头函数里面，如果是一个参数的时候，去掉括号
+arrowParens: 'avoid',
+// 对象、数组括号与文字间添加空格
+bracketSpacing: true,
+// 尾随逗号
+trailingComma: 'none',
+}
 ```
 
 
 
-#### 自动格式化
+#### 3.根目录下配置局部vscode配置
 
-1.在vscode中安装prettier插件
-
-2.根目录下创建`.vscode>settings.json`文件,来实现项目局部格式化
+1.根目录下创建`.vscode>settings.json`文件,来实现项目格式化,可覆盖vscode相同配置
 
 ```json
 //settings.json
@@ -188,11 +206,7 @@ npm i prettier -D
 
 
 
-3.
+#### 遇到的问题: 
 
-
-
-### 问题: 
-
-prettierrc中的内容更改后,自动保存使用的格式化配置还是更改之前的.
+prettierrc中的内容更改后,在相同文件进行保存时,其格式还是更改之前的.
 
