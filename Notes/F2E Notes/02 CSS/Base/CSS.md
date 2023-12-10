@@ -8167,13 +8167,109 @@ min-width: auto | <length-percentage> | min-content | max-content | fit-content
 
 
 
+## 选择器(Selectors)
 
-# 工具
-## 颜色选择器
 
-## 盒子阴影生成器(Box shadow generator)
+## 组合器(Combinators)
 
-## 边框图片生成器(Border image generator)
+
+
+## 伪类(Pseudo-classes)
+
+
+## 伪元素(Pseudo-elements)
+
+
+### ::-webkit-scrollbar
+#### 文档
+> https://developer.mozilla.org/zh-CN/docs/Web/CSS/::-webkit-scrollbar
+
+#### 注意事项
+* 如果没有设置 `overflow:scroll;`，元素的滚动条将不会显示
+*  `::-webkit-scrollbar` 仅在基于 [Blink](https://www.chromium.org/blink) 或 [WebKit](https://webkit.org/) 的浏览器（例如，Chrome、Edge、Opera、Safari、iOS 上所有的浏览器，以及[其他基于 WebKit 的浏览器](https://zh.wikipedia.org/wiki/%E7%BD%91%E9%A1%B5%E6%B5%8F%E8%A7%88%E5%99%A8%E5%88%97%E8%A1%A8#%E5%9F%BA%E6%96%BCWebKit%E6%8E%92%E7%89%88%E5%BC%95%E6%93%8E)）上可用
+
+
+#### 滚动条选择器
+使用以下伪元素选择器去修改基于 webkit 的浏览器的滚动条样式：
+- `::-webkit-scrollbar`——整个滚动条。
+- `::-webkit-scrollbar-button`——滚动条上的按钮（上下箭头）。
+- `::-webkit-scrollbar-thumb`——滚动条上的滚动滑块。
+- `::-webkit-scrollbar-track`——滚动条轨道。
+- `::-webkit-scrollbar-track-piece`——滚动条没有滑块的轨道部分。
+- `::-webkit-scrollbar-corner`——当同时有垂直滚动条和水平滚动条时交汇的部分。通常是浏览器窗口的右下角。
+- `::-webkit-resizer`——出现在某些元素底角的可拖动调整大小的滑块。
+
+
+#### 实例
+在vue中设置
+```css
+
+
+/* 针对 Firefox */
+.tree-area {
+  scrollbar-color: rgba(144, 147, 153, 0.3) #eeeeee;
+  scrollbar-width: thin;
+}
+
+/* webkit浏览器 */
+::v-deep .tree-area::-webkit-scrollbar {
+
+  width: 8px; /*滚动条宽度*/
+
+  height: 8px; /*滚动条高度*/
+
+}
+
+::v-deep .tree-area::-webkit-scrollbar-track {
+
+  border-radius: 10px; /*滚动条的背景区域的圆角*/
+
+  -webkit-box-shadow: inset 0 0 6px rgba(238, 238, 238, 0.3);
+
+  background-color: #eeeeee; /*滚动条的背景颜色*/
+
+}
+
+::v-deep .tree-area::-webkit-scrollbar-thumb {
+
+  border-radius: 10px; /*滚动条的圆角*/
+
+  -webkit-box-shadow: inset 0 0 6px rgba(145, 143, 0143, 0.3);
+
+  background-color: rgba(144, 147, 153, 0.3); /*滚动条的背景颜色*/
+
+}
+```
+
+## At-rules()
+
+
+## 函数(Functions)
+
+
+## 类型(Types)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

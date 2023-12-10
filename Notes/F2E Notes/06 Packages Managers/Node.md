@@ -914,6 +914,45 @@ net start winnat
 
 
 
+### npx介绍
+> https://github.com/LightXJ/blog/issues/28
+
+#### 是什么
+npm从5.2版开始，增加了npx命令。它有很多用处，本文介绍该命令主要使用场景。  
+Node自带npm模块，npx又是npm的自带模块，所以可以直接使用npx命令。万一不能，可以手动安装为  
+`npm install -g npx`
+
+#### 作用
+**调用项目安装的模块**
+npx想要解决的主要问题，就是调用项目内部安装的模块。比如，项目内部安装了测试工具Mocha  
+`npm install -d mocha`  
+一般来说，调用Mocha,只能在项目脚本和package.json的scripts字段里面，如果想在命令行下调用，必须像下面
+
+```js
+# 项目的根目录下执行
+$ node-modules/.bin/mocha --version
+```
+
+npx就是想解决这个问题，让项目内部安装的模块用起来更方便，只要像下面这样调用就行了。
+
+```js
+npx mocha --version
+```
+
+**避免全局安装**
+除了调用项目内部模块，npx还能避免全局安装的模块。比如，create-react-app这个模块是全局安装，npx可以运行它，而且不进行全局安装。  
+`npx create-react-app my-react-app`  
+上面代码运行时，npx将create-react-app下载到一个临时目录，使用以后再删除。所以，以后再次执行上面的命令，会重新下载create-react-app
+
+下载全局模块时，npx允许指定版本  
+`npx uglify-js@3.1.0 main.js -o ./dist/main.js`  
+上面代码指定使用3.1.0版本的uglify-js压缩脚本  
+注意，只要npx后面的模块无法在本地发现，就会下载同名模块。比如，本地没有安装http-server模块，下面的命令会自动下载该模块，在当前目录启动一个web服务。  
+`npx http-server`
+
+#### 配置
+
+
 
 
 

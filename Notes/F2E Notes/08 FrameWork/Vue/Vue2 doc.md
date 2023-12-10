@@ -104,6 +104,9 @@ vue.js中文官网：http://cn.vuejs.org/
 npm i vue
 ```
 
+
+
+
 ## 3.脚手架
 
 
@@ -157,6 +160,18 @@ yarn create vite my-vue-app --template vue
 pnpm create vite my-vue-app --template vue
 ```
 
+
+
+### 3.3安装遇到的问题
+**描述**
+> 在Document/temp/1209文件夹下执行命令: `npm i @vue/cli`,但是它却安装在了当前文件夹的上一级.
+
+**原因**
+1.当您在命令行中执行 `npm install` 命令时，npm 会在当前目录下查找名为 `node_modules` 的文件夹，并将安装的包放入其中。如果当前目录下不存在 `node_modules` 文件夹，npm 会在父目录中查找，直到找到为止，或者直到到达文件系统的根目录。
+2.`1209` 目录中不存在 `package.json` 文件，而在 `temp` 目录中存在。npm 会将包安装在找到的第一个包含 `package.json` 文件的目录中。
+
+**解决**
+在当前目录下初始化一个仓库 `npm init -y`. 再次执行安装命令即可
 
 # Vue实例和选项
 
@@ -757,10 +772,25 @@ computed 则是通过【依赖追踪】实现的，在 computed 求值时引用�
 
 
 
+### 计算属性实例
+##### 1.计算属性来实现省市区三级联动
+> [vue3 setup 中国省市区三级联动options最简洁写法，无需任何库 - 掘金 (juejin.cn)](https://juejin.cn/post/7297983578548355099)
+
+
+
+<iframe src="https://codesandbox.io/embed/ntwg3m?view=Editor+%2B+Preview&module=%2Fsrc%2FApp.vue&hidenavigation=1"
+     style="width:100%; height: 500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue2-实例-三级联动"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+<iframe src="https://www.bilibili.com/"></iframe>
 
 
 
 
+    
 ## 侦听属性/watch
 
 ### 概述
