@@ -3,7 +3,7 @@ module.exports = {
   printWidth: 120,
   useTabs: false,
   // 缩进
-  tabWidth: 7,
+  tabWidth: 4,
   // 结尾不用分号
   semi: true,
   // 使用单引号
