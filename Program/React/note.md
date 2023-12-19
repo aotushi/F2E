@@ -388,7 +388,15 @@ main.tsx中报错
 
 #### 什么是jsx?
 
-jsx是javascript的一种衣服啊扩展.
+jsx是javascript的一种语法扩展.
+
+```jsx
+const element = <h1>hello, world</h1>
+const span = <span>{userName}</span>
+const img = <img src="http://xx.jpg" style={{width:'50px;'}} />
+```
+
+
 
 
 
@@ -400,6 +408,181 @@ jsx是javascript的一种衣服啊扩展.
 * 循环
 * 属性传递
 * 表单事件
+
+
+
+#### 变量声明
+
+使用单个大括号来渲染变量, 无论是变量还是节点一律视为变量.
+
+例如在创建的React项目中的App.tsx中, 
+
+```react
+//App.tsx
+
+function App() {
+  let name = 'jack'
+  const p = <p>欢迎学习React通用后台开发</p>
+  
+  return <div>
+		{p}
+	</div>
+}
+```
+
+
+
+#### 条件判断
+
+在vue中使用v-if/v-show来进行条件判断, 但在React中直接在JS中进行操作
+
+```react
+//App.tsx
+
+function App() {
+  let name = 'jack'
+  const isAdmin = true
+  const p = <p>欢迎学习React通用后台开发</p>
+  
+  return <div>
+		{p}
+		{
+      isAdmin ? '您好,管理员' : <span>普通访客</span>
+    }
+	</div>
+}
+```
+
+
+
+#### 样式
+
+两种形式:
+
+* 行内样式的style
+* 变量style
+
+```react
+//App.tsx
+
+function App() {
+  const style = {color: 'red', fontSize: "22px"}
+  let name = <span style={style}>hello world</span>
+  let name2 = <span style={{color:'blue', fontSize: '50px'}}>hello world2</span>
+  const isAdmin = true
+  const p = <p>欢迎学习React通用后台开发</p>
+  
+  return <div>
+		{p}
+		{
+      isAdmin ? '您好,管理员' : <span>普通访客</span>
+    }
+    {
+      name
+    }
+	</div>
+}
+
+```
+
+
+
+
+
+#### 循环
+
+dom中插入变量,就使用大括号
+
+```react
+//App.tsx
+
+function App() {
+  const style = {color: 'red', fontSize: "22px"}
+	const list = ['tom', 'jack', 'lili', 'dick']
+  const isAdmin = true
+  const p = <p>欢迎学习React通用后台开发</p>
+  let valueName = 'inputvalue'
+  function handleChange(val) {
+    console.log('val', val)
+  }
+  return <div>
+		{p}
+		{
+      isAdmin ? '您好,管理员' : <span>普通访客</span>
+    }
+    <p>用户列表</p>
+    <p key="item">{list.map(item => <div>{item}</div>)}</p>
+    <p><input value={inputName} onChange={handleChange}></input></p>
+	</div>
+}
+```
+
+
+
+
+
+### Hook
+
+api介绍
+
+* useState(类似vue中的data)
+* useEffect(类似vue中的mounted, destroyed)
+* useMemo, useCallback(类似vue中的computed, watch)
+* useContext, useReducer(类似Vue中的provider)
+* useRef(类似vue中的ref)
+* useLayoutEffect, useTransition, useImperativeHandle...
+
+
+
+### useState
+
+#### 定义
+
+**const [state, dispatch] = useState(initData)**
+
+* state：定义的数据源，可视作一个函数组件内部的变量，但只在首次渲染被创造。
+* dispatch：改变state的函数，推动函数渲染的渲染函数。dispatch有两种情况-非函数和函数。
+* initData：state的初始值，initData有两种情况-非函数和函数。
+
+
+
+#### 案例
+
+```react
+//变量定义
+const [count, setCount] = setState('河畔一角')
+
+//对象定义
+const [user, setUser] = setState({name:'河畔一角', age:30});
+
+//数组定义
+const [list, setList] = setState(['tom', 'jack']);
+
+//异步执行
+const [count, setCount] = userState(0);
+
+
+//异步执行 ?
+const [count, setCount] = setState(0);
+ //点击按钮,执行3次
+ setCount(count+1)
+ setCount(count+1)
+ setCount(count+1)
+
+//函数执行
+const [count, setCount] = useState(0)
+setCount(count => count+1)
+```
+
+
+
+在React中，`setState`函数是异步的，这意味着当你调用`setState`时，React并不会立即更新组件的状态。相反，React会将这个状态更新排入一个队列中，稍后才会实际更新组件的状态。这样做的目的是为了性能优化，使得多次连续的状态更新可以被合并成一次更新，减少不必要的渲染次数。
+
+当你连续调用三次`setCount(count+1)`时，由于`setState`的异步特性，这三次更新实际上是在同一个事件循环中发生的。React会将这三次更新合并为一次更新，因此`count`的值只会增加1，而不是3。这是因为每次调用`setCount`时，它都使用的是同一个闭包中的`count`值，而这个值在事件循环的这个阶段是不会变的。
+
+如果你希望每次调用`setCount`都基于最新的状态值来更新，你应该使用`setCount`的函数式更新形式：
+
+
 
 
 
