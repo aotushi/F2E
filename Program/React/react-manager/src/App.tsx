@@ -12,12 +12,23 @@ function App() {
     let handleOnChange = (event: any) => {
         console.log('event', event);
     };
+    const [count, setCount] = useState(0);
     let handleOnClick = () => {
         setCount(count + 1);
         setCount(count + 1);
         setCount(count + 1);
     };
-    const [count, setCount] = useState(0);
+    const [count1, setCount1] = useState(0);
+
+    const [name2, setName] = useState('河畔一角');
+    const [user, setUser] = useState({ name: 'dick', age: 18 });
+    const [list2, setList] = useState(['tom', 'dick', 'jack', 'lily']);
+
+    const handleOnClickCount = () => {
+        setTimeout(() => {
+            setCount1(count + 1);
+        });
+    };
     return (
         <div>
             {name}
@@ -31,6 +42,8 @@ function App() {
                 <input value={inputValue} onChange={handleOnChange}></input>
             </p>
             <button onClick={handleOnClick}>{count}</button>
+            <p>{count1}</p>
+            <button onClick={handleOnClickCount}>增加count</button>
         </div>
     );
 }

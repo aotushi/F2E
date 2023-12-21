@@ -511,7 +511,7 @@ function App() {
       isAdmin ? '您好,管理员' : <span>普通访客</span>
     }
     <p>用户列表</p>
-    <p key="item">{list.map(item => <div>{item}</div>)}</p>
+    <p key="{item}">{list.map(item => <div>{item}</div>)}</p>
     <p><input value={inputName} onChange={handleChange}></input></p>
 	</div>
 }
@@ -584,11 +584,58 @@ setCount(count => count+1)
 
 
 
+```js
+
+const [count, setCount] = setState(0);
+ //下面的代码是异步代码 点击按钮,执行3次
+ setCount(count+1)
+ setCount(count+1)
+ setCount(count+1)
+//下面的代码是同步的
+ setTimeout(() => {
+   setCount(count + 1)
+ })
+```
+
+react更新是异步更新, 多次操作会合并在一起. 更新了3次count,但最后只会更新了一次.
+
+重点: 如果在异步函数中执行dispatch,会变成同步代码. 因为事件循环
 
 
 
 
 
+### 3.3 useState用法
 
 
 
+#### 修改变量
+
+
+
+#### 修改对象
+
+```js
+const [user, setUser] = useState({name:'tom', age:30})
+const handleUser = () => {
+  setUser({name:'react', age: 50})  // setUser({...user, age: 50})
+  
+}
+```
+
+
+
+#### 修改数组
+
+```js
+const [list ,setList] = userState(['tom','lily','jack'])
+const handleList = () => {
+  setList([...list, 'dick'])
+}
+```
+
+
+
+
+
+### 3.4 dispatch是同步还是异步
