@@ -189,6 +189,46 @@ onmouseup = (event) => {}
 ## mouseudonw
 
 
+## scrollTo
+
+^75b61a
+
+>https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTo
+
+### 概述
+可以使界面滚动到给定元素的指定坐标位置
+
+### 语法
+```js
+scrollTo(x-coord, y-coord)
+scrollTo(options)
+```
+
+options是包含如下参数的对象
+```js
+{
+	top, //指定沿 Y 轴滚动窗口或元素的像素数。
+	left, //指定沿 X 轴滚动窗口或元素的像素数。
+	behavior //smooth:平滑滚动; auto:缺省值
+}
+```
+
+### 返回值
+无
+
+### 案例
+滚动到顶部
+![[Element#^75b61a]]
+
+
+
+
+
+
+
+
+
+
 
 
 # 继承
