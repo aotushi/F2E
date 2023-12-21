@@ -3856,8 +3856,17 @@ document.documentElement.scrollTop + document.body.scrollTop
 ```
 
 
+#### scrollTo方法
+```js
+backToTop() {
+  const scroller = document.getElementsByClassName('page__scroller')[0];
+  scroller.scrollTo({
+    top: 0,
+    behavior: 'smooth' // 指定滚动行为为平滑滚动
+  });
+},
 
-
+```
 
 ### 元素的宽度与位置
 
