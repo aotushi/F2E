@@ -541,8 +541,8 @@ api介绍
 **const [state, dispatch] = useState(initData)**
 
 * state：定义的数据源，可视作一个函数组件内部的变量，但只在首次渲染被创造。
-* dispatch：改变state的函数，推动函数渲染的渲染函数。dispatch有两种情况-非函数和函数。
-* initData：state的初始值，initData有两种情况-非函数和函数。
+* dispatch：改变state的函数，推动函数渲染的渲染函数。**dispatch有两种情况-非函数和函数。**
+* initData：state的初始值，**initData有两种情况-非函数和函数。**
 
 
 
@@ -638,4 +638,45 @@ const handleList = () => {
 
 
 
-### 3.4 dispatch是同步还是异步
+### 3.5 dispatch是同步还是异步
+
+3.4中提到的案例
+
+```js
+setCount(count+1)
+setTimeout(() => {
+  setCount(count+1)
+})
+```
+
+主要表达的是:
+
+1.setCount()是一个异步更新函数,不会同步执行
+
+2.当setCount放入setTimeout异步函数以后, 在16和17版本中里面会变成同步更新,不过视频是react18所以依然是异步渲染.
+
+3.当setCount()参数变成函数时,会拿到最新值,但依然是异步更新. 
+
+实际上,useState并没有同步和异步一说,代码本身执行其实是同步,只是更新机制不同,由React的合成机制决定.
+
+
+
+以上存疑. 2023/12月份创建的react项目中, 点击后会打印多次'render'. 执行了几次setCount,就会打印几次render.
+
+
+
+**强制实现setCount的同步更新**
+
+会提高优先级.
+
+```js
+flushSync(() => {
+  setCount(count => count + 1)
+  setCount(count => count + 1)
+})
+```
+
+函数内部依然是批量更新.也可以执行多次flushSync
+
+
+
