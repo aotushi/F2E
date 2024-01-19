@@ -1195,7 +1195,6 @@ SameSite 可以有下面三种值：
 
 
 
-**改变**
 
 接下来看下从 None 改成 Lax 到底影响了哪些地方的 Cookies 的发送？直接来一个图表：
 
@@ -1242,6 +1241,21 @@ Image：图片一般放 CDN，大部分情况不需要 Cookie，故影响有限�
 1. 需要 UA 检测，部分浏览器不能加 SameSite=none
 
 IOS 12 的 Safari 以及老版本的一些 Chrome 会把 SameSite=none 识别成 SameSite=Strict，所以服务端必须在下发 Set-Cookie 响应头时进行 User-Agent 检测，对这些浏览器不下发 SameSite=none 属性
+
+
+**注意**
+> [(12) Barret李靖 on X: "Chrome 在 2024.01.04 也就是下周四，会开启 1% 的全球灰度，限制（默认禁止）Chrome 浏览器访问第三方 cookies，https://t.co/1o1T2AT1Mp，其目的是通过限制网站对第三方 cookie 的访问来限制跨站点跟踪，同时也可以防范大量 CSRF 攻击问题，影响的网站会比较多。… https://t.co/DaGYDc3jvh" / X (twitter.com)](https://twitter.com/Barret_China/status/1740665621866840568)
+Chrome在2024.01.04开始灰度测试,限制(默认禁止)Chrome浏览器访问第三方cookies([Google shares update on next step toward phasing out third-party cookies in Chrome (blog.google)](https://blog.google/products/chrome/privacy-sandbox-tracking-protection/)).
+会有哪些影响?
+* A站点下iframe内嵌了B站点, 当iframe中的b站点发起请求时, 它当前域下的cookie会禁止被携带. 例如，如果要求 B 站点必须是登录态，那么即便 B 站点刚在独立 Tab 页登录过，它在 iframe 下仍然会是未登录态，因为这种情况不允许它获取 B 站点下的 cookies 了.
+* A 站点通过 ajax 请求 B 站点的接口，此时 B 站点下的 cookies 在请求时会禁止被携带。也就是说，广告类、推荐类业务等都会直接受到影响，请求是可以发出去的，但是丢失了当前用户身份信息，无法进行身份识别和内容推荐
+当前的策略则更强，不管你是否有设置 SameSite=None，默认禁止访问第三方 cookies。 当然，它也提供了几个规避策略，允许网站自主修复这个问题：
+* 在 cookies 中增加 partitioned 属性，例如 `key=value; SameSite=None; Secure; Partitioned;`. Partitioned，它的作用是允许在 A 站点下新写一份 cookies，这份 cookies 跟独立打开 A 站点写下的 cookies 是两个储存空间，互不干扰.
+* Chrome 提供了一个 Related Website Sets 的白名单机制，允许你通过提交配置的方式给浏览器增加白名单，配置的作用是明确 A 站点与 B 站点存在关联关系，详情可以看这里：[https://github.com/GoogleChrome/related-website-sets/blob/main/RWS-Submission_Guidelines.md…](https://t.co/yWpUAhcwJU)
+* 通过 Storage Access API 向用户获得授权，跟网页要打开摄像头要求授权一样，只不过有效期只有 30 天。详情可以看这里：[https://developers.google.com/privacy-sandbox/3pcd/storage-access-api?hl=zh-cn…](https://t.co/S2d6ByvDIA)
+
+
+
 
 
 

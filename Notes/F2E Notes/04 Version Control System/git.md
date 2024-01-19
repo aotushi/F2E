@@ -440,24 +440,19 @@ foo.txt
 
 
 ##### 仓库中已经提交该文件
-不推荐
-```js
-//1.对于已经加入到版本库的文件，可以在版本库中删除该文件
-git rm --cached .idea
+**不推荐**
+1.在根目录下`.gitignore`文件夹中添加要忽略的文件
+2.使用命令删除此文件`git rm --cached XXXX`
+3.提交并推送到远程分支即可
 
-//然后在 .gitignore 中配置忽略
-.idea
 
-//最后
-add  和 commit 提交即可
-```
-
-[推荐](https://blog.csdn.net/NEWCIH/article/details/121989006)
+[**推荐**](https://blog.csdn.net/NEWCIH/article/details/121989006)
 ```bash
 git update-index --assume-unchanged 文件名
 
 git update-index --assume-unchanged *.obsidian
 ```
+
 如果你需要重新追踪该文件夹，你可以使用 `git update-index --no-assume-unchanged <file_or_folder>` 命令。
 
 

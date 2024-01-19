@@ -689,7 +689,34 @@ beforeRouteEnter(to,from,next) {
 ### 更改baseURL
 项目中可能会有几个请求不使用baseURL配置,可以在请求的第三个参数中使用`{baseURL: '/test'}`来变更基础路径
 
+### 返回数据类型
+`responseType` 表示浏览器将要响应的数据类型。`responseType`是Axios请求配置中的一个选项，它决定了Axios如何处理从服务器返回的响应数据的格式。
+// 选项包括: 'arraybuffer', 'document', 'json'(默认), 'text', 'stream' 
+// 浏览器专属：'blob'
 
+
+
+
+
+
+### 更换返回数据的格式
+**背景**
+> 因为axios中的默认transformReponse使用了JSON.parse。JSON.parse会舍去小点后的0。
+
+源码
+```js
+transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+```
+
+处理方案: 只能是后端把浮点数转成字符串传给前端，或者前端特殊处理加上小数显示
 
 
 # 问题

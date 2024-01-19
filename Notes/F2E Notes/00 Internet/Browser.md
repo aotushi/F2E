@@ -564,7 +564,8 @@ document.cookie = "user=John; secure";
 
 
 
-##### samesite  ????
+##### samesite
+[[HTTP#SameSite Cookies]]
 
 这是另外一个关于安全的特性。它旨在防止 XSRF（跨网站请求伪造）攻击。
 
@@ -573,7 +574,6 @@ document.cookie = "user=John; secure";
 - **`samesite=strict`（和没有值的 `samesite` 一样)**
 
 如果用户来自同一网站之外，那么设置了 `samesite=strict` 的 cookie 永远不会被发送。
-
 
 
 - **`samesite=lax`**
