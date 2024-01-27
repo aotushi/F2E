@@ -5399,7 +5399,7 @@ Vue.component('user-admin', {
 
 #### 背景
 
-在 Vue2.0 中，代码复用和抽象的主要形式是组件。有的情况下，你仍然需要<span style="color:blue">对普通 DOM 元素进行底层操作</span>，这时候就会用到自定义指令。
+在 Vue2.0 中，代码复用和抽象的主要形式是组件。有的情况下，你仍然需要<span style="color:blue;">对普通 DOM 元素进行底层操作</span>，这时候就会用到自定义指令。
 
 #### 分类
 
