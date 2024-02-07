@@ -193,11 +193,23 @@ function newOperator(ctor, ...args) {
 
 function createObject(ctor) {
   let obj = Object.create(null);
-  Object.setPropertyOf(obj, ctor.prototype);
+  Object.setPropertyOf(obj, ctor.prototype);// 上面的两步可以合并为一步: obj = Object.create(ctor.prototype)
   
   const res = ctor.apply(obj, [].slice.call(arguments, 1));
   
   return typeof(res) === 'object' ? ret : obj;
+}
+
+//其它形式
+Function.method('new', function() {
+	let that = Object.create(this.prototype);
+	let res = this.apply(that, arguments);
+	return (typeof res === 'object' && res) || that;
+})
+
+Function.prototype.method = function(name, fn) {
+	this.prototype[name] = fn;
+	return this;
 }
 ```
 

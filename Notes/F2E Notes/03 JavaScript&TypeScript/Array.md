@@ -2927,7 +2927,7 @@ const lastItem = arr => arr.slice(-1)[0]
 	arr.slice(0)
 ```
 
-类数组转换为真数组
+2.类数组转换为真数组
 
 ```javascript
 //es5
@@ -2939,11 +2939,23 @@ let result = [].slice.call(arrLike);
 Array.of(arguments)
 ```
 
-将字符串第一个字符变小写
+3.将字符串第一个字符变小写
 ```js
 const lowerCaseFirst = str => `${str.charAt(0).toLowerCase()}${str.slice(1)}`
 ```
 
+4.将表格数据处理为分页形式
+```js
+// 背景信息: 前端接口没有分页, 请求回来的数据是全部数据. 利用分页数据(当前页,页面数量)更新来截取并展示数组的数据
+
+function handleTableData(page, size, total, tableData) {
+  if (page * size <= total) {
+    return tableData.slice((page - 1) * size, page * size);
+  } else {
+    return tableData.slice((page - 1) * size, total);
+  }
+}
+```
 
 **代码实现**
 
