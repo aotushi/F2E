@@ -1773,6 +1773,7 @@ server.listen(8000);
 > https://segmentfault.com/a/1190000022398875(跨域解决方案)
 >
 > https://segmentfault.com/a/1190000011145364
+> https://www.swj.name/?content=54
 
 
 待办
@@ -1780,12 +1781,10 @@ server.listen(8000);
 > https://zhuanlan.zhihu.com/p/375404174
 
 
+### 是什么
 
-
-
-### what
-
-`跨源资源共享` ([CORS](https://developer.mozilla.org/zh-CN/docs/Glossary/CORS))（或通俗地译为跨域资源共享）是一种基于 [HTTP](https://developer.mozilla.org/zh-CN/docs/Glossary/HTTP) 头的机制，该机制通过允许服务器标示除了它自己以外的其它 [origin](https://developer.mozilla.org/zh-CN/docs/Glossary/Origin)（域，协议和端口），使得浏览器允许这些 origin 访问加载自己的资源。
+> `跨源资源共享` ([CORS](https://developer.mozilla.org/zh-CN/docs/Glossary/CORS))（或通俗地译为跨域资源共享）是一种基于 [HTTP](https://developer.mozilla.org/zh-CN/docs/Glossary/HTTP) 头的机制，该机制通过允许服务器标示除了它自己以外的其它 [origin](https://developer.mozilla.org/zh-CN/docs/Glossary/Origin)（域，协议和端口），使得浏览器允许这些 origin 访问加载自己的资源。
+ 简单来说,就是通过一组新增的 HTTP 首部字段，允许服务器声明哪些域可以通过浏览器访问自身的资源。
 
 **CORS**是一个W3C标准，全称是"跨域资源共享"（Cross-origin resource sharing）。
 
@@ -1794,7 +1793,6 @@ server.listen(8000);
 **实例**
 
 运行在 `https://domain-a.com` 的 JavaScript 代码使用 [`XMLHttpRequest`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 来发起一个到 `https://domain-b.com/data.json` 的请求。
-
 
 
 ### 简介
@@ -1806,13 +1804,22 @@ CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持�
 因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信
 
 
+#### 那么，与 CORS 相关的 HTTP 首部字段有那些呢？
 
+**与 CORS 相关的请求报文字段：**
+* Origin
+* Access-Control-Request-Method
+* Access-Control-Request-Headers
 
-
-
+**与 CORS 相关的响应报文字段：**
+* Access-Control-Allow-Origin
+* Access-Control-Allow-Methods
+* Access-Control-Allow-Headers
+* Access-Control-Allow-Credentials
+* Access-Control-Expose-Headers
+* Access-Control-Max-Age
 
 ### 原因
-
 > [同源安全策略](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy) 默认阻止“跨域”获取资源。但是 CORS 给了web服务器这样的权限，即服务器可以选择，允许跨域请求访问到它们的资源。
 
 ```
@@ -1821,33 +1828,178 @@ CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持�
 3.跨域问题是浏览器的ajax引擎阻挡了返回的服务器数据
 ```
 
-
-
 ### 使用场景
 
 这份 [cross-origin sharing standard](https://fetch.spec.whatwg.org/#http-cors-protocol) 允许在下列场景中使用跨站点 HTTP 请求：
-
 - 前文提到的由 [`XMLHttpRequest`](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch APIs](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API) 发起的跨源 HTTP 请求。
 - Web 字体 (CSS 中通过 `@font-face` 使用跨源字体资源)，[因此，网站就可以发布 TrueType 字体资源，并只允许已授权网站进行跨站调用](https://www.w3.org/TR/css-fonts-3/#font-fetching-requirements)。
 - [WebGL 贴图](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL)
 - 使用 [`drawImage`](https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/drawImage) 将 Images/video 画面绘制到 canvas。
 - [来自图像的 CSS 图形](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Shapes/Shapes_From_Images)
 
-
-
 ### 功能概述
 
 跨源资源共享标准新增了一组 HTTP 首部字段，允许服务器声明哪些源站通过浏览器有权限访问哪些资源。
-
-对那些可能对服务器数据产生副作用的 HTTP 请求方法(GET之外及其他),浏览器必须首先使用 [`OPTIONS`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/OPTIONS) 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨源请求。
-
+对那些可能对服务器数据产生副作用的 HTTP 请求方法(GET之外及其他),浏览器必须首先使用 [`OPTIONS`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/OPTIONS) 方法发起一个**预检请求（preflight request）**，从而获知服务端是否允许该跨源请求。
 在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 [Cookies](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies) 和 [HTTP认证](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication) 相关数据）。
 
 #### 错误检查
-
 CORS 请求失败会产生错误，但是为了安全，在 JavaScript 代码层面是无法获知到底具体是哪里出了问题。你只能查看浏览器的控制台以得知具体是哪里出现了错误。
 
 
+### CORS如何工作
+> https://www.swj.name/?content=54
+
+#### 普通跨域请求
+
+在通信过程中,使用origin和Access-Control-Allow-Origin就能完成最简单的访问控制,例如:
+```http
+GET /api HTTP/1.1
+Host: www.b.com
+```
+
+**客户端**
+假设这个请求是从`www.a.com`发往`www.b.com`,浏览器发现请求跨域，就会在请求报文中添加 Origin 字段，它的作用是用来表示请求来自于哪个域：
+```http
+Origin: www.a.com
+```
+
+**服务端**
+服务端接收此报文后，如果允许该域访问自身的资源，那么就通过响应报文的 `Access-Control-Allow-Origin` 字段进行回复：
+```http
+Access-Control-Allow-Origin: http://www.a.com
+```
+注意：Access-Control-Allow-Origin 的值也可以设置为 `“*”`，表示该资源可以被任意外域访问。
+
+**解除跨域限制**
+浏览器接收到此响应报文后，知道了服务端允许跨域访问，于是解除同源策略限制，这样就完成了一次跨域请求。那么，实际通信的报文是这样的：
+```http
+# 请求报文
+GET /api HTTP/1.1
+Host: www.b.com
+Origin: http://www.a.com
+
+# 响应报文
+Access-Control-Allow-Origin: http://www.a.com
+```
+
+**简单请求**
+上面的这种方式是在原始报文中增加头部字段实现的，比较简单，所以叫它简单请求，但简单请求需要满足以下条件：
+* 请求方法是 HEAD、GET 或 POST；
+- 请求的首部仅包含：
+	- Accept
+	- Accept-Language
+	- Content-Language
+	- Content-Type
+	- DPR
+	- Downlink
+	- Save-Data
+	- Viewport-Width
+	- Width
+- Content-Type 的类型仅限于以下3种：
+	- text/plain、
+	- multipart/form-data
+	- application/x-www-form-urlencoded；
+- 请求中未使用 `ReadableStream` 对象；
+- 请求中未注册 `XMLHttpRequestUpload` 事件监听器。
+
+#### **预检请求**
+如果跨域请求不满足上述条件，那么浏览器在发出正式请求之前，会与服务端进行一次 HTTP 通信，这个过程就叫做预检（Preflight）。预检的作用是与服务端进行一次预先检查，判断服务端是否能够接收实际请求，避免产生未预期的错误。
+案例:
+```http
+POST /api HTTP/1.1
+HOST: www.b.com
+Content-Type: application/json
+X-NAME: X-123
+{"x":1,"y":2}
+```
+
+因为上面原始报文中的Content-Type 和 X-NAME（自定义的）都不符合简单请求的要求，于是开始执行预检，预检通过后再进行实际报文的通信：
+```http
+# 预检过程开始================
+
+# 预检请求报文
+OPTIONS /api HTTP/1.1
+Host: www.b.com
+Origin: http://www.a.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Content-Type, X-NAME
+
+# 预检响应报文
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://www.a.com
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Headers: Content-Type, X-NAME
+Access-Control-Allow-Credentials: true
+Access-Control-Expose-Headers: X-ID, X-AGE
+Access-Control-Max-Age: 86400
+
+# 预检过程结束==================
+
+# 请求报文
+POST /api HTTP/1.1
+Host:www.b.com
+Content-Type: application/json
+X-NAME: X-123
+{"x":1,"y":2}
+
+# 响应报文
+HTTP/1.1 200 OK
+X-ID: 1212
+X-AGE: 19
+Access-Control-Allow-Origin: http://www.a.com
+
+```
+
+**预检请求报文**
+预检请求是根据实际请求产生的，它必须使用 OPTIONS 方法，还包括几个相关头部字段：
+
+**Origin**
+和简单请求一样，预检请求同样需要使用 Origin 字段表示请求的源域。
+
+**Access-Control-Request-Method**
+用于表示实际请求将会使用的方法，服务端通过此字段判断能否接受实际请求使用的方法。在上面的例子中，原始报文的请求方法是 POST，所以其值为 POST。
+
+**Access-Control-Request-Headers**
+用于通知服务器实际请求中所携带的首部字段，这些字段通常是经过修改或自定义的。在上面的例子中，原始报文设置了 Content-Type，并且自定义了一个名为 X-NAME 字段，它们都被预检请求告知给服务端，由服务端判断其能否被允许。
+
+
+**预检响应报文**
+预检响应是服务端对预检请求的回复，浏览器接收后以此为依据判断实际请求是否符合服务端的要求，如果不符合，会提示错误并拒绝实际请求的发送。预检响应包括以下几个字段：
+
+**Access-Control-Allow-Origin**
+和简单请求的响应一样，预检响应会通过此字段告知浏览器服务端是否允许当前域访问其资源。
+
+**Access-Control-Allow-Methods**
+用于说明服务端支持哪些请求方法，其值可以是一个列表，就像上面的实例一样，实际请求的方法必须包含在列表中才能通过预检。
+
+**Access-Control-Allow-Headers**
+用于回复预检请求的 Access-Control-Request-Headers，表明实际请求允许携带的特殊头部字段，同样需要匹配才能通过预检。
+
+**Access-Control-Allow-Credentials**
+用于表示是否允许使用实际请求报文发送 Cookie、Authorization Headers 或者 TLS 客户端证书。
+
+以 Cookie 为例，我们知道，Cookie 也是受浏览器同源策略保护的，想实现 Cookie 的跨域发送，可以通过设置 `XMLHttpRequest` 的 `withCredentials` 属性实现（仅对跨域请求有效）：
+```http
+let xhr = new XMLHTTPRequest()
+xhr.widthCredentials = true
+```
+当 Access-Control-Allow-Credentials 的值为 true 时，就表示服务端同意此类信息的发送。
+另外需要注意的是，如果此字段值为 true，那么 `Access-Control-Allow-Origin` 的值不能为`“*”`。
+
+**Access-Control-Expose-Headers**
+默认情况下，在跨域通信中使用 XMLHttpRequest 的 getResponseHeader 方法只能获取响应报文的一些基本字段：Cache-Control、Content-Language、Content-Length、Content-Type、Expires、Last-Modified、Pragma。
+
+如果服务端想在实际响应报文头中加入一些特殊字段，并且希望能在浏览器中获取它们，就可以使用 Access-Control-Expose-Headers 列出这些字段的名称，浏览器收到这样的响应报文后，就会允许这些字段被访问了。
+
+**Access-Control-Max-Age**
+用于指定预检结果能够被缓存多久，单位为秒。
+
+浏览器并不会每次都对相同的请求进行预检，那样效率太低了，预检结果会被缓存，当再有类似的请求，如果与之前的预检匹配，就会像简单请求那样直接发送。
+
+
+**预检完成**
+浏览器接收到预检响应后，整个预检过程就结束了，浏览器会使用预检结果判断是否发送实际请求。在实例中，预检通过了，于是按照约定发送了实际请求，服务端也正常响应了请求，跨域通信就完成了。
 
 
 
