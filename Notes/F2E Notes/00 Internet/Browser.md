@@ -2006,6 +2006,7 @@ xhr.widthCredentials = true
 ### 跨域10种解决方案
 
 > [javascript - 10 种跨域解决方案（附终极方案）_个人文章 - SegmentFault 思否](https://segmentfault.com/a/1190000022398875()
+> https://juejin.cn/post/6844904126246027278
 
 
 
@@ -2682,10 +2683,6 @@ Mac
 
 
 
-
-#### 10种解决跨域方法 //todo
-
-> https://juejin.cn/post/6844904126246027278
 
 
 
