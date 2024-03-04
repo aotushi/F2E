@@ -3613,6 +3613,124 @@ Vue.component('组件名', 组件)
 
 
 
+动态`<component>`案例
+
+```vue
+// src/comopnents/baseComponents/baseForm/index.vue
+
+<template>
+	<div @clik.stop>
+    <component
+    	:is="componentId"
+      v-bind="$attrs"
+      @click="(param) => this.$emit('click', param)"
+    ></component>
+  </div>
+</template>
+
+
+<script>
+	import baseInput from "./baseInput"
+  import baseSelect from "./baseSelectCustom"; // 定制版
+  import baseTime from "./baseTime";
+  import baseCheck from "./baseCheck";
+  import baseJudge from "./baseJudge";
+  import baseupload from "./baseupload";
+  import baseSelectQuery from "./baseSelectQuery";
+  import baseSelectQuery_two from "./baseFromMask_two";
+  import baseSearchShll from "./baseSearchShll";
+  import baseCheckTwo from "./basecheckTwo";
+  import baseTime_two from "./baseTime_two";
+  import baseCheckthree from "./baseCheckthree";
+  import baseInputTwo from "./baseInputTwo";
+  import baseuploadMetering from "./baseuploadMetering";
+  import baseInputSelects from "./baseInputSelects";
+  import basejudeFlag from "./basejudeFlag"
+  import basePopup from "./baseInputpopup";
+  import baseInforSearchShll from "./baseInforSearchShll";
+  import baseTimeashdas from "./baseTimeashdas";
+  import baseJudges from "./baseJudges";
+  import baseJudgetb from "./baseJudgetb";
+  
+  export default {
+    name: 'baseFrom',
+    components: {
+      baseInput,
+      baseSelect,
+      baseTime,
+      baseCheck,
+      baseJudge,
+      baseupload,
+      baseSelectQuery,
+      baseSelectQuery_two,
+      baseSearchShll,
+      baseCheckTwo,
+      baseTime_two,
+      baseCheckthree,
+      baseInputTwo, 
+      baseuploadMetering,
+      baseInputSelects,
+      basejudeFlag,
+      basePopup,
+      baseInforSearchShll,
+      baseTimeashdas,
+      baseJudges,
+      baseJudgetb,
+    },
+    props: {
+      type: {type:String, default: '1'}
+    },
+    computed: {
+      componentId() {
+        return [
+          "baseInput",//ok
+          "baseSelect",//ok
+          "baseTime",//ok
+          "baseCheck",//ok
+          "baseJudge",//ok
+          "baseupload",//该组件默认不可修改
+          "baseSelectQuery",//ok
+          "baseSelectQuery_two",//
+          "baseSearchShll",//9
+          "baseCheckTwo",//ok
+          "baseTime_two",//ok
+          "baseCheckthree",//ok
+          "baseInputTwo", //13ok
+          "baseuploadMetering", // 14
+          "baseInputSelects",//15
+          "basejudeFlag",//16
+          "basePopup",
+          'baseInforSearchShll',//18ok
+          'baseTimeashdas',//19ok
+          'baseJudges',//20ok
+          'baseJudgetb',//21ok
+        ][this.type - 1];
+      }
+    }
+  }
+</script>
+```
+
+
+
+```vue
+// 其他组件调用baseForm
+
+<!-- 发电用户普查 -->
+<article class="publicData" v-show="powerUsers">
+  <template v-for="(item, index) in publicEntryList">
+	<baseFrom
+          v-if="[19].indexOf(index) != -1"
+          :key="index"
+          v-bind="item"
+          v-model="publicEntryList[index]"
+          @click="entryList($event, item, index)"
+          />
+  </template>
+</article>
+```
+
+
 
 
 #### keep-alive
