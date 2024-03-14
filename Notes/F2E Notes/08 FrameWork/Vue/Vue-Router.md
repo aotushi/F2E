@@ -1358,7 +1358,9 @@ beforeRouteEnter (to, from, next) {
 }
 ```
 
-注意 `beforeRouteEnter` 是支持给 `next` 传递回调的唯一守卫
+注意: 
+* `beforeRouteEnter` 是支持给 `next` 传递回调的唯一守卫
+* next()函数的执行时机比较晚, 在组件**mounted**之后
 
 
 
