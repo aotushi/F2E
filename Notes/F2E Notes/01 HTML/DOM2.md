@@ -5,7 +5,7 @@ aliases: 文档对象模型, DOM
 # 资源
 > [Introduction to the DOM - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
 > [Document - Web APIs | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/API/Document)
-
+> https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API
 
 
 
@@ -20,7 +20,7 @@ aliases: 文档对象模型, DOM
 DOM将文档表示为nodes和objects.所以编程语言可以与页面进行交互.作为网页的面向对象的表示,它可要被脚本语言更改,例如JS.
 
 
-DOM是面向对象语言(pythhon, js, php,java等)的接口.DOM代表作为[[202302202238|节点]]树的HTML文档.
+DOM是面向对象语言(python, js, php,java等)的接口.DOM代表作为[[202302202238|节点]]树的HTML文档.
 
 
 ## 为什么需要DOM?
@@ -31,18 +31,16 @@ DOM基本上是用对象的方式表示相同HTML文档的不同格式.
 
 ## 如何访问DOM
 
-无论实在script标签内或者页面内, 你可以直接使用[[202302201314a|文档对象模型]]和 window的api来操作文档自身,或页面中其它元素(文档的后代元素).
+### [来源](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction#accessing_the_dom)
 
-由于通常不推荐混合页面的结构(使用HTML编写)和DOM的操作(使用javascript编写), JS部分将集合在此处并与HTML分开.(也就是写在script标签中)
-例如
+在页面中直接使用`document`或`window`对象的API来操作文档自身或其任意子元素.
+注意: 通常不推荐在HTML中写javascript, javascript将放在一起并与HTML分离.
 
-```html
-<body onload="console.log('load page')">
+## 基本数据类型
 
-....
+### [来源](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction#fundamental_data_types)
 
-</body>
-```
+
 
 
 ## 使用DOM
@@ -165,7 +163,33 @@ function onMouseUp(e) {
 
 ## 实例方法
 
+### checkValidity
 
+
+### reportValidity
+
+
+### select
+
+
+### setCustomValidity
+
+
+### setRangeText
+
+
+
+### setSelectionRange
+
+
+
+### showPicker
+
+
+### stepDown
+
+
+### stepUp
 
 
 
@@ -174,7 +198,7 @@ function onMouseUp(e) {
 ## 事件
 
 
-### selectionchange
+### selectionchange(实验)
 
 #### 概述
 > [Selection API](https://developer.mozilla.org/en-US/docs/Web/API/Selection)的`selectionchange`在Document当前的Selection改变时触发.
