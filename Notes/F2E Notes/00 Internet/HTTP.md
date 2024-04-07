@@ -2,7 +2,7 @@
 
 > [HTTP概述 - HTTP | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Overview)
 
-### 是什么
+### 是什么 
 
 全称：超文本传输协议（`HyperText Transfer Protocol`）
 
