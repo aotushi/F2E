@@ -7,7 +7,8 @@
 * [🔥 2022 前端性能优化最佳实践 - SegmentFault 思否](https://segmentfault.com/a/1190000041753539)
 * [前端性能优化 24 条建议(2020) - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/121056616?utm_source=com.microsoft.todos&utm_medium=social&utm_oi=41541510889472)
 
-
+待办
+- [ ] https://github.com/thedaviddias/Front-End-Performance-Checklist
 # 性能优化(雅虎军规)
 
 

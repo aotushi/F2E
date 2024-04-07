@@ -1447,53 +1447,10 @@ session 保存数据理论上没有任何限制
 
 ## 相关的使用案例
 
-### 页面关闭时候发送请求
-
-#### 来源
-
-> 阮一峰的网络日志
->
->   ↓↓↓
->
-> css-tricks.com
->
-> https://css-tricks.com/send-an-http-request-on-page-exit/
-
-
-
-#### 解决
-
-**Fetch's keepalive flag**
 
 
 
 
-
-**Navigator.sendBeacon()**
-
-
-
-****
-
-
-
-
-
-## DNS查询原理详解
-
-> [DNS 查询原理详解 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2022/08/dns-query.html?continueFlag=3abdb5f5d944298cd84d8b8df87a853b)
-
-
-
-
-
-### 如何快速掌握HTTP协议
-
-> [如何快速掌握 HTTP 协议？ (weibo.com)](https://weibo.com/ttarticle/p/show?id=2309404371449275123719)
-
-
-### Chrome原理和HTTP协议/todo
-> [面试官不讲武德，一上来就问我Chrome原理和HTTP协议 - 知乎](https://zhuanlan.zhihu.com/p/331430643)
 
 
 
