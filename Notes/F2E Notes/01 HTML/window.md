@@ -490,7 +490,7 @@ open('https://abd.html') //打开新窗口 地址为https://abd.html
 
 
 
-### 页面跳转的几种方式
+### 打开新页面的几种方式
 
 #### 超链接
 例子
@@ -538,11 +538,11 @@ window.location.assign("https://www.baidu.com")
 
 其中window.open的第二个属性有以下的值可供选择，
 
-- _blank - URL加载到一个新的窗口。这是默认
-- _parent - URL加载到父框架
-- _self - URL替换当前页面
-- _top - URL替换任何可加载的框架集
-- *name* - 窗口名称
+- `_blank` - URL加载到一个新的窗口。这是默认
+- `_parent` - URL加载到父框架
+- `_self` - URL替换当前页面
+- `_top` - URL替换任何可加载的框架集
+- `name` - 窗口名称
 
 需要特别注意的是，`_blank`虽然可以打开一个新窗口，但也会受到浏览器限制，可能会被浏览器拦截。
 
