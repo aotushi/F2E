@@ -190,10 +190,6 @@ function getQueryVariable(variable) {
 
 
 
-### window.open
-
-
-
 
 ## Window.locationbar  <span style="font-size:12px;border:1px solid #ccc;border-radius: 6px;" title="This value may not be changed." class="badge inline readonly">Read only</span>
 
@@ -424,7 +420,6 @@ function getQueryVariable(variable) {
 
 ## Window.open()
 
-
 #### 是什么
 
 > `Window` 接口的 **`open()`** 方法，是用指定的名称将指定的资源加载到浏览器上下文（窗口 `window` ，内嵌框架 `iframe` 或者标签 `tab` ）。如果没有指定名称，则一个新的窗口会被打开并且指定的资源会被加载进这个窗口的浏览器上下文中。
@@ -495,12 +490,10 @@ open('https://abd.html') //打开新窗口 地址为https://abd.html
 
 
 
-### 页面跳转的几种方式
+### 打开新页面的几种方式
 
 #### 超链接
-
 例子
-
 ```html
 <a href="https://www.baidu.com" title="点击进入百度" target="_blank">点击进入百度</a>
 ```
@@ -515,12 +508,9 @@ open('https://abd.html') //打开新窗口 地址为https://abd.html
 | _top                                                         | 在整个窗口中打开被链接文档。         |
 | [framename](https://www.w3school.com.cn/tags/att_a_target.asp) | 在指定的框架中打开被链接文档。       |
 
-
-
 #### JS方式
 
 通过js方式跳转页面主要依赖于window的两个属性
-
 ##### window.location
 
 > window.location 对象可用于获取当前页面地址（URL）并把浏览器重定向到新页面。
@@ -528,24 +518,19 @@ open('https://abd.html') //打开新窗口 地址为https://abd.html
 一些案例:
 
 - window.location.href 返回当前页面的 href (URL)
-
 ```ini
 window.location.href='https://www.baidu.com'复制代码
 ```
 
 - window.location.replace 用新的文档替换当前文档，没有返回功能
-
 ```javascript
 window.location.replace("https://www.baidu.com")复制代码
 ```
 
 - window.location.assign 加载新文档，和window.location.href没什么区别
-
 ```javascript
 window.location.assign("https://www.baidu.com")
 ```
-
-
 
 ##### window.open
 
@@ -553,21 +538,17 @@ window.location.assign("https://www.baidu.com")
 
 其中window.open的第二个属性有以下的值可供选择，
 
-- _blank - URL加载到一个新的窗口。这是默认
-- _parent - URL加载到父框架
-- _self - URL替换当前页面
-- _top - URL替换任何可加载的框架集
-- *name* - 窗口名称
+- `_blank` - URL加载到一个新的窗口。这是默认
+- `_parent` - URL加载到父框架
+- `_self` - URL替换当前页面
+- `_top` - URL替换任何可加载的框架集
+- `name` - 窗口名称
 
 需要特别注意的是，`_blank`虽然可以打开一个新窗口，但也会受到浏览器限制，可能会被浏览器拦截。
-
-
 
 #### JS创建a标签
 
 > 超链接打开新窗口的方式还是挺实用的，只是在有些情境下可能不太方便，比如，对某个非超链接的元素进行操作，就无法使用`_target`，而如果绑定`click`事件，执行window.open()方法，又有被浏览器拦截的风险，实在不与推荐，这种情况下，使用下面的方法可以很好得解决问题。
-
-
 
 ```html
 <p @click="toPage">点击进入百度</p>
@@ -596,10 +577,6 @@ window.location.assign("https://www.baidu.com")
   }
 </script>
 ```
-
-
-
-
 
 
 ## Window.postMessage()
