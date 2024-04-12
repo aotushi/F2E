@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "F2E Notes/18 前端工程化/前端工程化入门.md",
+                "file": "F2E Notes/00 Internet/HTTP.md",
                 "mode": "source",
                 "source": false
               }
@@ -56,7 +56,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "editorconfig",
+                "query": "",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -73,12 +73,11 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 351.5
+    "width": 295.5
   },
   "right": {
     "id": "2158b72d25f05647",
@@ -94,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/18 前端工程化/前端工程化入门.md",
+                "file": "F2E Notes/00 Internet/HTTP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +129,9 @@
             "state": {
               "type": "all-properties",
               "state": {
-                "sortOrder": "frequency"
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
               }
             }
           }
@@ -144,17 +145,18 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "canvas:新建白板": false,
-      "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
-      "command-palette:打开命令面板": false,
-      "markdown-importer:打开 Markdown 格式转换器": false,
-      "zk-prefixer:创建时间戳笔记": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "command-palette:Open command palette": false,
+      "markdown-importer:Open format converter": false,
+      "zk-prefixer:Create new unique note": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
   "active": "ca17cc3792d5f517",
   "lastOpenFiles": [
+    "F2E Notes/18 前端工程化/前端工程化入门.md",
     "F2E Notes/note 面试题/09_问题.md",
     "F2E Notes/note 笔记题目/HTML.md",
     "F2E Notes/note 笔记题目/json-server.md",
@@ -192,7 +194,6 @@
     "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
     "F2E Notes/08 FrameWork/Project vue react mini other.md",
     "F2E Notes/01 HTML/articles/aria-label,aria-labelledby,aria-describedby.md",
-    "F2E Notes/README.md",
     "F2E Notes/01 HTML/articles",
     "F2E Notes/18 前端工程化/templatevue2/package.json",
     "F2E Notes/18 前端工程化/templatevue2/test.vue",
