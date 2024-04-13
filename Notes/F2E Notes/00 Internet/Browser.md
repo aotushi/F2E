@@ -1468,7 +1468,14 @@ Access-Control-Allow-Origin: http://www.a.com
 - 请求中未注册 `XMLHttpRequestUpload` 事件监听器。
 
 #### **预检请求**
-如果跨域请求不满足上述条件，那么浏览器在发出正式请求之前，会与服务端进行一次 HTTP 通信，这个过程就叫做预检（Preflight）。预检的作用是与服务端进行一次预先检查，判断服务端是否能够接收实际请求，避免产生未预期的错误。
+
+>CORS跨域请求会先发option请求，如果server返回access-control-allow-origin头为或者和当前域名一致的话，才会进入第二段的真正请求。
+不然就会报 cross origin request is forbidden错误
+
+
+如果跨域请求不满足简单请求的条件，那么浏览器在发出正式请求之前，会与服务端进行一次 HTTP 通信，这个过程就叫做预检（Preflight）。
+预检的作用是与服务端进行一次预先检查，判断服务端是否能够接收实际请求，避免产生未预期的错误。
+
 案例:
 ```http
 POST /api HTTP/1.1
