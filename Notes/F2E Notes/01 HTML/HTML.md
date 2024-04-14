@@ -761,7 +761,8 @@ Facebook和twitter提供的元数据协议
 - **prefetch/preload**。两个值都是让浏览器预先下载并缓存某个资源，但不同的是，prefetch 可能会在浏览器忙时被忽略，而 preload 则是一定会被预先下载。
 - **prerender**。浏览器不仅会加载资源，还会解析执行页面，进行预渲染。
 
-![Untitled](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/Untitled.2apv2rlf77i8.webp)
+![Untitled](
+)
 
 
 
