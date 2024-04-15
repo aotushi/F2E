@@ -512,246 +512,6 @@ git push
 
 
 
-## git进阶使用
-
-### 历史版本回滚
-
-> HEAD指向的版本就是当前的版本,因此git允许我们在版本的历史之间穿梭.
->
-> 使用git log查看提交历史,查询需要返回的版本的id
->
-> 版本回退之后,需要再次回到回退前,可以使用git reflog查看命令历史, 里面会有需要的版本id
-
-#### 版本回滚的[3种情况](https://blog.csdn.net/weixin_43410419/article/details/84672111):
-
-##### 1.明确知道回退到第几个版本
-
-```js
-回到上一个版本: git reset --hard HEAD
-回到上上一个版本: git reset --hard HEAD^^
-回到20个版本之前: git reset --hard HEAD~20
-```
-
-##### 2. 回退版本不确定
-
-```js
-1.使用git log 查看每次的提交记录
-2.借助id来回退
-git reset --hard commit_id  //id可以只简写为前7位. 返回某个节点,不保留修改.
-
-git commit之后,撤销commit提交,却保留代码:
-git reset --soft HEAD^ //HEAD^是上一个版本,也可以写成HEAD~1
-```
-
-##### 3. 回退到某个文件之后,又需要返回最近更新的某个版本
-
-```js
-1. git reflog 查看每一次命令记录
-2. git reset --hard commit_id 返回相应的版本
-```
-
-#### 4.放弃所有本地修改
-
-```js
-git checkout . //在add之前使用,撤销所有的更改. 在add之后使用,无效.
-```
-
-
-### revert commit 与 reset commit
-
-Revert 的指令是**再做一个新的 Commit，来取消你想要撤回的 Commit, 所以会增加一条commit**
-
-在[SourceTree](https://so.csdn.net/so/search?q=SourceTree&spm=1001.2101.3001.7020)中，如果想取消已经commit的code，**可以右击选reverse commit.（撤回 老commit的同时，新建了一个commit)**
-
-如果想撤回[commit](https://so.csdn.net/so/search?q=commit&spm=1001.2101.3001.7020)又不想新加一个commit的话，不要用reverse commit，**而是用Reset 指令**
-
-
-
-### reset/rebase/revert的区别
-
-| 指令   | 改变历史记录 | 使用场景                                                     |
-| ------ | ------------ | ------------------------------------------------------------ |
-| reset  | 是           | 把目前的状态设定成某个指定的 Commit的状态，通常适用于尚未推出去的 Commit。 |
-| rebase | 是           | 不管是新增、修改、删除Commit 都相当方便，用来整理、编辑没有推出去的 Commit 相当方便，但通常也只适用于尚未推出去的 Commit。 |
-| revert | 是           | 新增一个Commit 来取消另一个Commit 的內容，原本的 Commit 依旧会保存在历史记录中。虽然会因此而增加 Commit 数，但通常比较适用于已经推出去的 Commit，或是不允许使用 Reset 或 Rebase 之修改历史记录的指令的场合。 |
-
-
-
-### rebase(重定)
-
-> [【Git】rebase 用法小结 - 简书 (jianshu.com)](https://www.jianshu.com/p/4a8f4af4e803)
-
-rebase的作用简要概括为：可以对某一段线性提交历史进行编辑、删除、复制、粘贴；因此，合理使用rebase命令可以使我们的提交历史干净、简洁！
-
-但是需要注意的是：
-
-> 不要通过rebase对任何已经提交到公共仓库中的commit进行修改（你自己一个人玩的分支除外）
-
-
-##### 具体操作
-
-当我们在本地仓库中提交了多次，在我们把本地提交push到公共仓库中之前，为了让提交记录更简洁明了，我们希望把如下分支B、C、D三个提交记录合并为一个完整的提交，然后再push到公共仓库。
-
-![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/5/2/1631fdf49c54c568~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
-
-现在我们在测试分支上添加了四次提交，我们的目标是把最后三个提交合并为一个提交
-
-![](https://upload-images.jianshu.io/upload_images/2147642-ce849c4eab3d803b.png?imageMogr2/auto-orient/strip|imageView2/2/w/434/format/webp)
-
-
-
-这里我们使用命令
-
-```bash
-git rebase -i [startpoint] [endpoint]
-```
-
-`-i`的意思是`--interactive`，即弹出交互式的界面让用户编辑完成合并操作.
-
-`[startpoint] [endpoint]`则指定了一个编辑区间，如果不指定`[endpoint]`，则该区间的终点默认是当前分支HEAD所指向的commit(注：该区间指定的是一个前开后闭的区间)。 
-
-在查看到了log日志后，我们运行以下命令：
-
-```bash
-git rebase -i 36224db
-```
-
-或者
-
-```bash
-git rebase -i HEAD~3
-```
-
-然后我们会看到如下界面:
-
-![](https://upload-images.jianshu.io/upload_images/2147642-03d48aa767efb307.png?imageMogr2/auto-orient/strip|imageView2/2/w/647/format/webp)
-
-
-
-上面未被注释的部分列出的是我们本次rebase操作包含的所有提交，下面注释部分是git为我们提供的命令说明。每一个commit id 前面的pick表示指令类型，git 为我们提供了以下几个命令:
-
-```bash
-pick：保留该commit（缩写:p）
-
-reword：保留该commit，但我需要修改该commit的注释（缩写:r）
-
-edit：保留该commit, 但我要停下来修改该提交(不仅仅修改注释)（缩写:e）
-
-squash：将该commit和前一个commit合并（缩写:s）
-
-fixup：将该commit和前一个commit合并，但我不要保留该提交的注释信息（缩写:f）
-
-exec：执行shell命令（缩写:x）
-
-drop：我要丢弃该commit（缩写:d）
-```
-
-根据我们的需求，我们将commit内容编辑如下:
-
-![](https://upload-images.jianshu.io/upload_images/2147642-a651234e62ed20a5.png?imageMogr2/auto-orient/strip|imageView2/2/w/536/format/webp)
-
-
-
-上面的意思就是把第二次、第三次提交都合并到第一次提交上
-
-然后`wq`保存退出后是注释修改界面:
-
-![](https://upload-images.jianshu.io/upload_images/2147642-44bbd784dcadfb31.png?imageMogr2/auto-orient/strip|imageView2/2/w/801/format/webp)
-
-可以再浏览态 按下两个dd可以删除一行
-
-最终的编辑效果如下：
-
-![](https://upload-images.jianshu.io/upload_images/2147642-334e0a5c47a24f87.png?imageMogr2/auto-orient/strip|imageView2/2/w/448/format/webp)
-
-编辑完保存即可完成commit的合并了：
-
-
-### 撤销已提交到开发分支上的内容
-#### 背景介绍
-开发分支a的内容合并到dev分支后,提交到了远端,之后dev分支多次更新.但是现在需要将a分支的内容从dev分支上剔除掉.
-
-#### 实现方案
-
-**git revert**
-使用`git revert <提交ID>`为每个提交(包括普通提交和合并提交)创建一个新的“反向”提交，这样就可以撤销这些提交的更改。
-如果提交中包含合并提交，我们需要为每个合并提交指定要保留的父分支。通常，`-m 1`选项表示保留第一个父分支的更改，这通常是合并之前的分支状态。
-```bash
-第一次:  
-Commit: 42a7f41fc651849b767969ef8a4ab4f35569c308 [42a7f41]  
-Parents: 1b001ac613, 3ff5c608c0  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Wednesday, January 17, 2024 5:19:38 PM  
-Committer: wx-yingp3  
-Merge branch 'dev_多条稽核规则配置' into release2.2.0_新功能_多条稽核规则配置
-
-第2次:  
-Commit: 5c30bc414db090918cfe94d9458d88d1a587893d [5c30bc4]  
-Parents: 42a7f41fc6  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Sunday, February 18, 2024 2:11:27 PM  
-Committer: wx-yingp3  
-fix: 优化功能
-
-第3次:  
-Commit: 3e40af9c5ce08a6951ac37144f80e10aeef58561 [3e40af9]  
-Parents: 5c30bc414d  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Tuesday, February 20, 2024 5:09:47 PM  
-Committer: wx-yingp3  
-多条稽核规则配置
-
-第4次:  
-Commit: e6aee3cd5a07bbdd514e99ac4027bef7dd2d6249 [e6aee3c]  
-Parents: 68ffd3facf, 3e40af9c5c  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Monday, February 26, 2024 8:57:33 AM  
-Committer: wx-yingp3  
-Merge branch 'release2.2.0_新功能_多条稽核规则配置' into dev
-
-第5次:  
-Commit: 73010910e8dd033248f7cda09cc458f3e1ae081f [7301091]  
-Parents: 3e40af9c5c  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Tuesday, March 5, 2024 3:35:29 PM  
-Committer: wx-yingp3  
-稽核中台规则配置去除稽核维度验证
-
-第6次:  
-Commit: f580ce28e5bf721a886ee31689314e6e0db846c6 [f580ce2]  
-Parents: e5f16b5ad2, 73010910e8  
-Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
-Date: Tuesday, March 5, 2024 3:35:54 PM  
-Committer: wx-yingp3  
-Merge branch 'release2.2.0_新功能_多条稽核规则配置' into dev
-```
-
-从最新的提交开始逆序执行`git revert`命令
-**注意:** 执行这些命令时可能会遇到冲突。如果发生冲突，你需要手动解决冲突，然后使用`git add <文件名>`添加解决后的文件，最后使用`git revert --continue`继续撤销过程。
-```bash
-git revert -m 1 f580ce2
-git revert 7301091
-git revert e6aee3c -m 1
-git revert 3e40af9
-git revert 5c30bc4
-git revert -m 1 42a7f41
-```
-
-解决冲突:
-```bash
-git add .
-git revert --continue
-```
-
-
-#### 将撤销的内容再合并还原
-
-* `git revert`
-* `git cherry-pick`
-* 创建反向补丁
-
-
-
 
 ## 最佳实践
 
@@ -1594,6 +1354,293 @@ git checkout  dev
 
 
 
+## 使用git遇到的问题
+
+### 历史版本回滚
+
+> HEAD指向的版本就是当前的版本,因此git允许我们在版本的历史之间穿梭.
+>
+> 使用git log查看提交历史,查询需要返回的版本的id
+>
+> 版本回退之后,需要再次回到回退前,可以使用git reflog查看命令历史, 里面会有需要的版本id
+
+#### 版本回滚的[3种情况](https://blog.csdn.net/weixin_43410419/article/details/84672111):
+
+##### 1.明确知道回退到第几个版本
+
+```js
+回到上一个版本: git reset --hard HEAD
+回到上上一个版本: git reset --hard HEAD^^
+回到20个版本之前: git reset --hard HEAD~20
+```
+
+##### 2. 回退版本不确定
+
+```js
+1.使用git log 查看每次的提交记录
+2.借助id来回退
+git reset --hard commit_id  //id可以只简写为前7位. 返回某个节点,不保留修改.
+
+git commit之后,撤销commit提交,却保留代码:
+git reset --soft HEAD^ //HEAD^是上一个版本,也可以写成HEAD~1
+```
+
+##### 3. 回退到某个文件之后,又需要返回最近更新的某个版本
+
+```js
+1. git reflog 查看每一次命令记录
+2. git reset --hard commit_id 返回相应的版本
+```
+
+#### 4.放弃所有本地修改
+
+```js
+git checkout . //在add之前使用,撤销所有的更改. 在add之后使用,无效.
+```
+
+
+### revert commit 与 reset commit
+
+Revert 的指令是**再做一个新的 Commit，来取消你想要撤回的 Commit, 所以会增加一条commit**
+
+在[SourceTree](https://so.csdn.net/so/search?q=SourceTree&spm=1001.2101.3001.7020)中，如果想取消已经commit的code，**可以右击选reverse commit.（撤回 老commit的同时，新建了一个commit)**
+
+如果想撤回[commit](https://so.csdn.net/so/search?q=commit&spm=1001.2101.3001.7020)又不想新加一个commit的话，不要用reverse commit，**而是用Reset 指令**
+
+
+
+### reset/rebase/revert的区别
+
+| 指令   | 改变历史记录 | 使用场景                                                     |
+| ------ | ------------ | ------------------------------------------------------------ |
+| reset  | 是           | 把目前的状态设定成某个指定的 Commit的状态，通常适用于尚未推出去的 Commit。 |
+| rebase | 是           | 不管是新增、修改、删除Commit 都相当方便，用来整理、编辑没有推出去的 Commit 相当方便，但通常也只适用于尚未推出去的 Commit。 |
+| revert | 是           | 新增一个Commit 来取消另一个Commit 的內容，原本的 Commit 依旧会保存在历史记录中。虽然会因此而增加 Commit 数，但通常比较适用于已经推出去的 Commit，或是不允许使用 Reset 或 Rebase 之修改历史记录的指令的场合。 |
+
+
+
+### rebase(重定)
+
+> [【Git】rebase 用法小结 - 简书 (jianshu.com)](https://www.jianshu.com/p/4a8f4af4e803)
+
+rebase的作用简要概括为：可以对某一段线性提交历史进行编辑、删除、复制、粘贴；因此，合理使用rebase命令可以使我们的提交历史干净、简洁！
+
+但是需要注意的是：
+
+> 不要通过rebase对任何已经提交到公共仓库中的commit进行修改（你自己一个人玩的分支除外）
+
+
+##### 具体操作
+
+当我们在本地仓库中提交了多次，在我们把本地提交push到公共仓库中之前，为了让提交记录更简洁明了，我们希望把如下分支B、C、D三个提交记录合并为一个完整的提交，然后再push到公共仓库。
+
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/5/2/1631fdf49c54c568~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
+
+现在我们在测试分支上添加了四次提交，我们的目标是把最后三个提交合并为一个提交
+
+![](https://upload-images.jianshu.io/upload_images/2147642-ce849c4eab3d803b.png?imageMogr2/auto-orient/strip|imageView2/2/w/434/format/webp)
+
+
+
+这里我们使用命令
+
+```bash
+git rebase -i [startpoint] [endpoint]
+```
+
+`-i`的意思是`--interactive`，即弹出交互式的界面让用户编辑完成合并操作.
+
+`[startpoint] [endpoint]`则指定了一个编辑区间，如果不指定`[endpoint]`，则该区间的终点默认是当前分支HEAD所指向的commit(注：该区间指定的是一个前开后闭的区间)。 
+
+在查看到了log日志后，我们运行以下命令：
+
+```bash
+git rebase -i 36224db
+```
+
+或者
+
+```bash
+git rebase -i HEAD~3
+```
+
+然后我们会看到如下界面:
+
+![](https://upload-images.jianshu.io/upload_images/2147642-03d48aa767efb307.png?imageMogr2/auto-orient/strip|imageView2/2/w/647/format/webp)
+
+
+
+上面未被注释的部分列出的是我们本次rebase操作包含的所有提交，下面注释部分是git为我们提供的命令说明。每一个commit id 前面的pick表示指令类型，git 为我们提供了以下几个命令:
+
+```bash
+pick：保留该commit（缩写:p）
+
+reword：保留该commit，但我需要修改该commit的注释（缩写:r）
+
+edit：保留该commit, 但我要停下来修改该提交(不仅仅修改注释)（缩写:e）
+
+squash：将该commit和前一个commit合并（缩写:s）
+
+fixup：将该commit和前一个commit合并，但我不要保留该提交的注释信息（缩写:f）
+
+exec：执行shell命令（缩写:x）
+
+drop：我要丢弃该commit（缩写:d）
+```
+
+根据我们的需求，我们将commit内容编辑如下:
+
+![](https://upload-images.jianshu.io/upload_images/2147642-a651234e62ed20a5.png?imageMogr2/auto-orient/strip|imageView2/2/w/536/format/webp)
+
+
+
+上面的意思就是把第二次、第三次提交都合并到第一次提交上
+
+然后`wq`保存退出后是注释修改界面:
+
+![](https://upload-images.jianshu.io/upload_images/2147642-44bbd784dcadfb31.png?imageMogr2/auto-orient/strip|imageView2/2/w/801/format/webp)
+
+可以再浏览态 按下两个dd可以删除一行
+
+最终的编辑效果如下：
+
+![](https://upload-images.jianshu.io/upload_images/2147642-334e0a5c47a24f87.png?imageMogr2/auto-orient/strip|imageView2/2/w/448/format/webp)
+
+编辑完保存即可完成commit的合并了：
+
+
+### 撤销已提交到开发分支上的内容
+#### 背景介绍
+开发分支a的内容合并到dev分支后,提交到了远端,之后dev分支多次更新.但是现在需要将a分支的内容从dev分支上剔除掉.
+
+#### 实现方案
+
+**git revert**
+使用`git revert <提交ID>`为每个提交(包括普通提交和合并提交)创建一个新的“反向”提交，这样就可以撤销这些提交的更改。
+如果提交中包含合并提交，我们需要为每个合并提交指定要保留的父分支。通常，`-m 1`选项表示保留第一个父分支的更改，这通常是合并之前的分支状态。
+```bash
+第一次:  
+Commit: 42a7f41fc651849b767969ef8a4ab4f35569c308 [42a7f41]  
+Parents: 1b001ac613, 3ff5c608c0  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Wednesday, January 17, 2024 5:19:38 PM  
+Committer: wx-yingp3  
+Merge branch 'dev_多条稽核规则配置' into release2.2.0_新功能_多条稽核规则配置
+
+第2次:  
+Commit: 5c30bc414db090918cfe94d9458d88d1a587893d [5c30bc4]  
+Parents: 42a7f41fc6  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Sunday, February 18, 2024 2:11:27 PM  
+Committer: wx-yingp3  
+fix: 优化功能
+
+第3次:  
+Commit: 3e40af9c5ce08a6951ac37144f80e10aeef58561 [3e40af9]  
+Parents: 5c30bc414d  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Tuesday, February 20, 2024 5:09:47 PM  
+Committer: wx-yingp3  
+多条稽核规则配置
+
+第4次:  
+Commit: e6aee3cd5a07bbdd514e99ac4027bef7dd2d6249 [e6aee3c]  
+Parents: 68ffd3facf, 3e40af9c5c  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Monday, February 26, 2024 8:57:33 AM  
+Committer: wx-yingp3  
+Merge branch 'release2.2.0_新功能_多条稽核规则配置' into dev
+
+第5次:  
+Commit: 73010910e8dd033248f7cda09cc458f3e1ae081f [7301091]  
+Parents: 3e40af9c5c  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Tuesday, March 5, 2024 3:35:29 PM  
+Committer: wx-yingp3  
+稽核中台规则配置去除稽核维度验证
+
+第6次:  
+Commit: f580ce28e5bf721a886ee31689314e6e0db846c6 [f580ce2]  
+Parents: e5f16b5ad2, 73010910e8  
+Author: wx-yingp3 [wx-yingp3@itl.com.cn](mailto:wx-yingp3@itl.com.cn)  
+Date: Tuesday, March 5, 2024 3:35:54 PM  
+Committer: wx-yingp3  
+Merge branch 'release2.2.0_新功能_多条稽核规则配置' into dev
+```
+
+从最新的提交开始逆序执行`git revert`命令
+**注意:** 执行这些命令时可能会遇到冲突。如果发生冲突，你需要手动解决冲突，然后使用`git add <文件名>`添加解决后的文件，最后使用`git revert --continue`继续撤销过程。
+```bash
+git revert -m 1 f580ce2
+git revert 7301091
+git revert e6aee3c -m 1
+git revert 3e40af9
+git revert 5c30bc4
+git revert -m 1 42a7f41
+```
+
+解决冲突:
+```bash
+git add .
+git revert --continue
+```
+
+
+#### 将撤销的内容再合并还原
+
+* `git revert`
+* `git cherry-pick`
+* 创建反向补丁
+
+
+
+### 执行`npm i`时某个包使用git地址无法链接
+
+报错信息:
+```bash
+npm ERR! Error while executing:
+npm ERR! C:\Program Files\Git\cmd\git.EXE ls-remote -h -t git://github.com/adobe-webplatform/eve.git
+npm ERR!
+npm ERR! fatal: unable to connect to github.com:
+npm ERR! github.com[0: 20.205.243.166]: errno=Unknown error
+```
+
+背景信息:
+0. 单独使用https协议来进行下载测试此仓库是否能正常访问
+1. 源地址为npmjs.com, 使用代理的背景下,其代理一般默认支持https协议,如果需要支持ssh协议需要设置.
+**如何更改:**
+由于不同的软件配置ssh代理方式不同,这里不再赘述.如果配置ssh代理协议,下面的就不用再配置.
+下面几个方法选择合适的即可.
+1.手动修改地址协议
+尝试在`package.json`或`package-lock.json`文件中手动找到相关依赖，并将其改为使用`https://`协议。
+```json
+//更改前
+"dependencies": {
+  "some-package": "git://github.com/user/some-package.git#commit-ish"
+}
+
+//更改后
+"dependencies": {
+  "some-package": "https://github.com/user/some-package.git#commit-ish"
+}
+
+```
+
+2.git全局配置
+通过Git的全局配置强制Git在所有情况下都使用HTTPS而不是git协议
+```bash
+git config --global url."https://".insteadOf git://
+```
+
+
+3.临时对特定的包使用https克隆
+这里我们采用根目录新建`.npmrc`文件来单独处理这个包,将ssh协议替换为https
+```json
+//.npmrc
+eve=git+https://github.com/adobe-webplatform/eve.git
+```
+
+此方法注意事项:仅适用于直接在`package.json`中引用了Git仓库作为依赖的情况。如果问题包是作为另一个包的依赖间接引入的，这种方法可能不适用。
 
 ## 资料
 
