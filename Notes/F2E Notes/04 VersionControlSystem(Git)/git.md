@@ -1594,7 +1594,7 @@ git revert --continue
 
 
 
-### 执行`npm i`时某个包使用git地址无法链接
+### 执行`npm i`时某个包使用git地址(ssh协议)下载失败
 
 报错信息:
 ```bash
