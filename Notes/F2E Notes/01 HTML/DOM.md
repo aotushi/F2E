@@ -2947,7 +2947,7 @@ Context Menu是一个与用户进行友好交互的菜单，例如鼠标的右�
 #### 自定义右键事件
 
 **效果**
-![屏幕截图-2022-12-03-153049](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/屏幕截图-2022-12-03-153049.1bw4d0q69i3k.webp)
+![屏幕截图-2022-12-03-153049](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/屏幕截图-2022-12-03-153049.1bw4d0q69i3k.webp)
 
 
 

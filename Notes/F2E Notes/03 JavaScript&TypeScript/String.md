@@ -353,7 +353,7 @@ console.log(eval(s2));          // String {"2 + 2"}
 ```
 
 
-![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/code1.3jgtzdbqhjs0.webp)
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/code1.3jgtzdbqhjs0.webp)
 
 ### Unicode支持
 

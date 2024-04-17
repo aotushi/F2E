@@ -461,7 +461,7 @@ css的box模型有一个外部显示类型，来决定盒子是块级还是内�
 
 随着 CSS 的逻辑属性的出现，CSS 的坐标系就不再以 `x` 轴 和 `y` 轴来定义，而是以 **内联** （Inline）和 **块** （Block）来区分，并且内联方向的称之为 **内联轴** （Inline Axis），也就是书写模式的方向；块方向的称之为 **块轴** （Block Axis），也就是块盒子自然流的方向。它们随着 CSS 的书写模式改变
 
-![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.6c4sttbml5c0.webp)
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.6c4sttbml5c0.webp)
 
 如此一来，在 CSS 中就有**物理坐标系** 和 **逻辑坐标系** 之分，它们的对应关系如下：
 
@@ -572,7 +572,7 @@ Internet Explorer默认使用替代盒模型，没有可用的机制来切换。
 **明确的尺寸:** 
 >指的是不需要执行布局就可以确定盒子的大小。也就是说，显式地给容器设置一个固定值，或内容所占区域的大小，或一个容器块的初始大小，或通过其他计算方式得到的尺寸，比如 Flexbox 布局中的“拉伸和收缩”（Stretch-fit），即 flex-grow 和 flex-shrink 。
 
-![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.54kgs3dna700.webp)
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.54kgs3dna700.webp)
 
 **不明确的尺寸**
 在 CSS 中，任何一个容器都有四种自动计算尺寸大小的方式：

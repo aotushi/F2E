@@ -848,7 +848,7 @@ Math.round(6.35 * 10) / 10; // 6.35 -> 63.5 -> 64(rounded) -> 6.4
 * 第1位到第11位：存储指数部分，用e表示。·
 * 第12位到第63位：存储小数部分（即有效数字），用f表示，如图1-1所示。
 
-![epub_34232297_2](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/epub_34232297_2.2p0j8wcfqg00.webp)
+![epub_34232297_2](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/epub_34232297_2.2p0j8wcfqg00.webp)
 
 因为浮点型数使用64位存储时，最多只能存储52位的小数位，对于一些存在无限循环的小数位浮点数，会截取前52位，从而丢失精度，所以会出现上面实例中的结果。
 

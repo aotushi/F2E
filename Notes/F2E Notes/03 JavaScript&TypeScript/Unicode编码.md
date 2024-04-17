@@ -45,7 +45,7 @@ UTF-8针对不同范围的码点采用不同长度的字节数（1–4个字节�
 * 黑色的0和1表示固定标记位，用于确定码点边界。
 * 其他颜色的0和1则表示如何将码点的各个比特位映射到对应的字节中。
 
-![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/.79u67s7xscs0.webp)
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/.79u67s7xscs0.webp)
 
 UTF-8节省空间，还具有兼容ASCII、容错率高、没有字节序问题等诸多优点。所以在日常开发中，像HTML、CSS和JS这些文件几乎都以UTF-8格式保存。
 

@@ -35,19 +35,19 @@ pages用来存放用到的所有页面的路径，写的是pageName.wxml的路�
 
 window是窗口的样式设置，用来设置微信小程序的状态栏、标题、导航栏等的样式。颜色只接受十六进制的颜色值。
 
-![](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.3jxv81cwewu0.webp)
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.3jxv81cwewu0.webp)
 
 
 
-![image](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.36n4vdpfn7u0.webp)
+![image](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.36n4vdpfn7u0.webp)
 
 tabBar是多tab应用时使用的，用户可以在微信小程序的底部切换页面，建议最少2个，最多5个。
 
-![image](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.5vlz9n9yec00.webp)
+![image](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.5vlz9n9yec00.webp)
 
 
 
-![image](https://cdn.staticaly.com/gh/aotushi/image-hosting@master/documentation/image.yeoz44sb0kw.webp)
+![image](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.yeoz44sb0kw.webp)
 
 
 
