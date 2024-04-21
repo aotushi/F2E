@@ -11,12 +11,8 @@
             "id": "ca17cc3792d5f517",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "F2E Notes/00 Internet/HTTP.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -93,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "F2E Notes/00 Internet/HTTP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -154,8 +149,20 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "ca17cc3792d5f517",
+  "active": "d58a9b773b274ed9",
   "lastOpenFiles": [
+    "F2E Notes/19 场景/assets/Pasted image 20240416170629.png",
+    "F2E Notes/19 场景/assets/Pasted image 20240416170102.png",
+    "F2E Notes/19 场景/assets/Pasted image 20240416110849.png",
+    "F2E Notes/02 CSS/前端大屏适配的3种方案.md",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417093953.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417093040.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417092337.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417092305.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417092236.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417090306.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417085557.png",
+    "F2E Notes/02 CSS/assets/Pasted image 20240417085520.png",
     "F2E Notes/18 前端工程化/前端工程化入门.md",
     "F2E Notes/note 面试题/09_问题.md",
     "F2E Notes/note 笔记题目/HTML.md",
@@ -179,21 +186,11 @@
     "F2E Notes/02 CSS/PC适配与移动端适配.md",
     "F2E Notes/01 HTML/HTML.md",
     "F2E Notes/08 FrameWork/Vue/Vue2 doc.md",
-    "F2E Notes/02 CSS/assets/Pasted image 20231005181534.png",
-    "F2E Notes/02 CSS/assets/Pasted image 20231003161642.png",
     "F2E Notes/02 CSS/assets",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003112329.png",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003111926.png",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003112227.png",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003101717.png",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003094935.png",
-    "F2E Notes/02 CSS/Base/assets/Pasted image 20231003094637.png",
     "F2E Notes/02 CSS/Base/assets",
     "one/软硬件资料.md",
     "one/New 文本文档.txt",
     "F2E Notes/01 HTML/articles/Tooltips & Toggletips.md",
-    "F2E Notes/08 FrameWork/Project vue react mini other.md",
-    "F2E Notes/01 HTML/articles/aria-label,aria-labelledby,aria-describedby.md",
     "F2E Notes/01 HTML/articles",
     "F2E Notes/18 前端工程化/templatevue2/package.json",
     "F2E Notes/18 前端工程化/templatevue2/test.vue",

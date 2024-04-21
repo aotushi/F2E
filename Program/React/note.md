@@ -58,7 +58,7 @@ npm install vite@latest
 yarn create vite
 
 //pnpm
-npm create vite
+pnpm create vite
 ```
 
 
@@ -117,10 +117,10 @@ trim_trailing_whitespace = true 修剪尾随空格
 在项目根目录下创建`.npmrc`, `.yarnrc`文件,并各自编辑内容如下:
 ```bash
 //npmrc
-registry=https://registry.npm.taobao.org
+registry=https://registry.npmmirror.com
 
 //yarnrc
-registry=https://registry.npm.taobao.org
+registry=https://registry.npmmirror.com
 ```
 
 
@@ -129,10 +129,10 @@ registry=https://registry.npm.taobao.org
 
 ```bash
 //npm
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 
 //yarn
-yarn config set registry https://registry.npm.taobao.org
+yarn config set registry https://registry.npmmirror.com
 ```
 
 
