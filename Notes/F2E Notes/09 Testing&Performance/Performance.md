@@ -968,3 +968,43 @@ new webpack.optimize.CommonsChunkPlugin({
 
 
 # 
+
+
+
+## 字体优化
+
+原因是引入的字体文件大,但页面上并没有使用太多的相关字体,造成了字体浪费.一个字体文件好几兆.
+
+### 了解各平台下字体情况
+[html - 如何优雅的选择字体(font-family) - 前端学习 - SegmentFault 思否](https://segmentfault.com/a/1190000006110417#articleHeader0)
+
+
+
+### 字体优化方案
+* font-spider
+* fontmin
+* 转换格式
+
+#### font-spider
+只能优化已知的字体文件,如果是在线字体或自托管字体,需要额外的配置.
+
+对脚手架生成的工具无效,因为此工具的使用范围:
+```md
+字蛛通过分析本地 CSS 与 HTML 文件获取 WebFont 中没有使用的字符，并将这些字符数据从字体中删除以实现压缩，同时生成跨浏览器使用的格式。
+```
+而脚手架生成的public/index.html中,是通过js动态插入的内容. 所以无法使用
+
+不过可以收集使用的文字,在本地html页面,运行font-spider生成新的文字文件来处理
+例如:
+>[js vuecli react-app 字体引入加载缓慢 ，font-spider 根据使用字体生成新的字体文件_font-spider react-CSDN博客](https://blog.csdn.net/weixin_44544388/article/details/105507522)
+
+
+
+
+#### fontmin
+[Fontmin - Solution Of Font Subsetting (ecomfe.github.io)](https://ecomfe.github.io/fontmin/en)
+
+两种方案, 一种是使用软件进行转换,另一种使用nodejs调用来转换.都会获得生成的字体文件.
+
+
+#### 转换格式
