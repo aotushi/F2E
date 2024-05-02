@@ -981,6 +981,7 @@ new webpack.optimize.CommonsChunkPlugin({
 
 
 ### 字体优化方案
+font-spider和fontmin都是一种字体子集化方案
 * font-spider
 * fontmin
 * 转换格式
@@ -1002,9 +1003,22 @@ new webpack.optimize.CommonsChunkPlugin({
 
 
 #### fontmin
-[Fontmin - Solution Of Font Subsetting (ecomfe.github.io)](https://ecomfe.github.io/fontmin/en)
+https://blog.shenzjd.com/pages/493b3e94e222f/#font-spider
 
 两种方案, 一种是使用软件进行转换,另一种使用nodejs调用来转换.都会获得生成的字体文件.
 
 
 #### 转换格式
+根据实例字体文件8m左右, 此网站转换正确,并没有默认进行子集化处理.
+
+![[SourceHanSansCN-Normal.otf]]
+
+推荐网站:
+> https://kombu.kanejaku.org/
+
+![[Pasted image 20240502172148.png]]
+
+
+
+
+
