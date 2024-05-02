@@ -978,7 +978,7 @@ new webpack.optimize.CommonsChunkPlugin({
 ### 了解各平台下字体情况
 [html - 如何优雅的选择字体(font-family) - 前端学习 - SegmentFault 思否](https://segmentfault.com/a/1190000006110417#articleHeader0)
 
-
+https://www.cnblogs.com/wangmeijian/p/4163936.html
 
 ### 字体优化方案
 font-spider和fontmin都是一种字体子集化方案
