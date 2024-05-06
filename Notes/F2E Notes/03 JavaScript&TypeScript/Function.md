@@ -2641,6 +2641,9 @@ Using apply to append an array to other
 const array = ['a', 'b'];
 const elements = [0, 1, 2];
 array.push.apply(array, elements)
+
+
+Array.apply(null, {length: 20});
 ```
 
 Using apply and built-in functions  ????
@@ -2654,7 +2657,8 @@ Using apply and built-in functions  ????
 const numbers = [5,6,2,3,7];
 
 let max = Math.max.apply(null, numbers);//this about equal to Math.max(numbers[0],...)
-//or Math.max(5,6,...)
+// 其它写法
+let max2 = Math.max(...numbers);
 
 let min = Math.min.apply(null, numbers);
 
@@ -2784,6 +2788,10 @@ Function.prototype.apply = function(obj, arr) {
   }
   return eval('fn[tempFn](' + args +')');
 }
+```
+
+
+```js
 
 Function.prototype.myApply = function(obj, arr) {
   obj = obj || globalThis;
@@ -2802,9 +2810,10 @@ Function.prototype.myApply = function(obj, arr) {
   delete obj.tempFn;
   return result;
 }
+```
 
 
-
+```js
 Function.prototype.apply = function(obj, arr) {
   obj = toObject(obj);
   let tempFn = Symbol();
@@ -2831,8 +2840,6 @@ function toObject(val) {
   return val;
 }
 ```
-
-
 
 
 #### **call()和apply()总结**
