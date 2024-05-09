@@ -7,7 +7,7 @@
 
 ## 1.[MDN CSS tutorial](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
-
+> 按照此页面展示大纲,总结概括内容
 
 
 
@@ -75,23 +75,9 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 
 ## CSS如何运行
+[[202405081357]]
 
-> [CSS如何运行 - 学习 Web 开发 | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/First_steps/How_CSS_works)
->
-> https://developer.mozilla.org/zh-CN/docs/Learn/CSS
 
-当浏览器展示一个文件的时候，它必须兼顾文件的内容和文件的样式信息，下面我们会了解到它处理文件的标准的流程。
-
-1. 浏览器<span style="color:blue">载入HTML文件</span>（比如从网络上获取）。
-2. 将HTML文件转化成一个<span style="color:blue">DOM（Document Object Model）</span>，DOM是文件在计算机内存中的表现形式，下一节将更加详细的解释DOM。
-3. 接下来，浏览器会<span style="color:blue">拉取</span>该HTML相关的大部分资源，比如嵌入到页面的图片、视频和CSS样式。JavaScript则会稍后进行处理，简单起见，同时此节主讲CSS，所以这里对如何加载JavaScript不会展开叙述。
-4. 浏览器拉取到CSS之后会进行<span style="color:blue">解析</span>，根据选择器的不同类型（比如element、class、id等等）把他们分到不同的“桶”中。浏览器基于它找到的不同的选择器，将不同的规则（基于选择器的规则，如元素选择器、类选择器、id选择器等）应用在对应的DOM的节点中，并添加节点依赖的样式（这个中间步骤称为渲染树）。
-5. 上述的规则应用于渲染树之后，渲染树会依照应该出现的结构进行<span style="color:blue">布局</span>
-6. 网页<span style="color:blue">展示</span>在屏幕上（这一步被称为着色）
-
-结合下面的图示更形象：
-
-![](https://mdn.mozillademos.org/files/11781/rendering.svg)
 
 
 ## CSS数据类型
@@ -158,6 +144,22 @@ color: <color>
 
 
 ## CSS选择器
+是什么...[[202302221541|CSS选择器定义]]
+
+3种使用方法...[[202302221541a|CSS选择器使用方式]]
+
+什么是CSS? ... [[202302221541|CSS选择器定义]]
+CSS选择器分类...[[202302221541b|CSS选择器分类]]
+选择器优先级 ... [[202302221541d|CSS选择器优先级]]
+
+
+
+
+
+
+
+
+
 
 
 # 样式化文本
@@ -374,38 +376,6 @@ all: unset;
 3. 作者样式表中的常规声明(这些是我们web开发人员设置的样式)。
 4. 作者样式表中的`!important`声明
 5. 用户样式表中的`!important` 声明
-
-
-
-## CSS选择器
-
-#### 资料
-
-> xxx
->
-> https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors
-
-
-
-#### 是什么
-
-
-#### 继承问题及解决
-根据 CSS，子元素从父元素继承属性。但是它并不总是按此方式工作。看看下面这条规则：
-```css
-body {
-  font-family: Verdana, sans-serif;
-}
-```
-
-所有 body 的子元素都应该显示 Verdana 字体，子元素的子元素也一样。并且在大部分的现代浏览器中，也确实是这样的。
-
-但是在那个浏览器大战的血腥年代里，这种情况就未必会发生，那时候对标准的支持并不是企业的优先选择。比方说，Netscape 4 就不支持继承，它不仅忽略继承，而且也忽略应用于 body 元素的规则。IE/Windows 直到 IE6 还存在相关的问题，在表格内的字体样式会被忽略。我们又该如何是好呢？
-
-友善对待Netscape 4
-
-基本不重要, 这种问题现在基本上没有
-
 
 
 
@@ -4278,436 +4248,10 @@ margin-top:-自身宽度一半;
 
 
 
+``
 
 
 
-
-
-
-##### 案例-小米轮播图
-
-
-
-##### 固定定位
-
-> position:fixed 
-
-使用固定定位后,丧失以前的元素属性
-
-参考点:永远是浏览器窗口,不会随网页的滚动而滚动
-
-
-
-###### **案例-固定定位**
-
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<style type="text/css">
-			*{
-				margin:0;
-				padding:0;
-				list-style:none;
-			}
-			.box{
-				width:1200px;
-				height:456px;
-				margin:50px auto;
-				background:yellow;
-				position:relative;
-			}
-			.man{
-				width: 360px;
-				height: 800px;
-				background: url(man.png) no-repeat 0 0;
-				position: absolute;
-				left:-360px;
-				top:0;
-			}
-			.woman{
-				width: 360px;
-				height: 800px;
-				background: url(woman.png) no-repeat 0 0;
-				position: absolute;
-				right:-360px;
-				top:0;
-			}
-			.qiuLeft{
-				width:360px;
-				height:570px;
-				background:url(qiuLeft.png) no-repeat 0 0;
-				position:fixed;
-				left:50%;   /* 定位水平居中的书写方式:left+margin */
-				bottom:0;
-				margin-left:-960px;
-			}
-			.qiuRight{
-				width:360px;
-				height:570px;
-				background:url(qiuRight.png) no-repeat 0 0;
-				position:fixed;
-				left:50%;
-				bottom:0;
-				margin-left:600px;/*无法使用右外边距 因为固定宽度的元素使用右外边距不起作用. 如果要使margin-right起作用,需要取消宽度*/
-			}
-				
-		</style>
-	</head>
-	<body>
-		<div class="box">
-			<div class="man">
-				
-			</div>
-			<div class="woman">
-				
-			</div>
-			
-			
-		</div>
-		<div class="qiuLeft">
-			
-		</div>
-		<div class="qiuRight">
-			
-		</div>
-	</body>
-</html>
-
-```
-
-
-
-
-
-
-
-
-
-
-
-##### css精灵图 sprite
-
-> 精灵图，是背景图技术。如今网速条件下，下载一张大图和小图的时间差异小，但服务器请求链接数是有限的。所以讲若干小图拼成一张大图，一次性进行下载，然后通过background移动图片的位置，实现网页小图的显示，减小服务器的压力。
-
-
-
-**制作**： 我们在一个页面上设置了盒子的宽高(一般是图片的宽高），想要将一个表情显示在盒子内，**我们是不能移动盒子的位置的，我们只能改变图片的位置。**
-
-###### **案例-精灵图**（小米轮播图精灵版）
-
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<style type="text/css">
-			*{
-				margin:0;
-				padding:0;
-				list-style:none;
-			}
-			img{
-				display:block;
-			}
-			.box{
-				width:1226px;
-				height: 460px;
-				margin:50px auto 0;
-				background:pink;
-				position:relative;
-			}
-			.left-nav{
-				width:234px;
-				height:460px;
-				background:rgba(0,0,0,.5);
-				position:absolute;
-				left:0;
-				top:0;
-			}
-			.box span{
-				width:41px;
-				height:69px;
-				background:url(icon-slides.png) no-repeat -85px 0;
-				position:absolute;
-				left:234px;
-				top:50%;
-				margin-top:-35px;
-			}
-			.box  .rightBtn{
-				background-position-x:-127px;  /*样式层叠  精灵图的位置是盒子区域内，移动图片来选择相应的区域*/
-				left:auto;  /*单纯设置right等于0，元素并不能移动到右侧。必须同时使用left：auto*/
-				right:0;
-			}
-			.box .leftBtn:hover{
-				background-position-x:0;
-			}
-			.box .rightBtn:hover{
-				background-position-x:-42px;  
-			}
-			.box .listBom{
-				position:absolute;
-				right:34px;
-				bottom:26px;
-				
-				
-			}
-			.box .listBom li{
-				float:left;
-				width:6px;
-				height:6px;
-				border-radius:50%;
-				background:#965956;
-				border:2px solid #B98D8A;
-				margin-left:8px;
-				/*
-				border: 2px solid #fff;
-				 色饱和度 
-				border-color: hsla(0, 0%, 100%, .3);
-				background: rgba(0, 0, 0, .4);
-				
-				*/
-				
-			}
-			.box .listBom  .current{
-				/* background:white; */
-				background: hsla(0, 0%, 100%, .4);
-				border-color: rgba(0, 0, 0, .4);
-			}
-			.box .listBom li:hover{
-				/* background:white; */
-				background: hsla(0, 0%, 100%, .4);
-				border-color: rgba(0, 0, 0, .4);
-			}
-			
-		</style>
-	</head>
-	<body>
-		<div class="box">
-			<ul> /*轮播图 故使用列表*/
-				<li>
-					<a href="##">
-						<img src="banner.webp" >
-					</a>
-				</li>
-			</ul>
-			<div class="left-nav">
-				
-			</div>
-			<span class="leftBtn"></span>
-			<span class="rightBtn"></span>
-			<ol class="listBom">/* 无序列表  在HTML结构中的位置，前提是祖先元素有relative定位，但同时从结构上来说.box最合适，易于理解*/
-				<li class="current"></li>
-				<li></li>
-				<li></li>
-				<li></li>
-				<li></li>
-				<li></li>
-			</ol>
-		</div>
-	</body>
-</html>
-
-```
-
-
-
-
-
-
-
-
-
-##### 图标字体（icon font）
-
-* 优点：
-  * 自由的放大缩小，且不会模糊
-  * 文件比图片小，加载快
-  * 可以任意的改变颜色
-* 缺点 ：
-  * 只能被渲染成单色或者css3的渐变色。阿里iconfont可以使用symbol引用，但是浏览器支持较少。
-
-
-
-* **使用方法**(依照阿里图标字体使用方法)：
-
-  * **Unicode方法**
-
-```html
-<--
-	感觉教程写的不清不楚. 下面是自己操作的:
-	假设, 我在HTML上使用图标字体, 有如下步骤:
-	1.link中引入css文件
-	1.1 css文件中内容就是我们从阿里图标字体网站上下载下来的一批文件中的iconfont.css的内容
-	1.1.1 其内容分为font-face, .iconfont, 两个伪类选择器
-	2.我们在HTML页面中使用标签来引用图标字体,其标签class属性应最少包含定义的字体名(默认为iconfont)
--->
-
-	<html>
-		<head>
-			<style>
-				.a:before{ //
-					content: '\e608',
-					font-size: 18px;
-				}
-			</style>
-		</head>
-		<body>
-			<p>第1种使用</p>
-			<span class="iconfont">&#x33;</span>
-			<p>第2种使用</p>
-			<span class="iconfont a"></span>
-			<p>第3种使用</p>
-			
-		</body>
-	</html>
-```
-
-在vue项目中的使用
-
-> https://juejin.cn/post/7034785874550194183
-
-```js
-import './assests/fonts/iconfont.css'
-```
-
-
-
-
-
-
-
-
-### 案例-222
-
-##### 同官录header
-
-##### icon
-
-* 存储/访问位置
-
-  * 存储位置: 网站根目录
-  * 访问位置: 域名.com/favicon.ico
-
-* 在线制作工具(比特虫)
-
-* 书写格式
-
-  \<link rel="" href="">
-
-##### html5
-
-> 简介: 新增语义标签,标签属性和api(application programming interface[接口])
-
-* H5新增语义标签
-
-```html
-<body>
-    <header>头部</header>
-    <nav>导航</nav>
-    <section> /*div */
-    	<aside>侧边栏</aside>
-        <article>文章</article>
-    </section>
-    <footer>底部</footer>
-</body>
-```
-
-
-
-* H5新增标签属性
-
-
-表单属性:
-
-```html
-禁用属性 
-disabled 用法和checked一样
-表示设置为:置灰状态 无法点击
-
-非空验证
-required  用法和checked一样
-
-自动获取焦点
-autofocus  用法和checked一样
-
-自动补全
-autocomplete
-off 默认值
-on  要配合name属性使用.name是组名,根据不同的组名,来显示已经提交的数据(记录在浏览器缓存中)
-
-```
-
-
-
-表单类型:
-
-```html
-<!-- 邮箱标签 -->
-<input type="email">
-
-<!-- 网址标签 -->
-<input type="url">
-
-<!-- 数字标签 -->
-<input type="number">
-
-<!-- 本地时间 -->
-<input type="datetime-local">
-
-<!-- 月标签 -->
-<input type="month">
-
-<!-- 日标签 -->
-<input type="date">
-
-<!-- 周标签 -->
-<input type="week">
-
-<!-- 颜色标签 -->
-<input type="color">
-
-<!-- 滑块标签 -->
-<input type="range">
-
-```
-
-音频
-
-```html
-单个音频:
-<audio src="路径" controls="controls" loop="loop" autoplay="autoplay" ></audio>
-
-/*
-controls 控制面板
-loop  循环
-autoplay 自动播放 浏览器兼容性差不支持多
-*/
-
-多个音频:
-<audio controls="controls" loop="loop" autoplay="autoplay">
-	<source src="路径.mp3">
-    <source src="路径.ogg">
-    <source src="路径.其他">
-</audio>
-```
-
-
-
-
-
-视频(用法和audio一致)
-
-
-
-
-
-
-
-### css
 
 
 

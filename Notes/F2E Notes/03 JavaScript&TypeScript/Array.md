@@ -952,8 +952,10 @@ for (let i in arr) {
 ### for...of
 `for...of`语句(statement)执行一个循环来对每个可迭代对象[[202301181103d|iterable object]]上的值进行操作.
 
-> 什么是可迭代对象?  iterable object
 
+#### 可迭代对象
+
+^08df4d
 
 一个具有[[202301181103d1a1|Symbol.iterator]]方法的对象. 
 这个属性是一个函数并返回一个`next()`函数. `next()`函数返回一个包含两个属性的对象: `value`和`done`. 
@@ -1286,7 +1288,7 @@ Array.from(arrayLike[, mapFn[, thisArg]]
 
 ##### **实例**
 
-可迭代对象
+可迭代对象 ^c02583
 
 ```javascript
 Array.from(Array(1000).keys())
