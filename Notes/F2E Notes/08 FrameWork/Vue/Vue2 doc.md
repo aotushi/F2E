@@ -943,7 +943,24 @@ vm.a = 2 // => new: 2, old: 1
 
 
 
-### 实例方法 vm.$watch
+### 实例
+
+#### 手动触发$watch
+```js
+  watch: {
+    dialogVisible(newVal) {
+      if (newVal) {
+        // 对话框显示时,手动触发 tableHeaderKey 的 watch
+        this.$watch("tableHeaderKey", this.updateTableHeaderKey, {
+          immediate: true,
+        });
+
+        this.getDetailDialogTableData();
+      }
+    },
+  },
+```
+
 
 
 ### 实例问题
@@ -953,6 +970,11 @@ vm.a = 2 // => new: 2, old: 1
 ```md
 Vue的`watch`观察者是异步的：在同步代码（例如你的`created`或`mounted`方法）执行完之后，所有的观察者回调才会被调用。也就是说，在你的`created`或`mounted`方法中看到的值，可能在`watch`观察者回调执行前就已经被设置了。
 ```
+
+
+
+
+
 
 
 
@@ -3444,9 +3466,33 @@ Vue.component('base-input', {
 两种方案:
 * 子组件中声明对象类型的prop
 * 使用`v-bind`将对象解构传递给子组件
-第二种方式会将对象中的所有属性作为独立的prop传递给子组件。(?)
+第二种方式会将对象中的所有属性作为独立的prop传递给子组件。(适合动态组件)
 
+```vue
 
+attrs={
+	placeholder="item.attrs.placeholder"
+  clearable="item.attrs.clearable"
+  maxlength="item.attrs.maxlength"
+}
+<component 
+ :is="item.component" 
+ v-model="formData[item.prop]" 
+ v-bind="item.attrs" 
+ :class="item.componentClass"
+ :style="item.componentStyle" />
+
+//上面的动态组件相当于
+<component 
+ :is="item.component"
+ v-model="formData[item.prop]" 
+ :placeholder="item.attrs.placeholder"
+ :clearable="item.attrs.clearable"
+ :maxlength="item.attrs.maxlength"
+ :class="item.componentClass"
+ :style="item.componentStyle" />
+
+```
 
 
 ### 非prop属性
