@@ -3318,7 +3318,7 @@ Vue.component('price-display', {
 
 
 ##### prop类型检查 type的值
-<u>原生构造函数</u>
+原生构造函数
 - `String`
 - `Number`
 - `Boolean`
@@ -3437,6 +3437,14 @@ Vue.component('base-input', {
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
+
+
+
+#### 2.对象prop传递给子组件的2种方案
+两种方案:
+* 子组件中声明对象类型的prop
+* 使用`v-bind`将对象解构传递给子组件
+第二种方式会将对象中的所有属性作为独立的prop传递给子组件。(?)
 
 
 
