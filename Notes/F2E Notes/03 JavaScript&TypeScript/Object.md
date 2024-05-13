@@ -1497,14 +1497,6 @@ Using uary plus
 
 
 
-#### Object.prototype.toLocalString()
-
-##### 概述
-
-这个方法返回对象的本地化字符串表示.Object定义的默认toLocalString()方法本身没有实现任何本地化,而是简单调用toString()并返回该值. Date和Number类定义了自己的toLocalString()方法, 尝试根据本地管理格式化数值/日期和时间.
-
-
-
 
 ### Object.defineProperty()
 
@@ -1782,7 +1774,7 @@ toLocaleString()
 
 这个方法的存在是为了确保所有对象都"至少"有一个 `toLocaleString()` 方法可用。一些内置对象像 `Array`、`Number`、`Date` 等会覆盖默认的 `toLocaleString()` 方法,使用一个更加特化的实现,以满足它们各自的需求。
 
-- [`Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array): [`Array.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString)
+- [`Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array): [[Array#Array.prototype.toLocaleString()]]
 - [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): [`Number.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString)
 - [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date): [`Date.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString)
 - [`TypedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray): [`TypedArray.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toLocaleString)

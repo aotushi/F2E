@@ -2328,7 +2328,7 @@ arr.reduce((acc, pre, idx) => {
 
 
 
-### 数组方法
+# 数组方法
 
 数组方法之多，大致可以分为
 
@@ -2340,7 +2340,7 @@ arr.reduce((acc, pre, idx) => {
 
 
 
-#### 方法分类
+## 方法分类
 
 | 破坏性方法                | 返回值                                       |
 | ------------------------- | -------------------------------------------- |
@@ -2404,11 +2404,10 @@ arr.reduce((acc, pre, idx) => {
 
 
 
-#### 破坏性方法
 
 
 
-#### Array.prototype.splice-删除 替换 新增
+## Array.prototype.splice-删除 替换 新增
 
 **定义**
 
@@ -2472,7 +2471,7 @@ var removed = myFish.splice(-2, 1);
 
 
 
-#### Array.prototype.push()
+## Array.prototype.push()
 
 **定义**
 
@@ -2572,7 +2571,7 @@ Array.prototype.push = function(...items) {
 
 
 
-#### Array.prototype.pop
+## Array.prototype.pop
 
 **定义**
 
@@ -2592,7 +2591,7 @@ Array.prototype.push = function(...items) {
 
 
 
-#### Array.prototype.unshift()
+## Array.prototype.unshift()
 
 > 队列解构  先进先出   待补充
 
@@ -2674,7 +2673,7 @@ Array.prototype.pop = function() {
 
 
 
-#### Array.prototype.shift()
+## Array.prototype.shift()
 
 **定义**
 
@@ -2705,7 +2704,7 @@ while( (i = names.shift()) !== undefined ) {
 
 
 
-#### Array.prototype.reverse()
+## Array.prototype.reverse()
 
 **定义**
 
@@ -2781,7 +2780,7 @@ console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
 
 
 
-#### Array.prototype.sort() 空
+## Array.prototype.sort() 空
 
 
 
@@ -2803,7 +2802,7 @@ console.log(a); // {0: 3, 1: 2, 2: 1, length: 3}
 
 
 
-#### Array.prototype.toString
+## Array.prototype.toString
 
 `**toString()**` 返回一个字符串，表示指定的数组及其元素
 
@@ -2817,7 +2816,7 @@ Array.prototype.toString()
 
 
 
-#### Array.prototype.forEach
+## Array.prototype.forEach
 
 **syntax**
 
@@ -2853,7 +2852,7 @@ Array.prototype.myForEach = function(callback) {
 
 
 
-#### Array.prototype.slice-截取
+## Array.prototype.slice-截取
 
 **定义**
 
@@ -2988,10 +2987,10 @@ Array.prototype.mySlice = function(start, end) {
 
 
 
-#### Array.prototype.toSpliced()
+## Array.prototype.toSpliced()
 通过副本进行操作.非破坏性方法.
 
-#### Array.prototype.concat()
+## Array.prototype.concat()
 
 **定义**
 
@@ -3092,7 +3091,7 @@ Array.prototype.concat=function(){
 
 
 
-#### Array.prototype.indexOf()
+## Array.prototype.indexOf()
 
 **定义**
 
@@ -3227,7 +3226,7 @@ Array.prototype.indexOf=function(item,index){
 
 
 
-#### Array.prototype.lastIndexOf()
+## Array.prototype.lastIndexOf()
 
 **定义**
 
@@ -3338,7 +3337,7 @@ let filterArr = arr.filter((item, index) => arr.indexOf(item) === arr.lastIndexO
 
 
 
-#### Array.prototype.join()
+## Array.prototype.join()
 
 **定义**
 
@@ -3404,7 +3403,7 @@ let result = arr.join()
 
 
 
-#### Array.prototype.toReversed()
+## Array.prototype.toReversed()
 通过副本操作,非破坏性方法
 ```js
  const arr = ['a', 'b', 'c'];
@@ -3414,7 +3413,7 @@ let result = arr.join()
 ```
 
 
-#### Array.prototype.map()
+### Array.prototype.map()
 
 **定义**
 
@@ -3610,7 +3609,7 @@ console.log(filterNumbers); //[1,2,3,undefined]
 
 
 
-#### Array.prototype.filter()
+## Array.prototype.filter()
 
 **定义**
 
@@ -3711,7 +3710,7 @@ console.log('Number of Invalid Entries = ', invalidEntries);
 
 
 
-#### Array.prototype.reduce()
+## Array.prototype.reduce()
 
 **定义**
 
@@ -4246,7 +4245,7 @@ const removeNullAndUndefined = obj =>
 ```
 
 
-#### Array.prototype.some
+## Array.prototype.some
 
 **定义**
 
@@ -4351,7 +4350,7 @@ getBoolean('true');  // true
 ```
 
 
-#### Array.prototype.every()
+## Array.prototype.every()
 
 **定义**
 
@@ -4441,7 +4440,7 @@ const isEqual = (...objs) => objs.every(obj => JSON.stringify(obj) === JSON.stri
 ```
 
 
-#### ES6- find()/findIndex()
+## ES6- find()/findIndex()
 
 ##### 概况
 
@@ -4500,11 +4499,11 @@ Array.prototype.myFind = function(callback) {
 ```
 
 
-#### Array.prototype.findLast()
+## Array.prototype.findLast()
 从尾到头搜索数组.它们的用法和 `find()`、`findIndex()` 类似，唯一不同的是它们是 从后向前 遍历数组，这两个方法适用于数组和类数组。
 
 
-#### Array.prototype.findIndex()
+## Array.prototype.findIndex()
 
 
 
@@ -4513,7 +4512,7 @@ Array.prototype.myFind = function(callback) {
 
 
 
-#### Array.prototype.with()
+## Array.prototype.with()
 该方法会以非破坏性的方式替换给定 index 处的数组元素，即 `arr[index]=value` 的非破坏性版本。
 ```js 
  const arr = ['a', 'b', 'c'];
@@ -4524,8 +4523,83 @@ Array.prototype.myFind = function(callback) {
 ```
 
 
+## Array.prototype.toLocaleString()
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
 
-#### ES6-fill()
+### 概述
+Number值的toLocaleString()方法返回一个表示此数字的语言敏感字符串。
+在支持 Intl.NumberFormat API 的实现中，此方法仅调用 Intl.NumberFormat。
+
+
+### 语法
+```js
+toLocaleString()
+toLocaleString(locales)
+toLocaleString(locales, options)
+
+```
+
+### 参数
+
+locales 和 options 参数让应用程序可以指定应该使用哪种语言的格式化约定。
+对于支持 Intl.NumberFormat API 的实现,这两个参数与 Intl.NumberFormat() 构造函数的参数完全对应。
+对于不支持 Intl.NumberFormat 的实现,要求忽略这两个参数,使用的语言环境和返回字符串的形式完全由实现自己决定。
+
+
+locales(可选)
+
+
+
+
+### 实例
+>https://seven777777.github.io/myblog/work/2020/09/29/toLocaleString/
+
+```js
+//阿拉伯数字转中文
+
+let num = 1;
+num.toLocaleString('zh-u-nu-hanidec') //'一'
+
+//转千分位
+let num = '12345678.123'
+num.toLocaleString(); //"12,345,678.123"
+
+//百分比
+var num = 1345.2345
+num.toLocaleString('zh',{style:'percent'}) // "134,523%"
+num.toLocaleString('zh',{style:'percent' , useGrouping: false}) // "134523%"
+num.toLocaleString('zh',{style:'percent' , useGrouping: false}) // "134523%"
+
+//转货币符号
+var num = 1234.2345
+num.toLocaleString('zh',{style:'currency' , currency:'CNY' }) // "¥1,234.23"
+num.toLocaleString('ja',{style:'currency' , currency:'JPY' }) // "￥1,234"
+num.toLocaleString('zh',{style:'currency' , currency:'CNY' , useGrouping: false , minimumFractionDigits: 3}) // "¥1234.235"
+
+
+var arr = [1,22,3333]
+arr.toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' }) // ￥1,￥22,￥3,333
+
+
+//指定整数最少位数,小数最少与最多位数，有效数字的位数，不够用 0 补全 （采用四舍五入法）
+let num = 1234.456;
+num.toLocaleString('zh', { minimumIntegerDigits: 5 }); //01,234.456
+num.toLocaleString('zh', { minimumFractionDigits: 4, useGrouping: false }); //1234.4560
+num.toLocaleString('zh', { maximumFractionDigits: 2, useGrouping: false }); //1234.46
+num.toLocaleString('zh', { minimumSignificantDigits: 8, useGrouping: false }); //1234.4560
+num.toLocaleString('zh', { maximumSignificantDigits: 4, useGrouping: false }); //1234
+
+
+//转换时间显示
+var date = new Date()
+date.toLocaleString() // "2020/9/28 下午5:14:53"
+date.toLocaleString('zh',{ hour12: false }) // "2020/9/28 17:14:53"
+```
+
+
+
+
+## ES6-fill()
 
 **定义**
 
@@ -4594,7 +4668,7 @@ const randomIP = () => Array(4).fill(0).
 ```
 
 
-#### ES6-copyWithin()
+## ES6-copyWithin()
 > https://www.zhangxinxu.com/wordpress/2022/12/js-array-copywithin/
 
 ##### 是什么
@@ -4707,7 +4781,7 @@ slice()复制对于字符串也是有效的，但是copyWithin()方法却不支�
 
 
 
-#### ES6-includes()
+## ES6-includes()
 
 **定义**
 
@@ -4763,7 +4837,7 @@ Object.is(0, -0); //false
 
 
 
-#### ES6-flat()
+## ES6-flat()
 
 **定义**
 
@@ -5128,7 +5202,7 @@ function myFlat(arr) {
 
 
 
-#### Array.keys()
+## Array.keys()
 
 **定义**
 `**keys()** `方法返回一个包含数组中每个索引键的`**Array Iterator**`对象
@@ -5161,7 +5235,7 @@ console.log(denseKeys);  // [0, 1, 2]
 
 
 
-#### Array.values()
+## Array.values()
 
 **定义**
 
@@ -5224,7 +5298,7 @@ console.log(letter);
 
 
 
-#### Array.entries()
+## Array.entries()
 
 **定义**
 
@@ -5344,7 +5418,7 @@ for (let e of iterator) {
 
 
 
-#### Array.at() //?待办
+### Array.at() //?待办
 
 
 
