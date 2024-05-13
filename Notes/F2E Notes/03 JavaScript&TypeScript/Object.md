@@ -1754,6 +1754,47 @@ console.log(....); //true
 
 
 
+
+
+### Object.prototype.toLocaleString()
+> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toLocaleString
+
+#### 概述
+Object实例的这个方法返回表示这个对象的字符串. 此方法旨在由派生对象重写，以用于特定于区域设置的目的。
+
+
+#### 语法
+```js
+toLocaleString()
+```
+
+#### 入参
+无
+覆盖方法的对象接收至少2个入参,`locales`, `options`. 
+
+
+#### 返回值
+调用`this.toString()`的返回值
+
+#### 描述
+所有继承来自`Object.prototype`的对象(除了`null-prototype objects`)都继承了`toLocaleString()`方法. 
+返回结果是调用`this.toString()`的结果.
+
+这个方法的存在是为了确保所有对象都"至少"有一个 `toLocaleString()` 方法可用。一些内置对象像 `Array`、`Number`、`Date` 等会覆盖默认的 `toLocaleString()` 方法,使用一个更加特化的实现,以满足它们各自的需求。
+
+- [`Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array): [`Array.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString)
+- [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): [`Number.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString)
+- [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date): [`Date.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString)
+- [`TypedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray): [`TypedArray.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toLocaleString)
+- [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt): [`BigInt.prototype.toLocaleString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt/toLocaleString)
+
+
+
+
+
+<hr>
+
+
 ## 对象自身方法
 
 #### polyfill和shim的比较
