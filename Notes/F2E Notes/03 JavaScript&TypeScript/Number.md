@@ -152,10 +152,10 @@ let billion = 1e9; //10亿,数字1后面跟9个0
 
 
 
-### 方法
+## 方法
 
 
-#### Number.prototype.toString()
+### Number.prototype.toString()
 
 方法 `num.toString(base)` 返回在给定 `base` 进制数字系统中 `num` 的字符串表示形式
 
@@ -595,6 +595,66 @@ ES6 引入了Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER这两个常量，
 
 
 ```
+
+
+
+
+### Number.prototype.toLocaleString()
+
+
+
+### 实例
+>https://seven777777.github.io/myblog/work/2020/09/29/toLocaleString/
+
+```js
+//阿拉伯数字转中文
+
+let num = 1;
+num.toLocaleString('zh-u-nu-hanidec') //'一'
+
+//转千分位
+let num = '12345678.123'
+num.toLocaleString(); //"12,345,678.123"
+
+//百分比
+var num = 1345.2345
+num.toLocaleString('zh',{style:'percent'}) // "134,523%"
+num.toLocaleString('zh',{style:'percent' , useGrouping: false}) // "134523%"
+num.toLocaleString('zh',{style:'percent' , useGrouping: false}) // "134523%"
+
+//转货币符号
+var num = 1234.2345
+num.toLocaleString('zh',{style:'currency' , currency:'CNY' }) // "¥1,234.23"
+num.toLocaleString('ja',{style:'currency' , currency:'JPY' }) // "￥1,234"
+num.toLocaleString('zh',{style:'currency' , currency:'CNY' , useGrouping: false , minimumFractionDigits: 3}) // "¥1234.235"
+
+
+var arr = [1,22,3333]
+arr.toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' }) // ￥1,￥22,￥3,333
+
+
+//指定整数最少位数,小数最少与最多位数，有效数字的位数，不够用 0 补全 （采用四舍五入法）
+let num = 1234.456;
+num.toLocaleString('zh', { minimumIntegerDigits: 5 }); //01,234.456
+num.toLocaleString('zh', { minimumFractionDigits: 4, useGrouping: false }); //1234.4560
+num.toLocaleString('zh', { maximumFractionDigits: 2, useGrouping: false }); //1234.46
+num.toLocaleString('zh', { minimumSignificantDigits: 8, useGrouping: false }); //1234.4560
+num.toLocaleString('zh', { maximumSignificantDigits: 4, useGrouping: false }); //1234
+
+
+//转换时间显示
+var date = new Date()
+date.toLocaleString() // "2020/9/28 下午5:14:53"
+date.toLocaleString('zh',{ hour12: false }) // "2020/9/28 17:14:53"
+```
+
+
+
+
+
+
+
+
 
 
 
