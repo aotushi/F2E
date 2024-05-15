@@ -551,7 +551,7 @@ export default instance
 ```
 
 
-# API接口管理
+# 项目中封装API接口管理
 
 >新建了一个api文件夹，里面有一个index.js和一个base.js，以及多个根据模块划分的接口js文件。index.js是一个api的出口，base.js管理接口域名，其他js则用来管理各个模块的接口。
 
@@ -719,7 +719,7 @@ transformResponse: [function transformResponse(data) {
 处理方案: 只能是后端把浮点数转成字符串传给前端，或者前端特殊处理加上小数显示
 
 
-# 问题
+# 实例
 
 ## 在处理异步请求时，如何确保数据的一致性和同步性?
 ### 背景介绍
@@ -884,5 +884,16 @@ transformResponse: [function transformResponse(data) {
 - 使用取消令牌（cancel tokens）来取消之前的请求，确保只有最新的请求会更新数据。
 - 在每次请求开始之前清空数据，以确保不会有旧数据残留。
 - 在更新数据时进行适当的检查，以确保只处理预期的响应。
+
+
+
+## axios处理数值会将小数点后的0处理掉
+### 概述
+> https://github.com/axios/axios/issues/2279
+
+axios在处理返回数据时,会调用`JSON.parse()`方法.
+处理方法:
+* 让后端返回字符串
+* 可以调用方法`Number.prototype.toFixed(n)`来强制处理数据
 
 
