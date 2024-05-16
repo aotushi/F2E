@@ -31,8 +31,8 @@ Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js �
 
 
 
-
-### 1.axios拦截器
+## api属性方法介绍
+### axios拦截器
 
 ```js
 axios拦截器
@@ -369,7 +369,7 @@ axios.get(that.baseUrl+"/vat/myinfo",{
 ```
 
 
-# axios 二次封装
+# axios二次封装
 
 ## 简略版
 
@@ -405,7 +405,7 @@ service.interceptors.response.use(
 
 
 
-## axios的封装
+## 封装2
 
 ### 来源
 > https://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&mid=2651578212&idx=2&sn=3a4bdc17b0c1808f2b5649d84eff93a1&chksm=802508a5b75281b366dca8441c3ab2dc63b93adcd139ec5bb002dc8b10fef80efa49d49d92c2&scene=21#wechat_redirect
@@ -473,7 +473,7 @@ instance.interceptors.request.use(    
 ```
 
 
-### 响应链接
+### 响应拦截
 ```js
 
 // 提示函数
@@ -551,7 +551,7 @@ export default instance
 ```
 
 
-# 项目中封装API接口管理
+## 封装3
 
 >新建了一个api文件夹，里面有一个index.js和一个base.js，以及多个根据模块划分的接口js文件。index.js是一个api的出口，base.js管理接口域名，其他js则用来管理各个模块的接口。
 
@@ -645,78 +645,23 @@ methods: {    
 ```
 
 
-# 断网提示
-> 在断网的时候，来更新vue中network的状态，那么这里我们根据network的状态来判断是否需要加载这个断网组件。断网情况下，加载断网组件，不加载对应页面的组件。当点击刷新的时候，我们通过跳转refesh页面然后立即返回的方式来实现重新获取数据的操作。因此我们需要新建一个refresh.vue页面，并在其`beforeRouteEnter`钩子中再返回当前页面。
 
-```vue
-// app.vue
-<template>    
-    <div id="app">      
-        <div v-if="!network">        
-            <h3>我没网了</h3>        
-            <div @click="onRefresh">刷新</div>        
-        </div>      
-        <router-view/>        
-    </div>  
-</template>  
-  
-<script>    import { mapState } from 'vuex';  
-    export default {    
-        name: 'App',    
-        computed: {      
-            ...mapState(['network'])    
-        },    
-        methods: {      
-            // 通过跳转一个空页面再返回的方式来实现刷新当前页面数据的目的  
-            onRefresh () {        
-                this.$router.replace('/refresh')      
-            }    
-        }  
-    }</script>
-```
-
-```js
-// refresh.vue
-beforeRouteEnter(to,from,next) {
-	next(vm => {
-		vm.$router.replace(from.fullPath)
-	})
-}
-```
+## 封装4
+### 来源
+> https://juejin.cn/post/7124573626161954823
 
 
-# 配置
-### 更改baseURL
-项目中可能会有几个请求不使用baseURL配置,可以在请求的第三个参数中使用`{baseURL: '/test'}`来变更基础路径
+### 前端请求流程图
 
-### 返回数据类型
-`responseType` 表示浏览器将要响应的数据类型。`responseType`是Axios请求配置中的一个选项，它决定了Axios如何处理从服务器返回的响应数据的格式。
-// 选项包括: 'arraybuffer', 'document', 'json'(默认), 'text', 'stream' 
-// 浏览器专属：'blob'
+[[前端请求流程图]]
 
 
 
 
 
 
-### 更换返回数据的格式
-**背景**
-> 因为axios中的默认transformReponse使用了JSON.parse。JSON.parse会舍去小点后的0。
 
-源码
-```js
-transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-```
 
-处理方案: 只能是后端把浮点数转成字符串传给前端，或者前端特殊处理加上小数显示
 
 
 # 实例
@@ -895,5 +840,27 @@ axios在处理返回数据时,会调用`JSON.parse()`方法.
 处理方法:
 * 让后端返回字符串
 * 可以调用方法`Number.prototype.toFixed(n)`来强制处理数据
+
+
+### 更换返回数据的格式
+**背景**
+> 因为axios中的默认transformReponse使用了JSON.parse。JSON.parse会舍去小点后的0。
+
+这种方式并没有起到作用
+
+源码
+```js
+transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+```
+
+处理方案: 只能是后端把浮点数转成字符串传给前端，或者前端特殊处理加上小数显示
 
 

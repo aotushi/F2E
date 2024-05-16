@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"53ce5b577123ea57","type":"text","text":"请求参数处理","x":-120,"y":-240,"width":160,"height":50},
+		{"id":"98ffb4967b9c8a82","type":"text","text":"调用请求函数","x":-120,"y":-340,"width":160,"height":50},
+		{"id":"66fe3a440c1b29eb","type":"text","text":"修改请求头","x":-120,"y":-140,"width":160,"height":50},
+		{"id":"88fc59d98b35f39e","type":"text","text":"配置用户标识","x":-120,"y":-40,"width":160,"height":50},
+		{"id":"8cc509c29b4dd94a","type":"text","text":"发起请求","x":-120,"y":60,"width":160,"height":50},
+		{"id":"1fbdf9cb36ba9aab","type":"text","text":"网络错误处理","x":-120,"y":160,"width":160,"height":50},
+		{"id":"8d3b7c4862440d9a","type":"text","text":"授权错误处理","x":-120,"y":260,"width":160,"height":50},
+		{"id":"e4d28ace91b10a4b","type":"text","text":"普通错误处理","x":-120,"y":360,"width":160,"height":50},
+		{"id":"4559770092696fb0","type":"text","text":"请求完成","x":-120,"y":460,"width":160,"height":50},
+		{"id":"c2fc2e809f97cfd3","type":"text","text":"返回参数处理","x":-120,"y":560,"width":160,"height":50}
+	],
+	"edges":[
+		{"id":"d9082352d1effe87","fromNode":"98ffb4967b9c8a82","fromSide":"bottom","toNode":"53ce5b577123ea57","toSide":"top"},
+		{"id":"a95690d0a22d8289","fromNode":"53ce5b577123ea57","fromSide":"bottom","toNode":"66fe3a440c1b29eb","toSide":"top"},
+		{"id":"087254d297951d24","fromNode":"66fe3a440c1b29eb","fromSide":"bottom","toNode":"88fc59d98b35f39e","toSide":"top"},
+		{"id":"844b4976acc77ae8","fromNode":"88fc59d98b35f39e","fromSide":"bottom","toNode":"8cc509c29b4dd94a","toSide":"top"},
+		{"id":"64b04711276940e0","fromNode":"8cc509c29b4dd94a","fromSide":"bottom","toNode":"1fbdf9cb36ba9aab","toSide":"top"},
+		{"id":"88586b5f273889c6","fromNode":"1fbdf9cb36ba9aab","fromSide":"bottom","toNode":"8d3b7c4862440d9a","toSide":"top"},
+		{"id":"8f3685942cea0046","fromNode":"8d3b7c4862440d9a","fromSide":"bottom","toNode":"e4d28ace91b10a4b","toSide":"top"},
+		{"id":"2e01cf3a6985675f","fromNode":"e4d28ace91b10a4b","fromSide":"bottom","toNode":"4559770092696fb0","toSide":"top"},
+		{"id":"a6b80eb3029167cd","fromNode":"4559770092696fb0","fromSide":"bottom","toNode":"c2fc2e809f97cfd3","toSide":"top"}
+	]
+}
