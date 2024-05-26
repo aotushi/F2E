@@ -656,13 +656,210 @@ methods: {    
 [[前端请求流程图]]
 
 
+### 整体结构概述
+封装axios,可以将其分成两大类: 基础请求流程+拦截器.
+基础请求流程包括, 对所有接口的处理(GET, POST, PUT, DEL等)
+拦截器包括: 
+* 请求拦截
+	* 请求调整
+	* 用户标识
+* 响应拦截
+	* 网络错误处理
+	* 授权错误处理
+	* 普通错误处理
+	* 代码异常处理
+
+![image](https://jsd.cdn.zzko.cn/gh/aotushi/picx-images-hosting@master/image.8ad3bhf9ks.webp)
 
 
 
+```ts
+// tool.ts
+import {message} from '../antd'
+export const handleChangeRequestHeader = config => {
+	config['xxxx'] = 'xxxx'
+	return config
+}
+
+export const handleConfigureAuth = config => {
+	config.headers['token'] = localStorage.getItem('token') || ''
+	return config
+}
+
+export const handleNetworkError = (errStatus?: number):void => {
+	const networkErrMap:{[key:string]: string} = {
+		"400": "错误的请求", // token 失效
+    "401": "未授权，请重新登录",
+    "403": "拒绝访问",
+    "404": "请求错误，未找到该资源",
+    "405": "请求方法未允许",
+    "408": "请求超时",
+    "500": "服务器端出错",
+    "501": "网络未实现",
+    "502": "网络错误",
+    "503": "服务不可用",
+    "504": "网络超时",
+    "505": "http版本不支持该请求",
+	}
+
+	if (errStatus) {
+		message.error(networkErrMap[errStatus] ?? `其它连接错误--${errStatus}`)
+		return
+	}
+	message.error('无法连接到服务器')
+}
 
 
+export const handleAuthError = (errno: string):boolean => {
+	const authErrMap: any = {
+    "10031": "登录失效，需要重新登录", // token 失效
+    "10032": "您太久没登录，请重新登录~", // token 过期
+    "10033": "账户未绑定角色，请联系管理员绑定角色",
+    "10034": "该用户未注册，请联系管理员注册用户",
+    "10035": "code 无法获取对应第三方平台用户",
+    "10036": "该账户未关联员工，请联系管理员做关联",
+    "10037": "账号已无效",
+    "10038": "账号未找到",
+  };
+
+	if (authErrMap.hasOwnProperty(errno)) {
+		message.error(authErrMap[errno])
+		logout()
+		return false
+	}
+	return true
+}
+
+export const handleGeneralError = (errno:string, errmsg:string):boolean => {
+	if (errno !== '0) {
+		message.error(errmsg)
+		return false
+	}
+
+	return true
+}
+```
 
 
+```ts
+//server.ts
+import axios from 'axios'
+
+import {
+  handleChangeRequestHeader,
+  handleConfigureAuth,
+  handleAuthError,
+  handleGeneralError,
+  handleNetworkError,
+} from "./tools";
+
+type Fn = (data: FcResponse<any>) => unknown
+
+interface IAnyObj {
+	[index:string]: unknown
+}
+
+interface FcResponse<T> {
+	errno: string
+	errmsg: string
+	data: T
+}
+
+axios.interceptors.request.use(
+	config => {
+		config = handleChangeRequestHeader(config)
+		config = handleConfigureAuth(config)
+		return config
+	}
+)
+
+axios.interceptors.response.use(
+	response => {
+		if (response.status !== 200) return Promise.reject(response.data)
+		handleAuthError(response.data.errno)
+		handleGenernalError(response.data.errno, response.data.errmsg)
+		return response
+	},
+	err => {
+		handleNetworkError(err.response.status)
+		Promise.reject(err.response)
+	}
+)
+
+export const Get = <T>(
+	url: string,
+	params: IAnyObj,
+	clearFn?: Fn
+): Promise<[any, FcResponse<T>|undefined]> =>
+	new Promise(resolve => {
+		axios
+			.get(url, {params})
+			.then(result => {
+				let res: FcRespons<T>
+				if (clearFn !== undefined) {
+					res = clearFn(result.data) as unknown as FcResponse<T>
+					//这种写法通常用于处理类型不匹配或类型不确定的情况。通过先断言为 `unknown`，再断言为目标类型，可以绕过 TypeScript 的类型检查器，强制将一个类型转换为另一个类型。
+				} else {
+					res = result.data FcResponse<T>
+				}
+				resolve([null, res as FcResponse<T>)])
+			})
+			.catch(err => {
+				resolve([err, undefined])
+			})
+	})
+
+
+export const Post = <T>(
+	url: string,
+	data: IAnyObj,
+	params: IAnyObj = {}
+): Promise<[any, FcResponse<T>|undefined]> => {
+	return new Promise(resolve => {
+		axios
+			.post(url,data, {params})
+			.then(result => {
+				resolve([null, result.data as FcResponse<T>])
+			})
+			.catch(err => {
+				resolve([err, undefined])
+			})
+	})
+}
+```
+
+
+```ts
+//index.ts
+import { userApi } from "./path/user";
+
+export const api = {
+  ...userApi,
+};
+```
+
+
+```ts
+//src/api/path/user.ts
+
+import {Get} from '../server'
+
+export interface FcResponse<T> {
+	errno: string
+	errmsg: string
+	data: T
+}
+
+export type ApiResponse<T> = Promise<[any, FcResponse<T> | undefined]>
+
+export function getUserInfo<T={name:string}>(id: string): ApiResponse<T> {
+	return Get<T>('/user/info', {id})
+}
+
+export const userApi = {
+	getUserInfo,
+}
+```
 
 # 实例
 
