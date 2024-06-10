@@ -388,7 +388,7 @@ main.tsx中报错
 
 #### 什么是jsx?
 
-jsx是javascript的一种语法扩展.
+jsx是javascript的一种语法扩展. 在js中写html.
 
 ```jsx
 const element = <h1>hello, world</h1>
@@ -523,6 +523,12 @@ function App() {
 
 ### Hook
 
+特点:
+
+* 16.8新增特性
+* 不用在class组件的情况下使用react特性
+* 解决class组件复杂的问题
+
 api介绍
 
 * useState(类似vue中的data)
@@ -532,9 +538,13 @@ api介绍
 * useRef(类似vue中的ref)
 * useLayoutEffect, useTransition, useImperativeHandle...
 
+hook划分
+
+https://zh-hans.react.dev/reference/react/hooks
 
 
-### useState
+
+### 3-4 3-5 useState
 
 #### 定义
 
@@ -545,67 +555,6 @@ api介绍
 * initData：state的初始值，**initData有两种情况-非函数和函数。**
 
 
-
-#### 案例
-
-```react
-//变量定义
-const [count, setCount] = setState('河畔一角')
-
-//对象定义
-const [user, setUser] = setState({name:'河畔一角', age:30});
-
-//数组定义
-const [list, setList] = setState(['tom', 'jack']);
-
-//异步执行
-const [count, setCount] = userState(0);
-
-
-//异步执行 ?
-const [count, setCount] = setState(0);
- //点击按钮,执行3次
- setCount(count+1)
- setCount(count+1)
- setCount(count+1)
-
-//函数执行
-const [count, setCount] = useState(0)
-setCount(count => count+1)
-```
-
-
-
-在React中，`setState`函数是异步的，这意味着当你调用`setState`时，React并不会立即更新组件的状态。相反，React会将这个状态更新排入一个队列中，稍后才会实际更新组件的状态。这样做的目的是为了性能优化，使得多次连续的状态更新可以被合并成一次更新，减少不必要的渲染次数。
-
-当你连续调用三次`setCount(count+1)`时，由于`setState`的异步特性，这三次更新实际上是在同一个事件循环中发生的。React会将这三次更新合并为一次更新，因此`count`的值只会增加1，而不是3。这是因为每次调用`setCount`时，它都使用的是同一个闭包中的`count`值，而这个值在事件循环的这个阶段是不会变的。
-
-如果你希望每次调用`setCount`都基于最新的状态值来更新，你应该使用`setCount`的函数式更新形式：
-
-
-
-```js
-
-const [count, setCount] = setState(0);
- //下面的代码是异步代码 点击按钮,执行3次
- setCount(count+1)
- setCount(count+1)
- setCount(count+1)
-//下面的代码是同步的
- setTimeout(() => {
-   setCount(count + 1)
- })
-```
-
-react更新是异步更新, 多次操作会合并在一起. 更新了3次count,但最后只会更新了一次.
-
-重点: 如果在异步函数中执行dispatch,会变成同步代码. 因为事件循环
-
-
-
-
-
-### 3.3 useState用法
 
 
 
@@ -631,6 +580,7 @@ const handleUser = () => {
 const [list ,setList] = userState(['tom','lily','jack'])
 const handleList = () => {
   setList([...list, 'dick'])
+  //list.push('dick') 不会生效
 }
 ```
 
@@ -638,7 +588,7 @@ const handleList = () => {
 
 
 
-### 3.5 dispatch是同步还是异步
+#### dispatch是同步还是异步
 
 3.4中提到的案例
 
@@ -678,5 +628,535 @@ flushSync(() => {
 
 函数内部依然是批量更新.也可以执行多次flushSync
 
+
+
+
+
+
+
+
+
+#### 案例
+
+```react
+//变量定义
+const [count, setCount] = useState('河畔一角')
+
+//对象定义
+const [user, setUser] = useState({name:'河畔一角', age:30});
+
+//数组定义
+const [list, setList] = useState(['tom', 'jack']);
+
+//异步执行
+const [count, setCount] = useState(0);
+
+
+//异步执行 ?
+const [count, setCount] = useState(0);
+ //点击按钮,执行3次, 结果还是1
+ setCount(count+1)
+ setCount(count+1)
+ setCount(count+1)
+
+//函数执行
+const [count, setCount] = useState(0)
+setCount(count => count+1)
+```
+
+
+
+在React中，`setState`函数是异步的，这意味着当你调用`setState`时，React并不会立即更新组件的状态。相反，React会将这个状态更新排入一个队列中，稍后才会实际更新组件的状态。这样做的目的是为了性能优化，使得多次连续的状态更新可以被合并成一次更新，减少不必要的渲染次数。
+
+当你连续调用三次`setCount(count+1)`时，由于`setState`的异步特性，这三次更新实际上是在同一个事件循环中发生的。React会将这三次更新合并为一次更新，因此`count`的值只会增加1，而不是3。这是因为每次调用`setCount`时，它都使用的是同一个闭包中的`count`值，而这个值在事件循环的这个阶段是不会变的。
+
+如果你希望每次调用`setCount`都基于最新的状态值来更新，你应该使用`setCount`的函数式更新形式：
+
+
+
+```js
+
+const [count, setCount] = setState(0);
+  const handleCount = () => {
+    // 以下代码声明了3此,但是只会加1,因为在一个事件循环中发生
+    // setCount(count + 1);
+    // setCount(count + 1);
+    // setCount(count + 1);
+
+    // 里面的代码是同步代码
+    // setTimeout(() => {
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    // });
+    
+    //dispatch函数式更新形式 只会加1
+    setCount(() => {
+      count + 1;
+      count + 1;
+      count + 1;
+      count + 1;
+      return count + 1;
+    });
+  };
+
+```
+
+react更新是异步更新, 多次操作会合并在一起. 更新了3次count,但最后只会更新了一次.
+
+重点: 如果在异步函数中执行dispatch,会变成同步代码. 因为事件循环
+
+
+
+### 3-5 useState是同步还是异步
+
+```tsx
+//app.tsx react版本^18.2.0
+import {useState} from 'react';
+import './App.css';
+
+
+function App() {
+  const [count, setCount] = useState(0)
+  const handleSetCount = () => {
+    // 第一种方式 初始化渲染和触发方法后,都会执行两次console.log;, count增加了1
+    setCount(count + 1);
+    setCount(count + 1);
+    
+    // 第二种方式 初始化渲染和触发方法后,都会执行两次console.log;, count增加了2
+    setCount(() => count + 1);
+    setCount(() => count + 1);
+    
+    //第三种方式, 初始化渲染和触发方法后,都会执行两次console.log;, count增加了1
+    setTimeout(() => {
+      setCount(count + 1);
+    	setCount(count + 1);
+    })
+  }
+  
+  console.log('render')
+  return (
+  	<div>
+    	<p>数量值: {count}</p>
+      <button onClick={handleSetCount}>更改count的值</button>
+    </div>
+  )
+}
+```
+
+
+
+如何同步更新state呢? 使用官方提供的`flushSync()`方法
+
+```tsx
+//app.tsx react版本^18.2.0
+import {useState} from 'react';
+import './App.css';
+
+
+function App() {
+  const [count, setCount] = useState(0)
+  const handleSetCount = () => {
+    // 下面两种方案都相同: 初始化渲染和触发方法后,都会执行两次console.log; 调用方法新增1;
+		// 方案1 flushSync
+    flushSync(() => {
+      setCount(count + 1)
+      setCount(count + 1)
+    })
+    
+    //方案2 flushSync
+    flsuhSync(() => {
+      setCount(() => count + 1)
+      setCount(() => count + 1)
+    })
+  }
+  
+  console.log('render')
+  return (
+  	<div>
+    	<p>数量值: {count}</p>
+      <button onClick={handleSetCount}>更改count的值</button>
+    </div>
+  )
+}
+```
+
+
+
+
+
+
+
+
+
+### 3-6 useEffect语法讲解
+
+#### 用法
+
+可以定义多次
+
+```tsx
+useEffect(effectFn, deep)
+```
+
+
+
+#### 能力
+
+useEffect Hook 相当于 componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合。可以模拟渲染后、更新后、销毁三个动作。
+
+
+
+#### 案例演示
+
+**渲染后更新标题**
+
+```tsx
+useEffect(()=>{
+document.title = 'React后台课程'
+},[])
+```
+
+
+
+
+
+**渲染后更新Count值**
+
+需要添加deep,否则会触发循环. 
+
+```tsx
+const [count, setCount] = useState(0)
+  useEffect(()=>{
+  setCount(count+1)
+},[])
+```
+
+
+
+
+
+**点击按钮，更新total值**
+
+依赖项从0变成1的时候, 就会执行setTotal
+
+```tsx
+const [total, setTotal] = useState(0)
+const [count, setCount] = useState(0)
+
+useEffect(() => {
+  console.log('a')
+  setCount(count+1)
+})
+useEffect(()=>{
+  console.log('b')
+	setTotal(count*5)
+},[count])
+
+//打印顺序 第二次打印a后,因为没有依赖项(空数组),并不会执行setCount函数
+'a' 'b' 'a' 'b' 'b'
+```
+
+
+
+
+
+**销毁定时器**
+
+先来看看不使用销毁定时器的结果.
+
+下面这种会无限循环
+
+```tsx
+const [count ,setCount] = useState(0)
+const [total, setTotal] = useState(0)
+
+useEffect(() => {
+  console.log('a')
+  setCount(count+1)
+})
+
+
+ setInterval(() => {
+    console.log('b')
+    setCount(count+1)
+  }, 1000)
+
+//打印顺序: a a b b b ....
+
+```
+
+
+
+无限循环
+
+```tsx
+const [count ,setCount] = useState(0)
+const [total, setTotal] = useState(0)
+
+useEffect(() => {
+  console.log('a')
+  setCount(count+1)
+})
+
+useEffect(() => {
+  console.log('b')
+   setInterval(() => {
+    console.log('c', count) //获取的c值是0
+    setCount(count+1)
+  }, 1000)
+})
+
+// 打印顺序
+'a' ,'b' 'a' 'b', 'c', 'c', ....(c)
+```
+
+
+
+添加定时器
+
+```tsx
+const [count, setCount] = useState(0)
+useEffect(() => {
+const T = setInterval(() => {
+setCount(count => count + 1)
+}, 1000)
+return () => {
+clearInterval(T)
+}
+}, [])
+```
+
+
+
+
+
+```tsx
+// App.tsx
+
+function App() {
+  const [count ,setCount] = useState(0);
+  
+  useEffect(() => {
+    //页面渲染完成后,count加1
+    setCount(count + 1)
+  }, [])
+  //count更新后,触发了setTotal
+  useEffect(() => {
+    setTotal(count * 2)
+  },[count])
+  
+  //添加循环定时器,每隔1s新增.但是过了几秒后,就变得混乱
+  //因为定时器中的count会落后于实际状态
+  useEffect(() => {
+    setInterval(() => {
+      setCount(count+1)
+    }, 1000)
+  }, [])
+  
+}
+
+```
+
+![image-20240608215814311](C:\PersonalData\F2E\Program\React\assets\image-20240608215814311.png)
+
+使用销毁定时器来模拟销毁(页面跳转, 页面关闭). 
+
+```md
+定时器的闭包问题
+
+在每次组件渲染时,useEffect 内部的函数会被重新创建,包括定时器的回调函数。但是,由于 JavaScript 中闭包的工作原理,这些回调函数会捕获对应渲染周期中的状态值(如 count)。
+
+未清除的旧定时器
+
+当组件重新渲染时,新的定时器会被创建,而旧的定时器并没有被清除。这意味着有多个定时器在运行,它们引用了不同渲染周期中的状态值。
+
+状态滞后
+
+由于未清除的旧定时器仍在运行,它们会继续调用 setCount 来更新状态。但它们使用的是之前渲染周期中已过期的状态值。这就导致了状态值的滞后和混乱。
+当你在组件卸载时通过返回一个清除函数来清除定时器时,就解决了这个问题。清除函数会在组件卸载时执行,确保了不会有任何遗留的旧定时器继续运行。
+```
+
+
+
+
+
+**自定义Hook（获取浏览器宽高）**
+
+功能, 当浏览器拖动的时候, 获取浏览器宽高
+
+```tsx
+export function useWindowSize() { //use开头定义的函数, 约定
+const [size,setSize] = useState({
+  width:document.documentElement.clientWidth,
+  height:document.documentElement.clientHeight
+})
+const onResize = useCallback((node)=>{
+  setSize({
+      width:document.documentElement.clientWidth,
+      height:document.documentElement.clientHeight
+    })
+  },[])
+useEffect(()=>{
+  window.addEventListener('resize',onResize)
+    return()=>{
+      window.removeEventListener('resize',onResize)
+    }
+  },[])
+  return [size] //返回一个数组
+}
+```
+
+
+
+
+
+
+
+
+
+### 3-7 memo, useMemo, useCallback案例讲解
+
+
+
+#### useMemo语法
+
+类似于computed,
+
+```tsx
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), deps);
+```
+
+1. 传入一个函数进去，会返回一个 memoized 值，需要注意的是，函数内必须有返回值
+2. 第二个参数会依赖值，当依赖值更新时，会从新计算
+
+
+
+#### useMemo优化
+
+我们定义了一个total函数，内部使用 1 填充了100次，通过 reduce 计算总和，经过测试发现点击 Increase按钮后，只会执行total1 ，不会执行 total2，假设total计算量巨大，就会造成内存的浪费，通过 useMemo 可以帮我们缓存计算值。
+
+```tsx
+function App(){
+console.log('Demo1 Parent')
+let [count,setCount] = useState(0)
+const handleClick = ()=>{
+setCount(count+1)
+}
+const total1 = ()=>{
+console.log('计算求和1')
+let arr = Array.from({ length:100 }).fill(1)
+return arr.reduce((prev,next)=>prev+next,0)
+}
+// 缓存对象值
+const total2 = useMemo(()=>{
+console.log('计算求和2')
+let arr = Array.from({ length:100 }).fill(1)
+return arr.reduce((prev,next)=>prev+next,0)
+},[count])
+return (
+<div>
+<div>
+<label>Count：{count}</label>
+<button onClick={handleClick}>Increase</button>
+</div>
+<div>
+<label>总和：</label>
+<span>{total1()}</span>
+<span>{total2}</span>
+</div>
+</div>
+)
+}
+```
+
+
+
+
+
+
+
+#### useCallback语法
+
+```tsx
+useCallback(callback, deps)
+```
+
+1. useCallback 接收 2 个参数，第一个为缓存的函数，第二个为依赖值
+2. 主要用于缓存函数，第二次会返回同样的结果。
+
+
+
+#### useCallback优化
+
+```tsx
+import { memo, useCallback, useState } from 'react'
+function App() {
+const [count, setCount] = useState(0)
+const handleClick = useCallback(() => {
+console.log('子节点点击...')
+}, [])
+return (
+
+)
+}
+const Child = memo(function Child(props: any) {
+console.log('child...')
+return (
+
+<p>
+我是子节点 <button onClick={props.handleClick}>按钮</button>
+</p>
+
+)
+})
+```
+
+
+
+#### useMemo, useCallback区别
+
+他们都用于缓存，useCallback 主要用于缓存函数，返回一个 缓存后 函数，而 useMemo 主要用于缓存值，返回一个缓存后的值。
+
+
+
+
+
+
+
+
+
+
+
+### 3-8 useContext, useReducer案例
+
+
+
+
+
+
+
+### 3-9 useRef基础语法讲解
+
+
+
+
+
+### 3-10 useTransition过渡 使用
+
+
+
+
+
+
+
+### 3-11 前端常用的调试技巧
+
+
+
+
+
+### 3-12 重难点梳理
 
 
