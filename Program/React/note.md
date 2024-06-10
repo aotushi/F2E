@@ -388,7 +388,7 @@ main.tsx中报错
 
 #### 什么是jsx?
 
-jsx是javascript的一种语法扩展.
+jsx是javascript的一种语法扩展. 在js中写html.
 
 ```jsx
 const element = <h1>hello, world</h1>
@@ -523,6 +523,12 @@ function App() {
 
 ### Hook
 
+特点:
+
+* 16.8新增特性
+* 不用在class组件的情况下使用react特性
+* 解决class组件复杂的问题
+
 api介绍
 
 * useState(类似vue中的data)
@@ -532,9 +538,13 @@ api介绍
 * useRef(类似vue中的ref)
 * useLayoutEffect, useTransition, useImperativeHandle...
 
+hook划分
+
+https://zh-hans.react.dev/reference/react/hooks
 
 
-### useState
+
+### 3-4 3-5 useState
 
 #### 定义
 
@@ -545,67 +555,6 @@ api介绍
 * initData：state的初始值，**initData有两种情况-非函数和函数。**
 
 
-
-#### 案例
-
-```react
-//变量定义
-const [count, setCount] = setState('河畔一角')
-
-//对象定义
-const [user, setUser] = setState({name:'河畔一角', age:30});
-
-//数组定义
-const [list, setList] = setState(['tom', 'jack']);
-
-//异步执行
-const [count, setCount] = userState(0);
-
-
-//异步执行 ?
-const [count, setCount] = setState(0);
- //点击按钮,执行3次
- setCount(count+1)
- setCount(count+1)
- setCount(count+1)
-
-//函数执行
-const [count, setCount] = useState(0)
-setCount(count => count+1)
-```
-
-
-
-在React中，`setState`函数是异步的，这意味着当你调用`setState`时，React并不会立即更新组件的状态。相反，React会将这个状态更新排入一个队列中，稍后才会实际更新组件的状态。这样做的目的是为了性能优化，使得多次连续的状态更新可以被合并成一次更新，减少不必要的渲染次数。
-
-当你连续调用三次`setCount(count+1)`时，由于`setState`的异步特性，这三次更新实际上是在同一个事件循环中发生的。React会将这三次更新合并为一次更新，因此`count`的值只会增加1，而不是3。这是因为每次调用`setCount`时，它都使用的是同一个闭包中的`count`值，而这个值在事件循环的这个阶段是不会变的。
-
-如果你希望每次调用`setCount`都基于最新的状态值来更新，你应该使用`setCount`的函数式更新形式：
-
-
-
-```js
-
-const [count, setCount] = setState(0);
- //下面的代码是异步代码 点击按钮,执行3次
- setCount(count+1)
- setCount(count+1)
- setCount(count+1)
-//下面的代码是同步的
- setTimeout(() => {
-   setCount(count + 1)
- })
-```
-
-react更新是异步更新, 多次操作会合并在一起. 更新了3次count,但最后只会更新了一次.
-
-重点: 如果在异步函数中执行dispatch,会变成同步代码. 因为事件循环
-
-
-
-
-
-### 3.3 useState用法
 
 
 
@@ -631,6 +580,7 @@ const handleUser = () => {
 const [list ,setList] = userState(['tom','lily','jack'])
 const handleList = () => {
   setList([...list, 'dick'])
+  //list.push('dick') 不会生效
 }
 ```
 
@@ -638,7 +588,7 @@ const handleList = () => {
 
 
 
-### 3.5 dispatch是同步还是异步
+#### dispatch是同步还是异步
 
 3.4中提到的案例
 
@@ -678,5 +628,127 @@ flushSync(() => {
 
 函数内部依然是批量更新.也可以执行多次flushSync
 
+
+
+
+
+
+
+
+
+#### 案例
+
+```react
+//变量定义
+const [count, setCount] = useState('河畔一角')
+
+//对象定义
+const [user, setUser] = useState({name:'河畔一角', age:30});
+
+//数组定义
+const [list, setList] = useState(['tom', 'jack']);
+
+//异步执行
+const [count, setCount] = useState(0);
+
+
+//异步执行 ?
+const [count, setCount] = useState(0);
+ //点击按钮,执行3次, 结果还是1
+ setCount(count+1)
+ setCount(count+1)
+ setCount(count+1)
+
+//函数执行
+const [count, setCount] = useState(0)
+setCount(count => count+1)
+```
+
+
+
+在React中，`setState`函数是异步的，这意味着当你调用`setState`时，React并不会立即更新组件的状态。相反，React会将这个状态更新排入一个队列中，稍后才会实际更新组件的状态。这样做的目的是为了性能优化，使得多次连续的状态更新可以被合并成一次更新，减少不必要的渲染次数。
+
+当你连续调用三次`setCount(count+1)`时，由于`setState`的异步特性，这三次更新实际上是在同一个事件循环中发生的。React会将这三次更新合并为一次更新，因此`count`的值只会增加1，而不是3。这是因为每次调用`setCount`时，它都使用的是同一个闭包中的`count`值，而这个值在事件循环的这个阶段是不会变的。
+
+如果你希望每次调用`setCount`都基于最新的状态值来更新，你应该使用`setCount`的函数式更新形式：
+
+
+
+```js
+
+const [count, setCount] = setState(0);
+  const handleCount = () => {
+    // 以下代码声明了3此,但是只会加1,因为在一个事件循环中发生
+    // setCount(count + 1);
+    // setCount(count + 1);
+    // setCount(count + 1);
+
+    // 里面的代码是同步代码
+    // setTimeout(() => {
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    //   setCount(count + 1);
+    // });
+    
+    //dispatch函数式更新形式 只会加1
+    setCount(() => {
+      count + 1;
+      count + 1;
+      count + 1;
+      count + 1;
+      return count + 1;
+    });
+  };
+
+```
+
+react更新是异步更新, 多次操作会合并在一起. 更新了3次count,但最后只会更新了一次.
+
+重点: 如果在异步函数中执行dispatch,会变成同步代码. 因为事件循环
+
+
+
+### 3-6 useEffect语法讲解
+
+
+
+
+
+### 3-7 memo, useMemo, useCallback案例讲解
+
+
+
+
+
+### 3-8 useContext, useReducer案例
+
+
+
+
+
+
+
+### 3-9 useRef基础语法讲解
+
+
+
+
+
+### 3-10 useTransition过渡 使用
+
+
+
+
+
+
+
+### 3-11 前端常用的调试技巧
+
+
+
+
+
+### 3-12 重难点梳理
 
 
