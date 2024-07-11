@@ -913,6 +913,13 @@ net start winnat
 
 
 
+### 升级指定子依赖的版本号
+固定版本 固定npm依赖版本
+> https://www.cnblogs.com/hanshuai/p/16880792.html
+> https://juejin.cn/post/7163150684747989005
+> https://juejin.cn/post/7205181884590276669
+> https://juejin.cn/post/7302439422671208483
+
 
 ### npx介绍
 > https://github.com/LightXJ/blog/issues/28
