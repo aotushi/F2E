@@ -3,7 +3,7 @@ alias: numbers 进制
 ---
 
 
-### 0. 介绍
+## 0. 介绍
 
 在JavaScript中，Number类型的数据既包括了整型数据，也包括了浮点型数据。
 
@@ -153,6 +153,20 @@ let billion = 1e9; //10亿,数字1后面跟9个0
 
 
 ## 方法
+
+
+### Number.prototype.toFixed()
+#### 概述
+
+
+#### 语法
+
+#### 描述
+
+#### 其他
+
+
+
 
 
 ### Number.prototype.toString()
@@ -603,7 +617,7 @@ ES6 引入了Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER这两个常量，
 
 
 
-### 实例
+## 实例
 >https://seven777777.github.io/myblog/work/2020/09/29/toLocaleString/
 
 ```js
