@@ -50,328 +50,6 @@ Vim 是一款命令行下的文本编辑器，编辑方式跟图形化编辑器�
 
 
 
-## 使用配置
-
-#### 本地生成密钥连接远端
-
-[文章来源](https://juejin.cn/post/6844904008163786765)
-
-本地生成密钥是配合版本工具进行开发.一般本地只有一套密钥,但也可以根据不同的邮箱为多个远端生成相应的密钥.
-
-1.**生成SSH-key**
-
-在git中输入以下命令,路径不影响,会在window系统用户文件夹下的`.ssh`文件夹下生成相应密钥.
-
-```cmd
-//生成方法1
-ssh-keygen -t ed25519 -C 'email@example.com'ssh-keygen -t ed25519 -C "email@example.com"  -f ~/.ssh/gitlab_id_rsa
-
-//生成方法2
-ssh-keygen -o -t rsa -b 4096 -C "email@example.com" -f ~/.ssh/gitlab_id_rsa
-
-//以上两种方法加密方式不同
-email@example.com 代表注册Gitlab账号时用的邮箱
--f 代表文件名
-~/.ssh/ 代表ssh的文件路径
-gitlab_id-rsa 代表ssh文件名（可以自定义）
-```
-
-2.**远端网站添加SSH-key**
-
-3.**测试密钥**
-
-以`GitHub`为例，在`GitBash`中输入以下的命令
-
-```js
-ssh -T git@github.com
-//如果连接成功,会显示相应信息.
-```
-
-连接成功之前或之后可以设置本地git的用户名和密码.
-
-#### 起始配置用户名和邮箱
-
-第一次使用 Git 的时候，会要求我们配置用户名和邮箱，用于表示开发者的信息
-
-```
-git config --global user.name "Your Name" 
-
-git config --global user.email "email@example.com" 
-```
-
-> 注意命令之间的空格
-
-可以使用 `git config -l `命令来查看配置信息
-
-
-
-#### 使用ssh或https方式pull/push
-
-```js
-//https://www.cnblogs.com/zhoumiao/p/10493403.html
-
-切换成https访问
-git remote set-url origin https://...
-
-切换成ssh方法
-git remote set-url origin git@...
-```
-
-
-
-#### 查看本机ssh key公钥
-
-```js
-cat ~/.ssh/id_rsa.pub
-```
-
-
-
-#### 本地修改远程仓库的信息
-
-```js
-//显示所有远程仓库
-git remote -v
-
-//添加远程版本库
-git remote add [shortname][url] //shortname为本地的版本库: git rmeote add origin git@github.com:..
-
-//删除远程仓库
-git remote rm name
-
-//修改远程仓库名称
-git remote rename old_name new_name
-```
-
-
-
-
-
-
-#### 同一电脑配置多个Git公钥
-
-> [一些常用的 Git 进阶知识与技巧 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/431093836)
-
-[同一台电脑配置Gitee、Github 的 Git SSH公钥](https://blog.csdn.net/u010698107/article/details/113485131)
-
-1.清除git的全局设置
-
-```javascript
-//查看全局配置
-git config --global --list
-
-
-//删除全局用户名和邮箱
-git config --global --unset user.name
-git config --global --unset user.email
-```
-
-2.创建ssh key
-
-进入`.ssh`文件夹下, 生成key
-
-```javascript
-cd ~/.ssh
-ssh-keygen -t rsa -C "xxx@xxx.com" 
-//邮件地址为gitee或github使用的邮件地址
-```
-
-3.配置github秘钥
-
-```javascript
-ssh-keygen -t rsa -C "github使用的邮箱地址"
-
-//设置github的ssh key名称为id_rsa_github
-```
-
-4.配置gitee秘钥
-
-```javascript
-ssh-keygen -t rsa -C "gitee使用的邮箱地址"
-//设置gitee的ssh key保存名称为 id_rsa_gitee
-```
-
-5.向github和gitee添加公钥public key
-
-6.创建配置文件,解决ssh冲突
-
-6.1在`.ssh`文件夹下创建config文件
-
-6.2添加内容以区分两个ssh key
-
-```javascript
-cd ~/.ssh
-vim config
-
-#github
-Host github.com
-HostName github.com
-PreferredAuthentications publickey
-IdentityFile ~/.ssh/id_rsa_github
-
-#gitee
-Host gitee.com
-HostName gitee.com
-PreferredAuthentications publickey
-IdentityFile ~/.ssh/id_rsa_gitee
-```
-
-7.测试链接是否正常
-
-```javascript
-ssh -T git@github.com
-
-ssh -T git@gitee.com
-```
-
-
-
-
-
-#### git代理
-使用代理后,github网站通过浏览器可以访问,但是无法使用git访问.所以需要为git也添加上代理.
-
-##### HTTP
-
-运行git config之后,可以看到options信息. 在config file location中可以看到又global,system,local,blob等关键字及解释.
-
-global 即是读/写当前用户全局的配置文件(`~/.gitconfig` 文件，属于某个计算机用户).  `--glboal` 选项指的是修改 Git 的全局配置文件 `~/.gitconfig`，而非各个 Git 仓库里的配置文件 `.git/config`。protocol 指的是代理的协议，如 http，https，socks5 等。port 则为端口号。
-
-system 即是读写系统全局的配置文件(/etc/gitconfig 文件，属于计算机)
-
-local 即是当前 clone 仓库 的配置文件(位于 clone 仓库下 .git/config)
-
-```js
-https://ericclose.github.io/git-proxy-config.html
-
-//查看全局的http https代理 get前面好像没有横线
-git config --global --get http.proxy
-git config --global --get https.proxy
-
-
-
-#http代理
-// 设置HTTP 代理 针对所有域名
-git config --global http.proxy http://127.0.0.1:1080
-git config --global https.proxy http://127.0.0.1:1080
-
-// 设置Socks5 代理
-git config --global http.proxy socks5://127.0.0.1:1080
-git config --global https.proxy socks5://127.0.0.1:1080
-这里的 socks5 仅仅是代理使用的协议，它依然是针对 http 设置的，所以仅对 http 协议的仓库有效。使用 git@xxx 这种 ssh 连接的不会使用代理。
-
-//域名代理  git config –global http.url.proxy protocol://127.0.0.1:port Git 不认 https.proxy ，设置 http.proxy 就可以支持 https 了。
-
-git config --global http.https://github.com.proxy http://127.0.0.1:1080
-
-
-//取消http https代理
-git config --global --unset http.proxy
-git config --global --unset https.proxy
-```
-
-
-
-##### SSH
-
-```js
-在这种情况下，Git 依靠 ssh 处理连接； 为了通过代理进行连接，您必须配置 ssh 本身，在 ~/.ssh/config 文件中设置 ProxyCommand 选项。Linux 和 macOS 是通过 nc 来执行 ProxyCommand 的，Windows 下则是通过 connect。
-
-//https代理
-1.编辑 ~/.ssh/config文件
-2.文件添加如下内容
- Host github.com
- 	User git
-  ProxyCommand connect -H 127.0.0.1:7890 %h %p
-
-
-Host 后面 接的 github.com 是指定要走代理的仓库域名。
-在 ProxyCommand 中，Windows 用户用的是 connect 。
--H 选项的意思是 HTTP 代理。
-在调用 ProxyCommand 时，％h 和 ％p 将会被自动替换为目标主机名和 SSH 命令指定的端口（ %h 和 %p 不要修改，保留原样即可）。
-
-//socks5代理
-1.编辑 ~/.ssh/config 文件
-vim ~/.ssh/config
-
-2.给文件加上如下内容：
-Host github.com
-    User git
-    ProxyCommand connect -S 127.0.0.1:7891 %h %p
-
-
-解释：
-Host 后面 接的 github.com 是指定要走代理的仓库域名。
-在 ProxyCommand 中，Windows 用户用的是 connect。
-单独的 -S 选项指的就是 socks5 代理
-在调用 ProxyCommand 时，％h 和 ％p 将会被自动替换为目标主机名和 SSH 命令指定的端口（ %h 和 %p 不要修改，保留原样即可）。
-```
-
-
-
-
-
-
-
-
-
-#### 配置忽略文件.gitigonre
-
-.gitignore 可以在子文件夹下创建
-
-##### 仓库中没有提交该文件
-
-项目中有些文件不应该存储到版本库中，Git 中需要创建一个文件 『.gitignore』 配置忽略，一般与 .git 目录同级。
-
-常见情况有：
-
-1. 临时文件.     
-2. 多媒体文件，如音频，视频
-3. 编辑器生成的配置文件  (.idea)
-4. npm 安装的第三方模块
-
-```js
-//以#开始的行,被视为注释
-
-//忽略所有的 .idea 文件夹
-.idea
-//忽略所有以 .test 结尾的文件
-*.test
-//忽略 node_modules 文件和文件夹 斜杠加不加都可以
-/node_modules
-
-//忽略掉所有文件名是foo.txt的文件
-foo.txt
-
-//忽略所有生成的html文件,除了foo.html
-*.html
-!foo.html
-
-//忽略所有.o和.a文件
-*.[oa]
-```
-
-
-
-
-
-##### 仓库中已经提交该文件
-**不推荐**
-1.在根目录下`.gitignore`文件夹中添加要忽略的文件
-2.使用命令删除此文件`git rm --cached XXXX`
-3.提交并推送到远程分支即可
-
-
-[**推荐**](https://blog.csdn.net/NEWCIH/article/details/121989006)
-```bash
-git update-index --assume-unchanged 文件名
-
-git update-index --assume-unchanged *.obsidian
-```
-
-如果你需要重新追踪该文件夹，你可以使用 `git update-index --no-assume-unchanged <file_or_folder>` 命令。
-
-
 
 
 ## 基本介绍
@@ -1354,7 +1032,328 @@ git checkout  dev
 
 
 
-## 使用git遇到的问题
+## Git使用配置
+
+#### 本地生成密钥连接远端
+
+[文章来源](https://juejin.cn/post/6844904008163786765)
+
+本地生成密钥是配合版本工具进行开发.一般本地只有一套密钥,但也可以根据不同的邮箱为多个远端生成相应的密钥.
+
+1.**生成SSH-key**
+
+在git中输入以下命令,路径不影响,会在window系统用户文件夹下的`.ssh`文件夹下生成相应密钥.
+
+```cmd
+//生成方法1
+ssh-keygen -t ed25519 -C 'email@example.com'ssh-keygen -t ed25519 -C "email@example.com"  -f ~/.ssh/gitlab_id_rsa
+
+//生成方法2
+ssh-keygen -o -t rsa -b 4096 -C "email@example.com" -f ~/.ssh/gitlab_id_rsa
+
+//以上两种方法加密方式不同
+email@example.com 代表注册Gitlab账号时用的邮箱
+-f 代表文件名
+~/.ssh/ 代表ssh的文件路径
+gitlab_id-rsa 代表ssh文件名（可以自定义）
+```
+
+2.**远端网站添加SSH-key**
+
+3.**测试密钥**
+
+以`GitHub`为例，在`GitBash`中输入以下的命令
+
+```js
+ssh -T git@github.com
+//如果连接成功,会显示相应信息.
+```
+
+连接成功之前或之后可以设置本地git的用户名和密码.
+
+#### 起始配置用户名和邮箱
+
+第一次使用 Git 的时候，会要求我们配置用户名和邮箱，用于表示开发者的信息
+
+```
+git config --global user.name "Your Name" 
+
+git config --global user.email "email@example.com" 
+```
+
+> 注意命令之间的空格
+
+可以使用 `git config -l `命令来查看配置信息
+
+
+
+#### 使用ssh或https方式pull/push
+
+```js
+//https://www.cnblogs.com/zhoumiao/p/10493403.html
+
+切换成https访问
+git remote set-url origin https://...
+
+切换成ssh方法
+git remote set-url origin git@...
+```
+
+
+
+#### 查看本机ssh key公钥
+
+```js
+cat ~/.ssh/id_rsa.pub
+```
+
+
+
+#### 本地修改远程仓库的信息
+
+```js
+//显示所有远程仓库
+git remote -v
+
+//添加远程版本库
+git remote add [shortname][url] //shortname为本地的版本库: git rmeote add origin git@github.com:..
+
+//删除远程仓库
+git remote rm name
+
+//修改远程仓库名称
+git remote rename old_name new_name
+```
+
+
+
+
+
+
+#### 同一电脑配置多个Git公钥
+
+> [一些常用的 Git 进阶知识与技巧 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/431093836)
+
+[同一台电脑配置Gitee、Github 的 Git SSH公钥](https://blog.csdn.net/u010698107/article/details/113485131)
+
+1.清除git的全局设置
+
+```javascript
+//查看全局配置
+git config --global --list
+
+
+//删除全局用户名和邮箱
+git config --global --unset user.name
+git config --global --unset user.email
+```
+
+2.创建ssh key
+
+进入`.ssh`文件夹下, 生成key
+
+```javascript
+cd ~/.ssh
+ssh-keygen -t rsa -C "xxx@xxx.com" 
+//邮件地址为gitee或github使用的邮件地址
+```
+
+3.配置github秘钥
+
+```javascript
+ssh-keygen -t rsa -C "github使用的邮箱地址"
+
+//设置github的ssh key名称为id_rsa_github
+```
+
+4.配置gitee秘钥
+
+```javascript
+ssh-keygen -t rsa -C "gitee使用的邮箱地址"
+//设置gitee的ssh key保存名称为 id_rsa_gitee
+```
+
+5.向github和gitee添加公钥public key
+
+6.创建配置文件,解决ssh冲突
+
+6.1在`.ssh`文件夹下创建config文件
+
+6.2添加内容以区分两个ssh key
+
+```javascript
+cd ~/.ssh
+vim config
+
+#github
+Host github.com
+HostName github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa_github
+
+#gitee
+Host gitee.com
+HostName gitee.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa_gitee
+```
+
+7.测试链接是否正常
+
+```javascript
+ssh -T git@github.com
+
+ssh -T git@gitee.com
+```
+
+
+
+
+
+#### git代理
+使用代理后,github网站通过浏览器可以访问,但是无法使用git访问.所以需要为git也添加上代理.
+
+##### HTTP
+
+运行git config之后,可以看到options信息. 在config file location中可以看到又global,system,local,blob等关键字及解释.
+
+global 即是读/写当前用户全局的配置文件(`~/.gitconfig` 文件，属于某个计算机用户).  `--glboal` 选项指的是修改 Git 的全局配置文件 `~/.gitconfig`，而非各个 Git 仓库里的配置文件 `.git/config`。protocol 指的是代理的协议，如 http，https，socks5 等。port 则为端口号。
+
+system 即是读写系统全局的配置文件(/etc/gitconfig 文件，属于计算机)
+
+local 即是当前 clone 仓库 的配置文件(位于 clone 仓库下 .git/config)
+
+```js
+https://ericclose.github.io/git-proxy-config.html
+
+//查看全局的http https代理 get前面好像没有横线
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+
+
+#http代理
+// 设置HTTP 代理 针对所有域名
+git config --global http.proxy http://127.0.0.1:1080
+git config --global https.proxy http://127.0.0.1:1080
+
+// 设置Socks5 代理
+git config --global http.proxy socks5://127.0.0.1:1080
+git config --global https.proxy socks5://127.0.0.1:1080
+这里的 socks5 仅仅是代理使用的协议，它依然是针对 http 设置的，所以仅对 http 协议的仓库有效。使用 git@xxx 这种 ssh 连接的不会使用代理。
+
+//域名代理  git config –global http.url.proxy protocol://127.0.0.1:port Git 不认 https.proxy ，设置 http.proxy 就可以支持 https 了。
+
+git config --global http.https://github.com.proxy http://127.0.0.1:1080
+
+
+//取消http https代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+
+
+##### SSH
+
+```js
+在这种情况下，Git 依靠 ssh 处理连接； 为了通过代理进行连接，您必须配置 ssh 本身，在 ~/.ssh/config 文件中设置 ProxyCommand 选项。Linux 和 macOS 是通过 nc 来执行 ProxyCommand 的，Windows 下则是通过 connect。
+
+//https代理
+1.编辑 ~/.ssh/config文件
+2.文件添加如下内容
+ Host github.com
+ 	User git
+  ProxyCommand connect -H 127.0.0.1:7890 %h %p
+
+
+Host 后面 接的 github.com 是指定要走代理的仓库域名。
+在 ProxyCommand 中，Windows 用户用的是 connect 。
+-H 选项的意思是 HTTP 代理。
+在调用 ProxyCommand 时，％h 和 ％p 将会被自动替换为目标主机名和 SSH 命令指定的端口（ %h 和 %p 不要修改，保留原样即可）。
+
+//socks5代理
+1.编辑 ~/.ssh/config 文件
+vim ~/.ssh/config
+
+2.给文件加上如下内容：
+Host github.com
+    User git
+    ProxyCommand connect -S 127.0.0.1:7891 %h %p
+
+
+解释：
+Host 后面 接的 github.com 是指定要走代理的仓库域名。
+在 ProxyCommand 中，Windows 用户用的是 connect。
+单独的 -S 选项指的就是 socks5 代理
+在调用 ProxyCommand 时，％h 和 ％p 将会被自动替换为目标主机名和 SSH 命令指定的端口（ %h 和 %p 不要修改，保留原样即可）。
+```
+
+
+
+
+
+
+
+
+
+#### 配置忽略文件.gitigonre
+
+.gitignore 可以在子文件夹下创建
+
+##### 仓库中没有提交该文件
+
+项目中有些文件不应该存储到版本库中，Git 中需要创建一个文件 『.gitignore』 配置忽略，一般与 .git 目录同级。
+
+常见情况有：
+
+1. 临时文件.     
+2. 多媒体文件，如音频，视频
+3. 编辑器生成的配置文件  (.idea)
+4. npm 安装的第三方模块
+
+```js
+//以#开始的行,被视为注释
+
+//忽略所有的 .idea 文件夹
+.idea
+//忽略所有以 .test 结尾的文件
+*.test
+//忽略 node_modules 文件和文件夹 斜杠加不加都可以
+/node_modules
+
+//忽略掉所有文件名是foo.txt的文件
+foo.txt
+
+//忽略所有生成的html文件,除了foo.html
+*.html
+!foo.html
+
+//忽略所有.o和.a文件
+*.[oa]
+```
+
+
+
+
+
+##### 仓库中已经提交该文件
+**不推荐**
+1.在根目录下`.gitignore`文件夹中添加要忽略的文件
+2.使用命令删除此文件`git rm --cached XXXX`
+3.提交并推送到远程分支即可
+
+
+[**推荐**](https://blog.csdn.net/NEWCIH/article/details/121989006)
+```bash
+git update-index --assume-unchanged 文件名
+
+git update-index --assume-unchanged *.obsidian
+```
+
+如果你需要重新追踪该文件夹，你可以使用 `git update-index --no-assume-unchanged <file_or_folder>` 命令。
+
+
 
 ### 历史版本回滚
 
