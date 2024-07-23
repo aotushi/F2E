@@ -158,6 +158,7 @@ let billion = 1e9; //10亿,数字1后面跟9个0
 ### Number.prototype.toFixed()
 #### 概述
 > 这个方法的值返回一个字符串,该字符串使用具有指定小数位数的定点表示法表示此数字。
+> 总结为一句话就是: 将数字格式化为指定小数位的字符串.
 
 #### 语法
 ```js
@@ -230,9 +231,36 @@ Number(5).toFiexed(2); //'5.00'
 
 
 #### 其他
+**toFixed舍入的具体规则是什么?**
+> [js中计算后结果如何保留小数点后N位 - 小小邪 - 博客园 (cnblogs.com)](https://www.cnblogs.com/xielong/p/12341598.html)
 
+银行家舍入法: 四舍六入五考虑,五后非零就进一,五后为零看奇偶,五前为偶应舍去,五前为奇要进一.
+`toFixed()`方法并不严格遵循银行家舍入规则(四舍六入五成双),更接近四舍五入,在某些边界情况下可能会因浏览器而有所差异.
+* 当小数部分小于5时, 向下舍入
+* 当小数部分大于5时, 向上舍入
+* 当小数部分恰好等于5时,行为可能因为浏览器实现而异.
+```js
+//以edge浏览器为例
+1.015.toFixed(2); //'1.01'
+1.0150.toFixed(2); //'1.01'
+1.0151.toFixed(2); //'1.02'
+1.0152.toFixed(2); //'1.02'
+```
 
-
+简略版银行家舍入方法
+```js
+function bankRound(num, decimalPlaces) {
+	let d = decimalPlaces || 0;
+	let m = Math.pow(10, d);
+	let n = +(d ? num*m : num).toFixed(8); //避免浮点数精度问题
+	let i = Math.floor(n), f = n - i;
+	let e = 1e - 8; //小数点后第9位
+	let r = (f > 0.5 - e && f < 0.5 + e) ?
+						((i % 2 === 0) ? i : i+1) :
+						Math.round(n);
+	return d ? r / m : r;
+}
+```
 
 
 ### Number.prototype.toString()
