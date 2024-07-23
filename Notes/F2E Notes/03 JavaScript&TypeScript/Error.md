@@ -1,5 +1,6 @@
 ---
-aliases: Error概述
+aliases:
+  - Error
 ---
 
 
