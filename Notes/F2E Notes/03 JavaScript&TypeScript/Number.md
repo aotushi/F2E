@@ -262,7 +262,23 @@ function bankRound(num, decimalPlaces) {
 }
 ```
 
+实现一个截取n位小数的方法
+```js
+//substring方法
+function save2Point(value) {
+	let dotPosition = value.indexOf('.') + 1;
+	let dotBackStr = value.substring(dotPosition)
+	let save2Str = dotBackStr.length >= 2 ? dotBackStr.substring(0,2) : Number(dotBackStr).toFixed(2);
+	return dotPosition ? dotBackS : value.toFixed(2);
+}
 
+//数组
+let str;
+str = [...dotStr].pop()
+str = str.pop();
+let save2PointStr = str.join('')
+
+```
 ### Number.prototype.toString()
 
 方法 `num.toString(base)` 返回在给定 `base` 进制数字系统中 `num` 的字符串表示形式
