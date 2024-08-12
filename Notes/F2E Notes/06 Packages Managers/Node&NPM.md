@@ -378,6 +378,7 @@ npm init --yes
 ```js
 npm search 包名
 ```
+
 ##### 查看本地包
 ```js
 npm ls 包名
@@ -410,7 +411,6 @@ npm info 包名
 #### 安装模块
 
 ##### 基础语法
-
 ```markdown
 npm install [<@scope>/]<pkg>
 npm install [<@scope>/]<pkg>@<tag>
@@ -429,13 +429,13 @@ common options: [-S|--save| -D|--save-dev| -O|--save-optional] [-E| --save-exact
             
 ```
 
-安装包,默认会安装最新的版本
+* 安装包,默认会安装最新的版本
 
 ```tiki wiki
 npm install gulp
 ```
 
-安装指定版本的包
+* 安装指定版本的包
 
 ```tiki wiki
 npm install gulp@3.9.1
@@ -443,18 +443,14 @@ npm install gulp@3.9.1
 
 安装包并将信息保持到项目的package.json文件中;
 
-6 版本的 npm ，安装包时会自动保存在 dependencies 中，可以不用写 --save
+* 6版本的 npm ，安装包时会自动保存在 dependencies 中，可以不用写 `--save`
 
-命令行可以添加多个包 npm i chalk ludash
+* 一次安装多个包
+	命令行可以添加多个包 npm i chalk ludash
 
 
 
-项目对模块的依赖可以使用下面的 3 种方法来表示（假设当前版本号是 1.1.0 ）：
-
-- 兼容模块新发布的补丁版本：~1.1.0、1.1.x、1.1
-- 兼容模块新发布的小版本、补丁版本：^1.1.0、1.x、1
-- 兼容模块新发布的大版本、小版本、补丁版本：*、x
-
+* 安装包到生产/开发环境依赖
 
 
 安装包信息到**生产环境(dependencies)** `-S | -save`
@@ -493,6 +489,15 @@ package.json 文件的 devDependencies字段：
 }
 ```
 
+
+
+项目对模块的依赖可以使用下面的 3 种方法来表示（假设当前版本号是 1.1.0 ）：
+- 兼容模块新发布的补丁版本：~1.1.0、1.1.x、1.1
+- 兼容模块新发布的小版本、补丁版本：^1.1.0、1.x、1
+- 兼容模块新发布的大版本、小版本、补丁版本：*、x
+
+
+
 安装包信息到**可选阶段(optionalDependencies)** `-O | --save-optional`
 
 ```markdown
@@ -525,14 +530,6 @@ npm i gulp -E
 
 
 
-**本地安装**
-
-```markdown
-npm i gulp
-```
-
-
-
 **全局安装** 使用`-g` 或 `--global`
 
 ```shell
@@ -546,13 +543,15 @@ npm install less -g
 npm install nodemon -g 
 ```
 
-全局安装一般用于安装==全局工具==，如 cnpm，yarn，webpack ，gulp等，全局命令的安装位置
+**局部安装**
+安装到当前项目中,因为没有全局安装,不在环境变量中,启动安装命令,可以使用`npx 原命令`.
+```bash
+npm i xxx
 
+//安装,执行安装包命令
+npi i @vue/cli
+npx create vue 项目包名
 ```
-C:\Users\你的用户名\AppData\Roaming\npm
-```
-
-> 全局安装命令在任意的命令行下, 都可以执行
 
 
 
@@ -626,21 +625,6 @@ window电脑
 
 
 
-
-
-#### 安装依赖
-
-根据 package.json 中的依赖声明， 安装工具包.我们上传仓库的时候,是不会上传node_module中的文件的.所以下载后,需要在本地将package.json中的补充完整.
-
-```sh
-npm i //等价于install
-npm install
-
-npm i --production // 只安装 dependencies 属性中的依赖
-```
-
-
-
 #### 查看某条命令的帮助
 
 ##### 基础语法
@@ -673,7 +657,7 @@ npm list -g --depth 0
 
 
 
-####  配置npm
+###  配置npm
 
 ##### 基础语法
 
