@@ -1,0 +1,13 @@
+build/*.js
+src/assets
+public
+dist
+src/components/Message/utils/im/*.js
+src/components/Message/*.vue
+src/components/Message/*.js
+src/store/modules/message.js
+*/MOMFlowChart/**
+*/MOMFlowChart/*
+src/components/MOMFlowChart/*.vue
+src/components/MOMFlowChart/*.js
+*/jsplumb.js
