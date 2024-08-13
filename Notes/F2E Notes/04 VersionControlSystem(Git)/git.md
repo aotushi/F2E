@@ -630,6 +630,9 @@ dev:                             D(add D - 4569c2) -> E(add E - 087342)
 ```bash
 # 首先确保自己在 master 分支上，git branch master
 git cherry-pick 4569c2 # 4569c2 为 D 节点的 SHA1
+
+# 可以一次性cherry-pick多个提交
+git cherry-pick <commit-hash1> <commit-hash2> <commit-hash3> ...
 ```
 
 
@@ -663,6 +666,8 @@ A -> B -> C -> D -> E -> C'
 ```
 
 
+```git cherry-pick <commit-hash1> <commit-hash2> <commit-hash3> ...
+```
 
 ### 快速定位一个bug在哪次修改上
 
