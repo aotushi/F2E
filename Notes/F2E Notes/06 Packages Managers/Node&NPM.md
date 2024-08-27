@@ -2229,6 +2229,37 @@ npm unpublish 包名 --force
 
 ## 常见问题
 
+
+### 项目报错: FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+#### 问题描述
+项目执行或者启动后更新报错, 报错信息如下: FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+
+#### 原因及解决方案
+
+```js
+ Node.js 的 V8 引擎当前的堆内存超过了限制
+```
+
+```js
+// 获取当前运行的node的内存限制,在控制台执行如下语句:
+node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
+
+
+/**
+ 获取node运行的内存限制以后,可以通过临时或永久的方式来变更这个限制
+*/
+
+// 临时更改node运行内存限制
+// PowerShell 
+$env:NODE_OPTIONS = "--max-old-space-size=8192"
+// CMD
+set NODE_OPTIONS=--max-old-space-size=8192
+
+// 永久更改node运行内存限制
+1.右键点击"这台电脑" > 属性 > 高级系统设置 > 环境变量
+2.在系统变量或用户变量中添加 NODE_OPTIONS 并设置其值
+```
+
 ### 初始化项目,node-sass下载失败
 
 > [node-sass安装失败解决方法汇总 · Issue #311 · iuap-design/blog (github.com)](https://github.com/iuap-design/blog/issues/311)
