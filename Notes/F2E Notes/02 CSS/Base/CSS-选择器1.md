@@ -33,11 +33,12 @@ aliases: CSS选择器分类
 
 
 
-## 属性和属性值选择器
+## 存在和值选择器
 
 | 声明              | 案例                              | 作用                                                           |
 | --------------- | ------------------------------- | ------------------------------------------------------------ |
-| `[attr]`        | `li[class]`                     | 选择带有class属性的`<li>`元素                                         |
+| `[attr]`        | `[title]`                       | 选择带有`title`属性的所有元素                                           |
+| `[attr]`        | li`[class]`                     | 选择带有class属性的`<li>`元素                                         |
 | `[attr=value]`  | `a[href="https://example.com"]` | 精确匹配带有`attr`属性及值为`value`的元素                                  |
 | `[attr~=value]` | `p[class~="special"]`           | 精确匹配带有`attr`属性及值为`value`的元素或匹配`attr`属性列表(以空格分离)中含有`value`的元素 |
 | [attr\|=value]  | div[lang\|="zh"]                | 精确匹配带有`attr`属性及值为`value`的元素或匹配以`value`开头紧且跟连字号(`-`)的元素       |
@@ -61,6 +62,7 @@ aliases: CSS选择器分类
 | `[attr*=value]` | `li[class*="box"]`  | 匹配在属性字符串任意位置包含`box`属性的元素 |
 
 
+## 大小写敏感(Case-sensitivity)
 
 
 
