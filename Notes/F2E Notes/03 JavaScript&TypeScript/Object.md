@@ -1789,7 +1789,7 @@ toLocaleString()
 
 ## 对象自身方法
 
-#### polyfill和shim的比较
+### polyfill和shim的比较
 
 > [Object.defineProperty是Es5中无法shim的特性 shim是什么？_夏目友人帐...的博客-CSDN博客_无法shim的特性](https://blog.csdn.net/xiaoyuer_2020/article/details/111364064)
 
@@ -1804,7 +1804,7 @@ toLocaleString()
 
 
 
-#### Object.is
+### Object.is
 
 当你想在JavaScript中比较两个值时，多使用全等运算符（===），从而避免在比较时触发强制类型转换的行为。
 
@@ -1855,10 +1855,52 @@ Object.is(NaN,NaN);          //true
 在所有其他情况下，Object.is(a，b) 与 a === b 相同
 ```
 
+#### 实例
+
+**1.判定多个值相等**
+```js
+function recursivelyCheckEqual(x,...rest) {
+	return Object.is(x, rest[0]) && (rest.length < 2 || recursivelyCheckEqual(...rest))
+}
+```
+
+**2.零值相等**
+>**将NaN视作相等，将+0和-0视作相等。**
+`Map`**数据结构基于零值相等算法**，我们可以借助Map数据结构验证：
+
+```js
+const m = new Map();  
+  
+//Map内部使用SameValueZero比较操作，基本上相当于使用严格对象相等的标准来检查键的匹配性  
+const a = 0/"",//NaN  
+      b = 0/"";//NaN  
+const pz = +0;  
+const nz = -0;  
+  
+console.log(a === b);//false  
+console.log(pz === nz);//true  
+  
+m.set(a, "foo");  
+m.set(pz, "bar");  
+  
+console.log(m.get(b));// foo  
+console.log(m.get(nz));// bar
+
+
+// 自定义代码实现
+// 零值相等不作为 JavaScript API 公开，但可以通过自定义代码实现：
+function sameValueZeor(x,y) {
+	if (typeof x === 'number' && typeof y === 'number') {
+		return x === y || ( x !== x && y !== y)
+	}
+
+	return x === y
+}
+```
 
 
 
-#### Object.create
+### Object.create
 
 **Define**
 
@@ -2239,7 +2281,7 @@ if (typeof Object.create !== 'function') {
 
 
 
-#### Object.assign()
+### Object.assign()
 
 ##### **介绍**
 
@@ -2673,7 +2715,7 @@ function merge(target, source) {
 
 
 
-#### Object.keys
+### Object.keys
 
 返回一个由一个给定对象的**自身可枚举属性**组成的数组，数组中属性名的排列顺序和正常循环遍历该对象时返回的顺序一致.
 
@@ -2710,7 +2752,7 @@ console.log(newObj); //{ '2': 'b', '7': 'c', '100': 'a' }
 
 
 
-#### Object.values()
+### Object.values()
 
 > 这个方法返回一个参数对象自身可枚举属性值组成的数组，数组元素顺序和for...in循环相同。(唯一的不同是for...in循环也枚举原型链上的属性)
 >
@@ -2743,7 +2785,7 @@ console.log(Object.values(my_obj)); //['bar']
 
 
 
-#### Object.entries()
+### Object.entries()
 
 ##### Define
 
@@ -2863,7 +2905,7 @@ Object.entries(obj).forEach(([key, value]) => console.log(`${key}: ${value}`))
 
 
 
-#### Object.getPrototypeOf()
+### Object.getPrototypeOf()
 
 ##### Define
 

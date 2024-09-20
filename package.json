@@ -1,3 +1,7 @@
 {
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "less": "^4.2.0"
+  }
 }

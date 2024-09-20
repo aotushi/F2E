@@ -15,7 +15,7 @@ alias: 数组
 * 只能用整数作为数组元素的索引，而不能用字符串。后者称为 [关联数组](https://en.wikipedia.org/wiki/Associative_array)。使用非整数并通过 [方括号](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Working_with_Objects#对象和属性) 或 [点号](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Property_Accessors) 来访问或设置数组元素时，所操作的并不是数组列表中的元素，而是数组对象的 [属性集合](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#属性) 上的变量。
 
 * ==数组对象的属性和数组元素列表是分开存储的，并且数组的遍历和修改操作也不能作用于这些命名属性。==
-* JS数组是可扩展的且可包含不同[[202301170824|数据类型]]的混合(当这些特征是不合需要的, 使用类型数组代替)
+* JS数组是可扩展的且可包含不同[[数据类型|数据类型]]的混合(当这些特征是不合需要的, 使用类型数组代替)
 * JS数组不是[[202304101041|关联数组]]等,数组元素不能通过使用作为索引的任意字符串来访问,必须通过使用非负整数(或它们各自的字符串形式)的索引来访问.
 * JS数组是零索引(zero-indexed): 数组第一个元素在索引0,以此类推,最后一个元素在数组length属性减1的位置.
 * JS**数组拷贝操作**创建的是浅拷贝(shallow copies)(所有标准内建的拷贝操作)
@@ -255,7 +255,7 @@ console.log(fruits.length); // 2
 | splice()       | toSpliced()        |
 | unshift(v1,v2) | toSpliced(v1,v2)   |
 
-将一个改变的方法转换为可选的非改变方法的简单方式是使用[[202301171524|展开运算符]]或slice()来首先创建一个拷贝.
+将一个改变的方法转换为可选的非改变方法的简单方式是使用[[展开运算符|展开运算符]]或slice()来首先创建一个拷贝.
 
 
 
