@@ -1,7 +1,5 @@
----
-aliases: 事件循环, EventLoop
----
-#事件循环 #EventLoop
+
+# 事件循环
 
 ## 事件循环机制Event Loop
 

@@ -1,6 +1,14 @@
----
-aliases: try/catch/throw
----
+
+> [Control flow and error handling - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling)
+
+
+
+
+
+
+# Exception handling statements
+
+
 
 ### try...catch
 
@@ -236,5 +244,4 @@ throw expression
 throw可以抛出任何javascript值,相应的catch[[try..catch throw]]可以捕获任何javascript值.
 
 throw虽然可以抛出任意值,但一般使用Error或其子类.原因
-
 

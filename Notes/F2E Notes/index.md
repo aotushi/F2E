@@ -20,7 +20,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference
 
 
-[[javascript文档标准|javascript文档/标准]]
+[[JS 0-0介绍|javascript文档/标准]]
 
 ### 1. grammer and types
 [[标识符|标识符]]
@@ -43,7 +43,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference
 
 
 ### 3.循环和迭代
-[[循环 迭代 遍历 递归]]//?
+[[JS 0-4Loops and iteration]]//?
 for
 while
 do...while
@@ -137,7 +137,7 @@ for await...of
 ### 6.迭代器Iterator与生成器generator
 [[Iterator]]
 [[Generator]]
-[[Iterator&Generator]]
+[[JS 0-5Iterator&Generator]]
 
 ### 7.元编程
 #### Proxy
@@ -153,18 +153,18 @@ for await...of
 ### 9.JavaScript模块
 > https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules
 
-[[模块化]]
+[[JS 0-7模块化]]
 
 
 #### 原型,原型链,继承
 
 [[原型链]]
-[[继承]]
+[[JS 继承和原型链]]
 
 
 
 #### JS内存机制
-[[javascript内存机制]]
+[[JS 2-内存管理]]
 
 事件循环 [[事件循环]]
 

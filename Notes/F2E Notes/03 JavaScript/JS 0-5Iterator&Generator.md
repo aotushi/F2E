@@ -3,6 +3,768 @@ alias: 迭代器和生成器
 ---
 
 
+## 概述
+>[迭代器和生成器 - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_generators)
+>JavaScript权威指南12章
+
+
+for/of循环和扩展操作符可以直接操作可迭代对象
+
+### 关系
+* **可迭代对象**指的是任何具有专用迭代器方法，且该方法返回迭代器对象的对象。
+* **迭代器对象**指的是任何具有next()方法，且该方法返回迭代结果对象的对象。
+* **迭代结果对象**是具有属性value和done的对象。
+
+### 迭代一个可迭代对象
+要迭代一个可迭代对象
+* 1.要调用其迭代器方法获得一个迭代器对象。
+* 2.重复调用这个迭代器对象的next()方法，直至返回done属性为true的迭代结果对象。
+这里比较特别的地方是，可迭代对象的迭代器方法没有使用惯用名称，而是使用了符号Symbol.iterator作为名字。因此可迭代对象iterable的简单for/of循环也可以写成如下这种复杂的形式：
+```js
+let iterable = [99]
+let iterator = iterable[Symbol.iterator]()
+for (let result=iterator.next(); !result.done; result=iterator.next()) {
+	console.log(result.value) // 99
+}
+```
+
+### 注意
+内置可迭代数据类型的迭代器对象本身也是可迭代的（也就是说，它们有一个名为Symbol.iterator的方法，返回它们自己）
+在下面的代码所示的需要迭代“部分使用”的迭代器时，这种设计是有用的：
+```js
+let list = [1,2,3,4,5]
+let iter = list[Symbol.iterator]()
+let head = iter.next().value; //1
+let tail = [...iter] // [2,3,4,5]
+```
+
+
+### 创建可迭代对象/迭代器对象/迭代结果对象
+示例12-1：可迭代的数值Range类
+```js
+
+class Range {
+	constructor(from,to) {
+		this.from = from
+		this.to = to
+	}
+
+	// 让Range对象像数值的集合一样
+	has(x) { return typeof x === 'number' && this.from <= x && x <= this.to; }
+
+  // 使用集合表示法返回当前范围的字符串表示
+  toString() {
+	  return `{x | ${this.from} <= x <= ${this.to}`
+  }
+
+	// 通过返回一个迭代器对象,让Range对象可迭代
+	// 注意这个方法的名字是一个特殊的符号,不是字符串
+	[Symbol.iterator]() {
+		// 每个迭代器实例必须相互独立,互不影响地迭代自己的范围
+		// 因此需要一个状态变量跟踪迭代的位置.从第一个大于等于from的整数开始
+		let next = Math.ceil(this.from)
+		let last = this.to
+		return {
+			// 这个next()方法是迭代器对象的标志
+			// 它必须返回一个迭代器结果对象
+			next() {
+				return (next <= last) //如果没有返回last,则返回next并给它加1,否则返回表示完成的对象
+					? { value: next++ }
+					: { done: true }
+			},
+			//为了方便起见，让迭代器本身也可迭代
+			[Symbol.iterator]() { return this; }
+		}
+	}
+}
+
+
+for (let x of new Range(1,10)) console.log(x) //打印数值1到10
+
+[...new Range(-2, 2)] //[-2,-1,0,1,2]
+```
+
+
+### 迭代协议
+
+迭代协议具体分为两个协议：[可迭代协议](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols#可迭代协议)和[迭代器协议](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols#迭代器协议)。
+
+### 可迭代协议
+
+**可迭代协议**允许 JavaScript 对象定义或定制它们的迭代行为，例如，在一个 [`for..of`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of) 结构中，哪些值可以被遍历到。
+
+#### Symbol.iterator / @@iterator
+
+要成为**可迭代**对象， 一个对象必须实现 `**@@iterator**` 方法。这意味着对象（或者它[原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)上的某个对象）必须有一个键为 `@@iterator` 的属性，可通过常量 [`Symbol.iterator`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) 访问该属性：
+
+| 属性                | 值                                                  |
+| ------------------- | --------------------------------------------------- |
+| `[Symbol.iterator]` | 一个无参数的函数,其返回值为一个符合迭代器协议的对象 |
+
+
+### 迭代器协议
+**默认Iterator接口**
+只有部署了Iterator接口的数据结构才能使用for...of遍历，举例如下
+```js
+// 对象默认不能使用for...of循环
+const obj = {
+    name: 'kingx',
+    age: 11
+};
+for (let key of obj) {
+    console.log(key); // TypeError: obj[Symbol.iterator] is not a function
+}
+// 数组能正常使用for...of循环
+const arr = ['one', 'two'];
+for (let key in arr) {
+    console.log(key); // 0, 1
+}
+```
+
+
+
+**原生具备iterator接口的数据**(可用for of遍历): 
+* Array 
+* Arguments 
+* Set 
+* Map 
+* String 
+* TypeArray 
+* NodeList
+
+**自定义迭代器**
+自定义一些可以使用for...of循环的数据结构，那么该怎么做呢？==需要自定义遍历数据的时候, 要想到迭代器==
+方法就是为数据结构添加上Iterator接口，Iterator接口是部署在==Symbol.iterator==属性上的，它是一个函数，因此我们只需要对特定的数据结构加上Symbol.iterator属性即可。
+
+案例: 为对象类型数据添加Iterator接口,使得它可以使用for...of循环.
+```javascript
+function Person(name, age) {
+	this.name = name
+	this.age = age
+}
+
+Person.prototype[Symbol.iterator] = function() {
+	// 设置变量,记录遍历的次数
+	let count = 0
+	// 通过Object.keys()函数获取实例自身的所有属性
+	let propArr = Object.keys(this)
+	return {
+		next: function() {
+			if (count < propArr.length) {
+				let index = count++
+				return {
+					value: propArr[index]
+					done: false
+				}
+			} else {
+				value: undefined
+				done: true
+			}
+		}
+	}
+
+}
+```
+
+**ES5实现迭代器功能**
+```javascript
+function createIterator(items) {
+  let i=0;
+  return {
+    next:function() {
+      let done = i>= items.length;
+      let value = !done ? items[i++] : undefined;
+      
+      return {
+        done: done,
+        value: value
+      }
+    }
+  }
+}
+
+//iterator是一个迭代器对象
+let iterator = createIterator([1,2,3]);
+
+console.log(iterator.next()); // { done: false, value: 1 }
+console.log(iterator.next()); // { done: false, value: 2 }
+console.log(iterator.next()); // { done: false, value: 3 }
+console.log(iterator.next()); // { done: true, value: undefined }
+```
+
+
+
+
+
+### for...of
+ES6中增加了一种新的for...of循环，主要目的是为了统一所有数据结构的遍历方式。
+除了迭代器之外，我们还需要一个可以遍历迭代器对象的方式，ES6 提供了 for of 语句，我们直接用 for of 遍历一下我们上节生成的遍历器对象试试：
+
+```javascript
+let iterator = createIterator([1,2,3]);
+
+for(let value of iterator) {
+  console.log(value);
+}
+```
+
+结果报错 `TypeError: iterator is not iterable`，表明我们生成的 iterator 对象并不是 iterable(可遍历的)。
+
+那什么才是可遍历的呢？
+
+其实一种数据结构只要部署了 Iterator 接口，我们就称这种数据结构是“可遍历的”（iterable）。
+
+<u>ES6 规定，默认的 Iterator 接口部署在数据结构的 Symbol.iterator 属性</u>，或者说，一个数据结构只要具有 Symbol.iterator 属性，就可以认为是"可遍历的"（iterable）。
+
+举个例子:
+
+```javascript
+const obj = {
+    value: 1
+};
+
+for (value of obj) {
+    console.log(value);
+}
+
+// TypeError: iterator is not iterable
+```
+
+我们直接 for of 遍历一个对象，会报错，然而如果我们给该对象添加 Symbol.iterator 属性：
+
+```javascript
+const obj = {
+  value: 1
+};
+
+obj[Symbol.iterator] = function() {
+  return createIterator([1,2,3]);
+}
+
+for (value of obj) {
+  console.log(value);
+}
+// 1
+// 2
+// 3
+```
+
+我们也可以发现 for of 遍历的其实是对象的 Symbol.iterator 属性。
+
+
+
+#### 默认可遍历对象
+
+ ES6 默认部署了 Symbol.iterator 属性，当然我们也可以手动修改这个属性：
+
+```javascript
+var colors = ["red", "green", "blue"];
+
+colors[Symbol.iterator] = function() {
+    return createIterator([1, 2, 3]);
+};
+
+for (let color of colors) {
+    console.log(color);
+}
+
+// 1
+// 2
+// 3
+```
+
+
+
+
+#### 使用范围
+
+* 数组
+* Set
+* Map
+* 类数组对象(arguments, DOM NodeList对象)
+* Generator对象
+* 字符串
+
+**数组结构使用for...of**
+
+**Set/Map结构使用for...of循环**
+
+**NodeList结构使用for...of循环**
+
+**arguments对象使用for...of循环**
+arguments也是一个类数组对象，同样可以使用for...of循环进行遍历
+
+**特定函数返回值使用for...of循环**
+对象类型的数据无法直接使用for...of循环进行遍历，但是我们可以借助ES6中Object对象新增的几个函数来间接地实现for...of循环
+* Object.entries()[[JS Base#Object.entries()]]函数：返回一个遍历器对象，由键、值构成的对象数组。
+* Object.keys()[[JS Base#Object.keys]] 函数：返回一个遍历器对象，由所有的键构成的数组。
+* Object.values()[[JS Base#Object.values()]]函数：返回一个遍历器对象，由所有的值构成的数组。
+
+
+#### 模拟实现for...of
+
+模拟实现 for of 也比较简单，基本就是通过 Symbol.iterator 属性获取迭代器对象，然后使用 while 遍历一下：
+```javascript
+function forOf(obj, cb) {
+  let iterable, result;
+  if (typeof obj[Symbol.iterator] !== 'function') {
+    throw new TypeError(obj + 'is not iterator')
+  }
+  if (typeof cb !== 'function') {
+    throw new TypeError('cb must be callable')
+  }
+  iterable = obj[Symbol.iterator]();
+  result = iterable.next();
+  while(!result.done) {
+    cb(result.value);
+    result = iterable.next();
+  }
+}
+```
+
+
+#### for...of与forEach, for...in比较
+引用: [[JS Base#for...of与forEach,for...in比较]]
+
+
+### 内建迭代器
+ES6 为数组、Map、Set 集合内建了以下三种迭代器：
+1.entries()返回一个遍历器对象,用来遍历[键名,键值]组成的数组.对于数组,键名就是索引.
+2.keys() 返回一个遍历器对象,用来遍历所有的键名.
+3.values()返回一个遍历器对象,用来遍历所有的键值.
+
+
+### 关闭迭代器
+对于`for...of`的循环，可以由`break`, `throw continue `  或`return`终止。在这些情况下，迭代器关闭。
+
+
+### 迭代器工作原理
+```js
+1.创建一个指针对象, 指向当前数据结构的起始位置
+2.第一次调用对象的next方法,指针自动指向数据结构的第一个成员
+3.接下来不断调用next方法,指针一直往后移动,直到指向最后一个成员 //会多循环一次
+4.每调用next方法返回一个包含value和done属性的对象  //最后一次
+```
+
+
+
+#### 数组迭代器
+
+```js
+- 数组可以实现遍历的原因: 内部实现了迭代器iterator接口,内部有迭代器方法Symbol.iterator方法(在原型上的方法,通过浏览器可以查看到其原型上具有这个方法)
+- [Symbol.iterator]()返回值类型是一个对象
+
+const arr = ['唐僧', '孙悟空', '猪八戒', '沙僧'];
+const iterator = arr[Symbol.iterator]();//在原型上有Symbol.iterator方法
+console.log(iterator);//输出结果: 指针对象 Array Iterator{}
+
+iterator.next();//log {value: '唐僧', done: false} //false表示迭代还没有结束
+iterator.next();//log {value: '孙悟空', done: false}
+iterator.next();//log {value: '猪八戒', done: false}
+iterator.next();//log {value: '沙僧', done: false}
+iterator.next();//log {value: undefined, done: true}
+
+```
+
+
+
+#### 迭代器自定义遍历对象
+
+```js
+- 配合浏览器报错完善函数功能
+- 循环遍历的是对象里的members数组.
+
+const team = {
+    name: 'exampleName',
+    members: ['a', 'b', 'c', 'd'],
+    //添加迭代器方法,实现for..of功能
+    [Symbol.iterator]: function(){
+        //声明索引变量
+        let index = 0;
+        return{//TypeError:Result of Symbol.iterator method is not an object at... 
+        	   //TypeError: undefined is not a function at ... //对象里需要next方法
+        	next:()=>{
+    			//TypeError: Iterator result undefined is not an object at ... 所以需要在next方法种也返回一个对象,对象的内容根据打印的结果来
+    			//到这一步,刷新页面后,页面会一直返回undefined. 因为没有结束
+    			//为了实现value遍历目标值, 需要声明一个索引/指针变量
+    			//return{value:xxx, done:false};
+                let result ={value: this.member[index]}
+                //处理done
+                if(index<this.member.length){
+                    result.done = false;
+                }else{
+                    result.done = true;
+                }
+                index++;
+                return result;
+			}
+    	}
+    }
+}
+
+//this指向team.两种实现方式:箭头函数, this赋值(_this self that等)
+const team = {
+    name: 'exampleName',
+    members: ['a', 'b', 'c', 'd'],
+    [Symbol.iterator]:{
+        let index = 0;
+        return{
+        	next:()=>{
+    			let result={value:this.members[index]};
+    			if(index<this.members.length){
+                    result.done=false;
+                }else{
+                    result.done=true;
+                }
+    			return result;
+				index++;
+			}
+    	}
+    }
+}
+
+for(let i of team){
+    console.log(i);//log结果: 
+}
+
+=======================================
+const team2 = {
+    name: 'exampleName',
+    members: ['a', 'b', 'c', 'd']
+}
+for(let i of team2['members']){
+    console.log(i);//log结果: a b c d
+}
+```
+
+
+### 实现
+
+> [迭代器和生成器 - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_Generators#iterables)
+
+它允许创建一个简单的范围迭代器，它定义了从开始（包括）到结束（独占）间隔步长的整数序列。 
+它的最终返回值是它创建的序列的大小，由变量iterationCount跟踪。
+```javascript
+function makeRangeIterator(start = 0, end = Infinity, step = 1) {
+    let nextIndex = start;
+    let iterationCount = 0;
+
+    const rangeIterator = {
+       next: function() {
+           let result;
+           if (nextIndex < end) {
+               result = { value: nextIndex, done: false }
+               nextIndex += step;
+               iterationCount++;
+               return result;
+           }
+           return { value: iterationCount, done: true }
+       }
+    };
+    return rangeIterator;
+}
+```
+
+使用这个迭代器
+```js
+let it = makeRangeIterator(1, 10, 2);
+
+let result = it.next();
+while (!result.done) {
+ console.log(result.value); // 1 3 5 7 9
+ result = it.next();
+}
+
+console.log("Iterated over sequence of size: ", result.value); // 5
+```
+
+
+### 迭代器如何关闭/todo
+> [JavaScript迭代器如何关闭? - 知乎](https://www.zhihu.com/question/462012759/answer/1914177301)
+
+
+
+
+
+### iteration protocols
+迭代器协议不是新的内置或语法, 这些协议可以被任意遵循一些规范的对象来实现.
+
+有两种协议: 
+* [[202301181103d1a|iterable protocol]]
+* [[202301181103d1b@%|iterator protocol]]
+
+
+
+### iterable protocol
+
+iterable protocol允许JS对象定义或定制它们的迭代器行为, 例如以for...of构造来循环什么值.
+一些内置类型是具有默认迭代行为的内置可迭代对象(built-in iterable),例如数组或映射.
+
+为了可迭代, 一个对象必须实现`@@iterator`方法, 意味着这个对象(或者是其原型链上的对象)必须有一个带有`@@iterator`键的属性,该属性可以通过常量`Symbol.iterator`获得.
+
+`[Symbol.iterator]`
+返回一个遵循[[202301181103d1b@%|iterator protocol]]的对象,且没有参数的函数
+
+当一个对象需要被迭代时, 它的`@@iterator`方法会被0参数调用, 返回用来获取被迭代值的迭代器.
+
+注意当这个0参数函数被调用时, 是在可迭代对象上作为一个方法被调用. 所以在方法内部, `this`关键字用来访问可迭代对象的属性, 来决定在迭代时提供什么.
+
+这个函数可以是一个普通函数, 或它可以是一个生成器函数, 所以当调用时, 返回一个迭代器对象. 在生成器函数内部, 每个条目(each entry)可以通过使用`yield`来提供.
+
+
+
+### Symbol.iterator
+
+
+`Symbol.iterator`静态数据属性表示指定==返回对象迭代器的方法==的已知符号. ??
+如果这个属性被设置在一个对象上, 那么它是可迭代的并且能用于for...of循环和其它语法.
+
+
+#### 数据属性
+| 数据属性     | 值           |
+| ------------ | ------------ |
+| value        | `@@iterator` |
+| writable     | false        |
+| enumerable   | false        |
+| configurable | false        |
+
+
+
+
+#### 来源
+带有`@@iterator`方法的内置类型:
+
+[[202301181103d1a1a|Array.prototyep[@@iterator]()]]
+
+
+### `Array.prototyep[@@iterator]()`
+
+Array的`@@iterator`方法执行[[可迭代协议|可迭代协议]]并允许数组被绝大多数期望可迭代的语法使用,例如[[展开运算符|展开运算符]]和[[202301181103c|for...of]]循环. 
+
+它返回一个迭代器, 其生成数组中每个索引的值.
+
+
+
+#### 语法
+```js
+array[Symbol.iterator]()
+```
+
+
+
+### iterator protocol
+
+
+迭代器协议定义了一个标准方式来生成一系列值(或有限或无线), 并且当生成所有值后可能返回一个值.
+
+当一个对象带有下面语义来执行`next()`方法,那么它就是一个迭代器.
+
+`next()` 
+接受0个或1个参数并返回一个遵循`IteratorResult`接口的对象. 如果当一个内置语言的特性在使用这个迭代器并返回一个非对象值, 将会抛出一个[[202301302098a2|TypeError]]("iterator.next() returned a non-object value").
+
+所有的迭代器方法(next(), return(), throw())都被期望返回一个执行[[202301181103d1b1@%|IteratorResult]]接口的对象. 它必须有以下属性:
+
+`done` optional
+布尔值. 如果迭代器能生成序列中的下一个值则为false(这相当不完全指定`done`属性 ???)
+如果迭代器完成序列其值为true. 在这种情况下, `value`可以选择指定迭代器的返回值.
+
+`value` optional
+任意被迭代器返回的js值. 当`done`为true时会被忽略.
+
+
+在实际中, 两个属性都不是必须的.如果不包含其中一个属性的对象被返回, 它相当于`{done:false, value:undefined}`.
+
+如果一个迭代器返回包含`done:true`的结果, 任何随后调用`next()`方法都预计返回`done:true`, 尽管这在语言级别没有强制执行.
+
+`next`方法接受一个提供给方法体的值. 内置语言特性将不会传递任何值. 传递给生成器的next方法的值将成为相应`yield`表达式的值.
+
+可选的, 迭代器也能实现`return(value)`和`throw(exception)`方法, 当调用这些方法时,告诉迭代器调用者已经完成迭代,并可以执行任何必要的清理(例如关闭数据库连接).
+
+`return(value)` optional
+接收0或1个参数并返回一个遵循`IteratorResult`接口对象的函数, 通常`value`等于传入的`value`, `dont`等于true
+调用这个方法告诉迭代器调用者不准备再调用`next()`方法并能执行任意清理操作.
+
+
+`throw(exception)` optional
+接收0或1个参数并返回一个遵循`IteratorResult`接口对象的函数. 尤其是`done`等于`true`. 调用这个方法告诉迭代器调用者检测到一个错误状况, 并且`exception`是一个特定的[[202301181154|Error]]实例.
+
+让迭代器可迭代很简单: 仅执行一个`[@@iterator]()`方法并返回`this`:
+```js
+// Satisfies both the Iterator Protocol and Iterable
+const myIterator = {
+  next() {
+    // ...
+  },
+  [Symbol.iterator]() {
+    return this;
+  },
+};
+```
+
+这样的对象被称作可迭代的迭代器. 这样做允许一个迭代器被期望迭代的不同语法使用 - 所以, 在没有实现可迭代的情况下, 实现迭代器协议很少有用.(事实上, 几乎所有语法和APIs期望可迭代, 而不是迭代器). 生成器就是一个例子:
+```js
+const aGeneratorObject = (function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+})();
+
+console.log(typeof aGeneratorObject.next);
+// "function" — it has a next method (which returns the right result), so it's an iterator
+
+console.log(typeof aGeneratorObject[Symbol.iterator]);
+// "function" — it has an @@iterator method (which returns the right iterator), so it's an iterable
+
+console.log(aGeneratorObject[Symbol.iterator]() === aGeneratorObject);
+// true — its @@iterator method returns itself (an iterator), so it's an iterable iterator
+```
+
+
+
+
+
+#### async iterator and async iterable
+
+
+
+#### 语言和迭代器协议交互
+
+所有的内置可迭代对象(因为它们的原型对象实现了`@@iterator`方法)
+* String
+* Array
+* TypeArray
+* Map
+* Set
+* Segments
+
+除此之外, arguments对象和一些DOM集合类型例如NodeList也是可迭代对象. ReadableStream是到现在提笔位置唯一内置异步可迭代对象.
+
+'Generator functions'返回一个'generator objects', 它是可迭代的迭代器. 
+'Async generator functions'返回'async generator objects', 它们是异步可迭代迭代器.
+
+从内置可迭代对象返回的迭代器实际上都继承自一个公共类(目前未公开), 该类实现了前面提到的`[Symbol.iterator](){return this;}`方法, 使它们都成为可迭代的迭代器.
+
+奖励,这些内置的迭代器可能除了被迭代器协议需要的`next()`方法之外,还会有'helper methods'. 你可以通过在一个图形控制台中记录它来检查迭代器的原型链.
+
+
+
+#### 接受可迭代对象的内置APIs
+* Map()
+* WeakMap()
+* Set()
+* WeakSet()
+* Promise.all()
+* Promise.allSettled()
+* Promise.reace()
+* Promise.any()
+* Array.from()
+
+#### 期望可迭代对象的语法
+* for...of
+* 数组和参数展开运算符
+* yield*
+* 数组解构
+
+
+### IteratorResult
+
+
+### ReadableStream
+
+Streams API的ReadableStream接口代表byte数据的可读流. 'Fetch API'通过'Response'对象的属性'body'提供了一个ReadableStream的精确实例.
+
+ReadableStream是一个'transferable object'
+
+
+
+#### 来源
+
+https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream
+
+
+
+
+
+### 概述
+Generator()函数是ES6提供的一种异步编程解决方案。
+
+
+### Generator函数特征
+* function关键字与函数名之间有一个星号（*）。
+* 函数体内部使用yield关键字来定义不同的内部状态。
+
+**实例**
+下面的代码定义了一个简单的Generator()函数，内部包含两个状态，hello与world。
+```js
+function* helloworldGenerator() {
+    console.log('Generator执行');
+    yield 'hello';
+    yield 'world';
+}
+
+const hw = helloworldGenerator();
+console.log('这是测试执行先后顺序的语句');
+hw.next();
+```
+上面代码的执行结果如下所示
+```js
+这是测试执行先后顺序的语句
+Generator执行
+```
+
+
+#### yield表达式与next()关系
+Generator()函数返回的是部署了Iterator接口的对象，而该对象是通过调用next()函数来遍历内部状态的，所以在没有调用下一轮next()函数时，函数处于暂停状态，而这个暂停状态就是通过yield表达式来体现的，因此Generator()函数对异步的控制是通过yield表达式来实现的
+通过Iterator接口的next()函数执行过程可以看出next()函数与yield表达式的关系。
+* next()函数的返回值是一个具有value和done属性的对象，next()函数调用后，如果遇到yield表达式，就会暂停后面的操作，并将yield表达式执行的结果作为value值进行返回，此时done属性的值为false。
+* 当再次执行next()函数时，会再继续往下执行，直到遇到下一个yield表达式。
+* 当所有的yield语句执行完毕时，会直接运行至函数末尾，如果有return语句，将return语句的表达式值作为value值返回；如果没有return语句，则value以undefined值进行返回，这两种情况下的done属性的值都为true，遍历结束。
+```js
+function* helloworldGenerator() {
+    yield 'hello';
+    yield 'world';
+    return 'success';
+}
+
+const hw = helloworldGenerator();
+hw.next();  // {value: "hello", done: false}
+hw.next();  // {value: "world", done: false}
+hw.next();  // {value: "success", done: true}
+```
+
+
+#### for...of与Generator
+Generator()函数的返回值是一个部署了Iterator接口的对象，刚好可以使用for...of循环进行遍历，并且不需要手动调用next()函数，遍历的结果就是yield表达式的返回值。
+
+对象类型的值在默认情况下是不能使用for...of循环进行遍历的，但是借助于Generator()函数可以实现for...of循环的遍历。
+主要思路是给对象的Symbol.iterator属性设置一个Generator()函数，在Generator()函数内通过yield控制遍历的返回值。
+```js
+function* propGenerator() {
+    let propArr = Object.keys(this);
+    for (let prop of propArr) {
+     // 通过yield控制每轮循环的返回值为由属性名和属性值构成的数组
+        yield [prop, this[prop]];
+    }
+}
+let obj = {
+    name: 'kingx',
+    age: 12
+};
+// 为obj对象添加Symbol.iterator属性
+obj[Symbol.iterator] = propGenerator;
+// 对yield的返回值
+for (let [key, value] of obj) {
+    console.log(key, ':', value);
+}
+```
+
+
+
+
+
+
+
+
 
 ## 迭代器(iterator)和生成器(generator)(未完成)????!!!!
 

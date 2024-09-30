@@ -23,25 +23,580 @@
 ### 集合列表
 |名称|速记操作符|含义
 
-| 名称                                    |     速记操作符     | 含义               |
-| ------------------------------------- | :-----------: | ---------------- |
-| Assignment(赋值)                        |    `x=f()`    | `x=f()`          |
-| Addition assignment(加法赋值)             |   `x+=f()`    | `x = x + f()`    |
-| Subtraction assignment(减法赋值)          |   `x-=f()`    | `x = x - f()`    |
-| Multiplication assignment(乘法赋值)       |   `x*=f()`    | `x = x * f()`    |
-| Division assignment(除法赋值)             |   `x/=f()`    | `x = x / f()`    |
-| Remainder assignment(剩余赋值)            |   `x%=f()`    | `x = x % f()`    |
-| Exponentiation assignment(幂赋值)        |  `x **= f()`  | `x = x ** f()`   |
-| Left shift assignment(左移赋值)           |   `x<<=f()`   | `x << = f()`     |
-| Right shift assignment                |   `x>>=f()`   | `x >> = f()`     |
-| Bitwise AND assignment(按位与赋值)         |   `x&=f()`    | `x = x & f()`    |
-| Bitwise XOR assignment(按位异或赋值)        |   `x^=f()`    | `x = x ^ f()`    |
-| Btiwise OR assignmnet(按位或赋值)          |   `x\|=f()`   | `x = x \| f()`   |
-| Logical AND assignment(逻辑与赋值)         |  `x &&= f()`  | `x = x && f()`   |
-| Logical OR assignment(逻辑或赋值)          | `x \|\|= f()` | `x = x \|\| f()` |
-| Nullish coalescing assignment(空值合并赋值) |   `x??=f()`   | `x = x ?? f()`   |
-|                                       |               |                  |
-|                                       |               |                  |
+| 名称                                    |                                                                  速记操作符                                                                   | 含义               |
+| ------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------: | ---------------- |
+| Assignment(赋值)                        |                                                                 `x=f()`                                                                  | `x=f()`          |
+| Addition assignment(加法赋值)             |                                                                 `x+=f()`                                                                 | `x = x + f()`    |
+| Subtraction assignment(减法赋值)          |                                                                 `x-=f()`                                                                 | `x = x - f()`    |
+| Multiplication assignment(乘法赋值)       |                                                                 `x*=f()`                                                                 | `x = x * f()`    |
+| Division assignment(除法赋值)             |                                                                 `x/=f()`                                                                 | `x = x / f()`    |
+| Remainder assignment(剩余赋值)            |                                                                 `x%=f()`                                                                 | `x = x % f()`    |
+| Exponentiation assignment(幂赋值)        |                                                               `x **= f()`                                                                | `x = x ** f()`   |
+| Left shift assignment(左移赋值)           |                                                                `x<<=f()`                                                                 | `x << = f()`     |
+| Right shift assignment                |                                                                `x>>=f()`                                                                 | `x >> = f()`     |
+| Bitwise AND assignment(按位与赋值)         |                                                                 `x&=f()`                                                                 | `x = x & f()`    |
+| Bitwise XOR assignment(按位异或赋值)        |                                                                 `x^=f()`                                                                 | `x = x ^ f()`    |
+| Btiwise OR assignmnet(按位或赋值)          |                                                                `x\|=f()`                                                                 | `x = x \| f()`   |
+| Logical AND assignment(逻辑与赋值)         |                                                               `x &&= f()`                                                                | `x = x && f()`   |
+| Logical OR assignment(逻辑或赋值)          |                                                              `x \|\|= f()`                                                               | `x = x \|\| f()` |
+| Nullish coalescing assignment(空值合并赋值) |                                                                `x??=f()`                                                                 | `x = x ?? f()`   |
+| Destructuring assignment(解构赋值)        | [`[a, b] = arr`, `{ a, b } = obj`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) |                  |
+| Spread syntax                         |                                                                                                                                          |                  |
+
+
+
+### Destructuring assignment(解构赋值运算符)
+
+
+#### 0.对象解构
+
+将对象解构应用到了变量的声明中
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+};
+
+let {type, name} = node;
+
+console.log(type); //'Identifier'
+console.log(name); //'foo'
+```
+
+**初始化程序**
+
+如果使用var、let或const解构声明变量，则必须要提供初始化程序（也就是等号右侧的值）
+
+如果不使用解构功能，则var和let声明不强制要求提供初始化程序，但是对于cosnt声明，无论如何必须提供初始化程序.
+
+```javascript
+var {type, name}; //语法错误
+let {type, name}; //语法错误
+const {type, name}; //语法错误
+```
+
+**解构赋值**
+
+到目前为止，我们已经将对象解构应用到了变量的声明中。然而，我们同样可以在给变量赋值时使用解构语法。举个例子，你可能在定义变量之后想要修改它们的值，就像这样：
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+},
+    type = 'Literal',
+    name = 5;
+
+//使用解构语法为多个变量赋值
+({type, name} = node);
+
+console.log(type); //'Identifier'
+console.log(name); //'foo'
+```
+
+在这个示例中，声明变量type和name时初始化了一个值，在后面几行中，通过解构赋值的方法，从node对象读取相应的值重新为这两个变量赋值。请注意，<span style="text-decoration:underline double red">一定要用一对小括号包裹解构赋值语句，JavaScript引擎将一对开放的花括号视为一个代码块，而语法规定，代码块语句不允许出现在赋值语句左侧，添加小括号后可以将块语句转化为一个表达式，从而实现整个解构赋值的过程。</span>
+
+**解构赋值表达式的值与表达式右侧（也就是=右侧）的值相等**，如此一来，在任何可以使用值的地方你都可以使用解构赋值表达式。想象一下给函数传递参数值的过程：
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+},
+    type = 'Literal',
+    name = 5;
+
+function outputInfo(value) {
+  console.log(value === node); //true
+}
+
+outputInfo({type, name} = node); //变量从作用域中查找
+
+console.log(type);//'Identifier'
+console.log(name);//'foo'
+```
+
+解构赋值表达式（也就是=右侧的表达式）如果为null或undefined会导致程序抛出错误。也就是说，<u>任何尝试读取null或undefined的属性的行为都会触发运行时错误</u>。
+
+
+
+**默认值**
+
+使用解构赋值表达式时，如果指定的局部变量名称在对象中不存在，那么这个局部变量会被赋值为undefined
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+};
+
+let {type, name, value} = node;
+
+console.log(value); //undefined
+```
+
+当指定的属性不存在时，可以随意定义一个默认值，在属性名称后添加一个等号（=）和相应的默认值即可：
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+};
+
+let {type, name, value = true} = node;
+
+console.log(value); //true
+```
+
+为变量value设置了默认值true，只有当node上没有该属性或者该属性值为undefined时该值才生效.
+
+
+
+**为非同名局部变量赋值**
+
+如果希望使用不同命名的局部变量来存储对象属性的值，ECMAScript 6中的一个扩展语法可以满足你的需求，这个语法与完整的对象字面量属性初始化程序的很像
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo'
+};
+
+let {type: localType, name: localName} = node;
+
+console.log(localType); //'Identifier'
+console.log(lcoalName); //'foo'
+```
+
+type: localType语法的含义是读取名为type的属性并将其值存储在变量localType中，这种语法实际上与传统对象字面量的语法相悖，原来的语法名称在冒号左边，值在右边；现在值在冒号右边，而对象的属性名在左边。
+
+当使用其他变量名进行赋值时也可以添加默认值，只需在变量名后添加等号和默认值即可：
+
+```javascript
+let node = {
+  type: 'Identifier'
+};
+
+let {type: localType, name:lcoalName = 'bar'} = node;
+
+console.log(localType); //'Identifier'
+console.log(localName); //'bar'
+```
+
+
+
+**嵌套解构对象**
+
+解构嵌套对象仍然与对象字面量的语法相似，可以将对象拆解以获取你想要的信息：
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo',
+  loc: {
+    start: {
+      line: 1,
+      colum: 1
+    },
+    end: {
+      line: 1,
+      cloumn: 4
+    }
+  }
+};
+
+let {loc: { start }} = node;
+```
+
+在上面的解构示例中，<span style="text-decoration:underline double red;">所有冒号前的标识符都代表在对象中的检索位置，其右侧为被赋值的变量名；如果冒号后是花括号，则意味着要赋予的最终值嵌套在对象内部更深的层级中。</span>
+
+更进一步，也可以使用一个与对象属性名不同的局部变量名：
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo',
+  loc: {
+    start: {
+      line: 1,
+      column: 1
+    },
+    end: {
+      line: 1,
+      column: 4
+    }
+  }
+};
+
+//提取node.loc.start.line
+
+let {loc: {start: {line: lineOut}}} = node;
+
+console.log(localStart); //1
+console.log(localStart); //1
+```
+
+**语法警示**
+
+在使用嵌套解构功能时请注意，你很可能无意中创建了一个无效表达式。内空花括号在对象解构的语法中是合法的，然而这条语句却什么都不会做：
+
+```javascript
+//未声明任何变量
+let {loc: {}} = node;
+```
+
+
+
+#### 1. 数组解构
+
+**解构**
+
+数组解构使用的是数组字面量，且解构操作全部在数组内完成，而不是像对象字面量语法一样使用对象的命名属性.
+
+```javascript
+let colors = ['red', 'green', 'blue'];
+
+let [firstColor, secondColor] = colors;
+
+console.log(firstColor);  //'red'
+console.log(secondColor); //'green'
+```
+
+<u>在数组解构语法中，我们通过值在数组中的位置进行选取，且可以将其存储在任意变量中，未显式声明的元素都会直接被忽略。</u>切记，在这个过程中，数组本身不会发生任何变化。
+
+在解构模式中，也可以直接省略元素，只为感兴趣的元素提供变量名。举个例子，如果你只想取数组中的第3个值，则不需要提供第一个和第二个元素的变量名称：
+
+```javascript
+let colors = ['red', 'green', 'blue'];
+let [,, thirdColor] = colors;
+
+console.log(thirdColor); //'blue'
+```
+
+当通过var、let或const声明数组解构的绑定时，必须要提供一个初始化程序，这一条规定与对象解构的规定类似。
+
+**解构赋值**
+
+数组解构也可用于赋值上下文，但不需要用小括号包裹表达式，这一点与对象解构的约定不同。
+
+```javascript
+let colors = ['red', 'green', 'blue'],
+    firstColor = 'black',
+    secondColor = 'purple';
+
+[firstColor, secondColor] = colors;
+
+console.log(firstColor); //'red'
+console.log(secondColor); //'green'
+```
+
+数组解构语法还有一个独特的用例：交换两个变量的值。如果要在ECMAScript 5中交换两个变量的值，则须引入第三个临时变量：
+
+```javascript
+//ES5
+let a = 1,
+    b = 2,
+    temp;
+
+temp = a;
+a = b;
+b = temp;
+
+//ES6
+let a = 1,
+    b = 2;
+[a, b] = [b, a];
+```
+
+**注意**
+
+如果右侧数组解构赋值表达式的值为null或undefined，则会导致程序抛出错误，这一特性与对象解构赋值很相似。
+
+
+
+**默认值**
+
+可以在数组解构赋值表达式中为数组中的任意位置添加默认值，当指定位置的属性不存在或其值为undefined时使用默认值
+
+```javascript
+let colors = ['red'];
+let [ firstColor, secondColor = 'green'] = colors;
+
+console.log(firstColor); //'red'
+console.log(secondColor); //'green'
+```
+
+
+
+**嵌套数组解构**
+
+嵌套数组解构与嵌套对象解构的语法类似，在原有的数组模式中插入另一个数组模式，即可将解构过程深入到下一个层级
+
+```javascript
+let colors = ['red', ['green', 'lightgreen'], 'blue'];
+
+let [firstColor, [secondColor]] = colors;
+
+console.log(firstColor); //'red'
+console.log(secondColor); //'green'
+```
+
+
+
+**不定元素**
+
+在数组解构语法中有一个和函数不定参数相似的概念：不定元素。在数组中，可以通过...语法将数组中的其余元素赋值给一个特定的变量.
+
+在被解构的数组中，不定元素必须为最后一个条目，在后面继续添加逗号会导致程序抛出语法错误
+
+```javascript
+let colors = ['red', 'green', 'blue'];
+
+let [firstColor, ...restColors ] = colors;
+
+console.log(firstColor); //'red'
+console.log(restColors); //['green', 'blue']
+```
+
+**使用**
+
+* 不定元素语法有助于从数组中提取特定元素并保证其余元素可用
+* 数组复制
+
+```javascript
+//ES5实现数组复制功能-concat
+let colors = ['red', 'green', 'blue'];
+let clonedColors = colors.concat();
+
+console.log(clonedColors); //['red', 'green', 'blue']
+
+//ES6的数组复制
+let colors = ['red', 'green', 'blue'];
+let [...clonedColors] = colors;
+
+console.log()
+
+
+```
+
+比较这个方法与concat()方法的可读性，二者孰优孰劣是一个见仁见智的问题
+
+
+
+#### 2. 混合解构
+
+可以混合使用对象解构和数组解构来创建更多复杂的表达式，如此一来，可以从任何混杂着对象和数组的数据解构中提取你想要的信息
+
+```javascript
+let node = {
+  type: 'Identifier',
+  name: 'foo',
+  loc: {
+    start: {
+      line: 1,
+      column: 1
+    },
+    end: {
+      line: 1,
+      column: 4
+      }
+  },
+  range: [0, 3]
+};
+
+let {
+  loc: {start},
+  range: [startIndex]
+} = node;
+
+console.log(start.line); //1
+console.log(start.column); //1
+console.log(startIndex); //0
+```
+
+解构模式中的loc:和range:仅代表它们在node对象中所处的位置（也就是该对象的属性）。当你使用混合解构的语法时，则可以从node提取任意想要的信息。这种方法极为有效，<u>尤其是当你从JSON配置中提取信息时，不再需要遍历整个结构了。</u>
+
+
+
+#### 解构参数
+
+**基本使用**
+
+当定义一个接受大量可选参数的JavaScript函数时，我们通常会创建一个可选对象，将额外的参数定义为这个对象的属性
+
+```javascript
+//options的属性标识其他参数
+function setCookie(name, value, options) {
+  options = options || {};
+  
+  let secure = options.secure,
+      path = options.path,
+      domain = options.domain,
+      expires = options.expires;
+  
+  //设置cookie代码
+}
+
+//第三个参数映射到options中
+setCookie('type', 'js', {
+  secure: true,
+  expires: 6000
+})
+```
+
+> 许多JavaScript库中都有类似的setCookie()函数，而在示例函数中，name和value是必需参数，而secure、path、domain和expires则不然，这些参数相对而言没有优先级顺序，将它们列为额外的命名参数也不合适，此时为options对象设置同名的命名属性是一个很好的选择。
+>
+> 现在的问题是，仅查看函数的声明部分，无法辨识函数的预期参数，必须通过阅读函数体才可以确定所有参数的情况。
+
+如果将options定义为解构参数，则可以更清晰地了解函数预期传入的参数。解构参数需要使用对象或数组解构模式代替命名参数
+
+```javascript
+function setCookie(name, value, {secure, path, domain, expires}) {
+  //函数体
+}
+
+setCookie('type', 'js', {
+  type: true,
+  expires: 6000
+})
+```
+
+这个函数与之前示例中的函数具有相似的特性，只是现在使用<u>解构语法代替了第3个参数来提取必要的信息</u>，其他参数保持不变，但是对于调用setCookie()函数的使用者而言，解构参数变得更清晰了
+
+**解构参数可以使用默认值、混合对象和数组的解构模式及非同名变量存储提取出来的信息。**
+
+
+
+**必须传值的解构参数**
+
+解构参数有一个奇怪的地方，默认情况下，如果调用函数时不提供被解构的参数会导致程序抛出错误
+
+```javascript
+//调用上一个示例中的setCookit()函数，如果不传递第3个参数，会报错
+setCookie('type', 'js');
+```
+
+缺失的第3个参数，其值为undefined，而解构参数只是将解构声明应用在函数参数的一个简写方法，其会导致程序抛出错误。
+
+<u>如果解构赋值表达式的右值为null或undefined，则程序会报错</u>，同理，若调用setCookie()函数时不传入第3个参数，也会导致程序抛出错误。
+
+如果解构参数是必需的，大可忽略掉这些问题；但如果希望将解构参数定义为可选的，那么就必须为其**提供默认值**来解决这个问题：
+
+```javascript
+function setCookie(name, value, {secure, path, domain, expires} = {}) {
+  //...
+}  
+```
+
+
+
+**解构参数的默认值**
+
+可以为解构参数指定默认值，就像在解构赋值语句中做的那样，只需在参数后添加等号并且指定一个默认值即可
+
+```javascript
+function setCookie(name, value, {
+  secure = false,
+  path = '/',
+  domain = 'exmaple.com',
+  expires = new Date(Date.now() + 3600000000)
+}) {
+  //...
+}
+```
+
+ 在这段代码中，解构参数的每一个属性都有默认值，从而无须再逐一检查每一个属性是否都有默认值。
+
+然而，这种方法也有很多缺点：
+
+* 首先，函数声明变得比以前复杂了；
+
+* 其次，<u>如果解构参数是可选的，那么仍然要给它添加一个空对象作为参数</u>，否则像setCookie（"type"，"js"）这样的调用会导致程序抛出错误。
+
+这里建议对于对象类型的解构参数，为其赋予相同解构的默认参数：
+
+```javascript
+function setCookie(name, value, {
+  secure = false,
+  path = '/',
+  domain = 'example.com',
+  expires = new Date(Date.now() + 3600000000)
+} = {
+  secure = false,
+  path = '/',
+  domain = 'example.com',
+  expires = new Date(Date.now() + 3600000000)
+}) {
+  //...
+}
+```
+
+现在函数变得更加完整了，第一个对象字面量是解构参数，第二个为默认值。但是这会造成非常多的**代码冗余**，你可以将默认值提取到一个**独立对象**中，并且使用该对象作为解构和默认参数的一部分，从而消除这些冗余
+
+```javascript
+const setCookieDefaults = {
+  secure: false,
+  path: '/',
+  domain: 'example.com',
+  expires: new Date(Date.now() + 3600000000)
+};
+
+function setCookie(name, value, {
+  secure = setCookieDefaults.secure,
+  path = setCookieDefaults.path,
+  domain = setCookieDefaults.domain,
+  expires = setCookieDefaults.expires
+} = setCookieDefaults) {
+  //...
+}
+```
+
+在这段代码中，默认值已经被放到setCookieDefaults对象中，除了作为默认参数值外，在解构参数中可以直接使用这个对象来为每一个绑定设置默认参数。使用解构参数后，不得不面对处理默认参数的复杂逻辑，但它也有好的一面，如果要改变默认值，可以立即在setCookieDefaults中修改，<u>改变的数据将自动同步到所有出现过的地方。</u>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+
+
+
+#### Spread syntax
+>[Spread syntax (...) - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+
+
+**是什么**
+扩展运算符允许可迭代对象,例如字符串或数组,在函数调用或数组字面量中扩展为0或多个参数或元素
+扩展运算符允许在需要零个或多个参数（用于函数调用）或元素（用于数组字面量）的位置扩展可迭代对象（例如数组或字符串）,在对象字面量中,扩展运算符枚举对象属性并添加键值对到新创建的对象中.
+
+**语法**
+```js
+myFunction(a, ...iterableObj, b)
+[1, ...iterableObj, '4']
+{...obj, key:'value'}
+```
+
+**描述**
+* 使用场景: 在数组,对象,函数调用中解构
+* 只有可迭代的值才能被解构,例如数组或字符串.缺少`Symbol.iterator`方法的plain objects是不迭代对象.
+
+
+
 
 
 ## Comparison operators(比较运算符)
@@ -1587,6 +2142,127 @@ console.log(b,typeof b); // true, "boolean"
 ## Comma operator(逗号运算符)
 
 
+在JavaScript中描述了一组用于操作数据值的运算符，包括算术运算符（加号、减号）、关系运算符（大于、小于）、等于运算符（双等于、三等于）、位运算符（与、或、非）等。
+
+由于JavaScript是弱类型语言，因此在运算符的使用上更加灵活，接下来就对其中比较重要的一些运算符进行详细的讲解。
+
+### 逗号操作符
+
+一方面它是基本的分隔符，例如，函数传递多个参数时，使用逗号分隔。另一方面它可以作为一个运算符，作用是将多个表达式连接起来，从左至右依次执行。
+
+逗号作为运算符的表现形式为：表达式1，表达式2，表达式3，……，表达式n。
+
+它的求解过程将按照从左至右的顺序进行，优先执行表达式1，然后执行表达式2……直到执行表达式n，最后返回表达式n的结果。
+
+#### 定义
+
+**逗号操作符** 对它的每个操作数求值（从左到右），并返回最后一个操作数的值。
+
+#### 描述
+
+当你想要在期望一个表达式的位置包含多个表达式时，可以使用逗号操作符。这个操作符最常用的一种情况是：`for` 循环中提供多个参数。
+
+#### 示例
+
+假设 `a` 是一个二维数组，每一维度包含 10 个元素，则下面的代码使用逗号操作符一次递增/递减两个变量。需要注意的是，`var` 语句中的逗号***不是***逗号操作符，因为它不是存在于一个表达式中。尽管从实际效果来看，那个逗号同逗号运算符的表现很相似。但确切地说，它是 `var` 语句中的一个特殊符号，用于把多个变量声明结合成一个。
+
+```javascript
+for (var i = 0, j = 9; i <= 9; i++, j--)
+  document.writeln("a[" + i + "][" + j + "] = " + a[i][j]);
+```
+
+
+
+处理后返回
+
+另一个使用逗号操作符的例子是在返回值前处理一些操作。如同下面的代码，只有最后一个表达式被返回，其他的都只是被求值。
+
+```javascript
+function myFunc () {
+  var x = 0;
+
+  return (x += 1, x); // the same of return ++x;
+}
+```
+
+
+
+#### 逗号作为运算符的使用场景
+
+<u>1. 在for循环中批量执行表达式</u>
+
+逗号运算符在for循环中的使用场景是批量执行表达式。如果一个for循环中有多个变量需要执行表达式，可以通过逗号运算符一次性执行。
+
+```js
+for (var i = 0, j = 10; i < 10, j < 20; i++, j++) {
+   console.log(i, j); 
+}
+```
+
+一般在for循环的末尾处，只允许执行单个表达式。在这里我们通过逗号运算符，将i++和j++两个表达式视为同一个表达式，因此可以一次执行，处理i与j两个变量的递增。
+
+
+
+<u>2. 用于交换变量，无须额外变量</u>  ???
+
+在我们需要交换两个变量的值时，通常的做法如下所示。
+
+```js
+var a = 'a';
+var b = 'b';
+var c;
+
+c = a;
+a = b;
+b = c;
+```
+
+借助临时变量c先存储a的值，然后将b值赋给a，再将c值赋给b，这样就可以实现变量交换了。
+
+不允许使用额外的变量存储, 使用逗号运算符的方案。
+```js
+var a = 'a';
+var b = 'b';
+// 方案1
+a = [b, b = a][0];
+// 方案2
+a = [b][b = a, 0];   // ?
+```
+
+在方案1中，前一部分[b, b = a]是一个一维数组，数组第二项值是b = a，实际会将a值赋给b，然后返回“'a'”，因此数组最终的值为['b', 'a']，然后取索引0的值为'b'，赋给变量a，最终实现a = 'b', b = 'a'。
+
+在方案2中，前一部分[b]是一个一维数组，后一部分[b = a, 0]，实际会先执行b = a，将a值赋给b，然后返回“0”，因此后一部分实际是修改了b的值并返回索引“0”，最终是a = `[b][0]`，即a = b，实现了a与b的交换。 why?
+
+
+
+<u>3. 用于简化代码</u>
+
+因为逗号运算符可以使多个表达式先后执行，并且返回最后一个表达式的值，因此对于某些特定的函数，我们可以使用逗号运算符进行简写。
+
+```js
+if (x) {
+   foo();
+   return bar();
+} else {
+   return 1;
+}
+// 使用逗号运算符简写后
+x ? (foo(), bar()) : 1;
+```
+
+
+
+<u>4. 用小括号保证逗号运算符的优先级</u>
+
+在所有的运算符中，逗号运算符的优先级是最低的，因此对于某些涉及优先级的问题，我们需要使用到小括号，将含有逗号运算符的表达式括起来。
+
+```js
+var a = 20;
+var b = ++a, 10;
+console.log(b);  // Uncaught SyntaxError: Unexpected number
+```
+
+
 
 ## Unary operators(一元运算符)
 
@@ -1595,6 +2271,41 @@ console.log(b,typeof b); // true, "boolean"
 
 
 ### delete
+> [delete - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
+
+**define**
+
+> the delete operator<span style="color:blue"> removes a property from an object</span>; if no more references to the same proeprty are held, it is eventually released automatically.(如果没有对同一属性更多的引用, 它最终将自动被释放)
+
+**syntax**
+
+> delete expression
+
+Where expression should evaluate to property references. e.g.:
+
+```javascript
+delete obj.property
+delete obj['property']
+```
+
+**return value**
+
+`true` for all cases except when the proeprty is  an [`own`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty)(Object.hasOwnProperty()) [`non-configurable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_delete) property, in which case, `false` is returned in non-strict mode.
+
+```javascript
+```
+
+
+
+**example**
+
+无法删除函数参数
+
+```javascript
+```
+
+
+
 
 ### void
 
@@ -2006,6 +2717,35 @@ console.log(arr instanceof Object); // true
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
 # 运算符优先级
 
 # 运算符优先级
@@ -2177,5 +2917,473 @@ a?.b.c; // 首先对 `a` 求值，如果 `a` 是 `null` 或 `undefined` 则直�
 // 被隐式转换为 1，因此 true > 1 会变为 1 > 1，结果是 false
 // 加括号可以更清楚：(3 > 2) > 1
 ```
+
+
+# Expressions
+
+
+
+## 关于this !!!!
+
+> https://github.com/mqyqingfeng/Blog/issues/7
+
+### 1.前言
+
+当JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(execution context)。
+
+对于每个执行上下文，都有三个重要属性:
+
+* 变量对象(Variable Object, VO)
+* 作用域链(Scope chain)
+* this
+
+因为我们要从 ECMASciript5 规范开始讲起。
+
+先奉上 ECMAScript 5.1 规范地址：
+
+英文版：http://es5.github.io/#x15.1
+
+中文版：http://yanhaijing.com/es5/#115
+
+
+
+### 2. Types
+
+首先是第8章的types
+
+> Types are further subclassified into ECMAScript language types and specification types.
+>
+> An ECMAScript language type <u>corresponds to</u>(对应的) values that are directly manipulated by an ECMAScript programmer using the ECMAScript language. The ECMAScript language types are Undefined, Null, Boolean, String, Number, and Object.
+>
+> A specification type corresponds to meta-values that are used within algorithms to describe the semantics of ECMAScript language constructs and ECMAScript language types. The specification types are Reference, List, Completion, Property Descriptor, Property Identifier, Lexical Environment, and Environment Record.
+
+我们简单的翻译一下：
+
+ECMAScript 的类型分为语言类型和规范类型。
+
+ECMAScript 语言类型是开发者直接使用 ECMAScript 可以操作的。其实就是我们常说的Undefined, Null, Boolean, String, Number, 和 Object。
+
+而规范类型相当于 meta-values，是用来用算法描述 ECMAScript 语言结构和 ECMAScript 语言类型的。规范类型包括：Reference, List, Completion, Property Descriptor, Property Identifier, Lexical Environment, 和 Environment Record。
+
+没懂？没关系，我们只要知道在 ECMAScript 规范中还有一种只存在于规范中的类型，它们的作用是用来描述语言底层行为逻辑。
+
+今天我们要讲的重点是便是其中的 Reference 类型。它与 this 的指向有着密切的关联。
+
+### Reference
+
+#### 含义
+
+8.7章 The Reference Specification Type:
+
+> The Reference type is used to explain the behaviour of such operators as delete ,typeof, and the assignment operators.
+
+所以 Reference 类型就是用来解释诸如 delete、typeof 以及赋值等操作行为的。
+
+来自youyuxi的解释:
+
+> 这里的 Reference 是一个 Specification Type，也就是 “只存在于规范里的抽象类型”。它们是为了更好地描述语言的底层行为逻辑才存在的，但并不存在于实际的 js 代码中。
+
+#### 组成部分
+
+> A Reference is a resolved name binding.
+>
+> A Reference consists of three components, the base value, the referenced name and the Boolean valued strict reference flag.
+>
+> The base value is either undefined, an Object, a Boolean, a String, a Number, or an environment record (10.2.1).
+>
+> A base value of undefined indicates that the reference could not be resolved to a binding. The referenced name is a String.
+
+从上面的话可以看出,Reference主要包括3个部分:
+
+* base value
+* referenced name
+* strict reference 
+
+base value 就是属性所在的对象或者就是 EnvironmentRecord，它的值只可能是 undefined, an Object, a Boolean, a String, a Number, or an environment record 其中的一种。
+
+referenced name 就是属性的名称.
+
+举个例子:
+
+```javascript
+var foo = 1;
+//对应的Reference是
+var fooReference = {
+  base: EnviromentRecord,
+  name: 'foo',
+  strict: false
+}
+```
+
+
+
+```javascript
+var foo = {
+  bar: function() {
+    return this;
+  }
+};
+
+foo.bar();
+
+//bar对应的Reference是
+var BarReference = {
+  base: foo,
+  propertyName: 'bar',
+  strict: false
+}
+```
+
+而且规范中还提供了获取 Reference 组成部分的方法，比如 GetBase 和 IsPropertyReference。
+
+1.GetBase
+
+> GetBase(V). Returns the base value component of the reference V.
+
+返回 reference 的 base value
+
+2.IsPropertyReference
+
+> IsPropertyReference(V). Returns true if either the base value is an object or HasPrimitiveBase(V) is true; otherwise returns false.
+
+简单的理解：如果 base value 是一个对象，就返回true。
+
+
+
+### GetValue
+
+除此之外，紧接着在 8.7.1 章规范中就讲了一个用于从 Reference 类型获取对应值的方法： GetValue。
+
+简单模拟 GetValue 的使用：
+
+```javascript
+var foo = 1;
+var fooReference = {
+  base: EnvironmentRecord,
+  name: 'foo',
+  strict: false
+};
+GetValue(fooReference); //1
+```
+
+GetValue 返回对象属性真正的值，但是要注意：
+
+**调用 GetValue，返回的将是具体的值，而不再是一个 Reference**
+
+
+
+### 如何确定this的值
+
+看规范 11.2.3 Function Calls：
+
+这里讲了当函数调用的时候，如何确定 this 的取值。
+
+只看第一步、第六步、第七步：
+
+> 1.Let *ref* be the result of evaluating MemberExpression.
+
+> 6.If Type(*ref*) is Reference, then
+>
+> a. If IsPropertyReference(ref) is true, then
+>
+> ​	i. Let thisValue be GetBase(ref).
+>
+> b.Else, the base of ref is an Enviroment Record.
+>
+> ​	i.Let thisValue be the result of calling the ImplicitThisValue concreate method of GetBase(ref)
+>
+> 7.Else, Typeof(ref) is not Reference.
+>
+> a. Let thisValue be undefined.
+
+让我们描述一下:
+
+1.计算MemberExpression的结果赋值非ref
+
+2.判断ref是不是一个Reference类型
+
+ 2.1 如果ref是Reference,并且IsPropertyReference(ref)是true, 那么this的值为GetBase(ref)
+
+ 2.2 如果ref是Reference,并且base value值是Environment Record,那么this 的值为ImplicitThisValue(ref)
+
+3.ref不是一个Reference类型
+
+ 3.1 this的值是undefined.
+
+
+
+### 具体分析
+
+一步步看:
+
+**1.计算MemberExpression的结果赋值给ref**
+
+什么是MemberExpression? 看规范 11.2 Left-Hand-Side Expressions
+
+- PrimaryExpression // 原始表达式 可以参见《JavaScript权威指南第四章》
+- FunctionExpression // 函数定义表达式
+- MemberExpression [ Expression ] // 属性访问表达式
+- MemberExpression . IdentifierName // 属性访问表达式
+- new MemberExpression Arguments // 对象创建表达式
+
+举个例子:
+
+```javascript
+function foo() {
+  console.log(this);
+}
+
+foo(); //MemberExpression是foo
+
+function foo() {
+  return function() {
+    console.log(this);
+  }
+}
+foo()(); //MemberExpression是foo()
+
+var foo = {
+  bar: function() {
+    return this;
+  }
+}
+foo.bar(); //MemberExpression是foo.bar
+```
+
+所以简单理解 MemberExpression 其实就是()左边的部分。
+
+
+
+**2.判断ref是不是一个Reference类型**
+
+关键就在于看规范是如何处理各种 MemberExpression，返回的结果是不是一个Reference类型
+
+举个例子:
+
+```javascript
+var value = 1;
+var foo = {
+  value: 2,
+  bar: function() {
+    return this.value;
+  }
+};
+
+//示例1
+console.log(foo.bar());
+
+//示例2
+console.log((foo.bar)())
+
+//示例3
+console.log((foo.bar = foo.bar)());
+
+//示例4
+console.log((false||foo.bar)())
+
+//示例5
+console.log((foo.bar, foo.bar)())
+```
+
+#### foo.bar()
+
+查看规范 11.2.1 Property Accessors，这里展示了一个计算的过程，什么都不管了，就看最后一步：
+
+> Return a value of type Reference whose base value is baseValue and whose referenced name is propertyNameString, and whose strict mode flag is strict.
+
+我们得知该表达式返回了一个 Reference 类型！
+
+根据之前的内容，我们知道该值为：
+
+```javascript
+var Reference = {
+  base: foo,
+  name: 'bar',
+  strict: false
+}
+```
+
+接下来按照2.1的判断流程走:
+
+> 2.1 如果ref是Reference, 并且IsPropertyReference(ref)是true,那么this的值为GetBase(ref)
+
+该值是Reference类型,那么IsPropertyReference(ref)的结果是多少呢?
+
+前面我们已经铺垫了 IsPropertyReference 方法，如果 base value 是一个对象，结果返回 true。
+
+base value 为 foo，是一个对象，所以 IsPropertyReference(ref) 结果为 true。 
+
+这个时候我们可以确定this 的值了
+
+```javascript
+this = GetBase(ref);
+```
+
+GetBase 也已经铺垫了，获得 base value 值，这个例子中就是foo，所以 this 的值就是 foo ，示例1的结果就是 2.
+
+#### (foo.bar)()
+
+示例2:
+
+```javascript
+console.log((foo.bar)());
+```
+
+foo.bar被()包住,查看规范11.1.6 The Grouping Operator
+
+直接看结果部分:
+
+> The production *PrimaryExpression: **(Expression)*** is evaluated as follows:
+
+> Return the result of evaluating Expression. This may be of type Reference.
+>
+> Note This algorithm(运算法则) does not apply GetValue to the result of evaluating Expression.
+
+实际上()并没有对MemberExpression进行计算,所以其实跟示例1的结果是一样的.
+
+
+
+#### (foo.bar = foo.bar)()
+
+示例3,有赋值操作运算符,查看规范11.13.1 Simple Assignment(=):
+
+计算的第三步:
+
+> 3. Let rval be GetValue(rref)
+
+因为使用了GetValue,所以返回的值不是Reference类型
+
+按照之前讲的判断逻辑
+
+> 如果 ref 不是Reference，那么 this 的值为 undefined
+
+this为undefined,非严格模式下,this的值为 undefined 的时候，其值会被隐式转换为全局对象。
+
+
+
+#### (false || foo.bar)()
+
+示例4，逻辑与算法，查看规范 11.11 Binary Logical Operators：
+
+计算的第二步:
+
+> 2.Let lval be GetValue(lref)
+
+因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined
+
+
+
+#### (foo.bar, foo.bar)()
+
+示例5，逗号操作符，查看规范11.14 Comma Operator ( , )
+
+计算的第二步:
+
+> 2.Call GetValue(lref).
+
+因为使用了 GetValue，所以返回的不是 Reference 类型，this 为 undefined
+
+
+
+#### 揭晓结果
+
+最后一个例子的结果是
+
+```javascript
+var value = 1;
+
+var foo = {
+  value: 2,
+  bar: function() {
+    return this.value;
+  }
+};
+
+//示例1
+foo.bar(); //2
+
+//示例2
+console.log((foo.bar)()); //2
+
+//示例3
+console.log((foo.bar = foo.bar)()); //1
+
+//示例4
+console.log((false || foo.bar)()); //1
+
+//示例5
+console.log((foo.bar, foo.bar)()); //1
+```
+
+注意：以上是在非严格模式下的结果，严格模式下因为 this 返回 undefined，所以示例 3 会报错。(接下去的不会执行了)
+
+
+
+### 补充
+
+还有一个最普通的情况
+
+```javascript
+function foo() {
+  console.log(this);
+}
+foo();
+```
+
+MemberExpression是foo,解析标识符,查看规范 10.3.1 Identifier Resolution，会返回一个 Reference 类型的值：
+
+```javascript
+var fooReference = {
+  base: EnvironmentRecord,
+  name: 'foo',
+  strict: false
+}
+```
+
+
+
+
+
+### new介绍
+
+> the `new` operator lets developers create an instance of a user-defined object type or one of the built-in object types that has a constructor function.
+
+
+
+#### Syntax
+
+> new constructor [ ([arguments])]
+
+#### Parameters
+
+`constructor`
+
+A class or function that specifies the type of the object instance
+
+`arguments`
+
+A list of values that the `constructor` will be called with
+
+#### Desc
+
+**the `new` keyword does the following things:**
+
+1.create <span style="color:blue">a blank, plain JavaScript object</span>
+
+2.Adds a property to the new object(`__proto`__) that links to the constructor function's prototype object.
+
+3.Binds the newly created object instance as the `this` context(i.e. all references to `this` in the constructor function now refer to the object created in the first step)
+
+4.Returns `this` if the function doesn't return an object
+
+
+
+**when the code `new Foo(...)` is executed, the following things happen:**
+
+1.A new object is created, inherited from `Foo.prototype`
+
+2.the constructor function `Foo` is called with the specified arguments, and with `this` bound to the newly created object. `new Foo` is equivalent to `new Foo()`. i.e. if no argument list is specified, `Foo` is called without arguments.
+
+3.the object(not null, false, 3.1415 or other primitive types) returned by the constructor function becomes the result of the whole `new` expression. If the constructor function doesn't explicitly return an object, the object created in step 1 is used instead (normally constructors don't return a value, but they can choose to do s<u>o if they want to override the normal object createion process</u>) 没太明白,中文版翻译可以理解
 
 
