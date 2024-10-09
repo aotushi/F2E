@@ -2489,6 +2489,19 @@ var removed = myFish.splice(-2, 1);
 
 **实例**
 
+向对象中添加属性
+```js
+let a = {}
+Array.prototype.push.call(a, 'first')
+
+alert(a.length) // 1
+alert(a[0]) //'first'
+
+//根据下面push源码可以发现, 传入的对象至少要满足两个条件:
+1.对象本身可以存取属性
+2.对象length属性可读写
+```
+
 向数组中添加元素
 
 ```javascript
@@ -2519,6 +2532,7 @@ let moreVegs = ['celery', 'beetroot']
 let result = vegetables.concat(moreVegs);
 console.log(result); // ['parsnip', 'potato', 'celery', 'beetroot']
 ```
+
 
 用类数组方式使用对象([Using an object in an array-like fashion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#using_an_object_in_an_array-like_fashion))
 
@@ -2567,6 +2581,17 @@ Array.prototype.push = function(...items) {
   
   return newLength
 }
+
+// v8引擎中的实现
+function ArrayPush() {
+		var n = TO_UINT32( this.length );    // 被push的对象的length
+		var m = %_ArgumentsLength();     // push的参数个数
+		for (var i = 0; i < m; i++) {
+			this[ i + n ] = %_Arguments( i );   // 复制元素     (1)
+		}
+		this.length = n + m;      // 修正length属性的值    (2)
+		return this.length;
+};
 ```
 
 

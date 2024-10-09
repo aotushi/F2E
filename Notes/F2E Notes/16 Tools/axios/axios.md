@@ -618,34 +618,6 @@ export default article;
 ```
 
 
-### api挂载到vue原型上
-
-```js
-// main.js
-import Vue from 'vue'  
-import App from './App'  
-import router from './router' // 导入路由文件  
-import store from './store' // 导入vuex文件  
-import api from './api' // 导入api接口  
-  
-Vue.prototype.$api = api; // 将api挂载到vue的原型上
-```
-
-然后可以在页面中调用接口
-```js
-methods: {      
-    onLoad(id) {        
-        this.$api.article.articleDetail(id, {          
-            api: 123        
-        }).then(res=> {  
-            // 执行某些操作        
-        })      
-    }    
-}
-```
-
-
-
 ## 封装4
 ### 来源
 > https://juejin.cn/post/7124573626161954823

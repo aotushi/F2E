@@ -139,7 +139,7 @@ let add = new Function('...args', 'return args[0]');
 
 # 构造函数(constructor)|类|实例
 
-#### 概念
+### 概念
 
 ```javascript
 - 构造函数就是专门创建 对象 的函数
@@ -153,8 +153,9 @@ let add = new Function('...args', 'return args[0]');
 
 
 
-#### new操作符调用构造函数时具体做了什么
+### new操作符调用构造函数时具体做了什么
 
+#### new的具体流程
 > 1.在内存中新建一个对象
 >
 > 2.将新对象内部的[[prototype]]的指针赋值为构造函数的prototype属性
@@ -170,8 +171,17 @@ Foo.call(obj)
 ```
 
 
+#### 为什么要新建一个对象
+为什么要新建一个对象来当作函数的this指向,而不直接使用构造函数的原型?
 
-#### 模拟实现new操作符效果
+
+
+
+
+
+
+
+#### 实现new操作符
 
 ```javascript
 //https://juejin.cn/post/6844903986479251464#heading-39
@@ -230,8 +240,6 @@ function newOperator() {
 
 
 
-
-
 #### 构造函数显示return的情况
 
 ```js
@@ -242,8 +250,7 @@ function newOperator() {
 
 
 
-
-#### 类与实例
+### 类与实例
 
 ```JavaScript
 # 其他
@@ -256,7 +263,7 @@ let per2 = new Person(); //per和per2是同一类对象
 
 
 
-#### instanceof
+### instanceof
 
 ```JavaScript
 # 计算机判断某个对象是否是某个类的实例
@@ -269,7 +276,7 @@ let per2 = new Person(); //per和per2是同一类对象
 
 
 
-#### 普通与构造函数返回值
+### 普通与构造函数返回值
 
 ```JavaScript
 普通函数返回值
@@ -297,7 +304,7 @@ let per = new Person(); //返回值就是Person {}
 
 
 
-#### 构造函数返回值-更新
+### 构造函数返回值-更新
 
 ```HTML
 0.构造函数可以有返回值也可以没有
@@ -310,7 +317,7 @@ let per = new Person(); //返回值就是Person {}
 
 
 
-#### 构造函数括号加不加
+### 构造函数括号加不加
 
 ```HTML
 https://blog.csdn.net/yihanzhi/article/details/80050716
@@ -336,7 +343,7 @@ new的构造函数后跟括号优先级会提升.
 
 
 
-#### 构造函数执行流程
+### 构造函数执行流程
 
 ```JavaScript
 # 构造函数的执行流程
@@ -375,7 +382,7 @@ let per = new Person(name, age);
 
 
 
-**案例**
+### **案例**
 
 ```javascript
 function Person(name, age){   //声明构造函数Person
@@ -2156,10 +2163,9 @@ function inner() {
 
 **概述!!!**
 
-JavaScript函数有两个不同的内部方法：**[[Call]]和[[Construct]]**。
+JavaScript函数有两个不同的内部方法：**Call和Construct**
 
 * 当通过new关键字调用函数时，执行的是[[Construct]]函数，它负责创建一个通常被称作实例的新对象，然后再执行函数体，将this绑定到实例上；具有[[Construct]]方法的函数被统称为构造函数。
-
 * 如果不通过new关键字调用函数，则执行[[Call]]函数，从而直接执行代码中的函数体。
 * 不是所有函数都有[[construct]]方法,因此不是所有函数都可以通过new来调用.例如箭头函数
 
@@ -2340,8 +2346,6 @@ console.log((() => {}).name); //''
 prototype 是保存引用类型所有实例方法的地方，这意味着toString()、valueOf()等方法实际上都保存在prototype 上，进而由所有实例共享。<u>在ECMAScript 5中，prototype 属性是不可枚举的，因此使用for-in 循环不会返回这个属性</u>。
 
 ### 函数的方法
-
-
 
 #### Function.prototype.call
 
@@ -2842,7 +2846,7 @@ function toObject(val) {
 ```
 
 
-#### **call()和apply()总结**
+#### call()和apply()总结
 
 > While the syntax of this function is almost identical to that of [`call()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call), the fundamental difference is that `call()` accepts an **argument list**, while `apply()` accepts a **single array of arguments**.
 
@@ -2873,21 +2877,85 @@ apply()
 ```
 
 
+**两者之间的区别?**
+* 相同: 若第一个参数为null,则函数体内的this会指向默认的宿主对象,在浏览器中则是window,严格模式下,this还是null
+* 不同: 第二个参数的形式不同
+
+**call和apply的用途:**
+* 改变函数内部的this指向: 
+* 模拟bind方法
+* 借用其它对象的方法
+	* 第一种: 借用构造函数
+	* 第二种: 类数组对象借用数组方法
+```js
+//改变this指向
 
 
-#### Function.prototype.bind()  //待更新重新整理
+document.getElementById(function(func) {
+	return function() {
+		return func.apply(document, arguments)
+	}
+})(document.getElementById)
 
-#### **define**
+let getId = document.getElementById;
+let div = getId('div1')
+alert(div.id) //输出: div1
+
+
+// 模拟bind方法
+Function.prototype.bind = function() {
+
+	let self = this;
+	let context = [].shift.call(arguments)
+	argsOuter = [].slice.call(context)
+
+	return function() {
+		let argsInner = [].slice.call(arguments)
+		self.apply(context, [...argsInner, ...argsOuter])
+		// self.apply(context, argsInner.concat(argsOuter))
+	}
+}
+
+//借用其它对象的方法
+
+// 借用-第一种场景
+
+	var A = function( name ){
+			this.name = name;
+	};
+
+	var B = function(){
+			A.apply( this, arguments );
+	};
+
+	B.prototype.getName = function(){
+			return this.name;
+	};
+
+	var b = new B( 'sven' );
+	console.log( b.getName() );  // 输出： 'sven'
+
+// 借用第二种
+(function(){
+		Array.prototype.push.call( arguments, 3 );
+		console.log ( arguments );    // 输出[1,2,3]
+})( 1, 2 );
+```
+
+
+#### Function.prototype.bind()
+
+**define**
 
 > 创建一个新函数,在bind()被调用时,这个新函数的`this`被指定位`bind()`的第一个参数,而其余参数将作为新函数的参数,供调用时使用.
 
-#### **syntax**
+**syntax**
 
 ```javascript
 function.bind(thisArg[, arg1[, arg2[, ...]]])
 ```
 
-#### **parameter**
+**parameter**
 
 `thisArg`
 
@@ -2895,20 +2963,49 @@ function.bind(thisArg[, arg1[, arg2[, ...]]])
 * 当使用`bind`在`setTimeout`中创建一个函数(作为回调提供)时,作为`thisArg`传递的任何原始值都将转换为`object`.
 * 如果`bind`函数的参数列表为空,或者`thisArg`是`null`或`undefined`,执行作用域的`this`将被视为新函数的`thisArg`.
 
-`arg1,arg2,...`
+`arg1,arg2,...`(optional)
 
 * 当目标函数被调用时,被预置入绑定函数的参数列表中的参数.
 
-#### **return value**
+**return value**
 
 * 返回一个原函数的拷贝,并拥有指定`this`值和初始参数.
 
-#### **desc**
+**desc**
+* 当调用时候,可以视为`const boundFn = (...restArgs) => fn.call(thisArg, arg1,arg2,...restArgs)`
+* 绑定后的函数可以进一步用bind绑定
+	* 新绑定后的函数,this值将会被忽略,因为目标函数已经绑定了this
+	* 新绑定后的函数,调用后,最终还是调用的第一次绑定的函数,
+	* 函数接收参数的顺序: 第一次绑定的入参,第二次绑定的入参,...,函数最后接收的入参.
+* 一个绑定函数也可以使用new操作符构造，如果其目标函数是可构造的。这样做就好像目标函数已经被构造了一样。预置的参数会像往常一样提供给目标函数，而提供的this值会被忽略（因为构建准备了自己的this，如Reflect.construct的参数所示）。如果直接构造绑定函数，new.target将是目标函数。（也就是说，绑定函数对于new.target是透明的。）
+* 因为绑定函数没有prototype属性,它不能当作基类来扩展
+* 当绑定函数在`instanceof`右侧时,此操作符将到达目标函数(在绑定函数内存储)并读取它的`prototype`
+* 绑定函数拥有以下属性:
+	* length 目标函数的`length`减去要绑定参数数量(不包括thisArg参数),最小值是0.
+	* name  目标函数的`name`加上'bound '前缀(有空格).
+* 绑定函数也会继承目标函数的原型链.但它不会有其它目标函数属性(例如静态属性,例如目标函数是一个类)
 
-* 绑定函数没有原型对象(构造函数生成的实例,Proxy,?..等也没有)
-* 
+```css
+//构建函数
+class Base {
+	constructor(...args) {
+		console.log(new.target === Base)
+		console.log(args)
+	}
+}
 
-#### **examples**
+const BoundBase = Base.bind(null, 1,2)
+
+new BoundBase(3,4) //true, [1,2,3,4]
+
+
+// instanceof
+class Base {}
+const BoundBase = Base.bind(null,1,2)
+console.log(new Base() instanceof BoundBase) //true
+```
+
+**examples**
 
 ```javascript
 this.x = 9;    // 在浏览器中，this 指向全局的 "window" 对象
@@ -2930,7 +3027,7 @@ boundGetX(); // 81
 ```
 
 
-#### **偏函数**
+ **偏函数**
 
 `bind()` 的另一个最简单的用法是使一个函数拥有预设的初始参数。只要将这些参数（如果有的话）作为 `bind()` 的参数写在 `this` 后面。当绑定函数被调用时，这些参数会被插入到目标函数的参数列表的开始位置，传递给绑定函数的参数会跟在它们后面。
 
@@ -3007,7 +3104,7 @@ slice(arguments);
 ```
 
 
-#### **实现bind()方法**
+**实现bind()方法**
 
 
 ```javascript
@@ -3124,8 +3221,7 @@ new (func.myBind())() //返回的是Bound类对象
 ```
 
 
-
-#### 来源
+**来源**
 [js 手动实现bind方法，超详细思路分析！ - 听风是风 - 博客园 (cnblogs.com)](https://www.cnblogs.com/echolun/p/12178655.html)   这个人写的真好!!!
 [JavaScript深入之bind的模拟实现 - 掘金 (juejin.cn)](https://juejin.cn/post/6844903476623835149)
 

@@ -26,22 +26,6 @@ CSS选择器分类...[[CSS-选择器1|CSS选择器分类]]
 > 伪元素的特征是其前面有两个冒号(::)，常见的有::before、::after、::first- letter和::first-line等。
 
 
-## 标签选择器
-
-
-
-## 类选择器
-
-
-
-## ID选择器
-
-
-
-
-
-
-
 ## 选择器作用域
 
 ### 伪类:scope
@@ -112,6 +96,416 @@ svg a {}
   background: gray;
 }
 ```
+
+
+# 选择器
+
+
+
+## 属性选择器
+
+### 来源
+> https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors
+
+### 存在和值选择器
+#### 概述
+又可以称作'属性值直接匹配选择器'
+
+#### 集合
+
+| 声明              | 案例                              | 作用                                                           |
+| --------------- | ------------------------------- | ------------------------------------------------------------ |
+| `[attr]`        | `[title]`                       | 选择带有`title`属性的所有元素                                           |
+| `[attr]`        | li`[class]`                     | 选择带有class属性的`<li>`元素                                         |
+| `[attr=value]`  | `a[href="https://example.com"]` | 精确匹配带有`attr`属性及值为`value`的元素                                  |
+| `[attr~=value]` | `p[class~="special"]`           | 精确匹配带有`attr`属性及值为`value`的元素或匹配`attr`属性列表(以空格分离)中含有`value`的元素 |
+| [attr\|=value]  | div[lang\|="zh"]                | 精确匹配带有`attr`属性及值为`value`的元素或匹配以`value`开头紧且跟连字号(`-`)的元素       |
+|                 |                                 |                                                              |
+|                 |                                 |                                                              |
+
+```css
+//选取的指定词汇必须是只以此词汇或者以此词汇+"-"的属性值
+<div class="de"></div>
+<div class="de-lang"></div>
+//而不是连接起来作为整体值中以此词汇开头的,这种找不到
+<div class="delang"></div>
+
+```
+
+
+#### 使用场景
+
+**AMCSS开发模式**
+> AMCSS是Attribute Modules for CSS的缩写，表示借助HTML属性来进行CSS相关开发。 --<CSS选择器世界(第2版)
+
+AMCSS则是基于属性控制的，例如：
+```css
+<button button="large blue">按钮</button>
+```
+为了避免属性名称冲突，可以给属性添加一个统一的前缀，如am-，于是有：
+```css
+<button am-button="large blue">按钮</button>
+```
+然后借助[attr~="val"]这个属性值单词完全匹配选择器进行匹配。
+当我们的布局或样式需要有一个专门的命名空间的时候，就采用AMCSS这种开发模式。
+
+
+
+
+
+
+### 子字符串匹配选择器(substring matching selector)
+
+#### 概述
+
+| 声明              | 案例                  | 作用                       |
+| --------------- | ------------------- | ------------------------ |
+| `[attr^=value]` | `li[class^="box-"]` | 匹配属性以`box-`开头的元素         |
+| `[attr$=value]` | `li[class$="-box"]` | 匹配有`-box`结尾的属性的元素        |
+| `[attr*=value]` | `li[class*="box"]`  | 匹配在属性字符串任意位置包含`box`属性的元素 |
+
+
+
+
+#### 使用场景
+**搜索过滤**
+```html
+
+<input type="search" placeholder="输入城市名称或拼音" />
+<ul>
+   <li data-search="重庆市chongqing">重庆市</li>
+   <li data-search="哈尔滨市haerbin">哈尔滨市</li>
+   <li data-search="长春市changchun">长春市</li>
+   ...
+</ul>
+
+<script>
+var eleStyle = document.createElement('style');
+document.head.appendChild(eleStyle);
+// 文本框输入
+input.addEventListener("input", function() {
+   var value = this.value.trim();
+   eleStyle.innerHTML = value ? '[data-search]:not([data-search*="'+ value +'"])
+{ display: none; }' : '';
+});
+</script>
+```
+
+
+
+
+
+
+### 大小写敏感(Case-sensitivity)
+在关闭括号前面使用字符`i`来匹配大小写不敏感的属性. 这个符号告诉浏览器匹配不区分大小写的ASCII字符.
+
+
+
+
+## 标签选择器
+
+### 注意事项
+#### 1.不区分大小写
+HTML标签不区分大小写,所以,标签选择器也不区分大小写.
+```css
+IMG {}
+```
+
+#### 2.任意元素匹配
+只要出现再页面中的html元素就能匹配,无论是自定义/未知/SVG/特殊等等.
+```html
+<abc>1. 颜色是？</abc>
+<cs-abc>2. 颜色是？</cs-abc>
+abc { color: deepskyblue; }
+cs-abc { color: deeppink; }
+```
+
+与布局无关的元素也可以匹配,例如`<head> <meta> <title> <script> <style>`元素等.
+案例连接: https://demo.cssworld.cn/selector2/4/1-3.php
+```css
+// 可以让标题内容直接在页面中显示出来
+head, title {
+  display: block;
+}
+
+// 让页面内联样式可编辑,页面渲染效果所见即所得.经测试,需要先生命head的display样式为block
+style {
+  display: block;
+	-webkit-user-modify: read-write-plaintext-only;
+}
+```
+
+
+#### 3.通配选择器
+
+**是什么**
+> 通配选择器是一个特殊的标签选择器，它可以指代所有类型的标签元素，包括自定义元素以及`<script>、<style>、<title>`等元素，但是不包括伪元素。
+> 当通配选择器和其他选择器级联使用的时候，星号是可以省略的。只有当单独使用通配选择器的时候，我们才需要把星号呈现出来
+
+```
+*[hreflang|=en]等同于[hreflang|=en]​；
+
+*.warning等同于.warning；
+
+*#myid等同于#myid。
+
+body > * {}
+```
+
+
+
+
+## 类选择器
+
+### 注意事项
+#### 1.区分大小写
+> 类选择器本质上匹配的是属性值，而属性值是区分大小写的，所以类选择器也区分大小写。
+> 使用正则符来进行小写处理
+
+```css
+[class~='myname' i] {}
+```
+
+
+#### 2.任意级联
+> 类选择器可以任意级联书写，也就是选择器前后连在一起，没有任何其他字符
+
+```html
+<p class="myName active">xxxx</p>
+
+<style>
+//可以匹配上面的html元素
+ .active.myName.active.active {}
+</style>
+```
+
+
+#### 3.空格只能分隔,无法匹配
+> 多个类名间的空格无论有多少，位置在哪里，都无法通过类选择器匹配。并且即使空格通过HTML转义写法书写，类选择器也不会匹配
+
+```html
+<style>
+	.myName.active { color: red; }
+</style>
+
+<p class="myName&#x20;active">zhangxinxu</p>
+```
+
+如果希望知道class属性值中是否有冗余的空格，则只能使用属性选择器进行匹配来识别。
+```css
+[class="test "] {}
+
+<p class="test ">aaaa</p>
+```
+
+## ID选择器
+
+### 注意事项
+#### 1.使用时必须是完整id属性值
+```html
+<button id="cs-button cs-button-primary">主按钮</button>
+#cs-button {}              /* 无效 */
+#cs-button-primary {}      /* 无效 */
+
+#cs-button\20 cs-button-primary {} //有效
+
+#cs-button\0020cs-button-primary {} //有效 转义空格
+
+[id~="cs-button"] {}  //有效 使用属性值匹配选择器
+[id~="cs-button-primary"] {} //有效 同上
+```
+
+
+
+
+
+
+
+## 选择符-后代选择符
+
+### 使用事项
+
+#### 当包含后代选择符的时候，整个选择器的优先级与祖先元素的DOM层级没有任何关系，这时要看落地元素的优先级。
+
+```html
+
+<div class="lightblue">
+   <div class="darkblue">
+      <p>1. 颜色是？</p>
+   </div>
+</div>
+<div class="darkblue">
+   <div class="lightblue">
+      <p>2. 颜色是？</p>
+   </div>
+</div>
+.lightblue p { color: lightblue; }
+.darkblue p { color: darkblue; }
+```
+
+1和2的颜色分别是什么?
+落地元素就是最后的`<p>`元素。两个`<p>`元素彼此分离，非嵌套，因此DOM层级平行，没有先后之分。再看选择器的优先级，`.lightblue p`和`.darkblue p`出现了一个类选择器（数值10）和一个标签选择器（数值1）​，选择器优先级数值一样。此时就要看它们在CSS文件中的位置，遵循“后来居上”的规则，由于.darkblue p位置靠后，因此`<p>`都是按照color:darkblue进行颜色渲染的，于是，最终1和2的文字颜色都是深蓝色。
+
+#### JS中对后代选择符的使用介绍
+**querySelectorAll**
+`querySelectorAll`获取的是整个页面符合条件的DOM元素.
+
+```html
+<div id="myId">
+   <div class="lonely">单身如我</div>
+   <div class="outer">
+      <div class="inner">内外开花</div>
+   </div>
+</div>
+
+// 1. 长度是？
+document.querySelectorAll('#myId div div').length;  //1
+// 2. 长度是？
+document.querySelector('#myId').querySelectorAll('div div').length; //3
+```
+
+想让querySelectorAll后面的选择器不是全局匹配，也是有办法的，可以使用:scope伪类
+```js
+// 3. 长度是？
+document.querySelector('#myId').querySelectorAll(':scope div div').length;
+```
+
+
+#### :scope伪类
+**概述:**
+* 除了IE/Edge, 其它浏览器均支持
+* 目前作用和`:root`伪类相似
+* 和JS Api交互较多. `:scope`伪类为参考元素伪类，而不是作用域伪类。
+
+因为如今的网页只有一个CSS作用域，所以:scope伪类等同于:root伪类。
+```css
+// 下面两个CSS选择器的效果相同
+
+:scope {
+   background-color: skyblue;
+}
+
+:root {
+   background-color: skyblue;
+}
+```
+
+用来区分IE/Edge和其它浏览器
+```css
+
+/* IE/Edge */
+.cs-class {}
+/* Chrome/Firefox/Safari等其他浏览器 */
+:scope .cs-class {}
+
+
+
+//第二种方法 更推荐
+/* IE/Edge */
+.cs-class {}
+/* Chrome/Firefox/Safari等其他浏览器 */
+:scope, .cs-class {}
+```
+
+
+与JS Api交互较多
+> 这些API包括querySelector()、querySelectorAll()、matches()和Element.closest()。
+
+```js
+
+document.querySelector('#myId').querySelectorAll(':scope div div');
+```
+
+此时':scope div div'中的:scope匹配的就是#myId元素，语义就是返回页面中既匹配#myId div div选择器又是#myId子元素的元素。
+
+
+
+
+
+## 选择符-子选择符(>)
+
+### 子选择符和后代选择符区别
+* 子选择符只匹配第一代子元素，而后代选择符会匹配所有子元素。
+
+
+### 使用建议
+
+#### 1.能不用就不用,维护成本较高
+
+#### 2.使用场景
+##### 1).状态类名控制
+例如，使用.active类名进行状态切换，会遇到祖先和后代都存在.active切换的场景，此时子选择符是必需的，可以避免影响后代元素，例如：
+```css
+.active > .cs-module-x {}
+```
+
+##### 2).标签受限
+例如，当`<li>`标签重复嵌套，同时我们无法修改标签名称或者设置类名的时候（例如WordPress中的第三方小工具）​，就需要使用子选择符进行精确控制。
+```css
+.widget > li {}
+.widget > li li {}
+```
+
+##### 3).层级位置与动态判断
+例如，一个时间选择组件的HTML通常会放在`<body>`元素下，作为`<body>`的子元素以绝对定位浮层的形式呈现。但有时候其需要以静态布局嵌在页面的某个位置，这时如果我们不方便修改组件源码，则可以借助子选择符快速打一个补丁：
+```css
+:not(body) > .cs-date-panel-x {
+   position: relative;
+}
+```
+
+
+
+## 选择符-相邻兄弟选择符(+)
+
+
+### 实例
+
+#### 1.实现`:first-child`伪类效果
+
+```css
+// > IE8
+.cs-li:not(:first-child) { margin-top: 1em; }
+
+// 兼容IE8
+.cs-li { margin-top: 1em; }
+.cs-li:first-child { margin-top: 0; }
+
+// 借助相邻兄弟选择器
+.cs-li + .cs-li { margin-top: 1em; }
+```
+
+
+#### 2.低成本交互效果
+相邻兄弟选择符最有价值的应用还是配合诸多伪类以低成本实现很多实用的交互效果，它是众多高级选择器技术的核心。
+
+例如, 聚焦输入框时,显示文字.
+```html
+用户名：<input><span class="cs-tips">不超过10个字符</span>
+
+.cs-tips {
+   color: gray;
+   margin-left: 15px;
+   position: absolute;
+   visibility: hidden;
+}
+:focus + .cs-tips {
+   visibility: visible;
+}
+```
+
+
+
+## 选择符-随后兄弟选择符(~)
+
+
+
+## 选择符-列选择符(||)
+
+
+## 伪类
+
+
 
 
 
@@ -405,7 +799,7 @@ layer button, example;
 3. **十位**： 选择器中包含<u>类选择器、属性选择器、伪类</u>则该位得一分。
 4. **个位**：选择器中包含<u>元素、伪元素选择器</u>则该位得一分。
 
-**注**: <span style="color:blue">通用选择器 (`*`)，组合符 (`+`, `>`, `~`, ' ')，和否定伪类 (`:not`) 不会影响优先级。</span>
+**注**: <span style="color:blue">通用选择器 (`*`)，组合符 (`+`, `>`, `~`, ' ')，和逻辑伪类 (`:not`) 不会影响优先级。</span>
 
 在进行计算时不允许进行进位，例如，20 个类选择器仅仅意味着 20 个十位，而不能视为 两个百位，也就是说，无论多少个类选择器的权重叠加，都不会超过一个 ID 选择器。
 
@@ -584,7 +978,7 @@ CSS选择器优先级数值计算法实际上是一个不严谨的方法.例如�
 .cs-module-x {}    /* module容器盒子 */
 ```
 
-使用x代替box的原因很有意思: 1.box频率使用对象集中; 2.x代替box,节省字节,多少取决于box的使用数量; 3.x比较周正,视觉观感良好.
+使用x代替box的原因很有意思: 1.box频率使用对象集中; 2.x代替box,节省字节(1个英文字符是1byte); 3.x比较周正,视觉观感良好.
 
 ##### 5.参考HTML特定属性
 * 表单元素的type属性
@@ -718,7 +1112,7 @@ CSS选择器优先级数值计算法实际上是一个不严谨的方法.例如�
 
 ## 选择器最佳实践
 ### 1.命名书写
-#### 1) 建议命名使用小写,采用英文单词或缩写.专有名词,可以使用拼音.
+#### 1) 建议命名使用小写,采用英文单词或缩写.专有名词可以使用拼音.
 
 ```css
 .cs-logo-youku {}
