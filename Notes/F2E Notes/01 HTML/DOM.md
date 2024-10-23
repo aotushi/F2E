@@ -68,9 +68,11 @@ HTMLCollection(2) [li.one, li
 
 
 <u>3. 通过name属性定位</u>
-通过元素的name属性进行定位，返回由匹配到的元素构成的NodeList对象，它是一个类数组结构。
+通过元素标签上的name属性进行定位，返回由匹配到的元素构成的NodeList对象，它是一个类数组结构。
 ```js
-document.getElementsByName('xxx');
+<input type='hidden' name='up'/>
+
+document.getElementsByName('up');
 ```
 
 返回的值为一个NodeList对象，里面包含匹配到的name属性为“node”的元素。

@@ -2,18 +2,16 @@
 
 # 大纲
 
-## 1.[MDN CSS tutorial](https://developer.mozilla.org/en-US/docs/Web/CSS)
-
-> 按照此页面展示大纲,总结概括内容
+> https://developer.mozilla.org/en-US/docs/Web/CSS
 
 
 
 # CSS基础
 
 ## 概述
-> CSS和HTML一样不是编程语言. 但它也不是HTML一样的标记语言. CSS是**样式表语言(style sheet language)**.CSS用来选择性的装饰HTML元素. 
+  CSS是**样式表语言(style sheet language)**.CSS用来选择性的装饰HTML元素. 
 > Cascading Style Sheet(层叠样式表)是用来描述使用HTML或XML(包含XML方言如SVG,MathML,XHTML)写的文档的外观.
-> 以前,可能有CSS版本,现在将不会再有版本号的CSS.
+> 以前,可能有CSS版本,现在将不会再有版本号的CSS.例如CSS3之后不会再有CSS4了.
 > 
 
 
@@ -45,7 +43,7 @@ CSS规则是与选择器相关的一个集合.
 * **Property value**
 	为给定属性从众多可能的外观中选出一个.
 
-### 注意事项
+### CSS规则集注意事项
 * 除了选择器,每个规则集必须使用花括号(`{}`)包裹
 * 在每个声明中,必须使用分号(`:`)来分隔属性及值
 * 在规则集内,需使用分号(`;`)来将每个声明与下个声明分开
@@ -75,8 +73,21 @@ CSS是被W3C内部称作[CSS Working Group](https://www.w3.org/Style/CSS/)的团
 
 
 
+
+
+
+
+
+# CSS构建
+>[CSS building blocks - Learn web development | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks)
+
+## CSS选择器
+[[CSS-CSS选择器]]
+
+
 ## CSS数据类型
 > CSS新世界 2.1 互通互联的CSS数据类型
+> https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Types
 
 CSS数据类型定义的是CSS属性中具有代表性的值，在规范的语法格式中，使用关键字外加一对尖括号（“<”和“>”）表示，例如数值类型是`<number>`、色值类型是`<color>`等。
 
@@ -134,19 +145,37 @@ color: <color>
 
 
 
-# CSS构建
->[CSS building blocks - Learn web development | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks)
+
+### 相对长度单位 vw/vh
+> https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#numbers_lengths_and_percentages
+
+#### vh实例-footer自动贴底
+>来源: CSS新世界>7.3 rem和vw单位与移动端适配最佳实践
+
+vh单位的经典应用，那就是当内容高度不足一屏时，让底部栏贴在浏览器窗口的底部；当内容高度超过一屏时，让底部栏贴在页面最下方。
+```html
+	<div class="container">
+		<content></content>
+		<footer></footer>
+	</div>
+```
+
+```css
+.container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+footer {
+	margin-top: auto;
+}
+```
 
 
-## CSS选择器
 
-是什么...[[202302221541|CSS选择器定义]]
 
-3种使用方法...[[202302221541a|CSS选择器使用方式]]
 
-什么是CSS? ... [[202302221541|CSS选择器定义]]
-CSS选择器分类...[[CSS-选择器1|CSS选择器分类]]
-选择器优先级 ... [[CSS-选择器优先级|CSS选择器优先级]]
+
 
 
 
@@ -160,1503 +189,6 @@ CSS选择器分类...[[CSS-选择器1|CSS选择器分类]]
 
 # 样式化文本
 >https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text
-
-
-# CSS布局
->https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout
-
-
-
-## 介绍
-### web布局历史
-
-| 时间      | 布局类型                    |
-| --------- | --------------------------- |
-| 1991-1994 | 无布局(流布局)              |
-| 1995-2000 | 表格布局                    |
-| 2000-2009 | Float布局/定位布局/框架布局 |
-| 2010-2017 | 响应式布局(RWD responsive)  |
-| 2018-2020 | Intrinsic(真实内容尺寸?)    |
-| 2020-至今 | 组件驱动(CDWD Composnent-Driven)                            |
-
-
-
-
-## Normal flow(流式布局)
-
-
-## Flexbox(弹性盒子)
-[[CSS-Flex|flex]]
-
-
-
-
-
-
-
-
-
-# CSS构建基础 (待拆分)
-
-层叠和继承
-
-CSS选择器
-
-盒模型
-
-背景与边框
-
-处理不同的文本方向
-
-溢出的内容
-
-值和单位
-
-在CSS中调整大小
-
-图片,媒体和表单元素
-
-样式化表格
-
-调试CSS
-
-组织CSS
-
-
-
-### 层叠和继承
-
-#### 冲突的规则
-
-CSS 代表**层叠样式表 (Cascading Style Sheets)**
-
-CSS发生冲突遵循的规则有:
-
-##### 层叠
-
-Stylesheets **cascade（样式表层叠）**
-
-顺序: 当应用两条同级别的规则到一个元素的时候，写在后面的就是实际使用的规则。
-
-##### 优先级
-
-浏览器是根据优先级来决定当多个规则有不同选择器对应相同的元素的时候需要使用哪个规则
-
-##### 继承
-
-一些设置在父元素上的css属性是可以被子元素继承的，有些则不能
-
-* 定义:后代元素可以继承父元素设置的**<font color="red">文本的属性</font>**<sup>都有哪些呢?</sup>
-* 继承的权重为0,优先继承离自己最近的父辈元素. 即使祖先元素使用 **!important**
-* **不能继承**: <font color="red">父辈元素的width, height, 背景图,背景色等其他</font>
-
-哪些属性属于默认继承很大程度上是由常识决定的。??(需要总结)
-
-
-
-#### 控制继承
-
-CSS 为控制继承提供了四个特殊的通用属性值。每个css属性都接收这些值。
-
-##### [`inherit`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inherit)
-
-设置该属性会使子元素属性和父元素相同。实际上，就是 "开启继承".
-
-**`inherit`** 关键字使得元素获取其父元素的[计算值](https://developer.mozilla.org/zh-CN/docs/Web/CSS/computed_value)。它可以应用于任何 CSS 属性，包括 CSS 简写 [`all`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/all)。
-
-对于[继承](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inheritance#inherited_properties)属性，inherit 关键字只是增强了属性的默认行为，通常只在覆盖原有的值的时候使用。
-
-继承始终来自文档树中的父元素，即使父元素不是包含块。
-
-
-
-
-
-##### [`initial`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/initial)
-
-**`initial`** CSS关键字将属性的初始（或默认）值应用于元素。
-
-不应将初始值与浏览器样式表指定的值混淆。它可以应用于任何CSS属性。这包括CSS简写[all](https://developer.mozilla.org/zh-CN/docs/Web/CSS/all)，initial可用于将所有CSS属性恢复到其初始状态。
-
-在继承的属性上，初始值可能是意外的。你应该考虑使用 [`inherit`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inherit), [`unset`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/unset)，或[`revert` (en-US)](https://developer.mozilla.org/en-US/docs/Web/CSS/revert) 关键字代替。(此句晦涩, 以下为原文,)
-
-> On [inherited properties](https://developer.mozilla.org/en-US/docs/Web/CSS/inheritance#inherited_properties), the initial value may be unexpected. You should consider using the [`inherit`](https://developer.mozilla.org/en-US/docs/Web/CSS/inherit), [`unset`](https://developer.mozilla.org/en-US/docs/Web/CSS/unset), [`revert`](https://developer.mozilla.org/en-US/docs/Web/CSS/revert), or [`revert-layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/revert-layer) keywords instead.
-
-
-
-
-
-
-
-##### [`unset`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/unset)
-
-CSS 关键字 **`unset`** 可以分为两种情况，如果这个属性本来有从父级继承的值（这个属性默认可以继承，且父级有定义），则将该属性重新设置为继承的值，如果没有继承父级样式，则将该属性重新设置为初始值。
-
-换句话说，在第一种情况下（继承属性）它的行为类似于[`inherit`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inherit) ，在第二种情况下（非继承属性）类似于[`initial`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/initial)。它可以应用于任何 CSS 属性，包括 CSS 简写属性 [`all`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/all) 。
-
-
-
-
-
-
-
-##### [`revert`](https://developer.mozilla.org/en-US/docs/Web/CSS/revert)
-
-只有很少的浏览器支持
-
-
-
-
-
-
-
-
-
-
-
-#### 重设所有属性值
-
-CSS 的 shorthand 属性 `all` 可以用于同时将这些继承值中的一个应用于（几乎）所有属性。
-
-它的值可以是其中任意一个 (`inherit`, `initial`, `unset`, or `revert`)。
-
-这是一种撤销对样式所做更改的简便方法，以便回到之前已知的起点。
-
-```css
-all: unset;
-```
-
-**案例**
-
-<iframe width="100%" height="700" src="https://mdn.github.io/css-examples/learn/cascade/all.html" loading="lazy"></iframe>
-
-
-
-#### 层叠的 3 个影响因素
-
-重要程度从大到小分别是:
-
-* 重要程度
-* 优先级
-* 资源顺序
-
-##### 资源顺序
-
-如果你有超过一条规则，而且都是相同的权重，那么最后面的规则会应用。可以理解为后面的规则覆盖前面的规则，直到最后一个开始设置样式。
-
-##### 优先级
-
-> [优先级 - CSS（层叠样式表） | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity)
-
-优先级就是分配给指定的 CSS 声明的一个权重，它由 匹配的选择器中的 每一种选择器类型的 数值 决定。
-
-
-
-一些规则在最后出现，但是却应用了前面的规则。这是因为前面的有更高的**优先级**
-
-虽然考虑的是选择器，以及应用在选中对象上的规则，但不会覆盖所有规则，只有相同的属性。
-
-最佳实践: 一种常见的做法是给基本元素定义通用样式，然后给不同的元素创建对应的类。
-
-
-
-
-#### CSS位置影响
-
-> 晦涩难理解
-
-相互冲突的声明将按以下顺序适用，后一种声明将覆盖前一种声明：
-
-1. 用户代理样式表中的声明(例如，浏览器的默认样式，在没有设置其他样式时使用)。
-2. 用户样式表中的常规声明(由用户设置的自定义样式)。
-3. 作者样式表中的常规声明(这些是我们web开发人员设置的样式)。
-4. 作者样式表中的`!important`声明
-5. 用户样式表中的`!important` 声明
-
-
-
-
-
-
-
-
-
-## 盒模型
-
-### 是什么
-
-实质上是一个包围每个 HTML 元素的框。它包括：外边距、边框、内边距以及实际的内容。
-
-
-
-### 盒模型的内部/外部显示类型
-
-css的box模型有一个外部显示类型，来决定盒子是块级还是内联。
-
-同样盒模型还有内部显示类型，它决定了盒子内部元素是如何布局的。默认情况下是按照 **[正常文档流](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow)** 布局，也意味着它们和其他块元素以及内联元素一样(如上所述).
-
-但是，我们可以通过使用类似 `flex` 的 `display` 属性值来更改内部显示类型。 如果设置 `display: flex`，在一个元素上，外部显示类型是 `block`，但是内部显示类型修改为 `flex`。 该盒子的所有直接子元素都会成为flex元素，会根据 [弹性盒子（Flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox) [）](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox)规则进行布局
-
-#### 块级盒子和内联盒子
-
-**块级**盒子 (**block box**) 和 **内联盒子** (**inline box**)**。**这两种盒子会在**页面流**（page flow）和**元素之间的关系**方面表现出不同的行为:
-
-一个被定义成块级的（block）盒子会表现出以下行为:
-
-- 盒子会在内联的方向上扩展并占据父容器在该方向上的所有可用空间，在绝大数情况下意味着盒子会和父容器一样宽
-- 每个盒子都会换行
-- [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height) 属性可以发挥作用
-- 内边距（padding）, 外边距（margin） 和 边框（border） 会将其他元素从当前盒子周围“推开”
-
-
-
-如果一个盒子对外显示为 `inline`，那么他的行为如下:
-
-- 盒子不会产生换行。
-- [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height) 属性将不起作用。
-- 垂直方向的内边距、外边距以及边框会被应用但是不会把其他处于 `inline` 状态的盒子推开。
-- 水平方向的内边距、外边距以及边框会被应用且会把其他处于 `inline` 状态的盒子推开。
-
-用做链接的 `<a>` 元素、 `<span>`、 `<em>` 以及 `<strong>` 都是默认处于 `inline` 状态的。
-
-
-
-
-
-### CSS逻辑属性
-
-随着 CSS 的逻辑属性的出现，CSS 的坐标系就不再以 `x` 轴 和 `y` 轴来定义，而是以 **内联** （Inline）和 **块** （Block）来区分，并且内联方向的称之为 **内联轴** （Inline Axis），也就是书写模式的方向；块方向的称之为 **块轴** （Block Axis），也就是块盒子自然流的方向。它们随着 CSS 的书写模式改变
-
-![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.6c4sttbml5c0.webp)
-
-如此一来，在 CSS 中就有**物理坐标系** 和 **逻辑坐标系** 之分，它们的对应关系如下：
-
-| **物理属性**     | **逻辑属性(`horizontal-tb`)** | **逻辑属性(`vertical-lr`)** | **逻辑属性(`vertical-rl`)** |
-| ---------------- | ----------------------------- | --------------------------- | --------------------------- |
-| `x` 轴（水平轴） | Inline 轴（内联轴）           | Block 轴（块轴）            | Block 轴（块轴）            |
-| `y` 轴（垂直轴） | Block 轴（块轴）              | Inline 轴（内联轴）         | Inline 轴（内联轴）         |
-
-
-
-### 容器和容器空间
-
-HTML 的每一个元素在 CSS 中都是一个盒子，这个盒子又被称为 **容器** 。它主要由 CSS 的 `display` 属性的值来决定，比如：
-
-- `block` 时称为块容器；
-
-- `inline` 时称为内联容器；
-
-- `flex` 或 `inline-flex` 时称为Flexbox容器；
-
-- `grid` 或 `inline-grid` 时称为 Grid 容器（网格容器）
-
-
-
-
-
-
-
-
-
-### 分类
-
-标准盒模型
-
-替代(IE)盒模型
-
-
-
-### 盒模型组成部分
-
-CSS中组成一个块级盒子需要:
-
-- **Content box**: 这个区域是用来显示内容，大小可以通过设置 [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height).
-- **Padding box**: 包围在内容区域外部的空白区域； 大小通过 [`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 相关属性设置。
-- **Border box**: 边框盒包裹内容和内边距。大小通过 [`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border) 相关属性设置。
-- **Margin box**: 这是最外面的区域，是盒子和其他元素之间的空白区域。大小通过 [`margin`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin) 相关属性设置。
-
-如图所示:
-
-![](https://mdn.mozillademos.org/files/16558/box-model.png)
-
-#### 标准盒模型
-
-在标准模型中，如果你给盒设置 `width` 和 `height`，实际设置的是 *content's box*。 padding 和 border 再加上设置的宽高一起决定整个盒子的大小。
-
-margin 不计入实际大小 —— 当然，它会影响盒子在页面所占空间，但是影响的是盒子外部空间。盒子的范围到边框为止 —— 不会延伸到margin。
-
-
-
-假设定义了 `width`, `height`, `margin`, `border`, and `padding`:
-
-```css
-.box {
-  width: 350px;
-  height: 150px;
-  margin: 25px;
-  padding: 25px;
-  border: 5px solid black;
-}
-```
-
-如果使用标准模型宽度 = 410px (350 + 25 + 25 + 5 + 5)，高度 = 210px (150 + 25 + 25 + 5 + 5)，padding 加 border 再加 content box。
-
-![](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model/standard-box-model.png)
-
-
-
-#### 替代(IE)盒模型
-
-CSS的替代盒模型。使用这个模型，所有宽度都是可见宽度，所以内容宽度是该宽度减去边框和填充部分。使用上面相同的样式得到 (width = 350px, height = 150px).
-
-![](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model/alternate-box-model.png)
-
-
-
-### 盒模型的切换
-
-<span style="color:blue">默认浏览器会使用标准模型。如果需要使用替代模型，您可以通过为其设置 `box-sizing: border-box` 来实现。</span> 
-
-所有元素都使用替代模式，而且确实很常用，设置 `box-sizing` 在 `<html>` 元素上，然后设置所有元素继承该属性.
-
-```css
-html {
-  box-sizing: border-box;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-```
-
-如果想要深入理解，请看 [the CSS Tricks article on box-sizing](https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/)。 ?? 没太明白.
-
-Internet Explorer默认使用替代盒模型，没有可用的机制来切换。（译者注：IE8+ 支持使用`box-sizing` 进行切换 .
-
-#### 容器尺寸计算方式
-容器尺寸有确切尺寸, 不确定的尺寸两种类型
-**明确的尺寸:** 
->指的是不需要执行布局就可以确定盒子的大小。也就是说，显式地给容器设置一个固定值，或内容所占区域的大小，或一个容器块的初始大小，或通过其他计算方式得到的尺寸，比如 Flexbox 布局中的“拉伸和收缩”（Stretch-fit），即 flex-grow 和 flex-shrink 。
-
-![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.54kgs3dna700.webp)
-
-**不明确的尺寸**
-在 CSS 中，任何一个容器都有四种自动计算尺寸大小的方式：
-* auto ：会根据格式化上下文自动计算容器的尺寸；
-* min-content ：是在不导致溢出的情况下，容器的内容的最小尺寸；
-* max-content ：容器可以容纳的最大尺寸，如果容器中包含未格式化的文本，那么它将显示为一个完整的长字符串；
-* fit-content ：如果给定轴中的可用空间是确定的，则等于 min(max-content, max(min-content, stretch-fit)) ，反之则等于 max-content。
-> 注意: CSS 中的宽高比属性，即 aspect-ratio 也可以决定一个容器的尺寸。
-
-
-
-
-
-外边距/内边距/边框
-
-### 外边距margin
-
-`**margin**` 属性为给定元素设置所有四个（上下左右）方向的外边距属性。也就是 [`margin-top`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top)，[`margin-right`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-right)，[`margin-bottom`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom)，和 [`margin-left`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-left) 四个外边距属性设置的[简写](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Shorthand_properties)
-
-
-
-#### 语法
-
-`margin` 属性接受 1~4 个值。每个值可以是 [`<length>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length)，[`<percentage>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage)，或 `auto`。
-
-**[`length`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length)**
-
-以固定值为外边距。
-
-[`percentage`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage)
-
-相对于[包含块](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Containing_block)的*宽度*，以百分比值为外边距。
-
-`auto`
-
-让浏览器自己选择一个合适的外边距。有时，在一些特殊情况下，该值可以使元素居中
-
-
-
-#### 水平居中
-
-在现代浏览器中实现水平居中
-
-```css
-display: flex;
-justify-content: center;
-```
-
-在 IE8-9 这样的不支持弹性盒布局的旧式浏览器中,以上代码不生效
-
-```css
-margin: 0 auto;
-```
-
-
-
-
-#### margin常见问题
-
-#### 1.外边距折叠
-
-**是什么?**
-外边距折叠现象分为两种，一种是外边距合并现象，一种是塌陷现象。注意有设定[float](https://developer.mozilla.org/zh-CN/docs/Web/CSS/float)和[position=absolute](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute)的元素不会产生外边距重叠行为.
-
-**合并现象**
-**垂直布局**的**相邻的块级元素**(兄弟元素)，上下的margin值会合并。
-
-**如何解决?**
-1.直接避免上下盒子同时设置上下边距，只给一个设置外边距即可。
-2.给其中一个元素设置一个**父盒子**，再给父盒子触发**BFC**。
-<iframe src="https://codesandbox.io/embed/wai-bian-ju-zhe-die-he-bing-rnljfz?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="外边距折叠-合并"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-
-
-
-**塌陷现象**
-外边距塌陷的现象出现的场景：**互相嵌套**的**块级元素**（父子元素），子元素的**margin-top**会作用在父元素上，从而导致父元素一起往下移动。
-解决外边距塌陷的办法：
-1.给父盒子设置一个**border**。
-2.给父盒子设置**padding**。
-3.让父盒子触发**BFC**。
-
-
-#### 2.IE6下双边距问题(了解即可)
-![2009-08-25_012237.png (595×274) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_012237.png)
-产生条件: IE6浏览器下,浮动+block元素+margin.会造成双边距问题.
-解决方法: display:inline
-
-#### 3.margin重叠问题
-css 2.0规范对margin重叠有如下的描述：  
-1.水平边距永远不会重合。  
-2.垂直边距可能在特定的框之间重合：  
-* 常规流向中两个或多个块框相邻的垂直边距会重合。结果的边距宽度是相邻边距宽度中较大的值。如果出现负边距，则在最大的正边距中减去绝对值最大的负边距。如果没有正边距，则从零中减去绝对值最大的负边距。  
-* 在一个浮动框和其它框之间的垂直边距不重合。//这句话是不够严谨，在IE浏览器下确实如此，但是Firefox等浏览器下依旧重合。 
-* “绝对定位的框”与“相对定位的框”边距不重合。//这句话有待斟酌，我在Firefox等浏览器下测试，效果貌似很糟糕的。
-
-解决: IE和非IE浏览器没有什么好的兼容方案.
-<iframe src="https://codesandbox.io/embed/marginchong-die-wen-ti-99mwyw?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="margin重叠问题"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-
-
-#### 4.margin不起作用的情况
-> 单个方块重叠的解决方法：1.浮动。在IE浏览器下（IE8未测过），浮动可以解决margin-top以及margin-bottom重叠的问题。而在Firefox火狐浏览器或是chrome谷歌浏览器下以及opera浏览器下，浮动只能解决同方向上的margin重叠问题。不同方向上的margin重叠的问题依旧存在。
-
-
-#### margin负值相关问题
-#### 1.页面上实现css sprite背景定位效果(了解)
-
-#### 2.在流动性布局中的应用(待办)
-
-#### 3.在选项卡等边框线的处理
-![2009-08-25_025650.png (512×233) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_025650.png)
-
-<iframe src="https://codesandbox.io/embed/margin-zai-xuan-xiang-qia-yang-shi-zhong-de-ying-yong-9n3t26?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="margin/在选项卡样式中的应用"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-   
-
-
-#### 4.图片和文字对齐问题
-图片与文字默认是居底对齐(图片底部和文字底部)了。所以当图片与文字在一起的时候往往都是不对齐的。
-解决方案:
-* img应用vertical-align: middle;  IE兼容性较差
-* img应用vertical-align: text-bottom; 
-* img使用margin: 0 3px -3px 0;
-<iframe src="https://codesandbox.io/embed/margin-tu-pian-he-wen-zi-dui-qi-wen-ti-nn6qlc?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="margin / 图片和文字对齐问题"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-   >
-
-
-
-### 边框
-
-边框是在边距和填充框之间绘制的。如果您正在使用标准的盒模型，边框的大小将添加到框的宽度和高度。如果您使用的是替代盒模型，那么边框的大小会使内容框更小，因为它会占用一些可用的宽度和高度。
-
-可以使用[`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border)属性一次设置所有四个边框的宽度、颜色和样式
-
-
-
-
-
-### 内边距
-
-内边距位于边框和内容区域之间。与外边距不同，您不能有负数量的内边距，所以值必须是0或正的值。
-
-应用于元素的任何背景都将显示在内边距后面，内边距通常用于将内容推离边框。
-
-
-
-我们可以使用[`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding)简写属性控制元素所有边，或者每边单独使用等价的普通属性：
-
-
-
-#### 盒子模型和内联盒子
-
-盒子模型的部分属性也可以应用于内联盒子，例如由`<span>`元素创建的那些内联盒子。
-
-案例: 
-
-我们在一个段落中使用了`<span>`，并对其应用了宽度、高度、边距、边框和内边距。
-
-* 宽度和高度被忽略了。
-* 外边距、内边距和边框是生效的，但它们不会改变其他内容与内联盒子的关系，因此内边距和边框会与段落中的其他单词重叠。
-
-
-
-<iframe src="https://codesandbox.io/embed/css-inline-box-czd0th?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="css/inline-box"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-
-
-
-#### 使用display: inline-block
-
-display有一个特殊的值，它在内联和块之间提供了一个中间状态。这对于以下情况非常有用:您不希望一个项切换到新行，但希望它可以设定宽度和高度，并避免上面看到的重叠。
-
-一个元素使用 `display: inline-block`，实现我们需要的块级的部分效果：
-
-- 设置`width` 和`height` 属性会生效。
-- `padding`, `margin`, 以及`border` 会推开其他元素。
-
-但是，它不会跳转到新行，如果显式添加`width` 和`height` 属性，它只会变得比其内容更大。
-
-
-
-使用场景:
-
-当您想要通过添加内边距使链接具有更大的命中区域时，这是很有用的。`<a>`是像`<span`>一样的内联元素；你可以使用`display: inline-block`来设置内边距，让用户更容易点击链接。
-
-
-
-## 背景和边框
-
-> [The Shapes of CSS | CSS-Tricks - CSS-Tricks](https://css-tricks.com/the-shapes-of-css/)
-
-
-
-## 元素的显示模式
-
-按[新的 HTML 规范](https://www.zhihu.com/question/34952563/answer/60672228)，已经不按 inline 和 block 来区分元素类型了.
-
-待补充...
-
-#### 1. 块级元素
-
-* 特点：可以设置宽高；独占一行；没有设置宽度时，会继承父元素的width。
-* 块元素：**div h1-h6 p hr ol ul li dl dd dt form **
-
-#### 2. 行内元素
-
-* 特点: 无法设置宽高,转换成块元素或行内块元素宽高可起作用. ; 一行可有多个行内元素;  盒子间有1个或多个空格,会出现一个默认等宽的间距 (宽高默认由图片的原始大小决定; 基线对齐).  
-
-* `span` 等行内元素是可以设置内边距 `padding` 的，只不过元素本身无法把父元素撑开，看上去就是设置的 `padding` 上下边距不起效了，而 `margin` 就只能设置 `span` 的左右边距。
-
-  如果要给 `span` 设置边距，一般的方法就是给它设置一个 `display: inline-block;` ，把它变成行内块级元素就可以了
-
-* 行内元素: **a b del  em i  ins span  strong s u  **
-
-```css
-多个span元素转换为inline-block后,会有一个左右间距. 可以span不换行解决这个问题.或者通过父元素添加font-size:0;
-span等行内元素是可以设置内边距 padding 的，只不过元素本身无法把父元素撑开，看上去就是设置的 padding 上下边距不起效了，而 margin 就只能设置 span 的左右边距。
-
-如果要给 span 设置边距，一般的方法就是给它设置一个 display: inline-block; ，把它变成行内块级元素就可以了
-
-```
-
-
-
-#### 3. 行内块
-
-* 特点: 可以设置宽高; 一行可有多个行内块元素;  盒子间有1个或多个空格,会出现一个默认等宽的间距; (宽高默认由图片的原始大小决定;)
-
-* 行内块元素: **img  input等**
-
-#### 4.显示模式的转换
-
-1.其他模式元素转换为行内块元素
-
-​		display: inline-block
-
-2.其他模式元素转换为块元素
-
-​		display: block
-
-
-
-
-
-
-
-
-## 处理不同方向的文本!!
-
-
-
-### 溢出的内容
-
-#### 概要
-
-CSS 中万物皆盒，因此我们可以通过给[`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width)和[`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height)（或者 [`inline-size`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inline-size) 和 [`block-size`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/block-size)）赋值的方式来约束盒子的尺寸。溢出是在你往盒子里面塞太多东西的时候发生的，所以盒子里面的东西也不会老老实实待着。
-
-
-
-#### overflow属性
-
-##### 概述
-
-[`overflow`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow)属性是你控制一个元素溢出的方式，它告诉浏览器你想怎样处理溢出。
-
-CSS 属性 **overflow** 定义当一个元素的内容太大而无法适应 [块级格式化上下文](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context) 时候该做什么。它是 [`overflow-x`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-x) 和[`overflow-y`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-y)的 [简写属性 ](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Shorthand_properties)。
-
-##### 语法
-
-```css
-/* 默认值。内容不会被修剪，会呈现在元素框之外 */ overflow: visible; 
-
-/* 内容会被修剪，并且其余内容不可见 */ overflow: hidden; 
-
-
-/* 内容会被修剪，浏览器会显示滚动条以便查看其余内容 */ overflow: scroll; 
-
-
-/* 由浏览器定夺，如果内容被修剪，就会显示滚动条 */ overflow: auto; 
-
-
-/* 规定从父元素继承 overflow 属性的值 */ overflow: inherit;
-
-
-overflow: hidden, scroll; /* overflow-x设置为隐藏, overflow-y设置为scroll*/
-```
-
-
-
-<iframe class="interactive is-default-height" width="100%" height="500" src="https://interactive-examples.mdn.mozilla.net/pages/css/overflow.html" title="MDN Web Docs Interactive Example" loading="lazy"></iframe>
-
-指定除`visible`(默认值) 以外的值将创建一个新的 [块级格式化上下文](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context). 这在技术层面上是必须的——如果一个浮动元素和滚动条相交，它会在每个滚动步骤后强行重新包装内容，从而导致慢滚动体验。???
-
-为使 `overflow `有效果:
-
-* 块级容器必须有一个指定的高度（`height`或者`max-height`）或者
-* 将`white-space`设置为`nowrap`。
-
-
-
-##### 注意事项
-
-* 设置一个轴为`visible`（默认值），同时设置另一个轴为不同的值，会导致设置`visible`的轴的行为会变成`auto`
-* 即使将 overflow 设置为 hidden，也可以使用 JavaScript [`Element.scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop) 属性来滚动 HTML 元素。
-* 盒子类型使用border-box, 使用overflow:hidden后,文字依然会溢出到父元素的padding-bottom区域.
-* [**overflow:hidden并不隐藏所有溢出的子元素**](https://www.cnblogs.com/propheterLiu/p/5879062.html)
-* [如何解决溢出到padding-bttom的问题]([html - overflow:hidden ignoring bottom padding - Stack Overflow](https://stackoverflow.com/questions/8981811/overflowhidden-ignoring-bottom-padding))
-
-
-
-##### overflow-x / overflow-y
-
-使用[`overflow-x`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-x)，以在 x 轴方向上滚动，尽管这不是处理长英文词的好办法.
-
-如果你真的需要在小盒子里面和长英文词打交道, 可能需要[`word-break`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break)或者[`overflow-wrap`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-wrap)属性。
-
-
-
-
-
-
-
-
-##### word-break
-
-指定了怎样在单词内断行
-
-语法:
-
-```css
-/* Keyword values */
-word-break: normal;
-word-break: break-all;
-word-break: keep-all;
-word-break: break-word; /* deprecated */
-
-/* Global values */
-word-break: inherit;
-word-break: initial;
-word-break: unset;
-```
-
-
-
-<iframe class="interactive is-default-height" width="90%" height="400" src="https://interactive-examples.mdn.mozilla.net/pages/css/word-break.html" title="MDN Web Docs Interactive Example" loading="lazy"></iframe>
-
-
-
-##### overflow-wrap(word-wrap)
-
-背景:
-
-> **word-wrap 属性原本属于微软的一个私有属性，在 CSS3 现在的文本规范草案中已经被重名为 [`overflow-wrap`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow-wrap) 。word-wrap 现在被当作 overflow-wrap 的“别名”。稳定的谷歌 Chrome 和 Opera 浏览器版本支持这种新语法。**
-
-概述:
-
-是用来说明当一个不能被分开的字符串太长而不能填充其包裹盒时，为防止其溢出，浏览器是否允许这样的单词中断换行
-
-与[`word-break`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break)相比，`overflow-wrap`仅在无法将整个单词放在自己的行而不会溢出的情况下才会产生中断
-
-语法:
-
-```css
-/* Keyword values */
-overflow-wrap: normal;
-overflow-wrap: break-word;
-
-/* Global values */
-overflow-wrap: inherit;
-overflow-wrap: initial;
-overflow-wrap: unset;
-```
-
-`normal`
-
-行只能在正常的单词断点处中断。（例如两个单词之间的空格）。
-
-`break-word`
-
-表示如果行内没有多余的地方容纳该单词到结尾，则那些正常的不能被分割的单词会被强制分割换行。
-
-
-##### overflow-wrap与word-break比较
-
-**overflow-wrap**
-
-- **定义**：`overflow-wrap`属性主要用来指定当单词太长而无法在容器内换行时，是否应该被拆分换行。
-- **取值**：
-    - `normal`：默认值。表示只在允许的断字点换行（如空格或连字符）。
-    - `break-word`（现在推荐使用`anywhere`值）：表示单词内部可以被拆分换行，以防止文本溢出容器。
-
-**word-break**
-
-- **定义**：`word-break`属性用于指定非中文文本的换行规则，特别是对于那些不使用空格和连字符的语言（如亚洲语言）。
-- **取值**：
-    - `normal`：使用默认的换行规则。
-    - `break-all`：允许在单词内部任意位置换行，适用于确保长单词或连续的非空格字符不会破坏布局的情况。
-    - `keep-all`：适用于中文、日文或韩文，防止对这些语言的文本进行单词内换行。
-
-**主要区别**
-
-1. **适用范围**：`word-break`更多地关注于单词的换行规则，特别是对于亚洲语言和非亚洲语言的不同处理。而`overflow-wrap`主要关注于如何处理过长的单词导致的溢出问题。
-2. **行为差异**：`overflow-wrap`的`break-word`（或`anywhere`）和`word-break`的`break-all`都可以使得长单词在容器内换行，但`word-break`的`break-all`对所有单词有效，包括正常大小的单词，而`overflow-wrap`的`break-word`只针对过长的单词。
-3. **使用场景**：当你希望改善长单词或URLs等可能导致布局问题的文本显示时，使用`overflow-wrap`是更好的选择。如果你需要处理特定语言（如亚洲语言）的文本换行，或者希望所有单词都能在任意点换行以保持布局的完整性，那么`word-break`可能更适合。
-
-
-
-
-#### 溢出建立了块级上下文
-
-CSS 中有所谓**块级排版上下文（****Block Formatting Context，BFC）**的概念**。
-
-在你使用诸如`scroll`或者`auto`的时候，你就建立了一个块级排版上下文。结果就是，你改变了`overflow`的值的话，对应的盒子就变成了更加小巧的状态。
-
-在容器之外的东西没法混进容器内，也没有东西可以突出盒子，进入周围的版面。激活了滚动动作，你的盒子里面所有的内容会被收纳，而且不会遮到页面上其他的物件，于是就产生了一个协调的滚动体验。
-
-
-
-
-
-#### text-overflow
-
-**`text-overflow`** [CSS](https://developer.mozilla.org/zh-CN/docs/Web/CSS) 属性用于确定如何提示用户存在隐藏的溢出内容。其形式可以是裁剪、显示一个省略号（“`…`”）或显示一个自定义字符串.
-
-`text-overflow` 属性只对那些在块级元素溢出的内容有效，但是必须要与块级元素*内联*（inline）方向一致（举个反例：文本无法在盒子的下方溢出）
-省略号效果在flex项中无效
-
-##### 语法
-
-```css
-text-overflow: xxx;
-```
-
-- 关键字之一：`clip`、`ellipsis`、`fade`
-- 函数 `fade()`：传入 [``](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length) 或 [``](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage) 来控制淡出距离
-- 一个字符串 `<string>`。
-
-
-
-##### 参数
-
-clip
-
-默认值。这个关键字会在[内容区域](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)的极限处截断文本，因此可能会在单词的中间发生截断
-
-如果你的目标浏览器支持 `text-overflow: ''`，为了能在两个单词过渡处截断，你可以使用一个空字符串值（`''`）作为 `text-overflow` 属性的值。
-
-
-
-ellipsis
-
-这个关键字会用一个省略号（`'…'`、`U+2026 HORIZONTAL ELLIPSIS`）来表示被截断的文本。
-
-
-
-`<string>` 测试阶段
-
-用来表示被截断的文本。字符串内容将被添加在[内容区域](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model)中，所以会减少显示出的文本。
-
-
-
-`<fade>(<length> | <percentage> )`  测试阶段
-
-这个函数将会截断行内溢出文本并在完全透明的行边缘添加一个淡出特效。 参数决定淡出特效的距离。[``](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage) 以行宽而定。小于 `0` 的值视为 0。大于行宽的值视为行宽。
-
-
-
-## CSS值和单位????
-
-CSS中使用的每个属性都允许拥有一个或一组值，查看MDN上的任何属性页将帮助您理解对任何特定属性有效的值。
-
-
-
-#### 什么是CSS的值 
-
-在CSS规范和MDN的属性页上，您将能够发现值的存在，因为它们将被尖括号包围，如`<color>`或`<length>`。(这里应该是省略的写法)
-
-经常遇到的一些值和单位类型
-
-#### 数字, 长度和百分比
-
-##### 长度
-
-CSS中有两种类型的长度——相对长度和绝对长度
-
-绝对长度单位
-
-以下都是**绝对**长度单位——它们与其他任何东西都没有关系，通常被认为总是相同的大小。
-
-| 单位 | 名称         | 等价换算            |
-| :--- | :----------- | :------------------ |
-| `cm` | 厘米         | 1cm = 96px/2.54     |
-| `mm` | 毫米         | 1mm = 1/10th of 1cm |
-| `Q`  | 四分之一毫米 | 1Q = 1/40th of 1cm  |
-| `in` | 英寸         | 1in = 2.54cm = 96px |
-| `pc` | 十二点活字   | 1pc = 1/6th of 1in  |
-| `pt` | 点           | 1pt = 1/72th of 1in |
-| `px` | 像素         | 1px = 1/96th of 1in |
-
-这些值中的大多数在用于打印时比用于屏幕输出时更有用。例如，我们通常不会在屏幕上使用cm。惟一一个您经常使用的值，估计就是px(像素)。
-
-相对长度单位
-
-相对长度单位相对于其他一些东西，比如父元素的字体大小，或者视图端口的大小。使用相对单位的好处是，经过一些仔细的规划，您可以使文本或其他元素的大小与页面上的其他内容相对应。下表列出了web开发中一些最有用的单位。
-
-| 单位   | 相对于                                                       |
-| :----- | :----------------------------------------------------------- |
-| `em`   | 在 font-size 中使用是相对于父元素的字体大小，在其他属性中使用是相对于自身的字体大小，如 width |
-| `ex`   | 字符“x”的高度                                                |
-| `ch`   | 数字“0”的宽度                                                |
-| `rem`  | 根元素的字体大小                                             |
-| `lh`   | 元素的line-height                                            |
-| `vw`   | 视窗宽度的1%                                                 |
-| `vh`   | 视窗高度的1%                                                 |
-| `vmin` | 视窗较小尺寸的1%                                             |
-| `vmax` | 视图大尺寸的1%                                               |
-
-
-
-#### 颜色
-
-现代计算机的标准颜色系统是24位的，它允许通过不同的红、绿、蓝通道的组合显示大约1670万种不同的颜色，每个通道有256个不同的值(256 x 256 x 256 = 16,777,216)。让我们来看看在CSS中指定颜色的一些方法。
-
-##### 颜色关键词
-
-您可以在页面上看到 `<color>`值的[完整列表](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
-
-##### 十六进制RGB值
-
-每个十六进制值由一个散列/磅符号(#)和六个十六进制数字组成，每个十六进制数字都可以取0到f(代表15)之间的16个值中的一个——所以是0123456789abcdef。
-
-每对值表示一个通道—红色、绿色和蓝色—并允许我们为每个通道指定256个可用值中的任意一个(16 x 16 = 256)。
-
-
-
-##### 函数RGB和RGBA的值
-
-RGB值是一个函数—RGB()—它有三个参数，表示颜色的红色、绿色和蓝色通道值，与十六进制值的方法非常相似。RGB的不同之处在于，每个通道不是由两个十六进制数字表示的，而是由一个介于0到255之间的十进制数字表示的
-
-RGBA颜色——它们的工作方式与RGB颜色完全相同，因此您可以使用任何RGB值，但是有第四个值表示颜色的alpha通道，它控制不透明度。如果将这个值设置为`0`，它将使颜色完全透明，而设置为`1`将使颜色完全不透明。
-
-
-
-**注意**: 在颜色上设置alpha通道与使用我们前面看到的[`opacity`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/opacity)属性有一个关键区别。当你使用不透明度时，你让元素和它里面的所有东西都不透明，而使用RGBA颜色只让你指定的颜色不透明
-
-
-
-##### HSL 和 HSLA的值
-
-与RGB相比，HSL颜色模型的支持稍差一些(在旧版本的IE中不支持)，它是在设计师们感兴趣之后实现的。`hsl()` 函数接受色调、饱和度和亮度值作为参数，而不是红色、绿色和蓝色值，这些值的不同方式组合，可以区分1670万种颜色：
-
-- **色调**： 颜色的底色。这个值在0和360之间，表示色轮周围的角度。
-- **饱和度**： 颜色有多饱和？ 它的值为0 - 100%，其中0为无颜色(它将显示为灰色阴影)，100%为全色饱和度
-- **亮度**：颜色有多亮？ 它从0 - 100%中获取一个值，其中0表示没有光(它将完全显示为黑色)，100%表示完全亮(它将完全显示为白色)
-
-
-
-最佳实践:
-
-为了一致性，通常最好是你的整个项目使用相同的一个颜色模型
-
-
-
-#### 颜色4种表现方式
-
-##### 关键词
-
-**rgb**
-
-**rgba**
-
-**16进制**
-
-
-
-
-
-#### 2.盒子的3种基本属性
-
-width height background背景色
-
-* 盒子：在网页中，每个标签都是由一个矩形的图形展示的，所以我们认为网页是由一个个盒子组成的。
-* 盒子指的是html标签
-* div是一个没有语义的盒子
-
-
-
-#### 3.颜色介绍
-
-**互补色**: 色环是我们认识颜色关系的好工具。它是一个近色相邻、异色相离的圆环。 当两个颜色恰好在色环的两端时，这两个颜色就互为补色。 两个互为补色的颜色会在混合后变成灰色。 然而，补色搭配能形成强烈的视觉对比效果。
-
-```html
-红色（#FF0000）和蓝绿色 (#00FFFF)
-绿色（#00FF00）和品红色（#FF00FF）
-蓝色（#0000FF）和黄色（#FFFF00）
-```
-
-
-
-**三原色**
-
-电脑显示器和各类屏幕都是基于颜色叠加的模型：将红（R）、绿（G）、蓝（B）三原色的色光以不同的比例相加，就可以产生各种色彩光。 这在现代色彩理论中叫作三原色光模式（RGB Color Model）。 红色（R）、绿色（G）和蓝色（B）叫作三原色。 如果把两种原色相加，就可以产生二次色：蓝绿（G+B）、品红（R+B）和黄色（R+G）
-
-
-
-**三次色**
-
-三次色是由原色和二次色相加产生的颜色， 例如，在 RGB 颜色模型中，红色（原色）和黄色（二次色）相加产生橙色（三次色）。 将这六种颜色中相邻的颜色相加，便产生了十二色色环。
-
-设计里面有很多种颜色搭配方法。 涉及到三次色的一种配色方法是分裂补色搭配法。 选定主色之后，在色环上选择与它的补色相邻的两种颜色与之搭配。 此种搭配既有对比，又不失和谐。
-
-```html
-橙色	#FF7F00
-蓝绿色	#00FFFF
-树莓红	#FF007F
-```
-
-
-
-#### 4.调整颜色的色相
-
-颜色具有多种特性，包括色相、饱和度和亮度。 CSS3 引入了 `hsl()` 做为颜色的描述方式。
-
-**色相**是色彩的基本属性，就是平常所说的颜色名称，如红色、黄色等。 以颜色光谱为例，光谱左边从红色开始，移动到中间的绿色，一直到右边的蓝色，色相值就是沿着这条线的取值。 在 `hsl()` 里面，色相用色环来代替光谱，色相值就是色环里面的颜色对应的从 0 到 360 度的角度值。
-
-**饱和度**是指色彩的纯度，也就是**颜色里灰色的占比**。 饱和度越高则灰色占比越少，色彩也就越纯；反之则完全是灰色。 饱和度的取值范围是表示灰色所占百分比的 0 至 100。
-
-**亮度**决定颜色的明暗程度，也就是颜色里白色或者黑色的占比。 其中，100% 的亮度表示纯白色， 0% 的亮度则表示纯黑色；而 50% 的亮度就表示在色相中选取的颜色。
-
-```html
-颜色	HSL
-红	hsl(0, 100%, 50%)
-黄	hsl(60, 100%, 50%)
-绿	hsl(120, 100%, 50%)
-蓝绿	hsl(180, 100%, 50%)
-蓝	hsl(240, 100%, 50%)
-品红	hsl(300, 100%, 50%)
-```
-
-
-
-#### 图片
-
-`<image>` 数据类型用于图像为有效值的任何地方。它可以是一个通过 `url()`函数指向的实际图像文件，也可以是一个渐变
-
-```css
-.image {
-  background-image: url(star.png);
-}
-
-.gradient {
-  background-image: linear-gradient(90deg, rgba(119,0,255,1) 39%, rgba(0,212,255,1) 100%);
-}
-```
-
-
-
-#### 位置
-
-`<position>` 数据类型表示一组2D坐标，用于定位一个元素，如背景图像(通过 `background-position`)。它可以使用关键字(如 `top`, `left`, `bottom`, `right`, 以及`center` )将元素与2D框的特定边界对齐，以及表示框的顶部和左侧边缘偏移量的长度。
-
-一个典型的位置值由两个值组成——第一个值水平地设置位置，第二个值垂直地设置位置。如果只指定一个轴的值，另一个轴将默认为 `center`。
-
-
-
-
-
-
-
-#### 字符串和标识符
-
-在上面的示例中，我们看到关键字被用作值的地方(例如`<color>`关键字，如 `red`, `black`, `rebeccapurple`, and `goldenrod`)。这些关键字被更准确地描述为标识符，一个CSS可以理解的特殊值。因此它们没有使用引号括起来——它们不被当作字符串。
-
-在某些地方可以使用CSS中的字符串，例如 [在指定生成的内容时](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#Generating_content_with_before_and_after)。  伪元素??
-
-
-
-
-
-
-
-#### 函数
-
-已经在颜色部分看到了函数的作用——`rgb()`、`hsl()`等。用于从文件返回图像的值——`url()`——也是一个函数
-
-行为更类似于传统编程语言的值是`calc()`函数。这个函数使您能够在CSS中进行简单的计算。
-
-
-
-例如，下面我们使用`calc()`使框宽为20% + 100px。20%是根据父容器.wrapper的宽度来计算的，因此如果宽度改变，它也会改变。
-
-```css
-.wrapper {
-  width: 400px;
-}
-
-.box {
-  width: calc(20% + 100px);
-}
-    
-```
-
-
-
-## 在CSS中调整大小
-
-#### 原始尺寸/固有尺寸
-
-在受CSS设置影响之前，HTML元素有其原始的尺寸。一个直观的例子就是图像。一副图像的长和宽由这个图像文件自身确定。这个尺寸就是固有尺寸。
-
-一个空的[`<div>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div)是没有尺寸的.边框宽度扩展到整个容器宽度，因为它是块级元素，而块级元素的行为就是这样的。它没有高度，或者说高度为0，因为内部没有内容。
-
-#### 设置具体的尺寸
-
-当给元素指定尺寸（然后其内容需要适合该尺寸）时，我们将其称为**外部尺寸**。
-
-正如我们在[上一课](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Overflowing_content)有关溢出的内容中所发现的，如果内容的数量超出了元素可容纳的空间，则设置的高度会导致内容溢出。
-
-<iframe width="100%" height="600" src="https://mdn.github.io/css-examples/learn/sizing/height.html" loading="lazy" __idm_id__="20201473"></iframe>
-
-
-
-##### 使用百分数
-
-当使用百分数时，你需要清楚，它是**什么**东西的百分数。对于一个处于另外一个容器当中的盒子，如果你给予了子盒子一个百分数作为宽度，那么它指的是父容器宽度的百分数。
-
-这是因为百分数是以包含盒子的块为根据解析的。如果我们的`<div>`没有被指定百分数的值，那么它会占据100%的可用空间，因为它是块级别的元素。如果我们给了它一个百分数作为宽度，那么这就是它原来情况下可以占据空间的百分数。
-
-<iframe width="100%" height="600" src="https://mdn.github.io/css-examples/learn/sizing/percent-width.html" loading="lazy"></iframe>
-
-
-
-##### min-和max-尺寸
-
-让CSS给定一个元素的最大或最小尺寸。如果你有一个包含了变化容量的内容的盒子，而且你总是想让它**至少**有个确定的高度，你应该给它设置一个[`min-height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/min-height)属性。盒子就会一直保持大于这个最小高度,但是如果有比这个盒子在最小高度状态下所能容纳的更多内容，那么盒子就会变大。
-
-在以下的示例中，你可以看到两个盒子，两个都有150像素的确定高度，左边的盒子有150像素高，右边的盒子有需要更多空间才能装下的内容，所以它变得比150像素高。
-
-```html
-.box {
-  border: 5px solid darkblue;
-  min-height: 150px;
-  width: 200px;
-}
-
-
-<div class="wrapper">
-  <div class="box"></div>
-  <div class="box">These boxes both have a min-height set, this box has content in it which will need more space than the assigned height, and so it grows from the minimum.</div>
-</div>
-```
-
-
-
-[`max-width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/max-width)的常见用法为，在没有足够空间以原有宽度展示图像时，让图像缩小，同时确保它们不会比这一宽度大。
-
-如果你使用了`max-width: 100%`，那么图像可以变得比原始尺寸更小，但是不会大于原始尺寸的100%。
-
-这个技术是用来让图片**可响应**的，所以在更小的设备上浏览的时候，它们会合适地缩放。你无论怎样都不应该用这个技术先载入大原始尺寸的图片，再对它们在浏览器中进行缩放。图像应该合适地调整尺寸，以使它们不会比预计中展示时所需要的最大尺寸大。
-
-
-
-
-
-#### 视口单位
-
-视口，即你在浏览器中看到的部分页面，也是有尺寸的。在CSS中，我们有与视口尺寸相关的度量单位，即意为视口宽度的`vw`单位，以及意为视口高度的 `vh`单位。
-
-`1vh`等于视口高度的1%，`1vw`则为视口宽度的1%.你可以用这些单位约束盒子的大小，还有文字的大小。
-
-**如果你改变了`vh`和`vw`的对应值，盒子和字体的大小也会改变**
-
-
-
-## 图像,媒体和表单元素
-
-图像和视频被描述为**[替换元素](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element)**。 这意味着CSS不能影响这些元素的内部布局-仅影响它们在页面上于其他元素中的位置
-
-某些替换元素（例如图像和视频）也被描述为具有宽高比。 这意味着它在水平（x）和垂直（y）尺寸上均具有大小，并且默认情况下将使用文件的固有尺寸进行显示。
-
-
-
-### 调整图像大小
-
-如果你把一张图片放在一个盒子里，它的原始长和宽都比盒子的小或大，它要么比盒子显得小，要么从盒子里面溢出出去。你需要决定怎么处理溢出。
-
-在下面的示例中，我们有两个盒子，大小均为 200 像素：
-
-- 一个包含了一张小于 200 像素的图像，它比盒子小，所以不会拉伸以充满盒子。
-- 另一张图像大于 200 像素，从盒子里面溢出。
-
-<iframe width="100%" height="1000" src="https://mdn.github.io/css-examples/learn/images/size.html" loading="lazy"></iframe>
-
-**尝试向上面的示例中的`<img>`元素加入`max-width: 100%`，你会看到，小的图像不变，而大的变小了，能够放在盒子里。**
-
-一个常用的技术是将一张图片的[`max-width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/max-width)设为100%。这将会允许图片尺寸上小于但不大于盒子。这个技术也会对其他替换元素（例如`<video>`，或者`<iframe>`）起作用。
-
-可以对容器内的图像作其他选择. 例如，你可能想把一张图像调整到能够完全盖住一个盒子的大小。
-
-[`object-fit`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)属性可以在这里帮助你(需要搭配width+height使用)。当使用`object-fit`时，替换元素可以以多种方式被调整到合乎盒子的大小。
-
-下面，我们已经使用了值`cover`，缩小了图像，维持了图像的比例，所以图像可以整齐地充满盒子，同时由于比例保持不变，图像的一部分将会被盒子裁切掉。
-
-<iframe width="100%" height="1000" src="https://mdn.github.io/css-examples/learn/images/object-fit.html" loading="lazy"></iframe>
-
-
-
-
-
-
-
-### 布局中的替换元素
-
-在替换元素使用各式 CSS 布局技巧时，你可能深切地体会到他们的展现略微与其他元素不同，例如，在一个 flex 或者 grid 布局中，元素默认会把拉伸到充满整块区域。图像不会拉伸，而是会被对齐到网格区域或者弹性容器的起始处。
-
-你可以看到这在下面的示例中发生了，下面的示例有个两列两行的网格容器，里面有四个物件。所有的`<div>`元素有自己的背景色，拉伸到了充满行和列的地步。但是，图像并没有被拉伸。
-
-<iframe width="100%" height="1000" src="https://mdn.github.io/css-examples/learn/images/layout.html" loading="lazy"></iframe>
-
-
-
-只要记住替换元素在成为网格或者弹性布局的一部分时，有不同的默认行为，这很必要，避免了他们被布局奇怪地拉伸。
-
-为了强制图像拉伸，以充满其所在的网格单元，你必须仿照下面做点事情：
-
-```css
-img {
-  width: 100%;
-  height: 100%;
-}
-```
-
-这将会无条件地拉伸图像，所以很可能不会是你想要的。
-
-### form元素
-
-用CSS格式化表单元素是一个需要技巧的工作，[HTML Forms module](https://developer.mozilla.org/zh-CN/docs/Learn/Forms) 包含了详细的格式化表单元素的指导
-
-
-
-
-
-#### xxx
-
-#### 行高(line-height)
-
-> 定义: 是设置文本在元素中垂直方向的位置.   是给文本设置的 给父级元素设置需要注意是否可以继承(1015)?
-
-特点: 当元素没有设置高度, 高度随着行高的变化而变化,文本始终保持垂直居中于当前元素.
-
-默认行高都是大于字体大小,例如下面的行高出现52px.解决方式是line_height:1,1表示行高为字体大小的一倍.
-
-
-
-**文本垂直居中**: 行高等于盒子的高度
-
-* 行高单位: px em 倍数(乘以当前font-size的数值)
-* 这个元素是块元素?  不一定,也可以行内元素和行内块元素转换成的块元素
-
-案例:
-
-```HTML
-<!DOCTYPE html>
-<html>
-    
-    <head>
-        <style>
-            .box{
-                background:pink;
-                font-size:40px;   <!-- 这个设置下,div的高度是52px -->
-            }
-            
-            
-            .box{
-                background:pink;
-                font-size:40px;
-                height:50px;
-                line-height:50px; <!-- 这个设置下文本垂直居中于盒子 div高度是50px -->
-            }
-            
-        </style>
-    </head>
-    <body>
-        <div class="box">文本</div>
-    </body>
-</html>
-```
-
-
-
-### form表单问题实例
-
-#### 1.单选框或复选框与文字对齐的问题
-> [复选框单选框与文字对齐问题的研究与解决 « 张鑫旭-鑫空间-鑫生活 (zhangxinxu.com)](https://www.zhangxinxu.com/wordpress/2009/08/%e5%a4%8d%e9%80%89%e6%a1%86%e6%88%96%e5%8d%95%e9%80%89%e6%a1%86%e4%b8%8e%e6%96%87%e5%ad%97%e5%af%b9%e9%bd%90%e7%9a%84%e9%97%ae%e9%a2%98%e7%9a%84%e6%b7%b1%e5%85%a5%e7%a0%94%e7%a9%b6%e4%b8%8e%e4%b8%80/)
-
-<iframe src="https://codesandbox.io/embed/form-fu-xuan-kuang-dan-xuan-kuang-yu-wen-zi-dui-qi-gtc5wq?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="form / 复选框单选框与文字对齐"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-   
-
-**解决方案**
-* vertical-align: text-bottom
-* vertical-align: text-top
-* vertical-align: bottom
-* vertical-align: top
-* vertical-align: middle
-* vertical-align: -3px;
-
-**推荐方案**
-* vertical-align: bottom
-* vertical-align: middle
-
-**注意事项**
-* Firefox浏览器和chrome浏览器下的单选框和复选框默认是由一个margin值的。其两者的值大小近乎一致，拿chrome浏览器举例。在chrome谷歌浏览器下，radio单选框的默认margin值是：margin:3px 3px 0 5px;checkbox复选框的margin值为margin:3px 3px 3px 4px;而IE浏览器下似乎没有margin值，但是对margin敏感。这是不用hack解决对齐问题的难点之一。
-* 方案3和方案5从兼容性,代码利用率,css消耗等来讲,都给常推荐.
-
-
-
-
-
-
-## 样式化表格
-
-
-
-## 调试CSS
-
-#### 如何使用浏览器开发者工具
-
-
-
-## 组织CSS!!
-
-#### CSS整洁技巧
-
-##### 1.将CSS格式化可读形式
-
-CSS 不会管你使用哪种方式来进行格式化, 将每个属性值对放在新的一行会更好读。
-
-
-
-##### 2.为你的CSS添加注释
-
-* 在你的样式表里面的逻辑段落之间，加入一块注释
-* 使用了一个不存在于代码里面的字符串，你可以从段落到段落间跳转，只需要搜索一下，例如是`||`。
-
-* 为了对旧浏览器保持兼容，你用某种特殊方法使用了一种 CSS 属性，示例：
-
-<div class="code-example"><pre class="brush: css notranslate"><code><span class="token selector">.box</span> <span class="token punctuation">{</span>
-  <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span> <span class="token comment">/* fallback for older browsers that don't support gradients */</span>
-  <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>to right<span class="token punctuation">,</span> #ff0000<span class="token punctuation">,</span> #aa0000<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre><button type="button" class="icon copy-icon"><span class="visually-hidden">Copy to Clipboard</span></button><span class="copy-icon-message visually-hidden" role="alert" style="top: 52px;"></span></div>
-
-
-
-##### 3.在你的样式表里加入逻辑段落
-
-在样式表里面先给一般的东西加上样式是个好想法。这也就是除了你想特定对某个元素做点什么以外，所有将会广泛生效的样式。例如:
-
-- `body`
-- `p`
-- `h1`, `h2`, `h3`, `h4`, `h5`
-- `ul`和`ol`
-- `table`属性
-- 链接
-
-
-
-在这段之后，我们可以定义一些**实用类**，例如一个用来移除默认列表样式的类，我们打算将其展示为灵活样式或者其他样式。
-
-```css
-/* || UTILITIES */
-
-.nobullets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-...
-```
-
-然后我们可以加上在整个站点都会用到的所有东西，这可能是像基础页面布局、抬头或者导航栏样式之类的东西。
-
-```css
-/* || SITEWIDE */
-
-.main-nav { ... }
-
-.logo { ... }
-```
-
-最后我们可以在 CSS 里面加上**特指的东西**，将它们分成上下文、页面甚至它们使用的组件。
-
-```css
-/* || STORE PAGES */
-
-.product-listing { ... }
-
-.product-box { ... }
-```
-
-
-
-##### 4.避免太过特定的选择器
-
-如果你创建了很特定的选择器，你经常会发现，你需要在你的 CSS 中复用一块代码，以将同样的规则应用到其他元素上。
-
-没写解决方案,只是说这么写会比较繁琐
-
-
-
-##### 5.将大样式表分成几个小的样式表
-
-尤其在你对站点的不同部分设置了很不同的样式的时候，你会想要有个包含了所有普适规则的样式表，还有包含了某些段落所需要的特定规则的更小的样式表。
-
-
-
-这可以让你更容易保持 CSS 的组织性，也意味着如果有多人在写 CSS，你会更少遇到有两个人需要同时编写相同的样式表的情况，防止在源代码的控制上产生冲突。
-
-
-
-#### 其他工具
-
-CSS 本身没有什么内置的组织方式，所以你需要自己完成建立编写 CSS 时维持统一性和规则的工作。Web 社区也已经开发了多种工具和方法，帮助你管理大些的 CSS 项目
-
-##### CSS方法论
-
-不必需要自己制定编写 CSS 的规则，你可以选择接纳一个已经已经由社群设计、经由诸多项目检验的方法，并从中获益。这些方法论都是有着结构化的编写和组织 CSS 途径的 CSS 代码指南。
-
-**OOCSS** ??
-
-你会遇到的大多数方式都有一部分归功于面向对象的 CSS（OOCSS）的概念，这是一种因[Nicole Sullivan 的努力](https://github.com/stubbornella/oocss/wiki)而流行的方式。OOCSS 的基本理念是将你的 CSS 分解成可复用的对象，于是你可以在你的站点上任何需要的地方使用。OOCSS 的标准示例是在[The Media Object](https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Media_objects)中所描述的排布。
-
-
-
-
-
-**BEM**
-
-BEM 即为块级元素修饰字符（Block Element Modifier）。在 BEM 中，一个块，例如一个按钮、菜单或者标志，就是独立的实体。一个元素就像一个列表项或者标题一样，被绑定到它所在的块。修饰字符是标记到一个块或者元素的标识，能够改变样式或者行为。
-
-你能认出使用 BEM 的代码，因为代码中在 CSS 的类里使用了多余的一个下划线和连字符。例如看看这个来自关于[BEM 命名常规](http://getbem.com/naming/)的页面里面的 HTML 所应用的类：
-
-```css
-<form class="form form--theme-xmas form--simple">
-  <input class="form__input" type="text" />
-  <input
-    class="form__submit form__submit--disabled"
-    type="submit" />
-</form>
-```
-
-
-
-##### CSS构建体系
-
-另一种组织 CSS 的方法是利用一些对于前端开发者可用的工具，它们让你可以稍微更程式化地编写 CSS。有很多工具，我们将它们分成**预处理工具**和**后处理工具**。预处理工具以你的原文件为基础运行，将它们转化为样式表；后处理工具使用你已完成的样式表，然后对它做点手脚——也许是优化它以使它加载得更快。
-
-
-
-# 概念guide
-
-## 动画
-
-## 背景和边框
-
-## 框对齐(box aligment)
-
-## 盒模型(box model)
-## 列(columns)
-
-## 条件规则
-## CSSOM视图
-## 弹性盒子(FlexBox)
-## 流布局(Flowlayout)
-## 字体
-## Grid
-## 图片
-## 列表和计数器(Lists and counters)
-## 逻辑属性(Logical properties)
-## 媒体查询(media queries)
-## 布局
-## 滚动捕捉(scrop snap)
-## 形状(shaps)
-## 文本(Text)
-## 变形(Transform)
-## Transitions(过渡转变)
-
-
-
-# 样式化文本
 
 掌握了 CSS 语言的基础之后，对于您来说，下一个需要关心的 CSS 主题就是为文本添加样式
 
@@ -2231,7 +763,451 @@ line-height
 
 
 
-## CSS布局(待完成 >>>>>>>
+# CSS布局
+>https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout
+
+
+
+## 介绍
+### web布局历史
+
+| 时间      | 布局类型                    |
+| --------- | --------------------------- |
+| 1991-1994 | 无布局(流布局)              |
+| 1995-2000 | 表格布局                    |
+| 2000-2009 | Float布局/定位布局/框架布局 |
+| 2010-2017 | 响应式布局(RWD responsive)  |
+| 2018-2020 | Intrinsic(真实内容尺寸?)    |
+| 2020-至今 | 组件驱动(CDWD Composnent-Driven)                            |
+
+
+
+
+
+
+
+
+## 盒模型
+
+### 是什么
+
+实质上是一个包围每个 HTML 元素的框。它包括：外边距、边框、内边距以及实际的内容。
+
+
+
+### 盒模型的内部/外部显示类型
+
+css的box模型有一个外部显示类型，来决定盒子是块级还是内联。
+
+同样盒模型还有内部显示类型，它决定了盒子内部元素是如何布局的。默认情况下是按照 **[正常文档流](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow)** 布局，也意味着它们和其他块元素以及内联元素一样(如上所述).
+
+但是，我们可以通过使用类似 `flex` 的 `display` 属性值来更改内部显示类型。 如果设置 `display: flex`，在一个元素上，外部显示类型是 `block`，但是内部显示类型修改为 `flex`。 该盒子的所有直接子元素都会成为flex元素，会根据 [弹性盒子（Flexbox](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox) [）](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox)规则进行布局
+
+#### 块级盒子和内联盒子
+
+**块级**盒子 (**block box**) 和 **内联盒子** (**inline box**)**。**这两种盒子会在**页面流**（page flow）和**元素之间的关系**方面表现出不同的行为:
+
+一个被定义成块级的（block）盒子会表现出以下行为:
+
+- 盒子会在内联的方向上扩展并占据父容器在该方向上的所有可用空间，在绝大数情况下意味着盒子会和父容器一样宽
+- 每个盒子都会换行
+- [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height) 属性可以发挥作用
+- 内边距（padding）, 外边距（margin） 和 边框（border） 会将其他元素从当前盒子周围“推开”
+
+
+
+如果一个盒子对外显示为 `inline`，那么他的行为如下:
+
+- 盒子不会产生换行。
+- [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height) 属性将不起作用。
+- 垂直方向的内边距、外边距以及边框会被应用但是不会把其他处于 `inline` 状态的盒子推开。
+- 水平方向的内边距、外边距以及边框会被应用且会把其他处于 `inline` 状态的盒子推开。
+
+用做链接的 `<a>` 元素、 `<span>`、 `<em>` 以及 `<strong>` 都是默认处于 `inline` 状态的。
+
+
+
+
+
+### CSS逻辑属性
+
+随着 CSS 的逻辑属性的出现，CSS 的坐标系就不再以 `x` 轴 和 `y` 轴来定义，而是以 **内联** （Inline）和 **块** （Block）来区分，并且内联方向的称之为 **内联轴** （Inline Axis），也就是书写模式的方向；块方向的称之为 **块轴** （Block Axis），也就是块盒子自然流的方向。它们随着 CSS 的书写模式改变
+
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.6c4sttbml5c0.webp)
+
+如此一来，在 CSS 中就有**物理坐标系** 和 **逻辑坐标系** 之分，它们的对应关系如下：
+
+| **物理属性**     | **逻辑属性(`horizontal-tb`)** | **逻辑属性(`vertical-lr`)** | **逻辑属性(`vertical-rl`)** |
+| ---------------- | ----------------------------- | --------------------------- | --------------------------- |
+| `x` 轴（水平轴） | Inline 轴（内联轴）           | Block 轴（块轴）            | Block 轴（块轴）            |
+| `y` 轴（垂直轴） | Block 轴（块轴）              | Inline 轴（内联轴）         | Inline 轴（内联轴）         |
+
+
+
+### 容器和容器空间
+
+HTML 的每一个元素在 CSS 中都是一个盒子，这个盒子又被称为 **容器** 。它主要由 CSS 的 `display` 属性的值来决定，比如：
+
+- `block` 时称为块容器；
+
+- `inline` 时称为内联容器；
+
+- `flex` 或 `inline-flex` 时称为Flexbox容器；
+
+- `grid` 或 `inline-grid` 时称为 Grid 容器（网格容器）
+
+
+
+
+
+
+
+
+
+### 分类
+
+标准盒模型
+
+替代(IE)盒模型
+
+
+
+### 盒模型组成部分
+
+CSS中组成一个块级盒子需要:
+
+- **Content box**: 这个区域是用来显示内容，大小可以通过设置 [`width`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width) 和 [`height`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/height).
+- **Padding box**: 包围在内容区域外部的空白区域； 大小通过 [`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 相关属性设置。
+- **Border box**: 边框盒包裹内容和内边距。大小通过 [`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border) 相关属性设置。
+- **Margin box**: 这是最外面的区域，是盒子和其他元素之间的空白区域。大小通过 [`margin`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin) 相关属性设置。
+
+如图所示:
+
+![](https://mdn.mozillademos.org/files/16558/box-model.png)
+
+#### 标准盒模型
+
+在标准模型中，如果你给盒设置 `width` 和 `height`，实际设置的是 *content's box*。 padding 和 border 再加上设置的宽高一起决定整个盒子的大小。
+
+margin 不计入实际大小 —— 当然，它会影响盒子在页面所占空间，但是影响的是盒子外部空间。盒子的范围到边框为止 —— 不会延伸到margin。
+
+
+
+假设定义了 `width`, `height`, `margin`, `border`, and `padding`:
+
+```css
+.box {
+  width: 350px;
+  height: 150px;
+  margin: 25px;
+  padding: 25px;
+  border: 5px solid black;
+}
+```
+
+如果使用标准模型宽度 = 410px (350 + 25 + 25 + 5 + 5)，高度 = 210px (150 + 25 + 25 + 5 + 5)，padding 加 border 再加 content box。
+
+![](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model/standard-box-model.png)
+
+
+
+#### 替代(IE)盒模型
+
+CSS的替代盒模型。使用这个模型，所有宽度都是可见宽度，所以内容宽度是该宽度减去边框和填充部分。使用上面相同的样式得到 (width = 350px, height = 150px).
+
+![](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model/alternate-box-model.png)
+
+
+
+### 盒模型的切换
+
+<span style="color:blue">默认浏览器会使用标准模型。如果需要使用替代模型，您可以通过为其设置 `box-sizing: border-box` 来实现。</span> 
+
+所有元素都使用替代模式，而且确实很常用，设置 `box-sizing` 在 `<html>` 元素上，然后设置所有元素继承该属性.
+
+```css
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+```
+
+如果想要深入理解，请看 [the CSS Tricks article on box-sizing](https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/)。 ?? 没太明白.
+
+Internet Explorer默认使用替代盒模型，没有可用的机制来切换。（译者注：IE8+ 支持使用`box-sizing` 进行切换 .
+
+#### 容器尺寸计算方式
+容器尺寸有确切尺寸, 不确定的尺寸两种类型
+**明确的尺寸:** 
+>指的是不需要执行布局就可以确定盒子的大小。也就是说，显式地给容器设置一个固定值，或内容所占区域的大小，或一个容器块的初始大小，或通过其他计算方式得到的尺寸，比如 Flexbox 布局中的“拉伸和收缩”（Stretch-fit），即 flex-grow 和 flex-shrink 。
+
+![](https://jsd.cdn.zzko.cn/gh/aotushi/image-hosting@master/documentation/image.54kgs3dna700.webp)
+
+**不明确的尺寸**
+在 CSS 中，任何一个容器都有四种自动计算尺寸大小的方式：
+* auto ：会根据格式化上下文自动计算容器的尺寸；
+* min-content ：是在不导致溢出的情况下，容器的内容的最小尺寸；
+* max-content ：容器可以容纳的最大尺寸，如果容器中包含未格式化的文本，那么它将显示为一个完整的长字符串；
+* fit-content ：如果给定轴中的可用空间是确定的，则等于 min(max-content, max(min-content, stretch-fit)) ，反之则等于 max-content。
+> 注意: CSS 中的宽高比属性，即 aspect-ratio 也可以决定一个容器的尺寸。
+
+
+
+
+
+外边距/内边距/边框
+
+### 外边距margin
+
+`**margin**` 属性为给定元素设置所有四个（上下左右）方向的外边距属性。也就是 [`margin-top`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top)，[`margin-right`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-right)，[`margin-bottom`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom)，和 [`margin-left`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-left) 四个外边距属性设置的[简写](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Shorthand_properties)
+
+
+
+#### 语法
+
+`margin` 属性接受 1~4 个值。每个值可以是 [`<length>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length)，[`<percentage>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage)，或 `auto`。
+
+**[`length`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length)**
+
+以固定值为外边距。
+
+[`percentage`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage)
+
+相对于[包含块](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Containing_block)的*宽度*，以百分比值为外边距。
+
+`auto`
+
+让浏览器自己选择一个合适的外边距。有时，在一些特殊情况下，该值可以使元素居中
+
+
+
+#### 水平居中
+
+在现代浏览器中实现水平居中
+
+```css
+display: flex;
+justify-content: center;
+```
+
+在 IE8-9 这样的不支持弹性盒布局的旧式浏览器中,以上代码不生效
+
+```css
+margin: 0 auto;
+```
+
+
+
+
+#### margin常见问题
+
+#### 1.外边距折叠
+
+**是什么?**
+外边距折叠现象分为两种，一种是外边距合并现象，一种是塌陷现象。注意有设定[float](https://developer.mozilla.org/zh-CN/docs/Web/CSS/float)和[position=absolute](https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute)的元素不会产生外边距重叠行为.
+
+**合并现象**
+**垂直布局**的**相邻的块级元素**(兄弟元素)，上下的margin值会合并。
+
+**如何解决?**
+1.直接避免上下盒子同时设置上下边距，只给一个设置外边距即可。
+2.给其中一个元素设置一个**父盒子**，再给父盒子触发**BFC**。
+<iframe src="https://codesandbox.io/embed/wai-bian-ju-zhe-die-he-bing-rnljfz?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="外边距折叠-合并"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+**塌陷现象**
+外边距塌陷的现象出现的场景：**互相嵌套**的**块级元素**（父子元素），子元素的**margin-top**会作用在父元素上，从而导致父元素一起往下移动。
+解决外边距塌陷的办法：
+1.给父盒子设置一个**border**。
+2.给父盒子设置**padding**。
+3.让父盒子触发**BFC**。
+
+
+#### 2.IE6下双边距问题(了解即可)
+![2009-08-25_012237.png (595×274) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_012237.png)
+产生条件: IE6浏览器下,浮动+block元素+margin.会造成双边距问题.
+解决方法: display:inline
+
+#### 3.margin重叠问题
+css 2.0规范对margin重叠有如下的描述：  
+1.水平边距永远不会重合。  
+2.垂直边距可能在特定的框之间重合：  
+* 常规流向中两个或多个块框相邻的垂直边距会重合。结果的边距宽度是相邻边距宽度中较大的值。如果出现负边距，则在最大的正边距中减去绝对值最大的负边距。如果没有正边距，则从零中减去绝对值最大的负边距。  
+* 在一个浮动框和其它框之间的垂直边距不重合。//这句话是不够严谨，在IE浏览器下确实如此，但是Firefox等浏览器下依旧重合。 
+* “绝对定位的框”与“相对定位的框”边距不重合。//这句话有待斟酌，我在Firefox等浏览器下测试，效果貌似很糟糕的。
+
+解决: IE和非IE浏览器没有什么好的兼容方案.
+<iframe src="https://codesandbox.io/embed/marginchong-die-wen-ti-99mwyw?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin重叠问题"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+#### 4.margin不起作用的情况
+> 单个方块重叠的解决方法：1.浮动。在IE浏览器下（IE8未测过），浮动可以解决margin-top以及margin-bottom重叠的问题。而在Firefox火狐浏览器或是chrome谷歌浏览器下以及opera浏览器下，浮动只能解决同方向上的margin重叠问题。不同方向上的margin重叠的问题依旧存在。
+
+
+#### margin负值相关问题
+#### 1.页面上实现css sprite背景定位效果(了解)
+
+#### 2.在流动性布局中的应用(待办)
+
+#### 3.在选项卡等边框线的处理
+![2009-08-25_025650.png (512×233) (zhangxinxu.com)](http://image.zhangxinxu.com/image/blog/200908/2009-08-25_025650.png)
+
+<iframe src="https://codesandbox.io/embed/margin-zai-xuan-xiang-qia-yang-shi-zhong-de-ying-yong-9n3t26?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin/在选项卡样式中的应用"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   
+
+
+#### 4.图片和文字对齐问题
+图片与文字默认是居底对齐(图片底部和文字底部)了。所以当图片与文字在一起的时候往往都是不对齐的。
+解决方案:
+* img应用vertical-align: middle;  IE兼容性较差
+* img应用vertical-align: text-bottom; 
+* img使用margin: 0 3px -3px 0;
+<iframe src="https://codesandbox.io/embed/margin-tu-pian-he-wen-zi-dui-qi-wen-ti-nn6qlc?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="margin / 图片和文字对齐问题"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+   >
+
+
+
+### 边框
+
+边框是在边距和填充框之间绘制的。如果您正在使用标准的盒模型，边框的大小将添加到框的宽度和高度。如果您使用的是替代盒模型，那么边框的大小会使内容框更小，因为它会占用一些可用的宽度和高度。
+
+可以使用[`border`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border)属性一次设置所有四个边框的宽度、颜色和样式
+
+
+
+
+
+### 内边距
+
+内边距位于边框和内容区域之间。与外边距不同，您不能有负数量的内边距，所以值必须是0或正的值。
+
+应用于元素的任何背景都将显示在内边距后面，内边距通常用于将内容推离边框。
+
+
+
+我们可以使用[`padding`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding)简写属性控制元素所有边，或者每边单独使用等价的普通属性：
+
+
+
+#### 盒子模型和内联盒子
+
+盒子模型的部分属性也可以应用于内联盒子，例如由`<span>`元素创建的那些内联盒子。
+
+案例: 
+
+我们在一个段落中使用了`<span>`，并对其应用了宽度、高度、边距、边框和内边距。
+
+* 宽度和高度被忽略了。
+* 外边距、内边距和边框是生效的，但它们不会改变其他内容与内联盒子的关系，因此内边距和边框会与段落中的其他单词重叠。
+
+
+
+<iframe src="https://codesandbox.io/embed/css-inline-box-czd0th?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="css/inline-box"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+#### 使用display: inline-block
+
+display有一个特殊的值，它在内联和块之间提供了一个中间状态。这对于以下情况非常有用:您不希望一个项切换到新行，但希望它可以设定宽度和高度，并避免上面看到的重叠。
+
+一个元素使用 `display: inline-block`，实现我们需要的块级的部分效果：
+
+- 设置`width` 和`height` 属性会生效。
+- `padding`, `margin`, 以及`border` 会推开其他元素。
+
+但是，它不会跳转到新行，如果显式添加`width` 和`height` 属性，它只会变得比其内容更大。
+
+
+
+使用场景:
+
+当您想要通过添加内边距使链接具有更大的命中区域时，这是很有用的。`<a>`是像`<span`>一样的内联元素；你可以使用`display: inline-block`来设置内边距，让用户更容易点击链接。
+
+
+
+## 背景和边框
+
+> [The Shapes of CSS | CSS-Tricks - CSS-Tricks](https://css-tricks.com/the-shapes-of-css/)
+
+
+
+## 元素的显示模式
+
+按[新的 HTML 规范](https://www.zhihu.com/question/34952563/answer/60672228)，已经不按 inline 和 block 来区分元素类型了.
+
+待补充...
+
+#### 1. 块级元素
+
+* 特点：可以设置宽高；独占一行；没有设置宽度时，会继承父元素的width。
+* 块元素：**div h1-h6 p hr ol ul li dl dd dt form **
+
+#### 2. 行内元素
+
+* 特点: 无法设置宽高,转换成块元素或行内块元素宽高可起作用. ; 一行可有多个行内元素;  盒子间有1个或多个空格,会出现一个默认等宽的间距 (宽高默认由图片的原始大小决定; 基线对齐).  
+
+* `span` 等行内元素是可以设置内边距 `padding` 的，只不过元素本身无法把父元素撑开，看上去就是设置的 `padding` 上下边距不起效了，而 `margin` 就只能设置 `span` 的左右边距。
+
+  如果要给 `span` 设置边距，一般的方法就是给它设置一个 `display: inline-block;` ，把它变成行内块级元素就可以了
+
+* 行内元素: **a b del  em i  ins span  strong s u  **
+
+```css
+多个span元素转换为inline-block后,会有一个左右间距. 可以span不换行解决这个问题.或者通过父元素添加font-size:0;
+span等行内元素是可以设置内边距 padding 的，只不过元素本身无法把父元素撑开，看上去就是设置的 padding 上下边距不起效了，而 margin 就只能设置 span 的左右边距。
+
+如果要给 span 设置边距，一般的方法就是给它设置一个 display: inline-block; ，把它变成行内块级元素就可以了
+
+```
+
+
+
+#### 3. 行内块
+
+* 特点: 可以设置宽高; 一行可有多个行内块元素;  盒子间有1个或多个空格,会出现一个默认等宽的间距; (宽高默认由图片的原始大小决定;)
+
+* 行内块元素: **img  input等**
+
+#### 4.显示模式的转换
+
+1.其他模式元素转换为行内块元素
+
+​		display: inline-block
+
+2.其他模式元素转换为块元素
+
+​		display: block
+
+
 
 CSS 页面布局技术允许我们拾取网页中的元素，并且控制它们相对正常布局流、周边元素、父容器或者主视口/窗口的位置。在这个模块中将涉及更多关于页面[布局技术](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Layout_mode)的细节：
 
@@ -5974,329 +4950,7 @@ animation-fill-mode:forwars
 
 
 
-# 响应式布局 !!!!
-
-##### 左侧固定右侧自适应
-
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<style type="text/css">
-			/* 
-			左侧固定,右侧自适应
-			 */
-			*{
-				margin: 0;
-				padding: 0;
-			}
-			.box{
-				height: 600px;
-				background: #ccc;
-			}
-			.left{
-				width:200px;
-				height: 600px;
-				background: yellow;
-				float:left;
-				margin-left:-100% ;  /*首先是左右元素换顺序,再使用left元素向左外边距移动,当外边距为-200px也就是自身宽度时,left元素移动到right元素的右侧进200px的宽度,left元素是在right元素上面的.. */
-			}
-			.right{
-				width:100%;
-				height: 600px;
-				background: yellowgreen;
-				float:left;
-			}
-			.content{
-				padding-left: 200px;
-				
-			}
-		</style>
-	</head>
-	<body>
-		<div class="box">
-			<div class="right">
-				<div class="content">右侧</div>
-			</div>
-			<div class="left">左侧</div>
-		</div>
-	</body>
-</html>
-```
-
-##### 双飞翼布局
-
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<style type="text/css">
-			/* 
-			双飞翼布局
-			 */
-			* {
-				margin: 0;
-				padding: 0;
-			}
-
-			.box {
-				height: 600px;
-				background: #ccc;
-			}
-
-			.left {
-				width: 200px;
-				height: 600px;
-				background: yellow;
-				float: left;
-				margin-left: -100%;
-			}
-
-			.center {
-				width: 100%;
-				height: 600px;
-				background: red;
-				float: left;
-			}
-
-			.right {
-				width: 200px;
-				height: 600px;
-				background: yellowgreen;
-				float: left;
-				margin-left: -200px;
-			}
-			.content{
-				padding: 0 200px;  /*参考上面案例写法*/
-                /* margin */
-			}
-		</style>
-	</head>
-	<body>
-		<div class="box">
-			<div class="center">   /*center和left位置互换,参考第一次的布局写法 */
-				<div class="content">中间</div>
-			</div>
-			<div class="left">左侧</div>
-			<div class="right">右侧</div>
-		</div>
-	</body>
-</html>
-
-```
-
-
-
-
-
-##### 圣杯布局
-
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<style type="text/css">
-			/* 
-			圣杯布局
-			 */
-			* {
-				margin: 0;
-				padding: 0;
-			}
-
-			.box {
-				/* 最小宽度 */
-				min-width: 800px;
-				/* 最大宽度 */
-				/* max-width: 900px; */
-				height: 600px;
-				background: #ccc;
-				margin: 0 200px;     /*基本和双飞翼布局一致.   布局的第一步   */
-			}
-
-			.left {
-				width: 200px;
-				height: 600px;
-				background: yellow;
-				float: left;
-				margin-left: -100%;
-				position: relative;  /*布局的第二步   将左右margin区域覆盖*/
-				left:-200px;
-			}
-
-			.center {
-				width: 100%;
-				height: 600px;
-				background: red;
-				float: left;
-			}
-
-			.right {
-				width: 200px;
-				height: 600px;
-				background: yellowgreen;
-				float: left;
-				margin-left: -200px;
-				position: relative;
-				right:-200px;
-			}
-			
-		</style>
-	</head>
-	<body>
-		<div class="box">
-			<div class="center">
-				中间
-			</div>
-			<div class="left">左侧</div>
-			<div class="right">右侧</div>
-		</div>
-	</body>
-</html>
-
-```
-
-#### 
-
-##### 其他 - 伪等高布局
-
-```HTML
-- 使用padding-bottom增加元素的高度
-- 使用margin-bottom负值,减小元素宽度
-- 父元素overflow:hidden;
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .clearFix{
-            *zoom: 1;
-        }
-        .clearFix:after{
-            content: '';
-            display: block;
-            clear: both;
-        }
-        .box{
-            width: 500px;
-            border: 3px solid #000;
-            overflow: hidden;
-        }
-        .left{
-            width: 200px;
-            float: left;
-            background: pink;
-        }
-        .right{
-            width: 300px;
-            float: left;
-            background: yellowgreen;
-        }
-        .box>div{
-            padding-bottom: 1000px;
-            margin-bottom: -1000px;
-        }
-    </style>
-</head>
-<body>
-    <div class="box clearFix">
-        <div class="left">
-            left <br>
-            left <br>
-            left <br>
-            left <br>
-            left <br>
-            left <br>
-            left <br>
-        </div>
-        <div class="right">
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-            right<br>
-        </div>
-    </div>
-</body>
-</html>
-```
-
-
-
-##### 其他-商品列表布局
-
-```HTML
-需求:盒子宽度1000px,每个商品盒子宽度300px,右外边距50px.如何使用css将4个盒子放在一行
-方案:给商品盒子添加一个父元素盒子,宽度为1050px.父元素使用overflow:hidden隐藏多余透明.
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .clearFix{
-            *zoom: 1;
-        }
-        .clearFix::after{
-            content: '';
-            display: block;
-            clear: both;
-        }
-        .wrap{
-            width: 1000px;
-            border: 1px solid #000;
-            margin: 0 auto;
-            /*overflow: hidden;*/
-        }
-        .hideBox{
-            width: 1050px;
-        }
-        .item{
-            width: 300px;
-            height: 200px;
-            margin-right: 50px;
-            float: left;
-            background: pink;
-            margin-bottom: 30px;
-        }
-        /* .m_r_0{
-            margin-right: 0;
-        } */
-    </style>
-</head>
-<body>
-    <div class="wrap clearFix">
-        <div class="hideBox">
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-        </div>
-    </div>
-    <div style="float:left">111</div>
-</body>
-</html>
-```
-
+## 响应式布局
 
 
 ### 响应式布局5种方案
@@ -6402,214 +5056,149 @@ portrait  竖屏   高度大于宽度
 
 
 
-### css基础优化策略
-
-> https://www.cnblogs.com/yangchin9/p/12516477.html
 
 
 
-#### 1.渲染优先级
+
+
+
+
+
+
+
+
+
+
+
+
+# CSS-数据类型
+> https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Types
+
+
+
+
+# 实例问题
+
+### 1.两个行内块元素无法对齐
+
+```html
+网址出处:https://www.cnblogs.com/qfly/p/8085125.html
+例如,两个转换为行内块的span,一个有文字,一个没有文字,在网页中发现两个盒子无法对齐.
+
+原因:文本基线不一致的原因.没有文字的span的基线已经变成了底部的margin底边缘,后面盒子有文字,所以该盒子的基线就是文字的基线,二值基线对齐形成这个效果.
+
+可以通过改变对齐方式来解决vertical-align:middle;
+```
+
+
+
+### 2.行内块元素overflow:hidden带来的塌陷问题
 
 ```js
-!import>行内样式(1000)>id选择器(100)>类选择器(10)>标签选择器(1)>继承>通配符>类兰奇默认属性
+https://stackoverflow.com/questions/32078950/why-baseline-of-inline-block-element-with-overflowhidden-is-set-to-its-bott#
+
+https://blog.csdn.net/w390058785/article/details/80567583
+
+https://www.cnblogs.com/wgwyanfs/p/6985261.html
+
+https://www.cnblogs.com/AliceX-J/p/5731755.html
 ```
 
-#### 2.继承性
+
+
+因为实现隐藏功能的时候，隐藏部分的内容的vertical-align变成了baseline;对齐了，这样也导致行内块元素高度被撑高了。而后续的行内块元素跟行内元素，是接在了隐藏部分的vertical-align的高度上了。只要改回后续行内块元素跟行内元素的vertical-align值就可以了。
+
+解决方法:
+
+1.重新设置所有行内元素的对齐方式为vertical-align:top或者bottom; (vertical-align属性针对行内元素和表格属性元素使用,在块元素中不起作用)
+
+2.设置所有行内元素的overflow不为visible
+
+3.设置flex布局
+
+失败版本:
 
 ```js
-1.继承得到的样式的优先级是最低的。
-2.在存在多个继承样式时，层级关系距离当前元素最近的父级元素的继承样式，具有相对最高的优先级
+https://codepen.io/westover/pen/ExWLpqM
 ```
 
-![](https://img2020.cnblogs.com/blog/1460021/202003/1460021-20200318110539539-996176893.jpg)
+
+
+### 3. 行内块和行内元素横向布局的问题
+
+* 说明: 为什么不用行内块元素横向布局代替浮动
+
+* **行内块元素横向布局的问题:**    由于行内块元素是和文本的基线对齐,也可以说是底对齐. 给行内块元素设置<font color="red">**垂直方向**</font>的内外边距时会影响周围的元素.[从案例上来看,就是content区域已经无法底部对齐  对齐的是它的border(实际上是padding或者margin和另外的行内块元素的border或者说是内容区域对齐)]
 
 
 
-#### 3.层叠性
 
-层叠性是指 `CSS` 样式在针对同一元素配置同一属性时（也就是有多个样式），依据层叠规则（权重）来处理冲突，选择应用权重高的 `CSS` 选择器所指定的属性，一般也被描述为权重高的覆盖权重低的，因此也称作层叠。
 
-#### 4.CSS选择器执行顺序
+* **行内元素横向布局的问题**:     由于行内元素是包裹文本的,文本在每行是沿着基线对齐,此时行内元素垂直方向的内外边距是不起作用的.
 
-渲染引擎解析 `CSS` 选择器时是从右往左解析，这样做是为了减少无效匹配次数，从而匹配快、性能更优。()
+  `span` 等行内元素是可以设置内边距 `padding` 的，只不过元素本身无法把父元素撑开，看上去就是设置的 `padding` 上下边距不起效了，而 `margin` 就只能设置 `span` 的左右边距。
 
-我们在书写 `CSS Selector` 时，从右向左的 `Selector Term` 匹配节点越少越好。
+  如果要给 `span` 设置边距，一般的方法就是给它设置一个 `display: inline-block;` ，把它变成行内块级元素就可以了
+
+![](https://www.w3h5.com/zb_users/upload/2019/04/201904141555172075784072.png)
+
+
+
+
+
+### link与@import的区别
+
+就结论而言，强烈建议使用`link`标签，慎用`@import`方式。
+
+> https://segmentfault.com/a/1190000015950516
+
+区别
+
+**1.从属关系区别**
+`@import`是 CSS 提供的语法规则，只有导入样式表的作用；`link`是HTML提供的标签，不仅可以加载 CSS 文件，还可以定义 RSS、rel 连接属性等。
+
+**2.加载顺序区别**
+加载页面时，`link`标签引入的 CSS 被同时加载；`@import`引入的 CSS 将在页面加载完毕后被加载。
+
+**3.兼容性区别**
+`@import`是 CSS2.1 才有的语法，故只可在 IE5+ 才能识别；`link`标签作为 HTML 元素，不存在兼容性问题。
+
+**4.DOM可控性区别**
+可以通过 JS 操作 DOM ，插入`link`标签来改变样式；由于 DOM 方法是基于文档的，无法使用`@import`的方式插入样式。
+
+**5.权重区别(该项有争议，下文将详解)**
+`link`引入的样式权重大于`@import`引入的样式。
+
+
+### 在页面上隐藏元素的方法
+
+```Markdown
+#  占位
+visibility:hidden;
+marign-left:-100%;
+opacity:0;
+transform: scale(0);
+
+
+# 不占位
+display:none;
+width:0;height:0;overflow:hidden;
+
+# 仅对块内文本元素
+text-indent:-9999px;   //首行缩进
+font-size:0;
+```
+
+
+
+行内块元素当有内容时,它位置会降低/下移
 
 ```js
-浏览器 CSS 匹配核心算法的规则是以从右向左方式匹配节点的。
+https://stackoverflow.com/questions/13390220/why-does-an-inline-block-div-get-positioned-lower-when-it-has-content/
 
-避免：div ui .item{……}
-推荐：.item{……}
+http://jsfiddle.net/ye0fbg4n/
 ```
 
-
-
-#### 5.css书写顺序
-
-需要注意的是：浏览器并不是一获取到 `CSS` 样式就立马开始解析，而是根据 `CSS` 样式的书写顺序将之按照 DOM 树的结构分布渲染样式，然后开始遍历每个树结点的 `CSS` 样式进行解析，此时的 `CSS` 样式的遍历顺序完全是按照之前的书写顺序。
-
-在解析过程中，一旦浏览器发现某个元素的定位变化影响布局，则需要倒回去重新渲染。
-
-```js
-例如：
-width: 50px;
-height: 50px;
-font-size: 14px;
-position: absolute;
-当浏览器解析到 position 的时候突然发现该元素是绝对定位元素需要脱离文档流，而之前却是按照普通元素进行解析的，所以不得不重新渲染。
-改进，这样就能让渲染引擎更高效的工作：
-position: absolute;
-width: 50px;
-height: 50px;
-font-size: 14px;
-```
-
-**css建议书写顺序**：
-
-```js
-1.定位属性
-position  display  float  left  top  right  bottom   overflow  clear   z-index
-2.自身属性
-width  height  padding  border  margin   background
-3.文字样式
-font-family   font-size   font-style   font-weight   font-varient   color
-4.文本属性
-text-align   vertical-align   text-wrap   text-transform   text-indent    text-decoration   letter-spacing    word-spacing    white-space   text-overflow
-5.CSS3 中新增属性
-content   box-shadow   border-radius  transform
-```
-
-
-
-#### 6.优化策略
-
-优化策略
-
-1. 使用 id 选择器非常的高效
-
-```
-/* Bad  */
-p#id1 {color:red;}
-
-/* Good  */
-#id1 {color:red;}
-```
-
-2. 避免深层次的 node
-
-```
-/* Bad  */
-div > div > div > p {color:red;}
-/* Good  */
-p-class{color:red;}
-```
-
-3. 不要使用 attribute selector
-
-```
-如：p[att1=”val1”]，这样的匹配非常慢。更不要这样写：p[id="id1"]，这样将 id selector 退化成 attribute selector。
-
-/* Bad  */
-p[id="jartto"]{color:red;}
-p[class="blog"]{color:red;}
-/* Good  */
-#jartto{color:red;}
-.blog{color:red;}
-```
-
-4. 将浏览器前缀置于前面，将标准样式属性置于最后
-
-```
-.foo {
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-```
-
-5. 遵守 CSSLint 规则
-
-```
-font-faces        　　　　  　　　不能使用超过5个web字体
-import        　　　　　　　 　　  禁止使用@import
-regex-selectors        　　　　  禁止使用属性选择器中的正则表达式选择器
-universal-selector    　　 　　  禁止使用通用选择器*
-unqualified-attributes    　　　禁止使用不规范的属性选择器
-zero-units            　　 　　　0后面不要加单位
-overqualified-elements    　　　使用相邻选择器时，不要使用不必要的选择器
-shorthand        　　　　　　　　 简写样式属性
-duplicate-background-images    相同的url在样式表中不超过一次
-```
-
-6. 减少 CSS 文档体积
-
-```
-移除空的 CSS 规则（Remove empty rules）。
-值为 0 不需要单位。
-使用缩写。
-属性值为浮动小数 0.xx，可以省略小数点之前的 0。
-不给 h1-h6 元素定义过多的样式。
-```
-
-7. CSS Will Change
-
-```
-WillChange 属性，允许作者提前告知浏览器的默认样式，使用一个专用的属性来通知浏览器留意接下来的变化，从而优化和分配内存。
-```
-
-8. 不要使用 @import
-
-```
-使用 @import 引入 CSS 会影响浏览器的并行下载。
-使用 @import 引用的 CSS 文件只有在引用它的那个 CSS 文件被下载、解析之后，浏览器才会知道还有另外一个 CSS 需要下载，这时才去下载，然后下载后开始解析、构建 Render Tree 等一系列操作。
-多个 @import 会导致下载顺序紊乱。在 IE 中，@import 会引发资源文件的下载顺序被打乱，即排列在 @import 后面的 JS 文件先于 @import 下载，并且打乱甚至破坏 @import 自身的并行下载。
-```
-
- 
-
-9. 避免过分回流/重排（Reflow）
-
-```
-使用这些属性时浏览器会重新计算布局位置与大小。
-常见的重排元素：
-width
-height
-padding
-margin
-display
-border-width
-border
-top
-position
-font-size
-float
-text-align
-overflow-y
-font-weight
-overflow
-left
-font-family
-line-height
-vertical-align
-right
-clear
-white-space
-bottom
-min-height
-```
-
-10. 减少昂贵属性
-
-```
-当页面发生重绘时，它们会降低浏览器的渲染性能。所以在编写 CSS 时，我们应该尽量减少使用昂贵属性，如：
-box-shadow。
-border-radius。
-filter。
-:nth-child。
-```
-
-11. 依赖继承（如果某些属性可以继承，那么自然没有必要在写一遍。）
-
-12. 高效利用 computedStyle
 
 
 
@@ -6923,8 +5512,7 @@ HTML：
 >
 > https://www.jianshu.com/p/d854f9bd7e1f
 
-
-
+```
 方法1: `flex+align-item`
 
 方法2: `flex+margin:auto`
@@ -6932,675 +5520,7 @@ HTML：
 方法3: `父元素line-height + 子元素inline-block&&vertical-align:middel&&line-height:normal`
 
 方法4: `父元素display: table + 子元素display:table-cell && vertical-align: middle`
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 实例问题
-
-#### 1.两个行内块元素无法对齐
-
-```html
-网址出处:https://www.cnblogs.com/qfly/p/8085125.html
-例如,两个转换为行内块的span,一个有文字,一个没有文字,在网页中发现两个盒子无法对齐.
-
-原因:文本基线不一致的原因.没有文字的span的基线已经变成了底部的margin底边缘,后面盒子有文字,所以该盒子的基线就是文字的基线,二值基线对齐形成这个效果.
-
-可以通过改变对齐方式来解决vertical-align:middle;
 ```
-
-
-
-#### 2.行内块元素overflow:hidden带来的塌陷问题
-
-```js
-https://stackoverflow.com/questions/32078950/why-baseline-of-inline-block-element-with-overflowhidden-is-set-to-its-bott#
-
-https://blog.csdn.net/w390058785/article/details/80567583
-
-https://www.cnblogs.com/wgwyanfs/p/6985261.html
-
-https://www.cnblogs.com/AliceX-J/p/5731755.html
-```
-
-
-
-因为实现隐藏功能的时候，隐藏部分的内容的vertical-align变成了baseline;对齐了，这样也导致行内块元素高度被撑高了。而后续的行内块元素跟行内元素，是接在了隐藏部分的vertical-align的高度上了。只要改回后续行内块元素跟行内元素的vertical-align值就可以了。
-
-解决方法:
-
-1.重新设置所有行内元素的对齐方式为vertical-align:top或者bottom; (vertical-align属性针对行内元素和表格属性元素使用,在块元素中不起作用)
-
-2.设置所有行内元素的overflow不为visible
-
-3.设置flex布局
-
-失败版本:
-
-```js
-https://codepen.io/westover/pen/ExWLpqM
-```
-
-
-
-#### 3. 行内块和行内元素横向布局的问题
-
-* 说明: 为什么不用行内块元素横向布局代替浮动
-
-* **行内块元素横向布局的问题:**    由于行内块元素是和文本的基线对齐,也可以说是底对齐. 给行内块元素设置<font color="red">**垂直方向**</font>的内外边距时会影响周围的元素.[从案例上来看,就是content区域已经无法底部对齐  对齐的是它的border(实际上是padding或者margin和另外的行内块元素的border或者说是内容区域对齐)]
-
-
-
-
-
-* **行内元素横向布局的问题**:     由于行内元素是包裹文本的,文本在每行是沿着基线对齐,此时行内元素垂直方向的内外边距是不起作用的.
-
-  `span` 等行内元素是可以设置内边距 `padding` 的，只不过元素本身无法把父元素撑开，看上去就是设置的 `padding` 上下边距不起效了，而 `margin` 就只能设置 `span` 的左右边距。
-
-  如果要给 `span` 设置边距，一般的方法就是给它设置一个 `display: inline-block;` ，把它变成行内块级元素就可以了
-
-![](https://www.w3h5.com/zb_users/upload/2019/04/201904141555172075784072.png)
-
-
-
-
-
-#### link与@import的区别
-
-就结论而言，强烈建议使用`link`标签，慎用`@import`方式。
-
-> https://segmentfault.com/a/1190000015950516
-
-区别
-
-**1.从属关系区别**
-`@import`是 CSS 提供的语法规则，只有导入样式表的作用；`link`是HTML提供的标签，不仅可以加载 CSS 文件，还可以定义 RSS、rel 连接属性等。
-
-**2.加载顺序区别**
-加载页面时，`link`标签引入的 CSS 被同时加载；`@import`引入的 CSS 将在页面加载完毕后被加载。
-
-**3.兼容性区别**
-`@import`是 CSS2.1 才有的语法，故只可在 IE5+ 才能识别；`link`标签作为 HTML 元素，不存在兼容性问题。
-
-**4.DOM可控性区别**
-可以通过 JS 操作 DOM ，插入`link`标签来改变样式；由于 DOM 方法是基于文档的，无法使用`@import`的方式插入样式。
-
-**5.权重区别(该项有争议，下文将详解)**
-`link`引入的样式权重大于`@import`引入的样式。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 在页面上隐藏元素的方法
-
-```Markdown
-#  占位
-visibility:hidden;
-marign-left:-100%;
-opacity:0;
-transform: scale(0);
-
-
-# 不占位
-display:none;
-width:0;height:0;overflow:hidden;
-
-# 仅对块内文本元素
-text-indent:-9999px;   //首行缩进
-font-size:0;
-```
-
-
-
-行内块元素当有内容时,它位置会降低/下移
-
-```js
-https://stackoverflow.com/questions/13390220/why-does-an-inline-block-div-get-positioned-lower-when-it-has-content/
-
-http://jsfiddle.net/ye0fbg4n/
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 十. 常见的CSS问题
-
-#### 基础
-
-1.[如何应用CSS到DOM中](../html&css/如何应用CSS到DOM中.md)
-
-2.
-
-
-
-#### 盒子和布局
-
-1.[如何调整CSS盒模型大小](../html&css/如何调整盒模型大小.md)
-
-# 其它
-属于大纲页面内容,但是暂时没有发现具体属于哪个分类的知识
-
-
-## 替换元素(replaced elements)
-
-### 概念
-> 在CSS中,替换元素代表CSS作用域外部的元素;它们是外部内容,其表示形式独立于CSS格式化模型.
-> 简单来说,它们是元素,其内容不受当前文档样式的影响.替换元素的位置可以使用CSS来影响,但不是替换元素内容本身.
-> CSS对替换元素唯一的影响,是有些属性支持控制元素内容在其盒子中的位置. 点击查看 [Controlling object position within the content box](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element#controlling_object_position_within_the_content_box)获取更多信息.
-
-
-### 替换元素
-* `<iframe>`
-* `<video>`
-* `<embed>`
-* `<img>`
-一些在特定情况下被当做替换元素的元素:
-* `<options>`
-* `<audio>`
-* `<canvas>`
-* `<object>`
-* `<applet>`
-
-HTML规范也提到`<input>`元素也能被替代,因为"image"类型的`<input>`元素是与`<img>`相似的替代元素.然而,其它表单控件,包括其它`<input>`元素类型,被明确列为非替换元素(该规范使用术语“小部件”描述其默认平台特定的渲染).
-使用CSS`content`属性插入的对象是匿名替换元素.之所以匿名是因为它们不存在于HTML标记中.
-
-
-### 使用
-
-
-**控制内容框中对象的位置**
-某些 CSS 属性可用于指定替换元素中包含的内容在元素的框区域中的位置。通过[CSS Images]([CSS Images Module Level 3 (csswg.org)](https://drafts.csswg.org/css-images/))规范来定义:(添加在替换元素上的)
-
-`object-fit` 指定替换元素的内容对象应该如何适应包含元素的盒子
-
-`object-position` 指定元素盒子中的替换元素的内容对象对齐方式.
-
-
-
-
-
-# 参考引用
-> https://developer.mozilla.org/en-US/docs/Web/CSS
-
-## 模块(modules)
-
-
-
-
-## 属性(Properties)
-
-
-### `-moz-*`
-
-
-### `-webkit-*`
-
-
-### `accent-color`
-
-
-
-### `align-*`
-
-
-### all
-
-
-### `animation-*`
-
-
-
-
-### appearance
-
-
-
-### aspect-ratio
-
-
-### backdrop-filter
-
-
-### backface-visibility
-
-
-
-### `background-*`
-
-
-### `block-size`
-
-
-### `border-*`
-
-
-### bottom
-
-
-### `box-*`
-
-#### box-decoration-break
-
-
-#### box-shadow
-
-**介绍**
-* 为元素框架添加阴影效果.你可以设置多个逗号分隔的效果.一个盒子阴影是由相对于元素的X和Y偏移量、模糊和扩散半径以及颜色来描述的。
-* 如果元素上定义了`border-radius`, 则`box-shadow`也作用在圆角上.
-* 多个盒子阴影的z-排序与多个文本阴影相同（首先指定的阴影在顶部）。
-
-**语法**
-* 2个,3个或4个长度值
-	* 如果只给两个值,会被解释为`<offset-x>`和`<offset-y>`值.
-	* 如果给了第三个值,会被解释为`<blur-radius>`模糊半径
-	* 如果给了第四个值,会被解释为`<spread-radius>`扩散半径
-* 可选, `inset`关键字
-* 可选, `<color>`值
-
-```css
-/* Keyword values */
-box-shadow: none;
-
-/* A color and two length values */
-/* <color> | <length> | <length> */
-box-shadow: red 60px -16px;
-
-/* Three length values and a color */
-/* <length> | <length> | <length> | <color> */
-box-shadow: 10px 5px 5px black;
-
-/* Four length values and a color */
-/* <length> | <length> | <length> | <length> | <color> */
-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-
-/* inset, length values, and a color */
-/* <inset> | <length> | <length> | <color> */
-box-shadow: inset 5em 1em gold;
-
-/* Any number of shadows, separated by commas */
-box-shadow:
-  3px 3px red inset,
-  -1em 0 0.4em olive;
-
-/* Global values */
-box-shadow: inherit;
-box-shadow: initial;
-box-shadow: revert;
-box-shadow: revert-layer;
-box-shadow: unset;
-```
-
-
-**实例**
-* [效果示例网站](https://getcssscan.com/css-box-shadow-examples?ref=producthunt)
-
-
-```css
-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-```
-
-
-### content
->[content - CSS: Cascading Style Sheets | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/content)
-
-#### 概述
-使用生成的值来代替元素.使用content值插入的内容是匿名[替换元素](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element).
-
-CSS生成的内容是不会包含在DOM中(所以才需要哪些注释).所以它在[可访问树](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility#accessibility_apis)不会被表示并且某些辅助技术/浏览器不会描述它.如果内容传达的信息对理解页面的内容很重要,则最好在文档中包含它.
-
-#### 正式定义
-
-| 特征     | 定义                                                                                                                                                                       |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 初始值   | normal                                                                                                                                                                     |
-| 适用范围 | 所有元素,树伪元素和页面边距盒子(tree-abiding pseudo-elements,and page margin boxes)                                                                                        |
-| 继承     | 否                                                                                                                                                                         |
-| [计算值](https://developer.mozilla.org/en-US/docs/Web/CSS/computed_value)   | 在元素上,总是计算为`normal`. 在`::before`和`::after`,如果指定`normal`,则计算为`none`. 否则, 对URI值,计算为绝对URI;对`attr()`值,计算为结果字符串;对其它关键字, 按指定的计算 |
-| 动画类型 |    不相关(discrete)                                                                                                                                                                        |
-
-#### 语法
-```css
-/* Keywords that cannot be combined with other values */
-content: normal;
-content: none;
-
-/* <image> values */
-content: url("http://www.example.com/test.png");
-content: linear-gradient(#e66465, #9198e5);
-content: image-set("image1x.png" 1x, "image2x.png" 2x);
-
-/* alt text for generated content, added in the Level 3 specification */
-content: url("http://www.example.com/test.png") / "This is the alt text";
-
-/* <string> value */
-content: "prefix";
-
-/* list of content values */
-content: "prefix" url("http://www.example.com/test.png");
-content: "prefix" url("http://www.example.com/test.png") "suffix" /
-  "This is some alt text";
-
-/* <counter> values, optionally with <list-style-type> */
-content: counter(chapter_counter);
-content: counter(chapter_counter, upper-roman);
-content: counters(section_counter, ".");
-content: counters(section_counter, ".", decimal-leading-zero);
-
-/* attr() value linked to the HTML attribute value */
-content: attr(value string);
-
-/* Language- and position-dependent keywords */
-content: open-quote;
-content: close-quote;
-content: no-open-quote;
-content: no-close-quote;
-
-/* Except for normal and none, several values can be used simultaneously */
-content: open-quote counter(chapter_counter);
-
-/* Global values */
-content: inherit;
-content: initial;
-content: revert;
-content: revert-layer;
-content: unset;
-```
-
-
-#### 案例
-**清除浮动**
-
-
-
-**模拟float:center效果**
-
-
-**做出各种图形效果**
-
-**不使用图片创建图标**
-
-
-**显示打印网页URL**
-```html
-<style>
-@media print {
-  a[href]:after {
-    content: " (" attr(href) ") ";
-  }
-}
-</style><body>
-<a href="http://www.baidu.com">百度</a>
-</body>
-```
-
-
-**给blockquote添加引号**
-
-**超链接特效**
-
-
-**::before和::after实现多背景图片** !
-
-
-
-### `mask-*`
-#### 定义
-mask缩写属性通过在特定的点遮罩(masking)或裁剪(cliping)图片来隐藏元素.
-
->注意: mask缩写属性重设`mask-border`为它的初始值. 所以推荐使用mask缩写而不是其它缩写或单个属性来重写任何前面级联中的mask设置. 这将确保`mask-border`已经重置,以允许新样式生效.
-
-#### 组成的属性
-mask属性是下面CSS属性的缩写:
-* mask-clip
-* mask-composite
-* mask-image
-* mask-mode
-* mask-origin
-* mask-position
-* mask-repeat
-* mask-size
-
-#### 语法
-
-
-
-#### 正式定义
-
-
-
-#### mask-image
-**定义**
-> 这个属性设置图片用来做为元素的遮罩层(mask layer).默认这意味着遮罩图片的alpha通道将与元素的alpha通道相乘,可以通过mask-mode属性来控制.
-
-**语法**
-values
-* none 此关键字被解释为不透明的白色图像图层。
-* `<mask-resource>` 一个`<mask>`或一个CSS图片的 [`url()`](https://developer.mozilla.org/en-US/docs/Web/CSS/url)的引用.
-* `<image>` 用作遮罩图片层的图片值
-
-
-**注意事项**
-`mask-image: url(https://...)`中的图片地址会引起跨域问题.但同样的地址使用background-image不会出现跨域问题.
-原因: 它们在处理跨域方面有不同的行为。使用这两个属性时，跨域策略的处理有区别
-background-image
-`background-image` 属性用于设置元素的背景图像。在大多数情况下，浏览器允许你从其他域加载背景图像。当你使用 `background-image` 设置一个跨域的 URL 时，浏览器通常不会触发跨域错误。这主要是因为背景图片的用途通常仅仅是装饰性的，不涉及敏感数据的交换。
-
-mask-image
-`mask-image` 属性用于设置元素的遮罩图像。遮罩图像可以用来修改元素的可见部分，因此可能会涉及到敏感数据。由于安全原因，浏览器对于遮罩图像的跨域策略更加严格。当你使用 `mask-image` 设置一个跨域的 URL 时，浏览器会触发跨域错误，除非服务器在响应头中设置了适当的 CORS（跨域资源共享）策略。
-
-要解决这个问题，你可以请求图片所在服务器的管理员为图片资源添加适当的 CORS 头部信息。例如，他们可以添加以下头部信息来允许所有域访问图片资源：
-```js
-Access-Control-Allow-Origin: *
-```
-
-
-
-### `text-*`
-
-#### text-wrap
-
-**是什么**
-> 控制元素内部的文字如何包裹.
-
-**语法**
-```js
-/* Keyword values */
-text-wrap: wrap;
-text-wrap: nowrap;
-text-wrap: balance;
-
-/* Global values */
-text-wrap: inherit;
-text-wrap: initial;
-text-wrap: revert;
-text-wrap: revert-layer;
-text-wrap: unset;
-```
-
-**值**
-`wrap`(计算机中自动换行)
-
-
-`nowrap`
-文本不会跨行换行
-
-`balance`
-可以让每一行文字的个数尽可能的相等，即使宽度足够的大。
-这种文字排版布局，特别适合用在居中描述信息的呈现中，尤其是官网首页的slogan等信息。
-
-
-**兼容性和polyfill等**
-text-wrap:balance 属于CSS Text Level 4规范内容，比较新，目前仅Chrome及其内核的浏览器支持。
-![](https://image.zhangxinxu.com/image/blog/202307/2023-07-25_114728.png)
-
-虽然兼容性一般，但是业界提供了成熟的polyfill解决方案，是Adobe出品的。
-
-项目地址见：https://github.com/adobe/balance-text
-
-目前项目有1.3K的star数，兼容IE浏览器。
-
-
-
-### `min-*`
-
-
-#### `min-block-size`
-
-
-#### `min-height`
-
-
-
-#### `min-width`
-
-**定义**
->其用来设置元素的最小宽度值. 阻止width值比`min-width`变得更小
-
-
-**语法**
-```css
-min-width: auto | <length-percentage> | min-content | max-content | fit-content
-```
-
-
-**使用场景**
-* 多语言版本的文字宽度设置
-* 网站上的标签云的每项宽度设置
-
-
-
-## 选择器(Selectors)
-
-
-## 组合器(Combinators)
-
-
-
-## 伪类(Pseudo-classes)
-
-
-## 伪元素(Pseudo-elements)
-
-
-### ::-webkit-scrollbar
-#### 文档
-> https://developer.mozilla.org/zh-CN/docs/Web/CSS/::-webkit-scrollbar
-
-#### 注意事项
-* 如果没有设置 `overflow:scroll;`，元素的滚动条将不会显示
-*  `::-webkit-scrollbar` 仅在基于 [Blink](https://www.chromium.org/blink) 或 [WebKit](https://webkit.org/) 的浏览器（例如，Chrome、Edge、Opera、Safari、iOS 上所有的浏览器，以及[其他基于 WebKit 的浏览器](https://zh.wikipedia.org/wiki/%E7%BD%91%E9%A1%B5%E6%B5%8F%E8%A7%88%E5%99%A8%E5%88%97%E8%A1%A8#%E5%9F%BA%E6%96%BCWebKit%E6%8E%92%E7%89%88%E5%BC%95%E6%93%8E)）上可用
-
-
-#### 滚动条选择器
-使用以下伪元素选择器去修改基于 webkit 的浏览器的滚动条样式：
-- `::-webkit-scrollbar`——整个滚动条。
-- `::-webkit-scrollbar-button`——滚动条上的按钮（上下箭头）。
-- `::-webkit-scrollbar-thumb`——滚动条上的滚动滑块。
-- `::-webkit-scrollbar-track`——滚动条轨道。
-- `::-webkit-scrollbar-track-piece`——滚动条没有滑块的轨道部分。
-- `::-webkit-scrollbar-corner`——当同时有垂直滚动条和水平滚动条时交汇的部分。通常是浏览器窗口的右下角。
-- `::-webkit-resizer`——出现在某些元素底角的可拖动调整大小的滑块。
-
-
-#### 实例
-在vue中设置
-```css
-
-
-/* 针对 Firefox */
-.tree-area {
-  scrollbar-color: rgba(144, 147, 153, 0.3) #eeeeee;
-  scrollbar-width: thin;
-}
-
-/* webkit浏览器 */
-::v-deep .tree-area::-webkit-scrollbar {
-
-  width: 8px; /*滚动条宽度*/
-
-  height: 8px; /*滚动条高度*/
-
-}
-
-::v-deep .tree-area::-webkit-scrollbar-track {
-
-  border-radius: 10px; /*滚动条的背景区域的圆角*/
-
-  -webkit-box-shadow: inset 0 0 6px rgba(238, 238, 238, 0.3);
-
-  background-color: #eeeeee; /*滚动条的背景颜色*/
-
-}
-
-::v-deep .tree-area::-webkit-scrollbar-thumb {
-
-  border-radius: 10px; /*滚动条的圆角*/
-
-  -webkit-box-shadow: inset 0 0 6px rgba(145, 143, 0143, 0.3);
-
-  background-color: rgba(144, 147, 153, 0.3); /*滚动条的背景颜色*/
-
-}
-```
-
-## At-rules()
-
-
-## 函数(Functions)
-
-
-## 类型(Types)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -7641,9 +5561,6 @@ https://csswizardry.com/2011/09/writing-efficient-css-selectors/
 
 https://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/
 
-
-
-# CSS容易出现的问题
 
 
 # CSS 网站订阅
