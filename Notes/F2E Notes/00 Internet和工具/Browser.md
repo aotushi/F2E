@@ -725,7 +725,9 @@ sessionStorage.clear();
 ##### 跨窗口共享sessionStorage
 > https://mp.weixin.qq.com/s?__biz=MzUxNzk1MjQ0Ng==&mid=2247512926&idx=1&sn=0b1aa5ba3a7cb0d644449013e18aca94&chksm=f992b58fcee53c9977c0c1f91437fbf71c2e0c36d13fd63e5316f4bdd8bd70907d1e75163c8d&scene=90&sessionid=1675385949&subscene=236&k
 
-只有在本页面中以新页签或窗口打开的同源页面会‘临时共享’之前页面的sessionStorage。
+> 多窗口之间sessionStorage不可以共享状态, 但是在某些特定场景下新开的页面会复制之前页面的sessionStorage.
+> 
+> 只有在本页面中以新页签或窗口打开的同源页面会‘临时共享’之前页面的sessionStorage。
 
 window.open, a标签也有同样的效果.
 

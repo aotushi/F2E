@@ -6,172 +6,117 @@
 
 
 
+# 任务概述
+> 如果有检验标准就去达到这个标准,没有检验标准就用项目来验证所学知识.
 
-# target(2023+3)
+## 目标集合
+* 计算机
+* 前后端全栈
+* 英语
+* SEO推广
 
-应该熟练的:
 
-* **前端**
-  * 基础知识: HTML/CSS/JS
-    * HTML
-      * mdn文档(笔记),所有元素/属性整理一遍
-    * CSS
-      * mdn文档(笔记),同上
-    * javascript
-  * JS框架 UI框架
-    * Vue2/Vue3/Nuxt
-    * React/Next
-    * 小程序
-    * ElementUI Antd VantUI tailwindcss等
-  * 工程化
-    * 流程步骤
-    * 工具/脚手架
-      * webpack(?
-      * 其它
-    * ?
-* SEO
-  * 基础知识储备
-  * 技术(爬虫, 
+## 计算机
+> 软考
 
-应该熟悉的: 
+### 书籍推荐
+* https://software-engineering-books.com/#personal_development
+* https://www.douban.com/doulist/1204928/
 
-* **计算机基础知识**
-  * 语言: Java C++
-  * 数据结构, 算法
-  * 待补充
-* 英语(听读,说写)
+## 前端
+### HTML/CSS/JS/TS
 
 
 
-# TODO
-计划
-1. 打好基础，js css html
-2. 三大框架精通一个，建议 vue 或 react
-3. 学习 vite 原理，它是新一代的构建工具
-4. 熟练掌握 ts
-5. 熟练掌握性能优化
-6. 掌握 nodejs
-7. 掌握前端工程化
-8. 了解微服务
-9. 了解 Serverless
-10. 低代码平台可以了解一下
-
-### 现在
-* Tooltips & Toggletips
-* 掘金小册 现在web布局
-* 微信收藏 JS设计模式
-* 博客园-笔记 多态
-
-## 项目
-
-### HTML/CSS/JavaScript
-- [ ] 百度前端学院
-- [ ] 张鑫旭博客每日1篇
-- [ ] 大漠博客每日1篇
-- [ ] 面试题每日3道左右
-	- [ ] 
-
-### **工程化**
-- [ ] [吃透前端工程化](https://www.xiufm.com/1138.html)
-- [ ] 
 
 
-### **Vue3项目**
-- [x] Vue3企业级项目实战(掘金)
-- [ ] [Vue3 入门指南与实战案例 (chengpeiquan.com)](https://vue3.chengpeiquan.com/)
-- [ ] Vue3+Pinia+Vite+TS外卖App项目  IT程序员社区
-- [ ] [Vue3 + TS仿知乎专栏企业级项目](https://www.xiufm.com/2755.html)
-- [ ] [Vue3实战商城后台管理系统开发](https://www.xiufm.com/2733.html)
-
-### **React**
-- [ ] [React18+TS 通用后台管理系统](https://www.xiufm.com/3871.html)
-- [ ] [React18+TS+NestJS+GraphQL 全栈开发在线教育平台](https://www.xiufm.com/3842.html)
-- [ ] [React18+Next.Js13+TS-高仿问卷星](https://www.xiufm.com/3715.html)
-- [ ] https://fullstackopen.com/zh/
-
-### **uniapp项目**
-- [ ] uniapp开发美团(书籍)
-- [ ] uniapp项目开发
-- [ ] 
-
-### **小程序**
-- [ ] [小程序全栈](https://www.xiufm.com/3935.html) IT程序员社区
-- [ ] 
-
-
-### 代码片段
+#### 日常练习
+- [ ] 张鑫旭博客每日n篇
+- [ ] 大漠博客每日n篇
+- [ ] 面试题集合
+	- [Your list / interview](https://github.com/stars/aotushi/lists/interview)
 - [ ] [30 seconds of code](https://www.30secondsofcode.org/)
 - [ ] [CSS-Tricks - Tips, Tricks, and Techniques on using Cascading Style Sheets.](https://css-tricks.com/)
 https://exercism.org/
 
+#### 书籍集合
 
-# JS书籍
+**HTML**
+- HTML并不简单
+**CSS**
+* CSS世界
+* CSS新世界
+* CSS选择器世界
 
-### ==语言基础==
-- [ ] JavaScript Dom 编程艺术
-- [ ] JS权威指南 进行中
-- [ ] JS高程 进行中
-- [ ] 现代JS教程 进行中
-- [ ] [深入理解JS特性](https://github.com/mjavascript/practical-modern-javascript)  和这本书相关的其它系列
+**JS经典书籍**
+* javascript dom编程艺术
+* dom启蒙
+* js高级程序设计
+* 深入理解js特性
+* js忍者秘籍
+* js框架设计
+* js设计模式与开发实战
+* 学习js数据结构与算法
+* 你不知道的javascript
+* how javascript works
+* javascript语言精粹与开发实战
+* javascript迷你正则书
+* javascript编程精解
+* javascript函数式编程指南
+* javascript异步编程
+* javascript面向对象精要
+* javascript权威指南
 
-### ==快速过一遍的==
-- [ ] 编写可维护的JS 进行中
-- [ ] JS设计模式 书买了
-- [ ] JS语言精粹 书买了
-- [ ] JS模式    书买了
-- [ ] JS编程精解 书买了
-- [ ] 编写高质量代码: 改善JavaScript程序的188个建议 微信读书
-- [ ] 前端开发核心知识进阶(这本书感觉不太好,但也过一遍) 暂时不看
+**需要看的**
+* 光头尼古拉斯的js系列书籍(https://exploringjs.com/)
+* 编写高质量代码: 改善JavaScript程序的188个建议
+* ~~深入理解ES6~~
+*  [标准文档ECMA](https://tc39.es/ecma262/)
+-  [标准组织TC39](https://github.com/tc39/proposa)
+**过时不推荐的**
+* 高性能js
+* js模式
+* 编写可维护的js
+* js设计模式
+* jsweb富应用开发
+* 数据结构与算法js描述
+**快餐书籍**
+* 前端工程化: 基于vue.js3.0的设计与实践
+* 
 
-### ==横向扩展==
-- [ ] JS忍者秘籍
-- [ ] JavaScript框架设计 书买了
-- [ ] JS设计模式与开发实践 书买了
-- [ ] 学习数据结构与算法类的书籍
 
-### ==语言细节与历史==
-- [ ] 你不知道的JS 进行中
-- [ ] how javascript works
-- [ ] JS语言精髓与编程实践
-- [ ] [标准文档ECMA](https://tc39.es/ecma262/)
-- [ ] [标准组织TC39](https://github.com/tc39/proposa)
+#### 项目练习
+* 搭建一个网站, 分类展示前端学习资源, 案例: [前端导航 | 百度前端技术学园](https://ife.baidu.com/encyclopedia/readme1.html)
 
-### ==其它书籍==
-- [ ] JS迷你正则书    忘光了基本
-- [x] JS重难点实例精讲
-- [x] 深入理解ES6
-- [x] 你不知道的JvScipt(中)
-- [ ] JavaScipt语言精髓与编程实战
-- [ ] Web性能实战
-- [ ] ES6标准入门
-- [ ] js悟道
-- [ ] javascript函数式编程指南
-- [ ] Web性能权威指南
-- [ ] 高性能网站
-- [ ] javascript面向对象精要
-- [ ] javascript异步编程
-- [ ] [JavaScript for impatient programmers (ES2022 edition)](https://exploringjs.com/impatient-js/)
-- [ ] [Deep JavaScript: Theory and techniques](https://exploringjs.com/deep-js/)
-- [ ] 
-- [ ] [深入理解TypeScript](https://jkchao.github.io/typescript-book-chinese/)
-- [ ] [vue3入门指南与实战案例](https://vue3.chengpeiquan.com/)
-- [ ] 
-HTML5权威指南
-响应式Web设计
-CSS3艺术
-HTML5 与 CSS 3权威指南
-CSS揭秘
-CSS图鉴
-响应式Web开发项目教程
-CSS世界
-DOM启蒙 
+
+### Vue/React/nodejs
+
+#### 小程序/uniapp项目
+
+
+### 脚手架Vite
+
+
+### 前端工程化
+
+#### 是什么
+
+#### 怎么做?
+* [吃透前端工程化](https://www.xiufm.com/1138.html)
+* [前言 – 大厂面试每日一题](https://q.shanyue.tech/engineering)
+
+
+### 前端性能优化
+
+
+### 微服务/serverless/低代码
+
+
+
+
 
 ## web3
 > [WTF学院, Web3 Open University | WTF学院](https://wtf.academy/)
-
-
-## JS仓库
-> [有哪些必看的 JS 库？ - 知乎](https://www.zhihu.com/question/429436558/answer/1567994458)
 
 
 
@@ -202,11 +147,6 @@ DOM启蒙
 * https://frontendmasters.com/
 * https://www.coursera.org/
 
-### TypeScript
-
-* http://www.patrickzhong.com/TypeScript/
-* https://ts.yayujs.com/
-* https://ts.xcatliu.com/
 
 ### vue3教程
 * https://vue3.chengpeiquan.com/
@@ -308,26 +248,10 @@ DOM启蒙
 
 ## 路径
 
-#### 1. 独立开发路径
 
 
 ![img](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1c638a8ba35e49eab3052c9872942071~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp)
 
-
-
-
-
-
-## 软件工程
-
-### 0 资料
-
-| **现代软件工程的教材和参考书**                               | [现代软件工程的教材和参考书 (douban.com)](https://www.douban.com/doulist/1204928/) | aa   |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ---- |
-|                                                              |                                                              |      |
-| [Software Engineering Books (software-engineering-books.com)](https://software-engineering-books.com/#personal_development?continueFlag=3abdb5f5d944298cd84d8b8df87a853b) |                                                              |      |
-|                                                              |                                                              |      |
-|                                                              |                                                              |      |
 
 
 

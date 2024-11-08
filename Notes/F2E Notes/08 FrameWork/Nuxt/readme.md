@@ -400,6 +400,10 @@ export default defineNuxtConfig({
 
 > Nuxt 项目下`~/server/api`目录下的文件会被注册为服务端 API，并约定在这些文件中导出一个默认函数`defineEventHandler(handler)`，handler 中可以直接返回 JSON 数据或 Promise，当然也可以使用 `event.node.res.end()` 发送响应，虽然没有这个必要。
 
+> [server/ · Nuxt Directory Structure](https://nuxt.com/docs/guide/directory-structure/server)
+>
+> 上面的地址是nuxt文档中server一篇,速读
+
 ##### 案例1-简单请求:
 
 创建server/api/hello.ts 测试一下：这里我们返回给用户一个 json 数据。并在hello.vue中使用`$fetch('/api/hello')`请求
@@ -1035,6 +1039,12 @@ npm i pinia @pinia/nuxt --legacy-peer-deps
 
 需要添加'--legacy-peer-deps'的原因: [npm error when installing pinia · Issue #853 · vuejs/pinia (github.com)](https://github.com/vuejs/pinia/issues/853)
 
+
+
+> 20241102新项目中, 不用添加`--legacy-peeor-deps`,可成功安装
+
+
+
 添加配置文件
 
 ```ts
@@ -1058,6 +1068,37 @@ export default defineNuxtConfig({
 });
 
 ```
+
+
+
+##### 基本使用
+
+声明
+
+* 选项式使用
+* 组合式使用
+* Vuex式使用
+
+组件中获取
+
+> 因为我们配置过自动导入,所以可以直接读取定义的store中的数据
+
+```vue
+<script setup>
+  const counter = useXXXX()
+  
+</script>
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1210,7 +1251,7 @@ export default defineEventHandler(event => {
 
 创建`~/error.vue`
 
-```ts
+```vue
 <template>
   <div class="pt-10">
     <h1 class="text-2xl text-center mb-2">
@@ -1894,7 +1935,22 @@ generator client {
 
 
 
-### 创建
+### Prisma访问数据库流程:
+
+**如何使用 Prisma 访问数据库:**
+
+1. 创建 schema.prisma；
+2. 生成数据库；
+3. 创建 PrismaClient；
+4. 访问数据库
+
+
+
+
+
+
+
+#### 创建数据库
 
 根目录下`server/database/schema.prisma`: 
 
@@ -1934,11 +1990,19 @@ generator client {
 DATABASE_URL="mysql://root:rootpassword@localhost:3306/test"
 ```
 
+
+
+#### 生成数据库
+
 然后通过定义生成数据库表结构，我们需要执行 `prisma migrate` CLI 命令，这个命令同时会生成 prisma client：
 
 ```bash
 npx prisma migrate dev --name init --schema server/database/schema.prisma 
 ```
+
+
+
+#### 创建client
 
 最后在代码中通过client访问数据库:
 
@@ -1971,7 +2035,9 @@ main()
 执行这段代码:
 
 ```bash
-npx ts-node server/database/test.ts
+// 原教程中是: npx ts-node server/database/test.ts
+
+npx tsx server/database/test.ts
 ```
 
 注意需要配置一下ts-node模块选项,tsconfig.json:
@@ -1987,6 +2053,24 @@ npx ts-node server/database/test.ts
   }
 }
 
+
+```
+
+在test.ts中操作数据
+
+```js
+//插入数据
+  await prisma.user.create({
+    data: {
+      name: '村长',
+      email: 'yt0379@qq.com',
+      posts: {
+        create: {
+          title: '10分钟速通下一代ORM解决方案：Prisma',
+        },
+      },
+    },
+  })
 
 ```
 
@@ -2214,9 +2298,1097 @@ export default defineNuxtConfig({
 
 
 
+## nuxt项目
+
+### 1.脚手架安装
+
+```bassh
+npx nuxi@latest init 项目名称
+```
+
+安装过程中有两个可选项:
+
+* 选择包管理工具
+* `Initialize git repository`
+
+
+
+### 2.UI配置
+
+#### 0.添加全局CSS样式
+
+在`assets/css`目录下创建reactive.css文件, 然后在nuxt.config.js中添加css的配置项.
+
+```js
+
+//nuxt.config.js
+
+export default defineNuxtConfig({
+  devtools: {enable: true},
+  modules: ['@nuxt/ui'],
+  css: [
+    'assets/css/reactive.css'  //添加全局响应式处理
+  ]
+})
+```
 
 
 
 
 
+#### 1.安装nuxtui
+
+安装命令
+
+```bash
+npx nuxi@latest module add ui
+```
+
+配置项(以上的命令会自动配置)
+
+```js
+// nuxt.config.ts
+
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui']
+})
+```
+
+项目中使用了tailwindcss,但是ui框架中已经包含了tailwindcss库.
+
+
+
+#### 2.全局安装naiveui
+
+> https://juejin.cn/post/7387001928209825807
+>
+> [Nuxt.js - Naive UI](https://www.naiveui.com/en-US/os-theme/docs/nuxtjs)
+
+**安装nuxtjs-naive-ui**
+
+官网的安装命令有问题:
+
+```bash
+npx nuxi module add nuxtjs-naive-ui
+```
+
+一直报错: `  ERROR  [GET] "https://registry.npmjs.org/nuxtjs-naive-ui/latest": <no response> fetch failed`
+
+背景信息:
+
+* 命令行正确, 从官网copy来
+* 网络正常
+* 代理正常
+
+原因并没有找到, 所以我们需要手动安装和配置:
+
+1.安装
+
+```bash
+npm i nuxtjs-naive-ui
+```
+
+2.在nuxt.config.ts中添加配置
+
+```js
+export default defineNuxtConfig({
+  compatibilityDate: '2024-04-03',
+  devtools: { enabled: true },
+  modules: ['nuxtjs-naive-ui']
+})
+```
+
+
+
+**安装自动导入相关的包**
+
+在终端上黏贴后直接运行:
+
+```bash
+npm i -D naive-ui
+npm i unplugin-auto-import -D
+npm i unplugin-vue-components -D
+```
+
+添加自动导入的配置:
+
+```ts
+//nuxt.config.ts
+
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+
+export default defineNuxtConfig({
+  compatibilityDate: '2024-04-03',
+  devtools: { enabled: true },
+  modules: ['nuxtjs-naive-ui'],
+  vite: {
+    plugins: [
+      AutoImport({
+        imports: [
+          {
+            'naive-ui': [
+              'useDialog',
+              'useMessage',
+              'useNotification',
+              'useLoadingBar'
+            ]
+          }
+        ]
+      }),
+      Components({
+        resolvers: [NaiveUiResolver()]
+      })
+    ]
+  }
+})
+```
+
+
+
+在组件中测试是否成功引入:
+
+```vue
+<n-button>aaa</n-button>
+```
+
+
+
+
+
+### 3.登录/注册页面实现
+
+#### 1.创建布局页面
+
+##### layouts文件夹介绍
+
+> [layouts/ · Nuxt Directory Structure](https://nuxt.com/docs/guide/directory-structure/layouts)
+
+**是什么? **
+
+> Nuxt提供了布局系统,可以把公用页面布局内容提取到`layouts`目录中以便复用.
+
+**如何使用?**
+
+在`app.vue`中直接使用`<NuxtLayout>`组件即可.
+
+**其它功能**
+
+* 默认Layout
+* 命名Layout
+  * 嵌套文件的命令方式
+* 动态更改Layout `setPageLayout('custom')`
+* 重写Layout内容
+
+#### 1.创建默认布局
+
+`layouts/default.vue`
+
+需要在根目录下创建`components/`文件夹, 创建`MyHeader, MyFooter, Menu`组件, 在组件中可自动导入.
+
+```vue
+<template>
+  <div class="min-w-[1024px] bg-gray-100 flex flex-col min-h-screen">
+    <MyHeader />
+    <main class="container container-content m-auto mt-20">
+      <slot />
+    </main>
+    <MyFooter />
+  </div>
+</template>
+
+<style>
+  .container-content {
+    
+  }
+</style>
+```
+
+
+
+app.vue中使用`defualt.vue`
+
+```vue
+<template>
+	<NuxtLayout>
+  	<NuxtPage></NuxtPage>
+  </NuxtLayout>
+</template>
+```
+
+
+
+
+
+#### 2.创建login/register等页面
+
+##### 创建默认布局-登录布局
+
+在`layouts`下创建`blank.vue`布局
+
+```vue
+<template>
+  <div class="min-h-screen flex justify-center items-center bg-gray-100">
+    <div class="shadow-lg bg-white rounded-lg p-5">
+      <slot />
+    </div>
+  </div>
+</template>
+
+```
+
+
+
+我们需要在login/register页面中使用`definePageMeta`中
+
+##### definePageMeta
+
+> [definePageMeta · Nuxt Utils](https://nuxt.com/docs/api/utils/define-page-meta)
+
+为`pages/`路径下的页面组件设置元数据
+
+为每个路由设置布局的静态或动态名称。如果需要禁用默认布局，则可以将其设置为 false。
+
+```ts
+definePageMeta({
+  layout: 'blank' //为当前的页面组件设置blank样式的布局. blank位于'layouts/blank.vue'
+})
+```
+
+
+
+#### 3.提供后端与测试接口
+
+> 使用apiFox提供登录(login)和注册(register)的接口
+>
+> 根目录下`server/api/`下创建后端接口
+
+#### 4.apifox提供测试接口
+
+> 略过
+
+
+
+#### 5.创建后端接口
+
+> 在`server/api/`目录下创建后端接口
+
+* login.ts
+* register.post.ts
+* userInfo.get.ts
+
+
+
+
+
+#### 6.使用prisma创建数据库
+
+##### 0. 使用docker创建数据库
+
+
+
+
+
+##### 1.创建server/database/schema.prisma文件
+
+> 创建一个 Prisma schema（结构）,用来创建数据库表
+
+```prisma
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Column {
+  id      Int     @id @default(autoincrement())
+  title   String
+  cover   String
+  desc    String?
+  content String? @db.Text
+}
+
+model Course {
+  id     Int              @id @default(autoincrement())
+  title  String
+  cover  String
+  price  Decimal
+  oPrice Decimal
+  desc   String?
+  detail String?          @db.Text
+  users  UsersOnCourses[]
+  orders Order[]
+}
+
+model Catalogue {
+  id     Int    @id @default(autoincrement())
+  title  String
+  source String
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+}
+
+model User {
+  id       Int              @id @default(autoincrement())
+  username String           @unique
+  password String
+  nickname String?
+  avatar   String?
+  sex      String?
+  courses  UsersOnCourses[]
+  orders   Order[]
+}
+
+model UsersOnCourses {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+
+  @@id([userId, courseId])
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  course    Course      @relation(fields: [courseId], references: [id])
+  courseId  Int
+  user      User        @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime
+  status    OrderStatus
+}
+
+enum OrderStatus {
+  WAIT_CONFIRM
+  WAIT_PAY
+  COMPLETED
+}
+
+```
+
+
+
+##### 2.执行如下命令, 创建数据库表:
+
+此时会在server/database/migrations文件夹下创建数据
+
+```bash
+npx prisma migrate dev --name init --schema server/database/schema.prisma
+```
+
+
+
+#### 7.整合Prisma到Nuxt中
+
+##### 1.创建prismaclient单例
+
+> 对于一个 long-running application，建议我们使用一个单例的 PrismaClient。
+>
+> 其它调用查询后,都会明确关闭连接,以避免连接池耗尽.
+
+```ts
+//server/database/client.ts
+
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+export default prisma
+```
+
+
+
+##### 2.拆分业务代码
+
+> Java领域中, 数据库操作放controller层,业务代码放service层,最后在接口中组合. 
+>
+> 我们也参照这种结构,创建一个repositories目录,将数据库相关操作,按照表作为单元拆分,类似controller层,然后在接口中调用这些repository进行组合完成业务.
+
+1.创建 `server/database/repositories/userRepository.ts`
+
+```ts
+import type {User} from '@prisma/client'
+import prisma from '~server/database/client'
+import type {IUser} from '~/types/IUser'
+
+export async function getUser
+```
+
+创建接口User
+
+```ts
+export default IUser {
+  id?: number
+  email: string
+  name?: string
+}
+```
+
+
+
+
+
+
+
+#### 8.注册接口
+
+> 前面笔记中已经提供了如何创建服务端api,让我们回顾一下:
+>
+> 在根目录下的server文件夹下创建xxx.ts文件, 前端页面就可以使用'/xxx'的请求路径来获取数据.
+
+我们注册了:
+
+`server/api/register.post.ts`接口
+
+`server/api/login.ts`
+
+`server/api/userInfo.get.ts`
+
+
+
+#### 9.请求封装
+
+> composables/request.ts
+
+```ts
+//composables/request.ts
+
+import {merge} from 'lodash'
+
+type FetchType = typeof $fetch
+type ReqType = Parameters<FetchType>[0]
+type FetchOptions = Parameters<FetchType>[1]
+
+export function httpRequest<T = undefined>(
+    method: any,
+    url: ReqType,
+    body?: any,
+   	opts?: FetchOptions
+) {
+  const token = useCookie('token')
+  const router = useRouter()
+  const route = useRoute()
+  
+  const defaultOptions = {
+    method,
+    headers: { token: token.value } as any,
+    body,
+    onRequestError() {
+      message.error('请求出错,请重试')
+    },
+    onRespoinseError() {
+      switch(response.status) {
+        case 400:
+          message.error('参数错误')
+          break
+        case 401:
+          message.error('没有访问权限')
+          router.push('/login?callback=${route.path}')
+          break
+        case 403:
+          message.error('服务器拒绝访问')
+          break
+        case 404:
+          message.error('请求地址错误')
+          break
+        case 500:
+          message.error('服务器故障')
+          break
+        default:
+          message.error('网络连接故障')
+          break
+      }
+    }
+  } as FetchOptions
+  
+  return $fetch<T>(url, merge(defaultOpts, opts))
+}
+
+export function httpPost<T=undefined>(
+	request: ReqType,
+  body?: any,
+  opts?: FetchOptions,
+) {
+  return httpRequest<T>('get', request, null, opts)
+}
+```
+
+
+
+
+
+#### 10.使用Pinia
+
+> 文档 [Nuxt.js | Pinia](https://pinia.vuejs.org/ssr/nuxt.html)
+
+**安装**
+
+此命令失败:   `npx nuxi@latest module add pinia`,提示Error说找不到仓库
+
+直接安装 `npm i @pinia/nuxt pinia`
+
+
+
+**添加配置文件**
+
+添加nuxt的模块处理及配置自动导入功能.
+
+```js
+//nuxt.config.js
+
+export default defineNuxtConfig({
+  module: [
+    '@nuxt/ui',
+    [
+      '@pinia/nuxt',
+      //配置自动导入或直接使用和module同级pinia项
+      {
+        aotuImports: [
+          'defineStore', //暴露量;以的store
+          'storeToRefs'  //从store中提取单个引用
+        ]
+      }
+    ]
+  ]
+})
+```
+
+
+
+**定义全局状态**
+
+创建`store/user.ts`来定义全局状态
+
+```ts
+//store/user.ts
+
+export const useUser = defineStore('user', {})
+```
+
+
+
+### 首页前后端实现
+
+#### 页面介绍
+
+首页有4个部分组成: banner,内容推荐,最新课程,最新专栏
+
+
+
+#### 种子数据
+
+##### 如何使用prisma来创建种子数据?
+
+1.在server/database文件夹下创建`seed.ts`或`seed.js`文件(类型取决于环境)
+
+2.在package.json中配置seed命令
+
+> 这个地方建议事件tsx包来替换ts-node, 因为:
+>
+> 1.不需要单独配置typescript.json中的'ts-node'的模块引入方式
+>
+> 2.package.json中的module形式可以使用`type: module `
+
+```json
+"prisma": {
+  // "seed": "ts-node server/database/seed.ts"
+  "seed": "tsx server/database/seed.ts"
+}
+```
+
+
+
+3.根据seed脚本内容, 使用Prisma Client创建初始内容
+
+```ts
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+async function main() {
+  const alice = await prisma.user.upsert({
+    where: { email: 'alice@prisma.io' },
+    update: {},
+    create: {
+      email: 'alice@prisma.io',
+      name: 'Alice',
+      posts: {
+        create: {
+          title: 'Check out Prisma with Next.js',
+          content: 'https://www.prisma.io/nextjs',
+          published: true,
+        },
+      },
+    },
+  })
+
+  console.log({ alice })
+}
+
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
+```
+
+
+
+4.使用cli命令,设定种子数据. 会向数据库中插入种子数据.
+
+```bash
+npx prisma db seed
+```
+
+
+
+##### 种子数据使用环境
+
+* 开发环境中快速填充测试数据
+
+* 设置数据库的初始状态
+
+* 确保所有开发人员有相同的基础测试数据
+
+
+
+#### 接口实现
+
+##### 1.专栏接口和课程接口的数据请求
+
+> server/repositories/columnRespository
+
+```ts
+import type {Column} from '@prisma/client'
+import prisma from '~/server/database/client'
+
+export async function getNewColumn(): Prisma<Column[] | null> {
+  const result = await prisma.column.findMany({
+    orderBy: {id: 'desc'},
+    take: 4
+  })
+}
+```
+
+
+
+> server/repositories/courserRepository
+
+```ts
+import type { Course } from '@prisma/client'
+import prisma from '~/server/database/client'
+
+export async function getNewCourses(): Promise<Course[] | null> {
+  const result = await prisma.course.findMany({
+    orderBy: { id: 'desc' },
+    take: 4,
+  })
+  return result
+}
+
+```
+
+
+
+##### 2.专栏接口和课程接口的接口
+
+```ts
+import { getNewColumns } from '../database/repositories/columnRepository'
+import { getNewCourses } from '../database/repositories/courseRepository'
+
+export default defineEventHandler(async (e) => {
+  try {
+    const columns = await getNewColumns()
+    const courses = await getNewCourses()
+
+    return { ok: true, data: { columns, courses } }
+  }
+  catch (error) {
+    return sendError(e, createError('获取数据失败'))
+  }
+})
+
+```
+
+
+
+#### 前端页面实现
+
+
+
+
+
+### 列表页实现
+
+#### 页面介绍
+
+> 页面有3部分组成:
+>
+> * 面包屑导航
+> * 内容列表
+> * 分页器
+
+
+
+#### 接口实现
+
+我们需要实现两个接口：
+
+- course：分页获取课程列表
+  - Query params：page和size
+  - 返回 { ok: boolean, data: { courses: Course[], total: number}}
+- column：分页获取专栏列表
+  - Query params：page和size
+  - 返回 { ok: boolean, data: { columns: Column[], total: number}}
+
+```ts
+// server/database/columnRepository.ts 
+
+export async function getColumns({page, size}): Promise<{columns: Column[] | null; total: number}> {
+  const [columns, total] = await Promise.all([
+    prisma.column.findMany({
+      orderBy: {id: 'desc'},
+      skip: page * size,
+      take: size
+    }),
+    prisma.column.count()
+  ])
+  
+  return { column, total }
+}
+```
+
+
+
+```ts
+
+// server/database/courseRepository.ts
+
+export async function getCourses({ page, size }): Promise<{ courses: Course[] | null; total: number }> {
+  const [courses, total] = await Promise.all([
+    prisma.course.findMany({
+      orderBy: { id: 'desc' },
+      skip: page * size,
+      take: size,
+    }),
+    prisma.course.count(),
+  ])
+  return { courses, total }
+}
+
+```
+
+
+
+分别实现course和column接口, 
+
+```ts
+// server/api/course.ts
+
+import { getCourses } from '../database/repositories/courseRepository'
+
+export default defineEventHandler(async (e) => {
+  try {
+    // 获取分页信息
+    const query = getQuery(e)
+    const page = query.page ? parseInt(query.page as string) : 0
+    const size = query.size ? parseInt(query.size as string) : 8
+    // 分页获取课程列表和总条数
+    const { courses, total } = await getCourses({ page, size })
+
+    return { ok: true, data: { list: courses, total } }
+  }
+  catch (error) {
+    return sendError(e, createError('获取数据失败'))
+  }
+})
+
+```
+
+
+
+```ts
+// server/api/column.ts
+
+import { getColumns } from '../database/repositories/columnRepository'
+
+export default defineEventHandler(async (e) => {
+  try {
+    // 获取分页信息
+    const query = getQuery(e)
+    const page = query.page ? parseInt(query.page as string) : 0
+    const size = query.size ? parseInt(query.size as string) : 8
+    // 分页获取课程列表和总条数
+    const { columns, total } = await getColumns({ page, size })
+
+    return { ok: true, data: { list: columns, total } }
+  }
+  catch (error) {
+    return sendError(e, createError('获取数据失败'))
+  }
+})
+
+```
+
+
+
+#### 前端页面实现
+
+课程页面和专栏页面相似,都是由3部分组成:
+
+* 面包屑
+* 列表
+* 分页
+
+所以,我们用一个列表页来实现,
+
+* 过一个动态路由`/list/:type`区分；
+* 删除之前 course.vue 和 column.vue；
+* 修改 MyHeader.vue 中的导航链接地址；
+* 修改 index.vue 中的“更多课程”和“更多专栏”链接地址。
+
+**创建pages/list/[type].vue**
+
+> 使用动态路由
+
+```vue
+// pages/list/[type].vue
+
+<!-- 课程列表页 -->
+<script setup lang="ts">
+import type { IResult } from '~/types/IResult'
+
+const route = useRoute()
+const type = route.params.type as string
+const title = type === 'course' ? '课程' : '专栏'
+useHead({ title })
+
+const url = type === 'course' ? '/api/course' : '/api/column'
+const page = ref(1)
+const size = ref(8)
+const {
+  data,
+} = await useFetch<IResult>(() => `${url}?page=${page.value - 1}`, {
+  watch: [page],
+})
+
+const onPageChange = (pageNum) => {
+  page.value = pageNum
+}
+</script>
+
+<template>
+  <div>
+    <NBreadcrumb class="mb-5">
+      <NBreadcrumbItem>
+        <nuxt-link to="/">
+          首页
+        </nuxt-link>
+      </NBreadcrumbItem>
+      <NBreadcrumbItem>
+        {{ title }}
+      </NBreadcrumbItem>
+    </NBreadcrumb>
+    <!-- 课程渲染 -->
+    <NGrid :x-gap="20" :cols="4">
+      <NGi v-for="item in data?.data.list" :key="item.id">
+        <Prod :data="item" :type="type" />
+      </NGi>
+    </NGrid>
+    <!-- 分页组件 -->
+    <div class="flex justify-center items-center mt-5 mb-10">
+      <NPagination
+        size="large" :item-count="data?.data.total" :page="page" :page-size="size"
+        :on-update:page="onPageChange"
+      />
+    </div>
+  </div>
+</template>
+
+```
+
+
+
+### 详情页实现
+
+#### 页面介绍
+
+课程页、专栏详的情页设计非常相似，因此统一处理。它们由 3 部分构成：
+
+- 课程/专栏简介：不同点是专栏没有价格；
+- 详情/目录：不同点是专栏没有目录；
+- 推荐列表：暂时显示最新的两个。
+
+#### 接口实现
+
+我们需要实现两个接口：
+
+- /course/[id]：获取指定课程详情
+  - 返回 { ok: boolean, data: { item: Course, recommend: Course[] }}
+- /column/[id]：分页获取专栏列表
+  - 返回 { ok: boolean, data: { item: Column, recommend: Column[] }}
+
+更新两个 repository，columnRepository.ts
+
+```ts
+// server/database/columnRepository.ts
+
+export function getColumnById(id: number): Promise<Column | null> {
+  const result = await prisma.column.findFirst({
+  	where: {
+  		id,
+		}
+	})
+  return result
+}
+```
+
+
+
+```ts
+//server/database/courseRepository.ts
+
+export function getColumnById(id: number): Promise<Course | null> {
+  const result = await prisma.course.findFirst({
+  	where: {
+  		id,
+		},
+    include: { Catalogue: true }
+	})
+  return result
+}
+```
+
+
+
+分别实现course和column接口, 
+
+`server/api/course/[id].ts`
+
+```ts
+
+//server/api/[id].ts
+import {getCourseById, getColumns} from '~/server/database/repositories/courseRepository'
+export default defineEventHandler(async(e) => {
+  
+})
+```
+
+`server/api/column/[id].ts`
+
+```ts
+// server/api/column/[id].ts
+
+import { getColumnById, getColumns } from '~/server/database/repositories/columnRepository'
+
+export default defineEventHandler(async (e) => {
+  const id = e.context.params?.id ? parseInt(e.context.params.id) : undefined
+  if (!id)
+    return sendError(e, createError({ statusCode: 400, statusMessage: '参数错误' }))
+  try {
+    const column = await getColumnById(id)
+    if (!column)
+      return sendError(e, createError({ statusCode: 404, statusMessage: '没有对应专栏' }))
+
+    const { columns: recommend } = await getColumns({ page: 1, size: 2 })
+
+    return { ok: true, data: { item: column, recommend } }
+  }
+  catch (error) {
+    return sendError(e, createError({ statusCode: 500, statusMessage: '服务器错误' }))
+  }
+})
+
+```
+
+
+
+#### 前端页面实现
+
+
+
+### 订阅流程实现
+
+#### 页面介绍
+
+支付流程:
+
+1. 首先创建订单（状态为等待确认 WAIT_CONFIRM)；
+2. 然后跳转订单确认页面；
+3. 用户确认订单（状态变为等待支付 WAIT_PAY）；
+4. 并跳转支付页面；
+5. 用户扫码支付结束（订单状态变为已完成 COMPLETED)；
+6. 页面发现订单完成跳转至课程详情页。
+
+
+
+#### 页面设计
+
+订单确认页 + 支付页
+
+
+
+#### 接口实现
+
+我们需要实现两个接口：
+
+- /order：创建订单。
+  - method: post
+  - body：{ courseId: number }
+  - 返回 { ok: boolean, data: { orderId: number } }
+- /order/[id]：获取订单详情。
+  - method：get
+  - 返回 { ok: boolean, data: Order }
+- /order: 更新订单状态。
+  - method：patch
+  - body: { id: number, status: string }
+  - 返回 { ok: boolean }
+
+
+
+创建`server/database/repositories/orderRepository`
+
+```ts
+import type { Order } from '@prisma/client'
+import prisma from '~/server/database/client'
+
+export async function createOrder(data: Order) {
+  const user = await prisma.order.create({data})
+  return user
+}
+
+export async function getOrderById(id: number) {
+  const result = await prisma.order.findUnique({
+    where: {
+      id
+    },
+    include: {
+      course: {
+        select: {
+          title: true,
+          cover: true,
+          price: true
+        }
+      }
+    }
+  })
+  return result
+}
+
+export async function updateOrder(id:number, data: Partial<Order>) {
+  const result = awiat prisma.order.update({
+    where: {
+      id
+    },
+    data
+  })
+  return result
+}
+```
 
