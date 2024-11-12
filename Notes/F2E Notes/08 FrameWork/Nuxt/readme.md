@@ -2558,187 +2558,71 @@ definePageMeta({
 
 
 
-#### 3.提供后端与测试接口
+#### 3.apifox提供测试接口
 
 > 使用apiFox提供登录(login)和注册(register)的接口
->
-> 根目录下`server/api/`下创建后端接口
-
-#### 4.apifox提供测试接口
-
-> 略过
 
 
 
-#### 5.创建后端接口
+#### 4.创建后端接口
 
-> 在`server/api/`目录下创建后端接口
+##### 1.需要准备什么
 
-* login.ts
-* register.post.ts
-* userInfo.get.ts
+后端接口需要操作数据库,我们需要docker来安装数据库和其管理端,需要prisma来对数据库进行CRUD操作
 
+所以我们需要:
 
-
-
-
-#### 6.使用prisma创建数据库
-
-##### 0. 使用docker创建数据库
+* 安装docker,进而安装MySql和Adminer管理端
+* 安装prisma
+* 编写后端接口
 
 
 
+##### 2.安装docker
 
+1.安装([官网下载](https://www.docker.com/))
 
-##### 1.创建server/database/schema.prisma文件
+2.根目录下添加`docker-compose.yml`文件
 
-> 创建一个 Prisma schema（结构）,用来创建数据库表
+3.执行命令`docker compose up -d`,拉取镜像
 
-```prisma
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
+4.安装成功, 可通过`http://localhost:8080`管理数据库
 
-generator client {
-  provider = "prisma-client-js"
-}
+> 遇到的问题
 
-model Column {
-  id      Int     @id @default(autoincrement())
-  title   String
-  cover   String
-  desc    String?
-  content String? @db.Text
-}
-
-model Course {
-  id     Int              @id @default(autoincrement())
-  title  String
-  cover  String
-  price  Decimal
-  oPrice Decimal
-  desc   String?
-  detail String?          @db.Text
-  users  UsersOnCourses[]
-  orders Order[]
-}
-
-model Catalogue {
-  id     Int    @id @default(autoincrement())
-  title  String
-  source String
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId Int
-}
-
-model User {
-  id       Int              @id @default(autoincrement())
-  username String           @unique
-  password String
-  nickname String?
-  avatar   String?
-  sex      String?
-  courses  UsersOnCourses[]
-  orders   Order[]
-}
-
-model UsersOnCourses {
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId Int
-
-  @@id([userId, courseId])
-}
-
-model Order {
-  id        Int         @id @default(autoincrement())
-  course    Course      @relation(fields: [courseId], references: [id])
-  courseId  Int
-  user      User        @relation(fields: [userId], references: [id])
-  userId    Int
-  createdAt DateTime
-  status    OrderStatus
-}
-
-enum OrderStatus {
-  WAIT_CONFIRM
-  WAIT_PAY
-  COMPLETED
-}
-
-```
-
-
-
-##### 2.执行如下命令, 创建数据库表:
-
-此时会在server/database/migrations文件夹下创建数据
+使用命令行创建docker中的服务后, 数据库老师自动停止报错.在这里我们采用清理之前运行过的数据卷残留
 
 ```bash
-npx prisma migrate dev --name init --schema server/database/schema.prisma
+docker-compose down -v
 ```
 
 
 
-#### 7.整合Prisma到Nuxt中
+##### 3.安装prisma
 
-##### 1.创建prismaclient单例
+0.prisma操作数据库应该在项目初始时就应该建立.
 
-> 对于一个 long-running application，建议我们使用一个单例的 PrismaClient。
->
-> 其它调用查询后,都会明确关闭连接,以避免连接池耗尽.
+1.本地创建scheme文件: `server/database/scheme.prisma`
 
-```ts
-//server/database/client.ts
+2.根目录下添加环境变量文件`.env`, 配置数据库地址
 
-import { PrismaClient } from '@prisma/client'
+3.执行相关命令`npx prisma migrate dev --name init --scheme server/database/scheme.prisma`,生成数据库表结构
 
-const prisma = new PrismaClient()
+4.之后,便可以在后端接口中通过prismaclient访问数据库
 
-export default prisma
-```
+5.如何访问, 我们在database下创建一个prisma.ts文件,用来暴露prisma实例. 通过实例上的方法来操作数据库
+
+按照java开发中业务和逻辑分开的原则,在database文件夹下创建repositories文件夹,当作逻辑操作;业务操作复杂的可置于service文件夹下,简单的就直接置于database文件夹下.
 
 
 
-##### 2.拆分业务代码
+访问流程说明:
 
-> Java领域中, 数据库操作放controller层,业务代码放service层,最后在接口中组合. 
->
-> 我们也参照这种结构,创建一个repositories目录,将数据库相关操作,按照表作为单元拆分,类似controller层,然后在接口中调用这些repository进行组合完成业务.
-
-1.创建 `server/database/repositories/userRepository.ts`
-
-```ts
-import type {User} from '@prisma/client'
-import prisma from '~server/database/client'
-import type {IUser} from '~/types/IUser'
-
-export async function getUser
-```
-
-创建接口User
-
-```ts
-export default IUser {
-  id?: number
-  email: string
-  name?: string
-}
-```
+前端发起请求 => `server/api/*`下的接口捕获 => `server/database/repositories`去操作后端数据库并返回数据
 
 
 
-
-
-
-
-#### 8.注册接口
-
-> 前面笔记中已经提供了如何创建服务端api,让我们回顾一下:
->
-> 在根目录下的server文件夹下创建xxx.ts文件, 前端页面就可以使用'/xxx'的请求路径来获取数据.
+##### 4.注册后端接口
 
 我们注册了:
 
@@ -2750,78 +2634,15 @@ export default IUser {
 
 
 
-#### 9.请求封装
+##### 5.页面实现
 
-> composables/request.ts
+登录页面和注册页面实现
 
-```ts
-//composables/request.ts
-
-import {merge} from 'lodash'
-
-type FetchType = typeof $fetch
-type ReqType = Parameters<FetchType>[0]
-type FetchOptions = Parameters<FetchType>[1]
-
-export function httpRequest<T = undefined>(
-    method: any,
-    url: ReqType,
-    body?: any,
-   	opts?: FetchOptions
-) {
-  const token = useCookie('token')
-  const router = useRouter()
-  const route = useRoute()
-  
-  const defaultOptions = {
-    method,
-    headers: { token: token.value } as any,
-    body,
-    onRequestError() {
-      message.error('请求出错,请重试')
-    },
-    onRespoinseError() {
-      switch(response.status) {
-        case 400:
-          message.error('参数错误')
-          break
-        case 401:
-          message.error('没有访问权限')
-          router.push('/login?callback=${route.path}')
-          break
-        case 403:
-          message.error('服务器拒绝访问')
-          break
-        case 404:
-          message.error('请求地址错误')
-          break
-        case 500:
-          message.error('服务器故障')
-          break
-        default:
-          message.error('网络连接故障')
-          break
-      }
-    }
-  } as FetchOptions
-  
-  return $fetch<T>(url, merge(defaultOpts, opts))
-}
-
-export function httpPost<T=undefined>(
-	request: ReqType,
-  body?: any,
-  opts?: FetchOptions,
-) {
-  return httpRequest<T>('get', request, null, opts)
-}
-```
+在这里我们需要封装$fetch, 引入pinia管理全局状态,并编写接口.
 
 
 
-
-
-#### 10.使用Pinia
+**使用Pinia**
 
 > 文档 [Nuxt.js | Pinia](https://pinia.vuejs.org/ssr/nuxt.html)
 
@@ -2830,8 +2651,6 @@ export function httpPost<T=undefined>(
 此命令失败:   `npx nuxi@latest module add pinia`,提示Error说找不到仓库
 
 直接安装 `npm i @pinia/nuxt pinia`
-
-
 
 **添加配置文件**
 
@@ -2871,7 +2690,7 @@ export const useUser = defineStore('user', {})
 
 
 
-### 首页前后端实现
+#### 首页前后端实现
 
 #### 页面介绍
 
@@ -2891,51 +2710,34 @@ export const useUser = defineStore('user', {})
 >
 > 1.不需要单独配置typescript.json中的'ts-node'的模块引入方式
 >
-> 2.package.json中的module形式可以使用`type: module `
+> 2.package.json中的module形式可以继续使用`type: module `
+
+```bash
+npm i tsx
+```
+
+
 
 ```json
 "prisma": {
   // "seed": "ts-node server/database/seed.ts"
   "seed": "tsx server/database/seed.ts"
+},
+"scripts": {
+  "seed": "npx prisma db seed",
+  //...
 }
+
 ```
 
 
 
-3.根据seed脚本内容, 使用Prisma Client创建初始内容
+3.创建种子数据
+
+server/database/seed.ts
 
 ```ts
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
-async function main() {
-  const alice = await prisma.user.upsert({
-    where: { email: 'alice@prisma.io' },
-    update: {},
-    create: {
-      email: 'alice@prisma.io',
-      name: 'Alice',
-      posts: {
-        create: {
-          title: 'Check out Prisma with Next.js',
-          content: 'https://www.prisma.io/nextjs',
-          published: true,
-        },
-      },
-    },
-  })
-
-  console.log({ alice })
-}
-
-main()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+//....
 ```
 
 
@@ -3391,4 +3193,282 @@ export async function updateOrder(id:number, data: Partial<Order>) {
   return result
 }
 ```
+
+
+
+### 用户体验优化
+
+#### 响应式设计
+
+天啊
+
+
+
+#### 页面权限控制
+
+有些页面需要在登录之后才能看到,例如:
+
+* 用户中心页面
+* 订单确认页面
+* 支付页面
+* ...
+
+
+
+##### 通过路由中间件实现页面权限控制
+
+> 在vue项目中,是通过路由守卫的方式达到页面权限管理,nuxt封装了vue-router,想要获取路由器实例可以通过 useRouter，然后再添加守卫。然而官方却不推荐这么做，详情参见：
+>
+> [nuxt.com/docs/api/co…](https://link.juejin.cn/?target=https%3A%2F%2Fnuxt.com%2Fdocs%2Fapi%2Fcomposables%2Fuse-router%23navigation-guards)
+>
+> 
+
+1.创建Auth中间件
+
+```ts
+// ~/middleware/auth.ts
+
+export default defineNuxtRouteMiddleware((to, from) => {
+  const token = useCookie('token')
+  const route = useRoute()
+
+  // 未登录重定向到登录页
+  if (!token.value) {
+    if (process.client)
+      message.error('请先登录')
+
+    return navigateTo(`/login?from=${route.fullPath}`)
+  }
+})
+
+```
+
+
+
+2.注册中间件
+
+在需要的页面注册 auth 中间件。例如,在用户中心页面注册中间件.
+
+```vue
+// pages/usercenter.vue
+
+definePageMeta({
+	middleware: ['auth']
+})
+```
+
+
+
+
+
+#### 展示加载进度
+
+加载进度的反馈方式有很多,例如:
+
+- 进度条
+- 菊花图
+- 骨架屏
+
+我们使用naive-ui的骨架屏组件完成一个加载进度的实现:
+
+1.创建公共loading组件:
+
+在不同页面使用的时候还需要根据内容做调整
+
+```vue
+// ~/components/Loading.vue
+
+<script setup lang="ts">
+const props = defineProps({
+  pending: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+// 防止加载过快画面闪烁
+const loading = ref(false)
+watchEffect(() => {
+  if (props.pending && !loading.value) {
+    loading.value = true
+  }
+  else {
+    setTimeout(() => {
+      loading.value = false
+    }, 200)
+  }
+})
+</script>
+
+<template>
+  <div>
+    <template v-if="loading">
+      <slot name="loading">
+        <NCard v-for="i in 4" :key="i" class="mb-5">
+          <NSkeleton text style="width: 30%" />
+          <NSkeleton text :repeat="2" />
+          <NSkeleton text style="width: 45%" />
+          <NSkeleton text style="width: 60%" />
+        </NCard>
+      </slot>
+    </template>
+    <template v-else>
+      <slot />
+    </template>
+  </div>
+</template>
+
+```
+
+
+
+### 本地测试部署
+
+
+
+后台启动
+
+```bash
+docker-compose up -d
+```
+
+
+
+删除之前的旧卷?
+
+```bash
+docker-compose down -v
+```
+
+重新构建
+
+```bash
+docker-compose build --no-cache
+```
+
+
+
+
+
+#### 遇到的问题:
+
+启动之后,控制台报错:
+
+```bash
+docker-compose up
+time="2024-11-10T11:35:49+08:00" level=warning msg="C:\\PersonalData\\github\\Nuxt\\nuxt3-app-course2\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"        
+[+] Running 3/0
+ ✔ Container nuxt3-app-course2-adminer_container-1   Runni...                                                   0.0s 
+ ✔ Container nuxt3-app-course2-mysql_db_container-1  Runn...                                                    0.0s 
+ ✔ Container nuxt_app                                Running                                                    0.0s 
+Attaching to adminer_container-1, mysql_db_container-1, nuxt_app
+nuxt_app              | [nuxt] [request error] [unhandled] [500] Named export 'VLazyTeleport' not found. The requested module 'vueuc' is a CommonJS module, which may not support all module.exports as named exports.
+nuxt_app              | CommonJS modules can always be imported via the default export, for example using:
+nuxt_app              |
+nuxt_app              | import pkg from 'vueuc';
+nuxt_app              | const { VResizeObserver, VFocusTrap, VLazyTeleport } = pkg;
+nuxt_app              |
+nuxt_app              |
+nuxt_app              | [nuxt] [request error] [unhandled] [500] Named export 'VLazyTeleport' not found. The requested module 'vueuc' is a CommonJS module, which may not support all module.exports as named exports.
+nuxt_app              | CommonJS modules can always be imported via the default export, for example using:
+nuxt_app              |
+nuxt_app              | import pkg from 'vueuc';
+nuxt_app              | const { VResizeObserver, VFocusTrap, VLazyTeleport } = pkg;
+nuxt_app              |
+nuxt_app              |
+```
+
+
+
+解决方案:
+
+这个错误是因为 vueuc 模块的导入方式有问题。这是一个典型的 CommonJS 和 ES Module 混用导致的问题。让我们来修复它：
+
+1. 首先，检查你的项目中是否有直接使用 `vueuc` 的导入。通常这个模块是被 naive-ui 或其他 UI 库依赖的。
+2. 修改导入方式，有几种解决方案：
+
+方案一：修改 nuxt.config.ts，添加 transpile 配置：
+
+```
+typescriptCopyexport default defineNuxtConfig({
+  // ... 其他配置
+  build: {
+    transpile: [
+      'vueuc',
+      /naive-ui/ // 如果你使用了 naive-ui
+    ]
+  },
+})
+```
+
+方案二：如果你直接使用了 vueuc，修改导入方式：
+
+```
+typescriptCopy// 修改前
+import { VLazyTeleport } from 'vueuc'
+
+// 修改后
+import vueuc from 'vueuc'
+const { VLazyTeleport } = vueuc
+```
+
+方案三：添加 vite 配置来处理这个模块：
+
+```
+typescriptCopy// nuxt.config.ts
+export default defineNuxtConfig({
+  // ... 其他配置
+  vite: {
+    optimizeDeps: {
+      include: ['vueuc']
+    },
+    build: {
+      commonjsOptions: {
+        transformMixedEsModules: true
+      }
+    }
+  }
+})
+```
+
+方案四：如果你使用的是 naive-ui，可以尝试更新配置：
+
+```
+typescriptCopy// nuxt.config.ts
+export default defineNuxtConfig({
+  // ... 其他配置
+  build: {
+    transpile: process.env.NODE_ENV === 'production'
+      ? [
+          'naive-ui',
+          'vueuc',
+          '@css-render/vue3-ssr',
+          '@juggle/resize-observer'
+        ]
+      : ['@juggle/resize-observer']
+  },
+  vite: {
+    optimizeDeps: {
+      include: process.env.NODE_ENV === 'development'
+        ? ['naive-ui', 'vueuc', 'date-fns-tz/formatInTimeZone']
+        : []
+    }
+  }
+})
+```
+
+1. 更新 package.json 中的依赖版本，确保使用最新的兼容版本：
+
+```
+jsonCopy{
+  "dependencies": {
+    "vueuc": "^latest",
+    "naive-ui": "^latest" // 如果使用了 naive-ui
+  }
+}
+```
+
+
+
+
 

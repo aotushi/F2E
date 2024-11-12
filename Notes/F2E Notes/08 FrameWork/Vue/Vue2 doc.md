@@ -5182,22 +5182,32 @@ this.$emit('update:title', newTitle)
 可以在 `<template>` 元素上使用 `v-slot` 指令，并以 `v-slot` 的参数的形式提供其名称：
 注意 **`v-slot` 只能添加在 `<template>` 上**
 ```vue
+// 版本1 使用v-slot标识
 <base-layout>  
 <template v-slot:header>  
-<h1>Here might be a page title</h1>  
+	<h1>Here might be a page title</h1>  
 </template>  
   
 <p>A paragraph for the main content.</p>  
 <p>And another one.</p>  
   
 <template v-slot:footer>  
-<p>Here's some contact info</p>  
+	<p>Here's some contact info</p>  
 </template>  
 </base-layout>
 
 
-// 版本2 具名插槽缩写(将'v-slot:'替换为'#')
+// 版本2 使用#号来标识
 <template #header>
+	<h1>Here might be a page title</h1>  
+</template>
+
+<p>A paragraph for the main content.</p>  
+<p>And another one.</p>  
+
+<template #footer>
+	<p>Here's some contact info</p>  
+</template>
 ```
 
 
@@ -5255,7 +5265,6 @@ this.$emit('update:title', newTitle)
 ```
 
 
-### 
 ### 案例
 #### 作用域插槽示例1-[Vue Virtual Scroller](https://github.com/Akryum/vue-virtual-scroller)
 

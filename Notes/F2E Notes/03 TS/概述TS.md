@@ -33,10 +33,11 @@
 * string
 * number
 
-复杂类型
-* array
-* object
-* tuple(元组)
+引用类型
+* 复合引用类型
+	* 数组,元组,对象,函数,类的实例等等
+* 内置引用类型
+	* Date,RegExp,Math等等
 
 特殊类型
 * any / unknow
@@ -47,7 +48,6 @@
 * enum
 
 联合类型和交叉类型
-
 * 联合类型
 * 交叉类型
 
