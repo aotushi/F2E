@@ -412,14 +412,15 @@ import App from './App'
 
 
 const root = ReactDom.createRoot(document.getElementById('root'))
-root.render(element)
+root.render(App)
 ```
 
 
 
-##### 启动项目
+##### 启动项目/构建项目
 
 ```bash
+npx react-scripts start
 npx react-scripts build
 ```
 
@@ -431,6 +432,372 @@ npx react-scripts build
     "build": "react-scripts build"
   },
 ```
+
+
+
+
+
+### 项目练习
+
+#### 1.手动创建项目
+
+具体操作根据上一目录中的内容来操作,同时需要在package.json中添加eslint,用来检查react语法是否正确.
+
+```json
+...
+"eslintConfig": {
+  "extends": [
+    "react-app" //会有语法提示, 可选
+  ]
+}
+```
+
+#### 项目介绍
+
+> [练习1：学习记录器 – 李立超 | lilichao.com](https://lilichao.com/?p=5753)
+
+![img](https://my-wp.oss-cn-beijing.aliyuncs.com/wp-content/uploads/2022/04/20220418220344552.png)
+
+
+
+
+
+##### 页面CSS实现
+
+首先实现其中一个的样式
+
+
+
+##### 引入组件
+
+**介绍**
+
+react中有两种组件创建方式:
+
+- 函数式组件(简单, 首推使用)
+  - 就是一个返回JSX的普通函数
+  - 组件首字母必须大写. ?
+- 类组件
+
+
+
+函数组件实现:
+
+```js
+// src/App.js
+
+const App = function() {
+  return <div><h1>hello world</h1></div>
+}
+export default App
+
+// src/index.js
+import ReactDom from 'react-dom/client'
+import App from './App'
+const root = ReactDom.createRoot(document.getElementById('root'))
+root.render(<App/>)
+```
+
+
+
+类组件实现:
+
+```js
+// src/App.js
+
+// 类组件必须继承React.Component
+class App extends React.Component {
+  
+  
+  //类组件中,必须添加一个render()方法,且方法的返回值要是一个jsx
+  render() {
+    return <div>我是一个类组件</div>
+  }
+}
+```
+
+
+
+##### 事件
+
+> [事件 – 李立超 | lilichao.com](https://lilichao.com/?p=5730)
+
+
+
+原生dom中事件的实现:
+
+```html
+//dom0
+<button onclick="alert('点击了一下')">
+  点击按钮
+</button>
+
+//dom2
+document.getElementById('btn').addEventListener('click',(event) => {
+//...
+})
+```
+
+
+
+react中的事件绑定:
+
+```jsx
+const clickHandler = () => {
+  alert('点击了一下')
+}
+
+const ele = <button onClick={clickHandler}>点击这个按钮</button>
+```
+
+
+
+注意事项:
+
+* react事件使用驼峰命名法
+* 事件属性需要一个函数对象,而不是调用函数
+
+
+
+##### 事件对象
+
+React事件也会产生事件对象，在事件的响应函数中可以定义第一个参数来获取事件对象：
+
+```jsx
+
+const clickHandler = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+}
+```
+
+
+
+##### props
+
+> [props – 李立超 | lilichao.com](https://lilichao.com/?p=5734)
+
+组件的参数需要通过属性传递，可以像这样向组件中**传递参数**：
+
+```
+<Button bgColor='red' color='white'>我是一个按钮</Button>
+```
+
+上边的案例中我们设置了两个属性，这些属性会被封装到一个对象中并作为参数传递给Button组件，只需要在Button组件中定义一个参数即可获取，通常这个参数我们会命名为props，像这样：
+
+```jsx
+
+import './Button.css';
+const Button = (props) => {
+    return <button style={{backgroundColor:props.bgColor, color:props.color}}>{props.children}</button>;
+};
+
+
+export default Button;
+```
+
+在组件内部可以通过props.xxx来访问外部传递进的属性，从而达到动态设置的目的。需要注意的是，**标签体(标签之内的内容)**也可以设置为props的一个属性，叫做children，可以通过props.children来获取标签体的内容。
+
+还有一点一定要记住，props中的属性是**只读**属性是无法修改的！
+
+**props.children**
+
+相当于vue中的插槽.使用props.children来接受父组件中当前组件标签之间写入的内容
+
+
+
+开发环境下的数据传递与使用: 
+
+> 两种方案, 具体的和解构简写的
+
+```jsx
+const Logs = () => {
+  return <div className="logs">
+    {/* <LogItem date={new Date(2024,11,19,15,30)} desc={'学习react'} time={'40分钟'}/> */}
+
+    {
+      resData.map((item,index) => {
+        // return <LogItem key={index} date={item.date} desc={item.desc} time={item.time}/>
+        return <LogItem key={index} {...item}/>
+      })
+    }
+    
+  </div>
+
+}
+```
+
+
+
+
+
+##### state
+
+> [state – 李立超 | lilichao.com](https://lilichao.com/?p=5597)
+>
+> [state的问题 – 李立超 | lilichao.com](https://lilichao.com/?p=5602)
+
+
+
+对应vue中的响应式数据. 如何声明?
+
+* 引入构造函数useState
+* 需要在组件(函数组件,类组件)中声明,返回一个数组,数组中有两个参数,一个初始值,另一个是更新响应式数据的函数,会触发组件的重新渲染.
+
+```jsx
+import {useState} from 'react'
+
+let [count, setCount] = useState(1)
+```
+
+setCount修改的是下一次渲染时候count的值
+
+setCount()会触发组件的重新渲染,它是异步的. 
+
+```jsx
+const add = () => {
+  setCount(2)
+  setCount(3)
+  setCount(4) //因为是异步的,所以这3次执行都会放到任务队列中, 也只会执行最后一次.
+}
+```
+
+
+
+
+
+
+
+##### state注意事项
+
+如果修改的state是一个对象, 然后只修改对象的某个属性,那么这个对象在更改之后,不会触发渲染.
+
+setState会触发组件的重新渲染,但如果是在原对象上更改, 调用setState不会触发重新渲染.
+
+```jsx
+const App = () => {
+  console.log('app组件执行了,组件创建完成')
+  
+  let [counter, setCount] = useState({
+    name: '孙悟空',
+    age: 18
+  })
+  const update1 = () => {
+    counter.name = '猪八戒'
+    console.log('add>counter>', counter)  //虽然更改了对象,但是setCount没有触发重新渲染
+    setCount(counter)
+  }
+  const update2 = () => {
+    // let counter2 = Object.assign({}, counter)  第一种方案
+    // counter2.name = '猪八戒'
+    // setCount(counter2)
+
+    setCount({...counter, name: '猪八戒'})  //第二种方案
+  }
+
+  return <div className="app">
+    <h2>{counter.name}--{counter.age}</h2>
+    <button onClick={update1}>+</button>
+    <button onClick={update2}>-</button>
+  </div>
+}
+export default App
+```
+
+
+
+##### state问题
+
+setState()会触发组件的重新渲染,它是异步的. 所以当调用setState(),需要用旧state的值时,要注意,可能会出现计算错误的情况. 
+
+为了避免这种情况, 为setState传递回调函数的形式来修改state
+
+```jsx
+const App = () => {
+  console.log('app组件执行了,组件创建完成')
+  
+  let [counte, setCounte] = useState(1)
+  const update1 = () => {
+		setTimeout(() => {
+      setCounte(counte + 1)  // 在1秒内点击两次, coute的值都是相同的旧值,而不是第一次点击后的新counte
+    }, 1000)
+  }
+
+    const update2 = () => {
+    setState(state => state + 1)  //可以获取到state的最新值
+  }
+    
+    
+  return <div className="app">
+    <h2>{counter.name}--{counter.age}</h2>
+    <button onClick={update1}>+</button>
+    <button onClick={update2}>+Callback</button>
+  </div>
+}
+export default App
+```
+
+
+
+##### 获取原生的dom对象-useRef()
+
+ 获取原生dom对象
+
+- 原生dom操作
+- 从react中获取dom对象
+  -  1.创建一个存储Dom对象的容器
+    -  使用useRef()钩子函数
+      - 钩子函数注意事项:
+        - React中的钩子函数只能用于函数组件或自定义钩子
+        -  钩子函数只能直接在函数中调用
+  - 2.将容器设置为想要获取DOM对象元素的ref属性 //react会自动获取当前元素的dom对象,设置为容器的current属性
+
+```jsx
+import {useRef} from 'react'
+
+const App = () => {
+  console.log('app组件执行了,组件创建完成')
+
+  // const h2Ref = useRef()
+  const h2Ref = {current: null}
+  console.log('h2Ref', h2Ref.current) //{current: h2#h2}
+
+  const h2Node = document.getElementById('h2')
+  console.log('h2Ref === h2Node', h2Ref.current === h2Node) // true
+
+
+
+  const handleBtnClick = () => {
+    console.log('h2Ref', h2Ref)
+  }
+  return <div className="app">
+    <h2 id="h2" ref={h2Ref}>hello world</h2>
+    <button onClick={handleBtnClick}>+</button>
+    <button >+Callback</button>
+  </div>
+}
+export default App
+
+```
+
+
+
+
+
+useRef()
+
+- 返回一个普通对象, 对象的current属性是一个DOM对象  {current: undefined}
+- 我们可以创建一个对象,来代替useRef()返回的对象
+- 两者区别: 我们创建的对象,组件每次重新渲染都会创建一个新对象; useRef()创建的对象, 可以确保每次渲染获取到的都是同一个对象
+- 使用场景: 当需要一个对象不会因为组件的重新渲染而改变时, 旧可以使用useRef
+
+
+
+##### 类组件
+
+
+
+
 
 
 
