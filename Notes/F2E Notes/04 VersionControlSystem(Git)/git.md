@@ -1715,6 +1715,48 @@ The file will have its original line endings in your working directory
 git config --global core.autocrlf false // 不推荐
 ```
 
+
+#### 报错信息RPC failed
+```bash
+rror: RPC failed; curl 92 HTTP/2 stream 0 was not closed cleanly: CANCEL (err 8)
+error: 43243 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+Completed with errors, see above.
+```
+
+这个错误通常是由网络或下载问题引起的。以下是几个可尝试的解决方案：
+
+增加 Git 缓冲区大小：
+```bash
+git config --global http.postBuffer 524288000
+```
+
+
+浅克隆（只下载最近的提交）：
+```bash
+git clone --depth 1 仓库地址
+```
+
+
+分段下载：
+```bash
+GIT_CURL_VERBOSE=1 git clone 仓库地址
+```
+
+
+禁用 HTTP/2：
+```bash
+git config --global http.version HTTP/1.1
+```
+
+
+如果使用代理，确保代理配置正确
+
+
+
+
 #### 提交报错
 
 ![img](D:/0922frontend/习题&笔记/笔记/assets/1532788288.bmp)

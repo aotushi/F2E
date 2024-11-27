@@ -215,7 +215,7 @@ babel下载地址：https://unpkg.com/babel-standalone@6/babel.min.js
 5. 事件名称必须是驼峰形式,事件对应的必须是函数名称,不能是函数体代码
 6. 可以使用**`{}`**插入JS表达式。（表达式：有返回值的语句。JSX也是表达式）
 7. 在JSX中, 属性可以直接在标签中设置（class使用className，style必须用{}）
-8. 将会忽略`[], false, null, undefined`
+8. 将会忽略`[], true, false, null, undefined`
 
 
 
@@ -794,6 +794,1551 @@ useRef()
 
 
 ##### 类组件
+
+类组件的props的是存储到类的实例对象中,可以直接通过实例对象访问.
+
+```jsx
+
+//声明标签属性
+<User name="孙悟空" age={18} gender={'男'} />
+
+//接受标签属性
+import React, {Component} from 'react'
+
+class User extends Component {
+  
+  render(
+  	return <div>
+     	<ul>
+      	<li>{this.props.name}</li> 
+        <li>{this.props.age}</li>
+        <li>{this.props.gender}</li>
+      </ul>
+     </div>
+  )
+}
+```
+
+
+
+类组件中的state统一存储到实例对象的state属性中,可以通过this.state来访问, 通过this.setState()来修改
+
+当通过this.setState()修改state时候, 只会修改设置了的属性, 没有设置的不会修改.
+
+在函数组件中, 响应函数直接以函数形式定义在组件中
+
+在类组件中,响应函数是以类的方法定义,之前的属性都会
+
+但是仅限于直接存储在state中的属性.之前的属性都会被保留.
+
+```jsx
+import React, {Component} from 'react'
+
+class User extends Component {
+  state = {
+    count: 0,
+    test: 'hhhh'
+  }
+  
+  clickHandler = () => {
+    // this.setState({count: this.state.count+1})  //采用这种方式 test也不会丢失
+    this.setState(pre => {
+      return {
+        count: pre + 1
+      }
+    })
+  }
+  
+  render(
+  	return <div>
+     	<h1>{this.state.count} -- {this.state.test}</h1>  //test值不会丢失
+      <button onClick={clickHandler} >点击</button>
+     </div>
+  )
+}
+```
+
+
+
+```jsx
+import React, {Component} from 'react'
+
+class User extends Component {
+  state = {
+    count: 0,
+    test: 'hhhh',
+    obj: {
+      name: '孙悟空',
+      age: 18
+    }
+  }
+  
+  clickHandler = () => {
+    // this.setState({count: this.state.count+1})
+    this.setState({
+      // obj: {name: '猪八戒'}  //obj.age不是直接在state中声明的,所以会丢失,解决方法是对象合并
+      obj: {...this.state.obj, name:'猪八戒'}
+    })
+  }
+  
+  render(
+  	return <div>
+     	<h1>{this.state.count} -- {this.state.test} </h1>
+      <h1>{this.state.obj.name} -- {this.state.obj.age}</h1>
+      <button onClick={clickHandler} >点击</button>
+     </div>
+  )
+}
+```
+
+
+
+获取DOM对象
+
+1.创建一个属性,用来存储DOM对象. 类组件中使用`React.createRef()`
+
+2.在指定标签上使用这个属性
+
+```jsx
+
+import React, {Component} from 'react'
+
+class User extends Component {
+
+  divRef = React.createRef()
+  
+  render(
+  	return <div ref={this.divRef}>
+     	
+      <button  >点击</button>
+     </div>
+  )
+}
+```
+
+
+
+#### card组件
+
+功能类似于vue中的插槽, 提取公共部分,减少代码量.
+
+
+
+#### 添加表单
+
+获取表单中的信息:  使用事件+`e.target.value`
+
+禁用表单提交的默认操作: 禁用默认操作 `e.preventDefault()`
+
+点击按钮后清空表单旧数据,
+
+* 非受控组件: 普通变量形式
+* 受控组件: 使用react的state, useState
+
+```jsx
+
+// src/Components/LogsForm.js  双向绑定
+
+const LogsForm = (props) => {
+
+  // let inputDate, inputDesc, inputTime;
+
+  const [inputDate , setInputDate] = useState('');
+  const [inputDesc , setInputDesc] = useState('');
+  const [inputTime, setInputTime] = useState(0);
+
+  const dateChangeHandler = (e) => {
+    // inputDate = e.target.value
+    setInputDate(e.target.value)
+  }
+
+  const descChangeHandler = (e) => {
+    // inputDesc = e.target.value
+    setInputDesc(e.target.value)
+  }
+
+  const timeChangeHandler = (e) => {
+    // inputTime = e.target.value
+    setInputTime(e.target.value)
+  }
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const newLog = {
+      date: new Date(inputDate),
+      desc: inputDesc,
+      time: +inputTime
+    };
+
+    console.log('newLog', newLog)
+
+    // 清空
+    setInputDate('');
+    setInputDesc('');
+    setInputTime('');
+    }
+
+
+
+  return (
+    <div className="logs-form">
+      <div className="form-item">
+        <label htmlFor="date">日期:</label>
+        <input onChange={dateChangeHandler} value={inputDate} id="date" type="date" />
+      </div>
+
+      <div className="form-item">
+        <label htmlFor="desc">内容:</label>
+        <input onChange={descChangeHandler} value={inputDesc} id="desc" type="text" />
+      </div>
+
+      <div className="form-item">
+        <label htmlFor="time">时长:</label>
+        <input onChange={timeChangeHandler} value={inputTime} id="time" type="number" />
+      </div>
+
+      <div className="form-btn">
+        <button onClick={formSubmitHandler}>提交</button>
+      </div>
+    </div>
+  );
+};
+
+export default LogsForm;
+```
+
+
+
+把双向绑定数据集中到一个对象中. 两种方式建议第一种, 单独声明的形式,
+
+```jsx
+const LogsForm = (props) => {
+
+  // let inputDate, inputDesc, inputTime;
+
+  // const [inputDate , setInputDate] = useState('');
+  // const [inputDesc , setInputDesc] = useState('');
+  // const [inputTime, setInputTime] = useState(0);
+
+  const [formData, setFormData ] = useState({
+    inputDate: '',
+    inputDesc: '',
+    inputTime: ''
+  })
+
+  const dateChangeHandler = (e) => {
+    // inputDate = e.target.value
+    // setInputDate(e.target.value)
+
+    setFormData({
+      ...formData,
+      inputDate: e.target.value
+    })
+  }
+
+  const descChangeHandler = (e) => {
+    // inputDesc = e.target.value
+    // setInputDesc(e.target.value)
+
+    setFormData({
+      ...formData.inputDesc,
+      inputDesc: e.target.value
+    })
+  }
+
+  const timeChangeHandler = (e) => {
+    // inputTime = e.target.value
+    // setInputTime(e.target.value)
+
+    setFormData({
+      ...formData.inputTime,
+      inputTime: e.target.value
+    })
+  }
+
+
+
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const newLog = {
+      date: new Date(formData.inputDate),
+      desc: formData.inputDesc,
+      time: +(formData.inputTime)
+    };
+
+    console.log('newLog', newLog)
+
+    // 清空
+    // setInputDate('');
+    // setInputDesc('');
+    // setInputTime('');
+
+    setFormData({
+      inputDate: '',
+      inputDesc: '',
+      inputTime: ''
+    })
+    }
+
+
+
+  return (
+    <div className="logs-form">
+      <div className="form-item">
+        <label htmlFor="date">日期:</label>
+        <input onChange={dateChangeHandler} value={formData.inputDate} id="date" type="date" />
+      </div>
+
+      <div className="form-item">
+        <label htmlFor="desc">内容:</label>
+        <input onChange={descChangeHandler} value={formData.inputDesc} id="desc" type="text" />
+      </div>
+
+      <div className="form-item">
+        <label htmlFor="time">时长:</label>
+        <input onChange={timeChangeHandler} value={formData.inputTime} id="time" type="number" />
+      </div>
+
+      <div className="form-btn">
+        <button onClick={formSubmitHandler}>提交</button>
+      </div>
+    </div>
+  );
+};
+
+export default LogsForm;
+```
+
+
+
+**数据共享**
+
+使用祖先组件来共享数据: state的提升
+
+子组件传递数据=> 父组件 使用props的回调函数形式  中间可以间隔多个组件调用初始的函数
+
+父组件传递数据=> 子组件 使用props
+
+```jsx
+// src/App.js 
+
+const onSaveLog = (newLog) => {
+    setLogsData([newLog, ...logsData]);
+  };
+
+  return (
+    <div className="app">
+      <LogsForm onSaveLog={onSaveLog} />
+      <Logs LogsData={logsData} />
+    </div>
+  );
+};
+```
+
+
+
+**删除数据**
+
+将处理函数传递给子组件,在传递给子组件, 在最后的子组件中直接调用这个函数.
+
+
+
+
+
+#### **创建自定义confirmModal(dialog)**
+
+##### 创建逻辑
+
+
+
+##### 存在问题
+
+弹窗组件confirmModal展示以后, 可以点击多个触发其展示的组件logItem的删除按钮, 也就是会显示多个.使用幕布(背景层)来禁用触发,纯css实现. 
+
+这个地方应该也能使用单例模式来实现.
+
+
+
+
+
+#### 使用portal修改项目
+
+原因: 因为只在特定使用删除组件, 耦合严重,可能存在的衍生css样式问题多. 
+
+解决方案是,使用react的传送门portal功能, 其作用是将组件渲染到指定位置.
+
+
+
+使用步骤:
+
+1. 在index.html新增一个html元素
+2. 修改组件的渲染方式
+   1. 通过`ReactDOM.createPortal()`作为返回值创建元素
+   2. 参数: 
+      1. jsx(修改前return后的代码)
+      2. 目标位置(DOM元素)
+
+```html
+//public/index.html
+
+<body>
+  <div id="root"></div>
+  <div id="backdrop"></div>
+</body>
+
+```
+
+
+
+```jsx
+// src/Components/Backdrop/Backdrop.js
+
+//因为弹窗组件confirmModal是包裹在Backdrop组件中的,所以我们将在Backdrop组件中使用portal功能
+
+import ReactDOM from 'react-dom';
+
+//修改前
+const Backdrop = (props) => {
+  return <div className="backdrop">{props.children}</div>
+}
+
+//修改后
+const backdropRoot = document.getElementById('backdrop-root')
+const Backdrop = (props) => {
+  return ReactDOM.createPortal(
+  	<div className="backdrop">{props.children}</div>,
+  	backdropRoot
+  )
+}
+```
+
+
+
+#### 过滤功能
+
+filter筛选
+
+
+
+### 自动创建项目
+
+使用包来创建react项目
+
+```bash
+npx create-react-app  名字
+```
+
+
+
+#### 项目解构
+
+##### package.json
+
+'eject': 慎用, 相关webpack配置.
+
+'test': 单元测试相关.
+
+##### public
+
+manifest.json: 
+
+应用配置文件说明 webapp相关的配置
+
+robots.txt
+
+爬虫规则
+
+
+
+#### 内联样式和样式表, CSS模块
+
+
+
+```jsx
+// src/App.js
+// src/App.css
+
+App.css中的样式是全局的,没有作用域, 存在样式覆盖问题. 使用CSS模块来解决没有作用域的问题.
+```
+
+##### 如何创建CSS模块
+
+1.创建xx.module.css
+
+2.在组件中引入css
+
+3.通过classes设置类 `<p className={claess.p1} />`  会生成唯一的class值
+
+```jsx
+import classes from './App.module.css'
+
+
+```
+
+
+
+#### Fragment
+
+类似于vue中的template, 返回子组件,不会创建任何多余的元素. 
+
+react中的`React.Fragment`起到这个作用.
+
+使用方式:
+
+1.自定义实现Fragment
+
+2.`React.Fragment`
+
+3.简写`React.Fragment` ==> `<>`
+
+
+
+```jsx
+
+const Out = (props) => {
+  return (
+		{
+      props.children
+    }
+	)
+}
+export default Out
+```
+
+
+
+### 项目-订餐应用
+
+#### 实现适配
+
+```jsx
+//src/Index.js
+
+document.documentElement.style.fontSize = 100/705 * 'vw';
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+	<React.StrictMode>
+  	<App />
+  </React.StrictMode>
+)
+```
+
+#### 开发
+
+![20220506173307498-1536x831](C:\PersonalData\F2E\Notes\F2E Notes\08 FrameWork\React\lizhichao\assets\20220506173307498-1536x831.png)
+
+
+
+![img](https://my-wp.oss-cn-beijing.aliyuncs.com/wp-content/uploads/2022/05/20220506213746650-1024x579.png)
+
+##### Meal组件
+
+
+
+##### counter组件
+
+注意: jsx中使用逻辑判断时候, 带出多个标签时如何处理?
+
+```jsx
+  return (
+    <div className={classes.counter}>
+      {!!props.amount && <Fragment></Fragment><button className={classes.sub}>-</button>) && (<span className={classes.num}>{props.amount}</span></Fragment>}
+      <button className={classes.add}>+</button>
+    </div>
+  );
+```
+
+
+
+##### 使用图表字体代替按钮符号
+
+> https://docs.fontawesome.com/web/use-with/react
+
+字体基线问题导致按钮符号偏下. 使用fontawesome
+
+安装依赖
+
+```
+npm i --save @fortawesome/fontawesome-svg-core
+
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
+npm i --save @fortawesome/free-brands-svg-icons
+
+
+npm i --save @fortawesome/react-fontawesome@latest
+
+```
+
+
+
+引入组件
+
+```jsx
+import {fontAwesome} from '@fortawesome/fontawesome-svg-core'
+
+```
+
+
+
+引入图标
+
+```js
+import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
+```
+
+使用图标
+
+```jsx
+<FontAwesomeIcon icon={faPlus} />
+```
+
+
+
+##### Meals数据传递
+
+数据要存放在使用它的组件的父组件之中.
+
+
+
+##### 添加删除购物车中的商品
+
+如果使用props方式传递回调函数的话, 但是传递层级多.
+
+
+
+##### Context的使用
+
+组件之间的通信:
+在React中组件间的数据通信是通过props进行的，父组件给子组件设置props，子组件给后代组件设置props，props在组件间自上向下（父传子）的逐层传递数据。但并不是所有的数据都适合这种传递方式
+
+Context为我们提供了一种在不同组件间共享数据的方式，它不再拘泥于props刻板的逐层传递，而是在外层组件中统一设置，设置后内层所有的组件都可以访问到Context中所存储的数据。
+
+
+
+创建Context:
+
+```js
+const myContext = React.createContext(defaultValue)
+```
+
+defaultValue可以是任意类型的值.
+
+
+
+两种使用方式:
+
+首先,使用Xxx.Consumer组件来创建元素
+
+```js
+// src/store/Xxx.js
+
+const Xxx = React.createContext({name:'孙悟空',age: 28})
+
+export default Xxx
+```
+
+
+
+1.使用`组件+回调函数+入参`的形式来创建
+
+```jsx
+import Xxx from './stroe/Xxxd'
+
+
+
+(
+	<Xxx.Consumer>
+  	{
+      (ctx) => {   
+        return <div>
+        	{ctx.}  //可以访问ctx中的内容
+        </div>
+      }
+    }
+  </Xxx.Consumer>
+)
+```
+
+
+
+2.使用钩子函数`useContext(导入的内容)`  推荐使用
+
+```jsx
+import Xxx from '../strore/Xxx'
+
+const B = () => {
+  return <>
+  	const cusContext = useContext(Xxx)
+  </>
+}
+```
+
+
+
+以上是使用消费者的内容,, 但是使用前是需要生产者`Xxx.provider`来提供响应数据的. 
+
+```jsx
+import Xxx from '../store/Xxx'
+
+
+const App = () => {
+  return <div>
+    <A/>  //A组件中访问不了生产者提供的数据
+  	<Xxx.provider value={{name:'猪八戒', age:18}}>
+    	
+      <B/>
+      <C/>
+    </Xxx.provider>
+  </div>
+}
+```
+
+
+
+context的嵌套
+
+* 组件访问context时遵循就近原则
+
+* 如果没有Provider, 则读取Context的初始化属性
+
+```jsx
+import Xxx from '../store/Xxx'
+
+
+const App = () => {
+  return <div>
+    <A/>  //A组件中访问不了生产者提供的数据
+  	<Xxx.provider value={{name:'猪八戒', age:18}}>
+      <B/>
+      <Xxx2.provider value={{name:'沙和尚', age: 38}}>
+      	<C/>
+      </Xxx2.provider>
+    </Xxx.provider>
+  </div>
+}
+```
+
+
+
+##### 搜索框实现
+
+过滤
+
+##### 购物车及购物车详情的显示与隐藏
+
+注意事项:
+
+```jsx
+  const toggleShowCartDetail = () => {
+    // setShowCartDetail(!showCartDetail);
+    setShowCartDetail(preState => !preState);
+
+  }
+```
+
+
+
+backdrop中的冒泡
+
+1.props的扩展运算符用法
+
+```jsx
+const Backdrop = (props) => {
+  return (
+    ReactDOM.createPortal(<div {...props} className={`${classes.backdrop} ${props.className}`} >{props.children}</div>, backdropRoot)
+  );
+};
+
+export default Backdrop;
+```
+
+
+
+
+
+##### 结账页面 + 支付条
+
+
+
+### React副作用Effect
+
+订餐应用中的潜在的问题:
+
+* 购物车中商品清空以后, 购物车还显示
+* 结账页面中商品清空以后, 页面还显示
+
+
+
+关于第一个问题,在采用最新方案之前,我是通过props的回调函数方式:
+
+* 在cartDetail组件上, 调用了父组件cart中的`toggleShowCartDetail`来触发购物车的显示/隐藏, 调用了
+* 在cartDetail组件中, 调用了`<Meal>`组件外层div上的lcick事件, 触发父组件的`toggleShowCartDetail`方法
+
+
+
+新的解决方案:
+
+> 在组件每次重新渲染时候, 检查商品的总数量,如果数量是0,则修改showDetails为false 
+>
+> 组件每次重新渲染, 组件的函数都会执行.
+
+以下方案会报错, 死循环
+
+```jsx
+if (ctx.totalAmount === 0) {
+  setShowDetails(false)
+}
+```
+
+
+
+#### **Effect(副作用)**
+
+> [Effect – 李立超 | lilichao.com](https://lilichao.com/?p=5646)
+
+React组件有部分逻辑都可以直接编写到组件的函数体中的，像是对数组调用filter、map等方法，像是判断某个组件是否显示等。但是有一部分逻辑如果直接写在函数体中，会影响到组件的渲染，这部分会产生“副作用”的代码，是一定不能直接写在函数体中。
+
+##### React.strictMode
+
+> 如果你的React使用了严格模式，也就是在React中使用了`React.StrictMode`标签，那么React会非常“智能”的去检查你的组件中是否写有副作用的代码.
+>
+> 官网说明: 
+>
+> Strict mode can’t automatically detect side effects for you, but it can help you spot them by making them a little more deterministic. This is done by intentionally double-invoking the following functions:
+>
+> - Class component `constructor`, `render`, and `shouldComponentUpdate` methods
+> - Class component static `getDerivedStateFromProps` method
+> - Function component bodies
+> - State updater functions (the first argument to `setState`)
+> - Functions passed to `useState`, `useMemo`, or `useReducer`
+
+也就是,开发模式下且开启严格模式后, 以上函数会被调用两次. 如果你的浏览器中安装了React Developer Tools，第二次调用会显示为灰色。
+
+```jsx
+<React.StrictMode>
+	<App/>
+</React.StrictMode>
+```
+
+
+
+
+
+##### 背景问题:
+
+当前state和旧值相同时候, 它是不会触发组件的重新渲染的. 但在案例中却不是这样的.
+
+```jsx
+// src/App.js
+import React from 'react';
+import B from './B'
+const App = (props) => {
+  console.log('app组件重新渲染')
+  const [count, setCount] = React.useState(0);
+
+  const onClickHandler = () => {
+    console.log('点击了按钮')
+    setCount(1)
+  }
+  return (
+    <div>这是app组件
+      <B />
+      <div><button onClick={onClickHandler}>点击按钮</button></div>
+    </div>
+  );
+};
+
+export default App;
+
+
+// src/B.js
+import React from 'react';
+
+const B = (props) => {
+  console.log('b组件渲染了')
+  return (
+    <div>B组件</div>
+  );
+};
+
+export default B;
+```
+
+
+
+**现象描述:**
+
+1.页面刷新以后, 打印了`app组件重新渲染, b组件渲染了`
+
+2.点击按钮以后,打印了`点击了按钮; app组件重新渲染; b组件渲染了`
+
+3.再次点击按钮以后, 打印了`点击了按钮; app组件重新渲染`
+
+4.再次点击按钮以后, 打印`点击了按钮`
+
+
+
+**现象归因**
+
+首先,需要了解以下setState方法的执行流程(函数组件中的,类组件中的顺序不太一样)
+
+* 它会首先判断,组件处于什么阶段?
+* 如果是渲染阶段: 不会检查state的值是否相同. (也就是重复调用的问题原因)
+* 如果是非渲染阶段: 会检查state的值是否相同.
+  * 如果值不相同, 则对组件进行重新渲染
+  * 如果值相同, React在一些情况下会继续执行当前组件的渲染
+    * 但是这个渲染不会触发其子组件的渲染, 这次渲染也不会产生实际的效果. 这种情况通常发生在值第一次相同时(3)
+
+
+
+##### 使用Effect
+
+> 钩子函数`useEffect()`，Effect的翻译过来就是副作用，专门用来处理那些不能直接写在组件内部的代码。
+>
+> 哪些代码不能直接写在组件内部呢？像是：获取数据、记录日志、检查登录、设置定时器等。简单来说，就是那些和组件渲染无关，但却有可能对组件产生副作用的代码。
+
+语法
+
+```jsx
+useEffect(()=>{
+    /* 编写那些会产生副作用的代码 */
+});
+```
+
+`useEffect()`中的回调函数会在组件每次渲染完毕之后执行, React会确保effect每次运行时，DOM都已经更新完毕。.
+
+
+
+##### 限制Effect
+
+> 组件每次渲染effect都会执行，这似乎并不总那么必要。因此在`useEffect()`中我们可以限制effect的执行时机，在`useEffect()`中可以将一个数组作为第二个参数传递，像是这样：
+>
+> 设置以后effect只有在变量a或b发生变化时才会执行。这样即可限制effect的执行次数，也可以直接传递一个空数组，如果是空数组，那么effect只会执行一次。
+
+```jsx
+useEffect(()=>{
+    /* 编写那些会产生副作用的代码 */
+
+    return () => {
+        /* 这个函数会在下一次effect执行前调用 */
+    };
+}, [a, b]);
+```
+
+例如,在餐饮项目中购物车页面中, 触发Effect执行有下面几种情况:
+
+1. 初始化
+2. 点击`+`按钮时
+3. 点击购物车条时(没有必要)
+
+所以我们想去除非必要情况下useEffect的执行, 就需要使用useEffect的第二个参数, 这个参数是一个数组, 数组内部需要传递依赖的值, 只有当依赖的值发生变化后, 才会执行useEffect函数.
+
+```jsx
+// 购物车 src/Components/Cart.js
+
+  // 使用useEffect
+  useEffect(() => {
+    console.log('useEffect执行了')
+    if (cardContext.totalAmount === 0) {
+      setShowCartDetail(false);
+      setShowCheckout(false);
+    }
+  }, [cardContext, setShowCartDetail, setShowCheckout])
+
+// 去除setState
+  // 使用useEffect
+  useEffect(() => {
+    console.log('useEffect执行了')
+    if (cardContext.totalAmount === 0) {
+      setShowCartDetail(false);
+      setShowCheckout(false);
+    }
+  }, [cardContext])
+```
+
+**注意:**
+
+* 通常会将useEffect使用的局部变量设置为依赖项, 这样可以确保这些值发生变化时,会触发useEffect的执行; 像setState()是由钩子函数useState()生成的, useState()会确保每次渲染都会获取到相同的setState()对象, 所以setState方法可以不设置到依赖项中.
+* 如果设置了一个空数组, 则意味着useEffct只会在组件初始化时触发一次.
+
+
+
+##### 在餐饮项目输入框中采用useEffect方案  / 清除Effect
+
+```jsx
+const FilterMeals = (props) => {
+
+  const [inputVal, setInputVal] = useState('');
+  const onInputSearchHandler = (e) => {
+    setInputVal(e.target.value.trim());
+    // props.onFilter(e.target.value) 旧方案
+  }
+  useEffect(() => {
+    console.log('useEffect执行了')
+    props.onFilter(inputVal);
+  }, [inputVal])
+  return (
+    <div className={classes.filterMeals}>
+      <FontAwesomeIcon icon={faSearch} className={classes.searchIcon}/>
+      <input value={inputVal} onChange={onInputSearchHandler}type="text" className={classes.searchInput} />
+      <h2 style={{fontSize: '40rem', color: "red"}}>{inputVal}</h2>
+    </div>
+  )
+}
+
+export default FilterMeals
+```
+
+存在的问题:
+
+每次键盘输入时,都会触发useEffect函数. 不合理. 需要将此触发次数. 处理方案: 当用户停止输入1秒后, 才做查询. 
+
+```jsx
+// src/Components/Meals/filterMeal
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('useEffect执行了')
+      props.onFilter(inputVal);
+    }, 1000)
+  }, [inputVal])
+```
+
+但是这样做的话,依然会有问题. 打印信息不会减少, 只是延迟了一秒后再执行而已, 并没有解决我们的问题.  <u>所以, 在开启一个定时器之前, 应该关掉上一次.</u>
+
+所以,引入了useEffect的`清理函数`, 它会再useEffect下次执行前调用.
+
+```jsx
+// src/Components/Meals/filterMeal
+
+  useEffect(() => {
+    
+    let timer = setTimeout(() => {
+      console.log('useEffect执行了')
+      props.onFilter(inputVal);
+    }, 1000)
+    
+    
+		return () => { // 清理函数
+      clearTimeout(timer)
+      
+    }
+  }, [inputVal])
+```
+
+
+
+### Reducer
+
+> [Reducer – 李立超 | lilichao.com](https://lilichao.com/?p=5650)
+
+
+
+#### 使用背景
+
+为了解决复杂state带来的不便, React引入了reducer来整合state的复杂操作.
+
+例如,我们在餐饮项目中引入了`React.createContext`来实现全局通信, 但是cardData这个state的更新需要多个函数方法, 可以引入reducer来整合.
+
+```jsx
+// src/store/cardContext.js
+import React from "react";
+
+const CardContext = React.createContext({
+  items: [],
+  totalAmount: 0,
+  totalPrice: 0,
+  addItem: (item) => {},
+  removeItem: (id) => {},
+  clearItem: () => {},
+});
+
+
+export default CardContext;
+
+// src/App.js
+import CardContext from './store/CardContext'
+const App = () => {
+    // 存储购物车数据
+  const [cardData, setCardData] = useState({
+    items: [],
+    totalAmount: 0,
+    totalPrice: 0,
+  });
+  
+  const addItem = () => {};
+  const removeItem = () => {};
+  const clearItem = () => {};
+  
+  //...
+  
+  return (
+  	<CardContext.Provider value={ ...cardData, addItem, subItem, clearItem}>
+    	<FilterMeals onFilter={filterHandler} />
+      <Meals meals={mealsData} clearable />
+      <Cart />
+    </CardContext.Provider>
+  )
+}
+```
+
+
+
+#### 语法
+
+```jsx
+const [state, dispathFn] = useReducer(reduceFn, initialArg, initFn)
+```
+
+* 返参:返回值和useState相似, state用来读取state的值, 第二个返参是'派发器', 通过它可以向`reducerFn()`函数发送不同的指令, 控制`reducerFn()`做不同的操作.
+* 入参:
+  * `reducerFn`: 一个函数,是所谓的整合器.它的返回值会称为新的state的值. 当调用dispathFn时,dispatchFn会将消息发送给`reducerFn()`, 然后`reducerFn()`可以根据不同的消息对state进行不同的处理. 
+    * `reducerFn(state, action)`入参:
+    * state 当前最新的state的值
+    * action 需要一个对象, 在对象中会存储dispatch所发送的指令
+  * `initialArg`: 就是state的初始值.
+  * `initFn`, 暂时忽略
+
+
+
+**注意事项**
+
+`reducerFn`函数需要定在在函数组件的外部, 因为每次组件渲染都会生成一个新的reducerFn
+
+
+
+
+
+
+
+基本使用:
+
+```jsx
+import React from "react";
+
+const App = (props) => {
+  // const [count, setCount] = React.useState(0);
+
+  const reducerFn = (state, action) => {
+    switch (action.type) {
+      case "ADD":
+        return state + 1;
+      case "SUB":
+        return state - 1;
+      default:
+        return state;
+    }
+  };
+
+  const [count, dispatchCount] = React.useReducer(reducerFn, 0);
+
+  const onAddHandler = () => {
+    // dispatchCount("ADD"); 非对象入参也好用
+    dispatchCount({type: 'ADD'})
+  };
+  const onSubHandler = () => {
+    // dispatchCount("SUB");
+    dispatchCount({type: 'SUB'})
+  };
+
+  return (
+    <div>
+      App组件
+      <div
+        style={{ width: "300px", height: "300px", backgroundColor: "#bfa", margin: "50rem auto", textAlign: "center", fontSize: "40px" }}
+      >
+        <button onClick={onSubHandler}>-</button>
+        {count}
+        <button onClick={onAddHandler}>+</button>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+```
+
+
+
+好了,让我更改餐饮项目中CardData中的操作方法,将其集中到reducer中
+
+```jsx
+// src/App.js
+import CardContext from "./store/CardContext";
+
+  const reducerFn = (state, action) => {
+    const newCardData = { ...state };
+
+    switch (action.type) {
+      case "ADD":
+        if (newCardData.items.find((item) => item.id === action.meal.id)) {
+          // 已经存在
+          action.meal.amount += 1;
+        } else {
+          // 不存在
+          action.meal.amount = 1;
+          newCardData.items.push(action.meal);
+        }
+        newCardData.totalPrice += action.meal.price;
+        newCardData.totalAmount += 1;
+        newCardData.totalPrice += action.meal.price;
+        return newCardData;
+      case "SUB":
+        action.meal.amount -= 1;
+        if (action.meal.amount === 0) {
+          newCardData.items.splice(newCardData.items.indexOf(action.meal), 1);
+        }
+        newCardData.totalPrice -= action.meal.price;
+        newCardData.totalAmount -= 1;
+        newCardData.totalPrice -= action.meal.price;
+        return newCardData;
+      case "CLEAR":
+        newCardData.items.forEach((item) => delete item.amount);
+        newCardData.items = [];
+        newCardData.totalAmount = 0;
+        newCardData.totalPrice = 0;
+
+        return newCardData;
+      default:
+        return state;
+    }
+  }
+  
+  
+  
+  const App = () => {
+    //...
+    let initalArgs = {
+      items: [],
+      totalAmount: 0,
+      totalPrice: 0,
+    }
+    const [cardData, dispatchCardData ] = useReducer(reducerFn, initialArgs)
+    
+    
+    
+    return (
+    	  return (
+          <CardContext.Provider value={{ ...cardData, dispatchCardData}}>
+            <FilterMeals onFilter={filterHandler} />
+            <Meals meals={mealsData} clearable />
+            <Cart />
+
+          </CardContext.Provider>
+  );
+    )
+  }
+  
+  
+  
+ // src/store/CardData.js
+  
+  const CardData = React.createContext({
+    items: [],
+    totalAmount: 0,
+    totalPrice: 0,
+    dispatchCardData: () => {}
+  })
+```
+
+更新了以后, 点击新增/删除按钮, 数量会以2的倍数进行更新? 是因为我们在开发环境+严格模式下进行的开发.
+
+```jsx
+// index.js
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+
+
+### React.memo
+
+#### 背景
+
+> 对组件进行缓存
+
+#### 介绍
+
+是一个高阶组件,接受另一个组件做为参数,返回一个包装过的新组件. 新组件具有缓存功能.
+
+<u>包装过后, 只有组件的props发生变化,才会触发组件的重新渲染,否则总是返回缓存中的结果.</u> 
+
+
+
+```jsx
+// src/App.js
+const App = (props) => {
+  console.log('app组件渲染了')
+
+  const clickHandler = () => {
+    console.log('点击了按钮')
+    setCount(count + 1)
+  }
+
+  const [count, setCount] = React.useState(0);
+  return (
+    <div>
+      <h3>App组件</h3>
+      <button onClick={clickHandler}>点击按钮{count}</button>
+      <B />
+    </div>
+  );
+};
+
+
+
+import React from 'react';
+import B from './B';
+
+
+const A = (props) => {
+  console.log('A组件渲染了')
+  const [count, setCount] = React.useState(1);
+  const addHandler = () => {
+    setCount(preCount => preCount + 1)
+  }
+  const test = count % 4 === 0
+  console.log('test', count, test)
+  return (
+    <>
+    <h2>A组件 -- {count}</h2>
+    <button onClick={addHandler}>增加</button>
+    <button onClick={props.onAdd} >增加App</button>
+    <B test={test} />
+    </>
+  );
+};
+
+export default React.memo(A)
+
+
+
+// B.js
+import React from 'react';
+
+const B = (props) => {
+  console.log('b组件渲染了')
+  return (
+    <>
+    <div>这是B组件</div>
+    <p>{props.test && 'haha'}</p>  //只有当props发生变化时, 才会重新渲染
+    </>
+  );
+};
+
+export default React.memo(B)
+```
+
+
+
+
+
+### React.useCallback()
+
+#### 背景
+
+> 一个钩子函数, 用来创建react中的回调函数. 其创建的回调函数不会总在组件重新渲染时重新创建.
+
+
+
+设置一种场景, 使React.memo失效
+
+```jsx
+import React from 'react';
+import B from './B';
+
+
+const A = (props) => {
+  console.log('A组件渲染了')
+  const [count, setCount] = React.useState(1);
+  const addHandler = () => {
+    setCount(preCount => preCount + 1)
+  }
+  const test = count % 4 === 0
+  return (
+    <>
+    <h2>A组件 -- {count}</h2>
+    <button onClick={addHandler}>增加</button>
+    <button onClick={props.onAdd} >增加App</button>  //调用App组件中的方法, 触发state的更新, A组件会重新渲染,即便使用了React.memo方法
+    
+    <B test={test} />
+    </>
+  );
+};
+
+export default React.memo(A)
+```
+
+
+
+使用useCallbact钩子来避免重新渲染问题:
+
+```jsx
+import React from 'react';
+import A from './A';
+
+
+const App = (props) => {
+  console.log('app组件渲染了')
+
+  const clickHandler = () => {
+    console.log('点击了按钮')
+    setCount(count + 1)
+  }
+
+  const [count, setCount] = React.useState(0);
+
+  const onAddHandler = () => {
+    setCount(count + 1)
+  }
+  return (
+    <div>
+      <h3>App组件 -- {count}</h3>
+      <button onClick={clickHandler}>点击按钮{count}</button>
+      <A onAdd={onAddHandler}/>
+    </div>
+  );
+};
+
+export default App;
+```
+
+
+
+#### 语法
+
+```jsx
+useCallback(cbFn, devArr)
+```
+
+1.回调函数
+
+2.依赖数组
+
+* 当依赖数组中的变量发生变化时, 回调函数才会执行, (包括空数组)
+* 如果不指定依赖数组, 回调函数每次都会执行
+
+一定要将回调函数中使用的所有变量都设置到依赖数组中(除了setState). 否则回调函数永远都是初始化哪个回调函数, 其作用域都会是初始化哪个作用域.
+
+
+
+### Strapi了解使用
+
+> [Strapi – 李立超 | lilichao.com](https://lilichao.com/?p=6156)
+
+
+
+#### 是什么
+
+> Strapi就是一个API的管理系统，通过Strapi我们可以直接以网页的形式去定义自己的API、包括设置模型、权限等功能。有了Strapi我们无需编写代码便可开发出功能强大的API。
+
+
+
+#### 创建项目
+
+```bash
+//npm
+npx create-strapi-app@latest my-project --quickstart
+
+//yarn
+yarn create strapi-app my-project --quickstart
+```
+
+
+
+#### 基本配置
+
+##### 启动项目
+
+> npm run develop
+
+
+
+##### 配置显示语言
+
+> src/admin/admin.example.js
+
+
+
+### Fetch
+
+#### fetch的两种使用方法
+
+使用then,catch
+
+```jsx
+
+useEffect(() => {
+  fetch("http://localhost:1337/api/student")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // 抛出一个错误
+        throw new Error('数据请求失败')
+      })
+      .then((res) => {
+        setLoading(false)
+        setStuData(res.data);
+      })
+      .catch((err) => {
+        console.log("err>", err);
+        setLoading(false)
+        // 设置一个错误状态
+        setError(err.message)
+      });
+}, [])
+```
+
+
+
+使用await
+
+注意, useEffect中不能使用async函数
+
+```jsx
+// 如下使用方法会报错
+
+useEffect(async() => {
+  let res = await fetch("http://localhost:1337/api/students")
+})
+
+// 解决方案
+useEffect(() => {
+  const fetchData = async () => {
+    const res = await fetch("http://localhost:1337/api/students")
+  }
+  
+  fetchData()
+}, [])
+```
+
+
+
+#### 删除数据
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

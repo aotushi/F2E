@@ -25,35 +25,21 @@
 * 使用 Web IDE，比如 CodeSandbox
 * TS官方的 [TypeScript Playground](https://link.juejin.cn/?target=https%3A%2F%2Fwww.typescriptlang.org%2Fplay "https://www.typescriptlang.org/play")
 
-
 ## TS中的类型
 
-基本类型
-* boolean
-* string
-* number
+### 类型结构
 
-引用类型
-* 复合引用类型
-	* 数组,元组,对象,函数,类的实例等等
-* 内置引用类型
-	* Date,RegExp,Math等等
+![image-20241126194855331](C:\PersonalData\F2E\Notes\F2E Notes\03 TS\assets\image-20241126194855331.png)
 
-特殊类型
-* any / unknow
-* void
-* never
 
-枚举类型
-* enum
 
-联合类型和交叉类型
-* 联合类型
-* 交叉类型
 
-类型别名
 
-## 原始类型和对象类型
+
+
+## 原始类型
+
+
 
 #### 原始类型的类型标注
 使用 `: 类型` 的语法来实现，这里的类型其实也就是 string / number / boolean：
@@ -63,7 +49,502 @@ const userAge :number = 18
 const userMarried: boolean = false
 ```
 
-#### 数据/对象标注
+
+
+### 枚举类型
+
+> [TypeScript: Handbook - Enums](https://www.typescriptlang.org/docs/handbook/enums.html)
+
+#### 背景
+
+> 为了解决程序中采用数值或字符串判断时候出现的**可读性差和变量分布散乱**的问题,可以引入枚举来代替数值类型或字符串类型.
+>
+> 枚举类型变量通常用于集中定义和管理一组相关的常量，便于在其他地方引用. 
+>
+> TS支持数值枚举和字符串枚举.
+
+#### 枚举带来的好处:
+
+* 枚举能提供清晰的提示及值
+* 对于数值类型的值,可以自动累加值
+
+在JS中通过对象方式定义常量,可以起到注释作用.
+
+```js
+const userLevelCode = {
+  Visitor: 10001,
+  NonVIPUser: 10002,
+  VIPUser: 10003,
+  Admin: 10010,
+  // ... 
+}
+
+
+
+fetchUserInfo({
+  // ...
+  // 后续维护者：这到底是个啥？？
+  userCode: 10001
+})
+
+fetchUserInfo({
+  // ...
+  // 后续维护者：哦，这里要给访客用户啊
+  userCode: userLevelCode.Visitor
+})
+
+```
+
+在TS中提供了一个更好的定义常量的方式: 枚举.
+
+```ts
+enum UserLevelCode {
+  Visitor = 10001,
+  NonVIPUser = 10002,
+  VIPUser = 10003,
+  Admin = 10010,
+  // ... 
+}
+
+```
+
+
+
+#### 数值枚举
+
+> 数值枚举是数值类型的子类型,是默认的枚举类型. 因此可以将数值型枚举类型赋值给number类型. 但数值类型也能赋值给枚举类型,不会报错.
+>
+> 数值枚举可以混入计算成员和常量成员. 简单说,没有初始化的枚举要么排在第一位,要么排在初用数值常量或其它常量枚举成员初始化之后.
+
+其声明如下:
+
+```ts
+enum MonthOfYear {
+  January,
+  February,
+  March,
+  April,
+  May,
+  ... //省略后续代码
+}
+
+let month: MonthOfYear = MonthOfYear.March
+console.log(month); //2
+
+//赋值给数值类型
+const month2: number = MonthOfYear.January
+
+//数值类型赋值给枚举类型
+const month3: MonthOfYear = 10;
+```
+
+在没有显式地给各个枚举成员赋值的情况下，枚举中的第一个成员将从0开始取值，而下一个成员会在上一个成员取值的基础上加1.
+
+当然,也可以显式赋值.
+
+```ts
+enum MonthOfYear {
+  January = 1,
+  February,    //2
+  March = 10,
+  April,       //11
+  May,
+  ... //省略后续代码
+}
+
+let month: MonthOfYear = MonthOfYear.March
+console.log(month); //3
+```
+
+
+
+**枚举如何解决分支判断中可读性差的问题?**
+
+```ts
+enum UserType {
+  Admin,
+  VIP,
+  Normal,
+  Guest
+}
+
+//做分支判断时
+if (userType === UserType.Admin) {
+  //..
+} else if (userType === UserType.VIP || userType == UserType.Normal) {
+  //...
+} else if (userType === UserType.Guest) {
+  //...
+}
+```
+
+
+
+#### 字符串枚举
+
+> 字符串枚举的定义方式和数值枚举类似，但区别在于各个成员需要显式地赋值为字符串.
+>
+> 字符串枚举成员必须使用**字符串字面量**或**另一个字符串枚举成员**来初始化。
+
+```ts
+enum MonthOfYear {
+    January = "1月",
+    February = "2月",
+    March = "3月",
+    April = "4月",
+    May = "5月",
+    ...//省略后续代码
+}
+　
+let month: MonthOfYear = MonthOfYear.March;
+console.log(month); //3月
+
+enum Direction {
+    Up = 'UP',
+    Down = 'DOWN',
+    Left = 'LEFT',
+    Right = 'RIGHT',
+
+    U = Up,
+    D = Down,
+    L = Left,
+    R = Right,
+}
+```
+
+
+
+##### 与字符串的关系
+
+字符串枚举可以赋值给字符串,但是反过来不行,会产生报错.
+
+```ts
+enum Direction {
+    Up = 'UP',
+    Down = 'DOWN',
+    Left = 'LEFT',
+    Right = 'RIGHT',
+}
+
+const diretion: string = Direction.Up
+
+const direction2: Direction = 'UP'; //编译错误
+```
+
+
+
+
+
+#### 慎用的枚举形式
+
+
+
+#### 常量枚举成员和计算枚举成员
+
+根据枚举成员的值可以将枚举成员划分位如下两类:
+
+* 常量枚举成员
+* 计算枚举成员
+
+#### 常量枚举成员
+
+符合的几种情况,都是常量枚举成员:
+
+* 没有显式声明初始值,且是第一个枚举成员
+* 不是第一个枚举成员, 但是前一个枚举成员的类型是数值型.
+* 枚举成员的值是**常量枚举表达式**
+
+##### 常量枚举表达式
+
+> 是TS表达式的子集,能够在编译阶段被求值.
+
+具体规则:
+
+* 可以是: 数字字面量,字符串字面量和不包含替换值的模板字面量;
+* 可以是: 对前面定义的常量枚举成员的引用;
+* 可以是用分组运算符包围起来的常量枚举表达式
+* 可以使用一元运算符`+, -, ~`, 操作数必须为常量枚举表达式.
+* 可以使用二元运算符`+,-,*, **, /, %, <<, >>, >>>, &, |, ^`, 两个操作数必须为常量枚举表达式
+
+
+
+ok,让我们来看下例子吧:
+
+```ts
+enum Foo {
+  A=0,
+  B=`B`,
+  C='C',
+  D=A,
+}
+
+enum Bar {
+  A=-1,
+  B=1+2,
+  C=(4/2)*3
+}
+```
+
+
+
+```ts
+let a = 1;
+enum Foo {
+  A,
+  B=`${a}` //显式报错: Type 'string' is not assignable to type 'number' as required for computed enum member values.ts(18033)
+}
+
+//
+enum Foo2 {
+  A:string, //An enum member name must be followed by a ',', '=', or '}'.ts(1357)
+}
+```
+
+
+
+#### 计算枚举成员
+
+##### 是什么
+
+> 除常量枚举成员之外的其他枚举成员都属于计算枚举成员
+
+```ts
+
+enum Foo {
+  A="a".lnegth,
+  B=Math.pow(2,3)
+}
+```
+
+
+
+
+
+#### 使用示例(降低耦合度)
+
+枚举表示一组有限元素的集合,并通过枚举成员名来引用集合中的元素. 有时, 程序并不关心枚举成员值, 在这种情况下,让TS自动计算枚举成员值是很方便. 
+
+程序不依赖枚举成员值时,可以降低代码的耦合度,使其易于扩展. 例如,想给Direction枚举添加一个名为None的枚举成员来表示未知方向。按照惯例，None应作为第一个枚举成员,同时其它枚举成员的值也会发生变化, 由于move函数行为不直接依赖枚举成员的值,因此这次修改对已有功能不会产生任何影响.
+
+```ts
+enum Direction {
+  up,
+  down,
+  left,
+  right
+}
+
+function move(direction: Direction) {
+  switch(direction) {
+    case Direction.up:
+      console.log('up')
+      break
+    case Direction.down:
+      console.log('down')
+      break
+    case Direction.left:
+      console.log('left')
+      break
+    case Direction.right:
+      console.log('right')
+      break
+  }
+}
+
+move(Direction.up)   //up
+move(Direction.down) //down
+
+
+//
+```
+
+
+
+
+
+#### 联合枚举类型(Union enums types)
+
+##### 是什么
+
+> 当枚举类型中的所有成员都是字面量枚举成员时，该枚举类型成了联合枚举类型。
+
+官网上的描述: '有一种特殊的常量枚举成员类型, 其不会被计算值. 字面量枚举成员是没有初始化值的常量枚举成员或是有值且初始化是如下几种情况的: 
+
+* 任意字符串字面量
+* 任意数值字面量
+* 使用了一元减号的任意数值字面量.
+
+`这里我们还是需要回忆下不符合条件的枚举成员值有: 二元表达式/变量/函数调用/引用的之前枚举成员/`
+
+当枚举中所有成员具有字面量枚举值时,会产生如下语义:
+
+* **枚举成员也会成为一种类型**
+
+* **枚举类型自身会成为每个枚举成员的一种并集**(就是联合类型)
+
+```ts
+// 枚举成员也是一种类型
+
+enum ShapeKind {
+  Circle,
+  Square
+}
+
+interface Circle {
+  kind: ShapeKind.Circle,
+  radius: number
+}
+
+interface Square {
+  kind: ShapeKind.Square,
+  radius: number
+}
+
+let c: Circle {
+  kind: ShapeKind.Square,
+  // 
+  radius: 100
+}
+```
+
+
+
+
+
+##### 联合枚举成员类型
+
+> 定义, 
+
+联合枚举成员类型是联合枚举类型的子类型,因此可以将成员类型赋值给联合枚举类型.
+
+```ts
+enum Direction {
+  up,
+  down
+}
+
+const up: Direction.up = Direction.up
+const direction: Direction = up
+```
+
+
+
+##### 联合枚举类型
+
+> 定义, 是由所有联合枚举成员类型构成的联合类型
+
+```ts
+enum Direction {
+  left,
+  down,
+  right,
+  left
+}
+
+type UnionDirectionType = Direction.up | Direction.down | Direction.right | Direction.left
+```
+
+
+
+
+
+#### 在运行时
+
+在运行时,枚举以对象形式存在. 
+
+```ts
+enum E {
+  X,
+  Y,
+  Z,
+}
+ 
+function f(obj: { X: number }) {
+  return obj.X;
+}
+ 
+// Works, since 'E' has a property named 'X' which is a number.
+f(E);
+```
+
+
+
+#### 在编译时
+
+> 使用`keyof typeof`获取表示所有枚举键为字符串的类型.
+
+```ts
+enum LogLevel {
+  ERROR,
+  WARN,
+  INFO,
+  DEBUG,
+}
+ 
+/**
+ * This is equivalent to:
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
+ 
+function printImportant(key: LogLevelStrings, message: string) {
+  const num = LogLevel[key];
+  if (num <= LogLevel.WARN) {
+    console.log("Log level key is:", key);
+    console.log("Log level value is:", num);
+    console.log("Log level message is:", message);
+  }
+}
+printImportant("ERROR", "This is a message");
+```
+
+
+
+##### 反转映射
+
+
+
+
+
+
+
+##### `const`枚举
+
+
+
+
+
+
+
+##### Ambient enums(包裹枚举?)
+
+
+
+#### 对象 vs. 枚举
+
+> 在ts中,如果一个对象使用`as const`,你可能都不需要枚举了. 此处对象是常量对象.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 引用类型的标注
 
 数组类型有两种标注方法:
 > 这两种方式没有明显的区别，获得的类型提示都是完全一致的，仅仅取决于你想把数组成员的类型写在前还是后。
@@ -111,8 +592,10 @@ const user: User = {
 
 
 
+#### 进阶类型
 
-#### 接口类型
+
+##### 接口类型
 * 接口的属性类型可以是任意有效的类型，可以是一个接口
 * 接口加上数组类型,可以描述一个成员是对象的数组类型
 * 可选属性使用`?`当作可选标记
@@ -173,56 +656,15 @@ const user: User = {
 
 ```
 
-#### 枚举类型 enum
-
-枚举带来的好处:
-* 枚举能提供清晰的提示及值
-* 对于数值类型的值,可以自动累加值
-
-在JS中通过对象方式定义常量,可以起到注释作用.
-```js
-const userLevelCode = {
-  Visitor: 10001,
-  NonVIPUser: 10002,
-  VIPUser: 10003,
-  Admin: 10010,
-  // ... 
-}
 
 
+### 对象类型
 
-fetchUserInfo({
-  // ...
-  // 后续维护者：这到底是个啥？？
-  userCode: 10001
-})
+#### 元组类型
 
-fetchUserInfo({
-  // ...
-  // 后续维护者：哦，这里要给访客用户啊
-  userCode: userLevelCode.Visitor
-})
-
-```
-
-在TS中提供了一个更好的定义常量的方式: 枚举.
-```ts
-
-enum UserLevelCode {
-  Visitor = 10001,
-  NonVIPUser = 10002,
-  VIPUser = 10003,
-  Admin = 10010,
-  // ... 
-}
-
-```
-
-
-## 元组类型
 > 通常用于表示长度较固定的类型,并可分别指定每个元素的类型.
 
-### 元组的声明和读写
+#### 元组的声明和读写
 ```ts
 let 变量名称: [类型1,类型2,...,类型n] = [值1,值2,...,值n]
 ```
@@ -232,7 +674,7 @@ let 变量名称: readonly[] = [类型1,类型2,...,类型n] = [值1,值2,...,�
 ```
 
 
-### 元组中的可选元素和剩余元素
+#### 元组中的可选元素和剩余元素
 > 在声明元组时,将元组尾部的一些元素声明为可选元素,对这些元素可以不设置初始值.
 
 ```ts
@@ -256,7 +698,7 @@ tuple1 = [1, true];
 tuple1 = [1, true, "a", "b", "c"];
 ```
 
-### 元组的方法
+#### 元组的方法
 > 元组本质上是数组,数组所有的方法都可以使用,但不建议使用任何方法,因为使用这些方法会使元组绕过编译检查.
 
 ```ts
@@ -268,15 +710,15 @@ tuple2.shift();
 tuple2.unshift(2);
 ```
 
-### 元组转换为数组
+#### 元组转换为数组
 元组是数组的子类型,因此可以将元组的值赋给数组,然后作为数组使用.但不推荐,因为作为数组使用也会绕过编译检查.
 数组的值不能赋给元组,会引起编译错误.
 
 
 
-## 函数类型
+### 函数类型
 
-### 函数声明与函数表达式类型描述
+#### 函数声明与函数表达式类型描述
 ```ts
 function sum(a: number, b: number): number {
   return a + b;
@@ -289,7 +731,7 @@ const sum = function(a: number, b: number): number {
 ```
 
 
-### 函数表达式的另一种类型描述
+#### 函数表达式的另一种类型描述
 使用变量类型标注的方式(`const sum:函数类型=...`)来标注函数表达式类型的.
 
 1. 搭配类型别名
@@ -303,7 +745,7 @@ const sum: Sum = function(a,b) {
 ```
 
 
-### 函数返回值 void vs undefined
+#### 函数返回值 void vs undefined
 > 在 5.1 版本之前返回值类型标注为 undefined，就需要有显式的 return 语句.在之后，TS 对这个不符直觉的问题进行了修正，即允许了 undefined 作为无显式 return 语句函数的返回值类型，但考虑到发布时间较晚，因此还是有必要了解这个问题的。
 
 ```ts
@@ -320,7 +762,7 @@ function handler1(): void {};
 
 
 
-### 函数重载
+#### 函数重载
 > 是函数重载的概念，它指的就是根据不同的入参匹配不同的实际逻辑，实现一个函数名走天下。但是参数名称因为入参类型的多样,无法描述清楚.所以TS支持了类型层面的重载.
 
 ```js
@@ -422,15 +864,15 @@ public class Calculator {
 
 
 
-## Class
+### Class
 
 
 
-### 面向过程与面向对象
+#### 面向过程与面向对象
 
 
 
-### 两种方式的比较
+#### 两种方式的比较
 
 > 你可以认为它们是实现同一种效果的不同手段而已。
 >
@@ -515,9 +957,9 @@ class Worker extends Person {
 
 
 
-### class中类型描述
+#### class中类型描述
 
-#### 基本介绍
+##### 基本介绍
 
 ```ts
 class Person {
