@@ -1912,10 +1912,6 @@ const [state, dispathFn] = useReducer(reduceFn, initialArg, initFn)
 
 
 
-
-
-
-
 基本使用:
 
 ```jsx
@@ -2330,9 +2326,218 @@ useEffect(() => {
 
 
 
+### 自定义钩子
+
+钩子函数只能放在组件内部或自定义钩子当中
+
+Reaact中的钩子函数只能在函数组件或自定义钩子中调用. 当我们需要将react中的钩子函数提取到一个公共区域时,旧可以使用自定义钩子.
+
+自定义钩子其实就是一个普通函数, 只是它的名字需要使用use开头.
 
 
 
+### Redux
+
+> "一个专为JS应用设计的可预期的状态容器"
+
+
+
+
+
+
+
+#### 在网页中使用
+
+##### 使用步骤
+
+1. 引入redux
+2. 创建reducer整合函数
+3. 通过reducer对象创建store (容器)
+4. 对store中的state进行订阅
+5. 通过dispatch派发state的操作指令
+
+
+
+state表示当前state, 可以根据这个state生成心的state
+
+action是一个js对象, 他里面会保存操作的信息
+
+* type表示操作的类型
+* 其它需要传递的参数, 也可以在action中设置
+
+
+
+##### 基本案例
+
+state是一个原始值,但只是案例,也没有必要使用redux. 通常情况下redux中的state是一个对象.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/redux/4.0.5/redux.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <button id="add">+</button>
+  <span id="content">1</span>
+  <button id="sub">-</button>
+</body>
+<script>
+  const addNode = document.getElementById('add')
+  const subNode = document.getElementById('sub')
+  const contentNode = document.getElementById('content')
+  let count = 1;
+
+  const store = Redux.createStore(reducer, 1)
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'ADD':
+        return state + 1
+      case 'SUB':
+        return state - 1
+      default:
+        return state
+    }
+  }
+
+  store.subscribe(() => {
+    count = store.getState()
+    contentNode.innerHTML = count
+  })
+
+  addNode.addEventListener('click', () => {
+    count += 1
+    // contentNode.innerHTML = count
+    store.dispatch({ type: 'ADD' })
+  })
+
+  subNode.addEventListener('click', () => {
+    count -= 1
+    // contentNode.innerHTML = count
+    store.dispatch({ type: 'SUB' })
+  })
+</script>
+</html>
+```
+
+
+
+
+
+#### 案例中存在的问题
+
+
+
+##### 存在的问题
+
+1. 如果state过于复杂, 将会非常难以维护
+   1. 对state进行分组
+
+2. state每次操作时,都是需要对state进行复制,然后再去修改
+
+3. case后面的常量维护起来比较麻烦
+
+
+
+##### 如何解决
+
+使用Redux ToolKit(RTK). 另一种使用redux的方式.处理redux过程中的重复性工作,简化redux中的各种操作.
+
+
+
+### RTK
+
+> [Redux Toolkit（RTK） – 李立超 | lilichao.com](https://lilichao.com/?p=6210)
+
+##### react中引入Redux
+
+```bash
+//旧方式
+npm install -S redux react-redux
+yarn add redux react-redux
+
+//新方式
+npm install react-redux @reduxjs/toolkit -S
+yarn add react-redux @reduxjs/toolkit
+
+
+```
+
+
+
+在src/store目录下创建相关配置文件, 我们以最简单的index.js为例:
+
+```js
+
+import {createSlice, configureStore} from '@redux/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {value:0},
+  reducers: {
+    increment: state => {
+      state.value += 1
+    },
+    decrement: state => {
+      state.value -= 1
+    }
+  }
+})
+
+export const {increment, decrement} = counterSlice.actions;
+
+
+//创建容器
+const store = configureStore({
+  reducer: {
+    counter: counterSlice,reducer
+  }
+})
+
+export default store
+```
+
+
+
+```jsx
+//src/index.js
+
+import store from './store'
+import {Provider} from 'react-redux'
+
+//...
+root.render(
+	<Provider store={store}>
+  	<App/>
+  </Provider>
+)
+```
+
+
+
+```jsx
+//src/App.js
+
+import {useSelector, useDispatch} from 'react-redux'
+import {increment, decrement} from '.store/index'
+
+const App = () => {
+  const counter = useSelector(state => state.value)
+  const dispatch = useDispatch()
+  
+  return (
+  	<>
+    	<button onClick={dispatch(increment())}>+</button>
+    	<span>{counter.value}</span>
+    	<button onClick={dispatch(decrement())}>-</button>    
+    </>
+  )
+}
+```
 
 
 

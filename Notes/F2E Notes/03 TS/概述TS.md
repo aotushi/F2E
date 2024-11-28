@@ -524,6 +524,46 @@ printImportant("ERROR", "This is a message");
 
 > 在ts中,如果一个对象使用`as const`,你可能都不需要枚举了. 此处对象是常量对象.
 
+常量对象相对枚举来说: 创建的对象更轻巧; 不需要类型转换; 运行开销更小.
+
+
+
+
+
+**生产案例:**
+
+```ts
+const ApiEndpoints = {
+  Users: '/api/users',
+  Posts: '/api/posts',
+  Comments: '/api/comments'
+} as const;
+
+// typeof ApiEndpoints[keyof typeof ApiEndpoints] 获取对象所有可能的值的类型, 也就是最终结果是: '/api/users'|'/api/posts'|'/api/comments'
+function fetchData(endpoint: typeof ApiEndpoints[keyof typeof ApiEndpoints]) { 
+  return fetch(endpoint);
+}
+
+// 安全地使用，只能传入预定义的端点
+fetchData(ApiEndpoints.Users);
+
+
+//typeof
+const ApiEndpoints = {
+  Users: '/api/users',
+  Posts: '/api/posts'
+} as const;
+
+// typeof ApiEndpoints 的类型是 {
+//   readonly Users: "/api/users";
+//   readonly Posts: "/api/posts";
+// }
+
+// typeof ApiEndpoints[keyof typeof ApiEndpoints] 获取所有值的联合类型
+type EndpointUrls = typeof ApiEndpoints[keyof typeof ApiEndpoints];
+// 结果是 "/api/users" | "/api/posts"
+```
+
 
 
 
