@@ -2336,13 +2336,17 @@ Reaact中的钩子函数只能在函数组件或自定义钩子中调用. 当我
 
 
 
+
+
+
+
+
+
+
+
 ### Redux
 
 > "一个专为JS应用设计的可预期的状态容器"
-
-
-
-
 
 
 
@@ -2453,6 +2457,10 @@ state是一个原始值,但只是案例,也没有必要使用redux. 通常情况
 
 > [Redux Toolkit（RTK） – 李立超 | lilichao.com](https://lilichao.com/?p=6210)
 
+#### 是什么
+
+
+
 ##### react中引入Redux
 
 ```bash
@@ -2541,6 +2549,252 @@ const App = () => {
 
 
 
+#### 拆分RTK 
+
+现在RTK相关代码都存储在src/store/index文件中, 如果切片一多起来的话, 会非常杂乱,action的名字也有可能会重复,所以需要进行切片文件化, 然后暴露导入到store中.
+
+```md
+- store
+-- index.js
+-- StudentSlice.js
+-- SchoolSlice.js
+```
+
+根据上面的结构,可以看出来,需要在默认文件index.js中引入StudentSlice, SchoolSlice这两个独立切片. 那切片怎么暴露呢?
+
+```js
+//... 以schoolSlice.js为例
+
+export [actionName1, actionName2] = SchoolSlice.actions;
+export default SchoolSlice.reducer;
+```
+
+
+
+然后,在store仓库中导入切片,在组件中导入actions
+
+```js
+// src/store/index.js
+
+import SchoolSlice from './SchoolSlice'
+
+const store = configureStore({
+  school: SchoolSlice,
+  student: StudentSlice.reducer
+})
+```
+
+
+
+
+
+
+
+### TRKQ概述
+
+> [RTK Query – 李立超 | lilichao.com](https://lilichao.com/?p=6218)
+
+
+
+#### 是什么
+
+> RTK Query是一个强大的数据获取和缓存工具。它使我们不再需要自己编写获取数据和缓存数据的逻辑。
+
+
+
+#### 使用
+
+RTKQ中将一组相关功能统一封装到一个Api对象中，比如：都是学生相关操作统一封装到StudentApi中，关于班级的相关操作封装到ClassApi中。.以一个简单请求为例,来简单说明其使用步骤.
+
+##### 创建Api切片
+
+1. 调用`createApi`创建Api对象. 
+   1. 注意在RTK中有俩版本: 一个位于`@reduxjs/toolkit/dist/query`下，一个位于`@reduxjs/toolkit/dist/query/react`下. react目录下的版本会自动生成一个钩子(useXxxQuery, useXxxMutation),方便我们使用api. (建议用这个)
+2. createApi方法需要传入一个配置对象:
+   1. reducerPath: 用来设置reducer的唯一标识，主要用来在创建store时指定action的type属性，如果不指定默认为api。
+   2. 用来设置发送请求的工具，就是你是用什么发请求，RTKQ为我们提供了fetchBaseQuery作为查询工具，它对fetch进行了简单的封装，很方便，如果你不喜欢可以改用其他工 
+
+3. fetchBaseQuery
+
+   1. 简单封装过的fetch调用后会返回一个封装后的工具函数。需要一个配置对象作为参数，baseUrl表示Api请求的基本路径，指定后请求将会以该路径为基本路径。配置对象中其他属性暂不讨论。
+
+4. endpoints
+
+   1. endpoints是一个回调函数，可以用普通方法的形式指定，也可以用箭头函数。回调函数中会收到一个build对象，使用build对象对点进行映射。回调函数的返回值是一个对象，Api对象中的所有端点都要在该对象中进行配置。
+
+   2. 对象中属性名就是要实现的功能名，比如获取所有学生可以命名为getStudents，根据id获取学生可以命名为getStudentById。属性值要通过build对象创建，分两种情况：
+
+      查询：`build.query({})`
+
+      增删改：`build.mutation({})`
+
+   3. query也需要一个配置对象作为参数. 配置对象中同样有n个属性. 例如(目前只说这个)
+
+      1. query方法: 返回子路径, 会和baseUrl拼接成一个完整的请求路径.
+
+
+```js
+// src/store/studentApi
+
+import {createApi, fetchBaseQuery } from '@reduxjx/toolkit/dist/query/react'
+
+export const studentApi = createApi({
+  reducerPath: 'studentApi',   //标识符
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:1337/api/'
+  }),
+  endpoints(build) {
+    return {
+      getStudents: build.query({
+        query() {
+          return 'students'
+        }
+      }),
+      //查询数据
+      getStudentById: builder.query({
+        query(id) {
+          return `students/${id}`
+        }
+      }),
+      //删除数据
+      delStudent: builder.query({
+        query(id) {
+          return {
+            url: `students/${id}`,
+            method: 'delete'
+          }
+        }
+      }),
+      
+      //新增数据
+      //更新数据
+    }
+  }
+})
+
+export const {useGetStudentsQuery, useGetStudentById, useDeleteStudentMutation } = studentApi
+```
+
+
+
+#### 示例
+
+对本地的strapi中的接口发一个请求, 将数据展示在页面上即可. 以便对RTKQ有个基本的使用了解.
+
+* 新建一个请求切片,并暴露这个切片及请求的方法(以query方法为例)
+* store容器中引入这个切片,并将切片在reducer中声明
+* 在组件中引入请求的方法,解构出data, isFetching, isSuccess数据
+
+useGetStudentsQuery()返参信息:
+
+1. data – 最新返回的数据
+2. currentData – 当前参数的最新数据. 它是需要考虑参数的存在,不像data永远是最新的数据. currentData就是最新参数的数据.
+3. error – 错误信息
+4. isUninitialized – 如果为true则表示查询还没开始
+5. isLoading – 为true时，表示请求正在<u>第一次加载</u>
+6. isFetching 为true时，表示请求正在加载
+7. isSuccess 为true时，表示请求发送成功
+8. isError 为true时，表示请求有错误
+9. refetch 函数，用来重新加载数据,不会使用缓存.
+10. status: "pending" //表示请求的状态
+
+
+
+
+
+
+
+
+
+#### 缓存
+
+##### 表现
+
+发送第一次请求以后, 在默认60秒内,重新请求(不是刷新浏览器),不会产生请求. 这就是缓存功能. 通过配置项`keepUnusedDataFor`属性对缓存时间进行配置.
+
+##### 配置
+
+每次请求时,不使用缓存功能.
+
+keepUnusedDataFor: 0 //设置数据缓存的时间 单位秒, 默认是60秒
+
+```js
+  getStudentById: binder.query({
+    query: (id) => {
+      return `students/${id}`
+    },
+    keepUnusedDataFor: 10
+  })
+```
+
+
+
+#### useQuery返回值和参数了解
+
+
+
+##### useQuery返参
+
+1. data – 最新返回的数据
+2. currentData – 当前参数的最新数据. 它是需要考虑参数的存在,不像data永远是最新的数据. currentData就是最新参数的数据.
+3. error – 错误信息
+4. isUninitialized – 如果为true则表示查询还没开始
+5. isLoading – 为true时，表示请求正在<u>第一次加载</u>
+6. isFetching 为true时，表示请求正在加载
+7. isSuccess 为true时，表示请求发送成功
+8. isError 为true时，表示请求有错误
+9. refetch 函数，用来重新加载数据,不会使用缓存.
+10. status: "pending" //表示请求的状态
+
+
+
+
+
+
+
+##### useQuery参数 
+
+两个参数,第一个参数是query方法中的参数, 第二个参数是一个对象, 通过该对象可以对请求进行配置.
+
+
+
+```js
+selectFromResult: result => result //执行useQuery返回的结果
+
+selectFromResult: result => {
+  if (result.data) {
+    result.data = result.data.filter(xxxx)
+  }
+  return result
+}
+
+pollingInterval: 0 //设置轮询的间隔, 单位毫秒. 默认是0
+
+
+skip: false //默认值false, 设置是否跳过当前请求
+
+refetchOnMounteOrArgChange: false //设置是否每次都重新加载数据 默认false,正常使用缓存; true,每次重载数据; 数字,数据缓存时间(秒)
+
+refetchOnFoucus: false //是否在重新获取焦点时获取数据. 生效前提是在store中设置 setupListeners(store.dispatch), 设置成功以后, 才会支持refetchOnFocus refetchOnReconnect
+
+refetchOnReconnect: false //是否重新连接后重载数据 默认false
+
+
+
+
+```
+
+
+
+#### 数据标签
+
+> 实现数据的自动刷新
+
+tagTypes, 用来指定Api中的标签类型.
+
+query查询中,需要声明的属性名称是: providesTags
+
+mutation查询中需要声明的属性名是: invalidatesTags
 
 
 
@@ -2558,4 +2812,657 @@ const App = () => {
 
 
 
+### ReactRouter@5
+
+> 客户端路由
+
+
+
+
+
+#### react router使用步骤
+
+1. 引入`react-router-dom`包
+2. 在index.js中引入BrowserRouter组件
+3. 将BrowserRouter设置为跟路由
+
+##### 安装
+
+```bash
+npm install react-router-dom@5 -S
+
+yarn add react-router-dom@5
+```
+
+
+
+##### 引入
+
+```jsx
+import {BrowswerRouter as Router, Link, Route, Switch} from 'react-router-dom'
+
+
+<Router>
+	<App/>  
+</Router>
+```
+
+
+
+##### 使用
+
+```jsx
+import { Route } from "react-router-dom";
+import Home from "./Components/Home";
+import List from "./Components/List";
+
+
+function App() {
+  return (
+    <div className="App">
+     app 
+
+     <Route exact path='/' component={Home} />
+     <Route exact path='/list' component={List} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+
+
+#### 基本使用
+
+将路由和组件进行映射:
+
+* 使用router映射组件和地址
+* router属性 
+  * path: 映射url地址; 
+  * componnet: 要挂载的组件.
+  * exact 路径是否完整匹配
+
+
+
+注意: 当router路径被访问, 其对应的组件就会自动挂载. 注意: 默认情况下route并不是严格匹配, 只要url地址的头部和path一致,组件就会挂载,不会插件子路径.
+
+
+
+#### Link和NavLink(标签体组件)
+
+在react router中, 不要使用a标签创建超链接. 因为a标签创建的超链接, 会自动向服务器发送请求重新加载页面.  可以使用Link组件创建超链接.
+
+NavLink和Link相似, 但可以指定链接激活后的样式, 使用`activeClassName={classes.active}`, 同时也可以使用`activeStyle={}`的形式来代替activeName.
+
+```jsx
+
+import React from 'react';
+import { Link, NavLink } from "react-router-dom";
+import classes from "./LinkComponent.module.css";
+
+const LinkComponent = (props) => {
+  return (
+    <div>
+      {/* <Link to="/">首页</Link> */}
+      <NavLink to="/about" activeClassName={classes.active}>关于</NavLink>
+      <br/>
+      {/* <Link to="/list">列表</Link> */}
+      <NavLink to="/list" activeClassName={classes.active}>列表</NavLink>
+    </div>
+  );
+};
+
+export default LinkComponent;
+```
+
+
+
+##### NavLink组件
+
+特殊版本的Link, 可以根据不同的情况设置不同的样式:
+
+属性:
+
+1. activeClassName —— 字符串 链接激活时的class
+2. activeStyle —— 对象 链接激活时的样式
+3. isActive —— 函数，可动态判断链接是否激活
+4. style —— 函数，动态设置样式
+5. className —— 函数，动态设置class值
+
+
+
+#### 两种router
+
+* BrowserRouter
+* HashRouter
+
+
+
+##### BrowserRouter
+
+> 直接通过url地址进行组件的跳转, 使用过程和普通的url地址没有区别.
+
+
+
+##### HashRouter
+
+> 会通过url地址中的hash值来对地址进行匹配
+
+
+
+
+
+##### 404问题
+
+描述:
+
+使用BrowserRouter进入某个子页面时, 刷新浏览器, 出现404报错. (本地启动了Nginx)
+
+
+
+解决:
+
+1.使用HashRouter, 服务器不会去判断hash值.
+
+2.使用BrowserRouter,需要修改服务器配置.
+
+```js
+// nginx.conf
+
+location /{
+  root html;
+  #index index.html index.htm;  //注释此行
+  try_files $uri /index.html;   //新增此行
+}
+```
+
+
+
+#### Route组件
+
+Route组件是路由的映射组件，通过该组件将url地址和React组件进行映射，映射后当url地址变为指定地址时指定的组件就会显示，否则不显示。
+
+```jsx
+<Route path="/home" component={Home} />
+<Route path="/about" component={About} />
+```
+
+Route组件可以设置以下几个属性
+
+1. path
+2. exact 设置路由地址是否完整匹配
+3. strict 是否匹配一`/`结尾的路径, 默认是false
+4. component 设置路径匹配后需挂载的组件,和route的标签体类似.与标签体组件不同, 会自动向组件中传递3个参数: match,location,history
+5. render
+6. children
+7. location
+8. sensitive
+
+
+
+##### component组件
+
+参数:
+
+1. match对象 表示请求匹配的路径信息
+   1. param 请求参数
+   2. isExact 布尔值,请求路径是否完全匹配
+   3. path 请求路径的规则
+   4. 匹配到的url地址
+2. location对象: 表示浏览器地址栏的信息
+   1. pathname 请求的路径
+   2. search 查询字符串
+   3. hash hash字符串
+   4. state 历史记录中的状态对象,可以用来在跳转时候传递数据
+3. history对象 用来读取和操作浏览器的历史记录（页面跳转）等功能
+   1. length 历史记录的数量
+   2. action 当前历史记录的状态
+   3. location location对象
+   4. push 添加新的历史记录
+   5. replace 替换历史记录
+   6. go 跳转到指定记录
+   7. goBack 回退
+   8. goForwar 前进
+   9. block 用来阻止用户跳转行为,可以用Prompt组件代替
+
+
+
+```jsx
+// src/Components/List.js
+
+import React from 'react';
+
+const List = (props) => {
+  
+  // props.history.replace({pathname: '/about'})
+  // props.history.push({pathname: '/about'})
+  // props.match.params.id <<=  <Route exact path='/list/:id' component={List} />
+
+  // 
+  return (
+    <div>
+      <h1>List</h1>
+      <li>孙悟空</li>
+      <li>孙悟空</li>
+      <li>孙悟空</li>
+      <li>孙悟空</li>
+    </div>
+  );
+};
+
+export default List;
+```
+
+
+
+##### render参数
+
+指定要挂载的组件, 和component组件相比, 可以指定参数, 而component组件只能传入类,不能传入jsx. 
+
+```jsx
+<Route path="/student/:id" render={Student}></Route>
+```
+
+但是如果这样我们就无法访问使用component时传入props的几个参数,所以render需要改写成回调函数形式:
+
+```jsx
+<Route path="/student/:id" render={ () => <Student stu={...}/> }></Route>
+```
+
+如何访问ReactRouter传递的几个参数: 使用入参 
+
+```jsx
+<Route paht="/student/:id" render={(routePros => {
+    return <Student {...routePros}/>
+  })}
+```
+
+
+
+##### children属性
+
+也可以用来指定被挂载的组件. 用法有两种:
+
+1.和render类似, 传递回调函数. 
+
+当children设置回调函数时候, 该组件无论路径是否匹配都会挂载 
+
+```jsx
+<Route exact path='/list' children={routeProps => <List {...routeProps} />} />
+```
+
+2.可以直接传递组件.但获取路由组件参数需要更换方式(需要使用钩子)
+
+```jsx
+<Route exact path='/list' children={<Student  stu={data}/> />
+
+// <Student />
+const match = useRouteMath()
+const location = useLocation()
+const history = useHistory()
+const useParams()
+                                    
+                                    
+```
+
+
+
+另几种使用方式:
+
+```jsx
+// 类似props.children(插槽)使用方式
+
+<Route path="/student/:id">
+	<Student />
+</Route>
+
+
+
+// 
+
+<Route path="/sudent/:id">
+	{routeProps => <Student {...routeProps}/>}
+</Route>
+```
+
+
+
+#### 路由嵌套
+
+简单实现路由嵌套示例
+
+```jsx
+
+// src/App.js
+
+function App() {
+  return (
+  	<div>
+    	<Route to="/about">
+      	<About />
+        <Route path="/about/hello">  //嵌套
+        	<Hello />
+        </Route>
+      </Route>
+    </div>
+  )
+}
+
+// src/Components/About.js 则在父组件中定义嵌套组件
+
+function About() {
+  return (
+  	// ...
+    <Route path="/about/hello">
+    	<Hello />
+    </Route>
+  )
+}
+```
+
+
+
+嵌套路由动态设置渲染路径
+
+```jsx
+// src/Components/About.js 则在父组件中定义嵌套组件
+
+function About() {
+  const {path} = useRouteMatch()
+  
+  return (
+  	// ...
+    <Route path=`/${path}/hello`>
+    	<Hello />
+    </Route>
+  )
+}
+```
+
+
+
+#### Prompt组件
+
+> 页面跳转之前, 提示组件
+
+##### 属性
+
+1. message 字符串/函数，设置离开前显示的提示信息
+2. when布尔值，设置是否显示提示
+
+
+
+基本使用
+
+```jsx
+
+const [isPrompt, setIsPrompt] = useState(false)
+return (
+	<Prompt when={isPrompt} message={'将要离开页面, 缺人吗?'}>
+  	<input type="text" onChange={e=>setIsPrompt(e.target.value.trim())} />
+  </Prompt>
+)
+```
+
+
+
+
+
+#### Redirect组件
+
+> 将请求重定向到一个新的位置，经常用来进行权限的处理。
+
+属性：
+
+1. to —— 重定向的目标地址，可以是一个字符串也可以是一个对象
+2. from —— 需要重定向的地址
+3. push —— 布尔值，是否使用push方式对请求进行重定向. 
+
+例如：当用户已经登录时则正常显示组件，用户没有登录时则跳转到登录页面。
+
+```jsx
+{isLogin && <SomeAuthComponent/>}
+{!isLogin && <Redirect to={"/login"}></Redirect>}
+
+
+// 访问home页时,自动跳转到about页
+<Redirect from={'/home'} to={'/about'} />
+```
+
+
+
+
+
+
+
+### ReactRouter@6
+
+#### 安装
+
+```bash
+npm install react-router-dom@6 -S
+```
+
+
+
+#### 基本使用
+
+两种router(hash, browser)标签和5相同
+
+
+
+#### `<Route>基本使用`
+
+和版本5相比, 需要使用Routes组件进行包裹. element属性的值是一个jsx内容,可以传递内容.
+
+```jsx
+
+import React from "react";
+
+import Home from "./Components/Home";
+import List from "./Components/List";
+import { Route, Routes } from "react-router-dom";
+function App() {
+  let data = ['1']
+  return (
+    <div>
+      app
+      <Routes>
+        <Route path="/" element={<Home data={data}/>} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/" element={<List/>} />  // 放在这个位置是,失效
+      </Routes>
+      <Routes>
+        <Route path="/" element={<List/>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+
+
+#### router的参数
+
+```js
+  const { id } = useParams();
+  console.log("id>", id);
+
+  const location = useLocation(); //获取当前地址信息 和v5打印结果一致
+  console.log("location>", location);
+  /**
+   * {
+    "pathname": "/list/2",
+    "search": "",
+    "hash": "",
+    "state": null,
+    "key": "default"
+}
+   */
+
+  const match = useMatch("/list/:id"); //用来检查当前url是否匹配某个路由, 如果匹配返回一个对象,不匹配返回null
+
+  console.log("match>", match);
+  /**
+ * {
+    "params": {
+        "id": "2"
+    },
+    "pathname": "/list/2",
+    "pathnameBase": "/list/2",
+    "pattern": {
+        "path": "/list/:id",
+        "caseSensitive": false,
+        "end": true
+    }
+}
+ */
+
+
+  //获取一个页面跳转的函数 nav('/about') 默认push方式, 替换方式 nav('/about', {replace: true})
+  const nav = useNavigate() 
+```
+
+
+
+#### 路由的嵌套
+
+v6中的路径匹配默认是完全匹配
+
+```jsx
+// 在About组件中嵌入List组件
+
+//About组件
+import React from "react";
+import List from "./List";
+import { Route, Routes } from "react-router";
+
+const About = (props) => {
+  return (
+    <>
+      <h2>About</h2>
+      <hr />
+      <Routes>
+        <Route path={"list"} element={<List />} />
+      </Routes>
+    </>
+  );
+};
+
+export default About;
+
+
+//App组件
+function App() {
+  let data = ['1']
+  return (
+    <div>
+      app
+      <Routes>
+        <Route path="/" element={<Home data={data}/>} />
+       <Route path="/about/*" element={<About/>} />  //<- 注意此处, about之后添加了通配符
+       <Route path="/list/:id" element={<List/>} />
+      </Routes>
+      <Routes>
+        <Route path="/" element={<About/>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+上面是一种方案, 缺点是繁琐.  既要在父组件中引入嵌套的组件,还要声明父组件的路径声明. 可以使用`Outlet`组件来表示嵌套路由:
+
+```jsx
+//App组件
+function App() {
+  let data = ['1']
+  return (
+    <div>
+      app
+      <Routes>
+        <Route path="/" element={<Home data={data}/>} />
+       <Route path="/about/*" element={<About/>}>   // <- 注意此处
+       	<Route path="hello" element={<Hello/>} 
+       </Route>
+       <Route path="/list/:id" element={<List/>} />
+      </Routes>
+      <Routes>
+        <Route path="/" element={<About/>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+         
+```
+
+使用`Outlet`组件进行匹配:
+
+```jsx
+//App组件
+function App() {
+  let data = ['1']
+  return (
+    <div>
+      app
+      <Routes>
+        <Route path="/about/" element={<About />}>
+          <Route path="hello" element={<Hello />} />  
+        </Route>
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+
+// About组件 使用Outlet组件进行组件接收
+
+navigation
+
+```
+
+
+
+#### Navigate组件
+
+> 用来跳转页面, 默认使用push方法, 新增一条历史记录. 可以添加'replace'属性
+
+```jsx
+
+<Navigate to='/student/1' />
+```
+
+
+
+#### NavLink组件
+
+组件属性:
+
+* style  回调函数使用形式,入参是一个对象,属性为`isActive`,布尔值.
+* to 跳转目标路径.默认push方法
+
+```jsx
+<NavLink to="/student/2">学生</NavLink>
+
+<NavLink style={(obj) => {}} to="/student/2">学生</NavLink>
+```
+
+
+
+### 路由案例-权限
 
