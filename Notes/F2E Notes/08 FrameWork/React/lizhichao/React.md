@@ -2602,6 +2602,17 @@ const store = configureStore({
 
 
 
+#### 安装
+
+```bash
+```
+
+
+
+
+
+
+
 #### 使用
 
 RTKQ中将一组相关功能统一封装到一个Api对象中，比如：都是学生相关操作统一封装到StudentApi中，关于班级的相关操作封装到ClassApi中。.以一个简单请求为例,来简单说明其使用步骤.
@@ -3442,6 +3453,8 @@ navigation
 
 > 用来跳转页面, 默认使用push方法, 新增一条历史记录. 可以添加'replace'属性
 
+
+
 ```jsx
 
 <Navigate to='/student/1' />
@@ -3465,4 +3478,344 @@ navigation
 
 
 ### 路由案例-权限
+
+#### token获取/存储/自动登出
+
+流程介绍: 
+
+1. 首先需要一个组件来获取用户输入的用户名密码,需要提供登录/注册接口
+2. 使用RTKQ来提供登录/注册接口,获取用户信息
+3. 使用redux切片来持久化存取或删除用户信息,并提供存储/删除用户信息的方法
+
+
+
+
+
+
+
+
+
+#### 服务器验证
+
+> 前端请求时候需要在请求头中添加`Authorization: token`信息, 如何添加呢?
+>
+> 需要在RTKQ中统一配置请求头
+
+```js
+const xxxApi = createApi({
+  renderPath: 'xxxApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:1337/api/',
+    //统一设置请求头
+     prepareHeaders(headers, { getState }) {
+      // 获取用户token 如何从state中获取? 第二个参数
+      let token = getState().auth.token
+      if (token) {
+          headers.set('Authorization', token);
+      }
+      return headers
+  	}
+  })
+})
+```
+
+
+
+
+
+### hooks介绍
+
+#### useMemo
+
+> useMemo和useCallback十分相似，useCallback用来缓存函数对象，useMemo用来缓存函数的执行结果。在组件中，会有一些函数具有十分的复杂的逻辑，执行速度比较慢。闭了避免这些执行速度慢的函数返回执行，可以通过useMemo来缓存它们的执行结果，像是这样：
+
+```react
+const result = useMemo(()=>{
+    return 复杂逻辑函数();
+},[依赖项])
+```
+
+useMemo中的函数会在依赖项发生变化时执行，注意！是执行，这点和useCallback不同，useCallback是创建。执行后返回执行结果，如果依赖项不发生变化，则一直会返回上次的结果，不会再执行函数。这样一来就避免复杂逻辑的重复执行。
+
+useMemo也能缓存组件:
+
+```react
+const someEle = useMemo(() => {
+  return <Som a={a} b={b} />
+}, [a,b])
+
+
+```
+
+
+
+
+
+#### useImperativeHandle
+
+> 在React中可以通过forwardRef来指定要暴露给外部组件的ref：
+
+```react
+
+//暴露Some组件中某个ref
+
+const Some = React.forwardRef((props, ref) => {
+  
+  const h2Node = useRef()
+  
+  return (
+  	<div>
+    	<h2 ref={ref}>Some</h2>
+      <h2 ref={h2Node}>Some组件内部的Dom引用</h2>
+    </div>
+  )
+})
+
+//在父组件中获取Some组件的引用
+function App() {
+  const someRef = useRef()
+  useEffect(() => {
+		console.log(someRef.current.innerText)
+	})
+  
+  return (
+  	<div>
+    	<Some ref={someRef} />
+    </div>
+  )
+}
+```
+
+以上使用方式耦合度高,不好维护. 那么如何使用这个方法呢? 使用`useImperativeHandle`
+
+通过useImperativeHandle可以手动的指定ref要暴露的对象,回调函数的返回值一般是一个对象包含的方法.
+
+```react
+//Some组件
+const Some = React.forwardRef((props, ref) => {
+  
+  const inputRef = React.useRef()
+
+  React.useImperativeHandle(ref, () => ({
+    changeInputVal: (val) => {
+      inputRef.current.value = val
+    }
+  }))
+  
+  return (
+  	<div>
+      <h2 ref={ref}>Some --</h2>
+      <input type='text' ref={inputRef} />
+    </div>
+  )
+})
+
+//App组件
+function App() {
+  console.log("app组件渲染了>");
+  let [count, setCount] = React.useState(1);
+
+  const someRef = React.useRef();
+
+  React.useEffect(() => {
+    someRef.current.changeInputVal(count);  //调用Some组件中暴露的方法
+  });
+
+  return (
+    <div className="App">
+      <h1>App</h1>
+      <h2>count: {count}</h2>
+
+      <button onClick={() => setCount((count) => count + 1)}>点我</button>
+
+      <Some ref={someRef} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+#### 3个effect
+
+> [关于Hook – 李立超 | lilichao.com](https://lilichao.com/?p=6193)
+
+React18中useEffect, useLayoutEffect差别很小, 只有在低版本中才有明显区别. 
+
+![20220622111732278](C:\PersonalData\F2E\Notes\F2E Notes\08 FrameWork\React\lizhichao\assets\20220622111732278.png)
+
+#### useDebugValue
+
+> 给钩子设置标签,搭配浏览器插件来查看钩子. 使用场景较少.
+
+
+
+
+
+#### useDeferredValue
+
+> useDeferredValue用来设置一个延迟的state，比如我们创建一个state，并使用useDeferredValue获取延迟值：
+
+
+
+当设置了延迟值后, 每次state修改时候都会触发两次重新的渲染.
+
+这两次执行对于其它的部分没有区别,但是延迟至两次执行的值都不同.
+
+第一次执行时, 延迟值是state的旧值, 第二次执行时,延迟值是state的新值.
+
+延迟值, 总会比原版state,慢一步更新.
+
+```react
+const [queryStr, setQueryStr] = useState('');
+const deferredQueryStr = useDeferredValue(queryStr);
+
+
+
+```
+
+使用场景: 当多个组件依赖一个state时候, 组件可能会互相影响,一个组件卡顿,会导致所有组件卡顿. 此时就可以使用延迟值
+
+```react
+//list.js
+import React from 'react';
+
+const list = Array.from(Array(100)).map((item,index)=> '学生'+(index+1))
+
+const List = (props) => {
+  console.log('props>', props)
+
+    let begin = Date.now();
+  while(1){
+    if (Date.now() - begin > 3000) {
+      break;
+    }
+  }
+
+
+  const stuList = list.filter(item => item.indexOf(props.inputVal) !== -1)
+  return (
+    <div>
+      <h2>List</h2>
+      {
+        stuList.map(item => <li key={item}>{item}</li>)
+      }
+    </div>
+  );
+};
+
+export default React.memo(List);
+
+
+//app.js
+import React from "react";
+import List from "./List";
+import {useDeferredValue} from 'react'
+
+function App() {
+  const [inputVal, setInputVal] = React.useState("");
+
+  const deferredInputVal = useDeferredValue(inputVal)
+  return (
+    <div className="App">
+      <h2>App</h2>
+      <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} />
+      <List inputVal={deferredInputVal} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+
+
+#### useTransition
+
+
+
+采用两个state,理论上隔离了input输入框和子组件接收的值,输入框应该输入即显示,子组件应该延迟显示.
+
+但是没有. 还是受到inputVal2的影响.
+
+```react
+import React from "react";
+import List from "./List";
+import {useDeferredValue} from 'react'
+
+function App() {
+  const [inputVal, setInputVal] = React.useState("");
+  const [inputVal2, setInputVal2] = React.useState("");
+
+  const changeHandler = (e) => {
+    setInputVal(e.target.value);
+    setInputVal2(e.target.value);
+  }
+
+  return (
+    <div className="App">
+      <h2>App</h2>
+      <input type="text" value={inputVal} onChange={changeHandler} />
+      <List inputVal={inputVal2} />
+    </div>
+  );
+}
+
+export default App;
+
+
+//List.js
+同上
+```
+
+使用startTransition, 其回调函数中设置的setState会在其它setState生效后才执行.
+
+```react
+import React from "react";
+import List from "./List";
+import {useDeferredValue} from 'react'
+
+function App() {
+  const [inputVal, setInputVal] = React.useState("");
+  const [inputVal2, setInputVal2] = React.useState("");
+
+  const changeHandler = (e) => {
+    setInputVal(e.target.value);
+    startTransition(() => {
+      setInputVal2(e.target.value);
+    })
+    
+  }
+
+  return (
+    <div className="App">
+      <h2>App</h2>
+      <input type="text" value={inputVal} onChange={changeHandler} />
+      <List inputVal={inputVal2} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+除了上面的使用方法, 还可以使用useTransition
+
+##### useTransition
+
+> useTransition会返回一个数组，数组中有两个元素，第一个元素是isPending，它是一个变量用来记录transition是否在执行中。第二个元素是startTransition，它是一个函数，可以将setState在其回调函数中调用，这样setState方法会被标记为transition并不会立即执行，而是在其他优先级更高的方法执行完毕，才会执行。
+
+```react
+// isPending, 执行startTransition时为true, 执行完成为false
+```
+
+
+
+#### useId
+
+> 生成唯一id，使用于需要唯一id的场景，但不适用于列表的key。
 
