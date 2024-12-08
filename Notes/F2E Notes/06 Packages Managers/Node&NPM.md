@@ -1279,7 +1279,7 @@ npm ERR! A complete log of this run can be found in:
 npm ERR!     C:\Users\Null\AppData\Local\npm-cache\_logs\2024-08-13T06_30_08_389Z-debug-0.log
 ```
 
-**解决方案**
+
 推荐方法1和3
 
 * 更新已经安装的依赖
@@ -1308,7 +1308,12 @@ npm install eslint-plugin-prettier eslint-config-prettier -D --force
 ```
 
 
-
+**安装未生效, 更新不生效**
+全局安装了typescript,版本为5.4.2, 通过`npm search typescript`发现最新版本为5.7.2, 所以直接使用更新命令`npm update typescript`, 或安装命令`npm i typescript -g`, 但是经查询发现没有安装成功. (已经清缓存)
+只有全局卸载以后再次安装`npm i -g typescript@5.7`才生效.
+可能的原因:
+* 因为npm采用缓存机制, update或install可能会优先使用缓存中的版本
+* 版本锁定, package.json. 这个可能几乎没有.
 
 
 ### 卸载模块
@@ -1386,7 +1391,7 @@ npm root [-g]
 ### 查询安装的包
 
 ```js
-1.查询全局是否安装过某个包
+1.全局查询安装的包
 npm list 包名 -g
 
 2.查询全局安装过的包

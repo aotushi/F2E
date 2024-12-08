@@ -29,10 +29,38 @@
 
 ### 类型结构
 
-![image-20241126194855331](C:\PersonalData\F2E\Notes\F2E Notes\03 TS\assets\image-20241126194855331.png)
+![image-20241126194855331](./assets/image-20241126194855331.png)
 
 
+### 类型注解
+> 在TypeScript中，我们可以使用类型注解来明确标识类型。类型注解的语法由一个冒号“:”和某种具体类型“Type”组成，示例如下：
 
+```ts
+:Type
+```
+
+注意,在TS中类型注解是可选的,编译器在大多数情况下可以推断出表达式的类型.
+
+
+### 类型检查
+> 类型检查是验证程序中类型约束是否正确的过程。
+> 类型检查既可以在程序编译时进行，即静态类型检查；也可以在程序运行时进行，即动态类型检查。
+> TypeScript支持静态类型检查，JavaScript支持动态类型检查。
+
+TS提供两种静态类型检查模式:
+* 非严格类型检查(默认)
+* 严格类型检查
+
+**如何开启?**
+
+```ts
+//tsconfig.json
+{
+	"compilerOptions": {
+		"stric": true,
+	}
+}
+```
 
 
 
@@ -40,14 +68,6 @@
 ## 原始类型
 
 
-
-#### 原始类型的类型标注
-使用 `: 类型` 的语法来实现，这里的类型其实也就是 string / number / boolean：
-```ts
-const userName: string = 'linbudu'
-const userAge :number = 18
-const userMarried: boolean = false
-```
 
 
 
@@ -702,6 +722,79 @@ const user: User = {
 
 ### 对象类型
 
+#### 概述
+> TS提供了多种定义对象类型的方式. 下面介绍3种基本的对象类型
+
+#### 3种基本对象类型
+* Object(首字母大写)
+* object(首字母小写)
+* 对象类型字面量
+
+#### Object类型
+这是TS种的一种类型, 不是JS中的Object()构造函数,也不是它的类型.
+
+TS中对`Object()`构造函数的定义:
+```ts
+interface ObjectConstructor {
+	readonly prototype: Object;
+	//省略
+}
+
+declare var Object: ObjectConstructor;
+```
+
+上面可以看到:
+* “Object()”构造函数的类型是ObjectConstructor类型而不是Object类型，它们是不同的类型。
+* "Object.prototype"属性的类型为Object类型
+
+
+让我们了解一下, Object类型的定义:
+```ts
+// 来源<TypeScript入门与实践> 5.11.1
+
+interface Object {
+	/**
+	* the initial value of Object.prototype.constructor is the standard build-in Object constructor.
+	*
+	*/
+	constructor: Function;
+
+	toString(): string;
+
+	toLocalString(): string;
+
+	valueOf(): Object;
+
+	isPrototypeOf(v:Object): boolean;
+
+	prototypeIsEnumerable(v:PropertyKey): boolean;
+}
+```
+
+类型兼容性:
+因为JS中有封装(boxing)操作, 所以在TS中,除了null和undefined,任意类型均可赋值给Object类型.
+```ts
+let obj: Object;
+
+//right
+obj = {x:0}
+obj = true
+obj = 1
+obj = 'hi'
+
+//error
+obj = null
+obj = undefined
+```
+
+常见错误:
+既然是对象原型的类型,在开发中就不能应用这个类型.TS中明确指出不应该使用此类型,应使用object(小写)来代替.
+
+
+
+
+
+
 
 
 ### 元组类型
@@ -1250,6 +1343,11 @@ const { title } = job;
 ```
 
 
+一些实例
+```ts
+<any Object>
+(Object as any)
+```
 
 ## 类型别名,联合类型,交叉类型
 
@@ -2093,3 +2191,61 @@ export function bar() {
 - **noImplicitAny**，当 TypeScript 无法推断出你这个变量或者参数到底是什么类型时，它只能默默给一个 any 类型。如果你的项目维护地还比较认真，可以启用这个配置，来检查看看代码里有没有什么地方是遗漏了类型标注的。
 - **noUnusedLocals** 与 noUnusedParameters，类似于 ESLint 中的 `no-unused-var`，它会检查你的代码中是否有声明了但没有被使用的变量/函数。是否开启同样取决于你对项目质量的要求，毕竟正常情况下项目中其实不应该出现定义了但没有消费的变量，这可能就意味着哪里的逻辑出错了。
 - **noImplicitReturns**，启用这个配置项会要求你的函数中所有分支代码块都必须有显示的 return 语句，我们知道 JavaScript 中不写 return （即这里的 Implicit Returns）和只写一个简单的 return 的效果是完全一致的，但从类型层面来说却不一致，它标志着你到底是没有返回值还是返回了一个 undefined 类型的值。因此，启用这个配置项可以让你确保函数中所有的分支都有一个有效的 return 语句，在那些分支层层嵌套的情况下尤其好用。
+
+### 相关报错
+
+1. [Property 'entries' does not exist on type 'ObjectConstructor'](https://stackoverflow.com/questions/45422573/property-entries-does-not-exist-on-type-objectconstructor)
+
+```
+类似完整报错信息:
+- error TS2550: Property 'assign' does not exist on type 'ObjectConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+```
+
+根据提示,需要修改配置中lib的值为对应的语法的版本号.
+**lib版本号有哪些?**
+> [TypeScript: TSConfig Reference - Docs on every TSConfig option](https://www.typescriptlang.org/tsconfig/#lib)
+
+根据此网址([JavaScript Object.assign() Method](https://www.w3schools.com/Jsref/jsref_object_assign.asp))查看,可以确定`Object.assign`是ES2015版本功能.但是tsconfig配置项target默认值就是'es2015'
+
+如何查看当前语法的版本号?
+> w3school有
+> mdn上没有. 可以加个插件采集信息后展示在mdn页面上
+
+所以,更改为:
+```ts
+//tsconfig.json
+{
+	"compilerOptions": {
+		"target": "es2017",
+		// "lib": ["es2017"]  第一种方案
+		"lib": ["es2017.object"]  //第二种方案
+	}
+}
+
+```
+
+但是根据网上的方法,并没有生效,即使每次更新后重启了vscode. 最后用了将Object断言成any类型
+```ts
+interface Complex {
+  // 调用签名：可以直接作为函数类型
+  (x: number, y: number): number;
+  
+  // 方法签名：作为对象的方法
+  calculate(a: number, b: number): number;
+  
+  // 属性
+  name: string;
+}
+
+// 实现示例
+let mathTool: Complex = (<any>Object).assign(
+  (x: number, y: number) => x + y,
+  {
+    calculate(a: number, b: number) {
+      return a * b;
+    },
+    name: "MathTool"
+  }
+);
+```
