@@ -815,27 +815,100 @@ Facebook和twitter提供的元数据协议
 ```
 
 #### defer,async比较
+
+- 加载时机：
+    - defer：HTML 解析时并行加载脚本，但要等到 HTML 解析完成后才执行。
+    - async：HTML 解析时异步加载脚本，加载完成后立即执行，不等待 HTML 解析完成。
+- 执行顺序：
+    - defer：按照它们在文档中出现的顺序执行。
+    - async：谁先加载完成谁先执行，执行顺序不确定。
+- DOM 就绪性：
+    - defer：保证在 DOMContentLoaded 事件之前执行，此时 DOM 已经构建完毕。
+    - async：可能在 DOM 尚未完全加载时就执行。
+- 适用场景：
+    - defer：适用于需要按顺序执行、依赖于 DOM 或其他脚本的脚本。
+    - async：适用于独立的脚本，如分析统计、广告代码等。
+
+
+> https://pagespeedchecklist.com/async-and-defer#loading-process
+> https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html
+
+async与defer都会异步加载JS而不会阻塞渲染, 但 async 会尽快执行，并且没有特定的顺序，而 defer 则按顺序运行，直到加载过程结束时，就在 DOMContentLoaded 事件之前。
+
+![[Pasted image 20241209211321.png]]
+
+**async**
+* 以较低权限在后台下载(和defer相同)
+* 能中断页面渲染来执行
+* 尽快执行且没有特定顺序
+
+**defer**
+* 同async第一条
+* 不会中断页面渲染来执行
+* 在DOMContentLoaded事件执行前按顺序执行
+
+
+
+
+#### 来个实例:
+这个例子也用在文档中[[JS 0-7模块化#无绑定导入]]中.
+
+```js
+// ./pushAll.js
+console.log('pushAll')
+Array.prototype.pushAll = function(items) {
+	if (!Array.isArray(items)) {
+		throw new Error('入参需要是一个数组')
+	}
+
+	return this.push(...items)
+	// this.push(...items) && this.length
+}
+
+
+// ./index.js
+import "./pushAll.js" //类似与模块中的无绑定导入
+console.log('indexjs')
+
+
 ```
-defer属性:
-使用defer的脚本会在HTML解析完成后,按照它们在文档中的顺序依次执行。
-不会阻塞HTML解析。
-适用于需要按顺序执行、依赖DOM结构或其他脚本的脚本。
 
-async属性:
-使用async的脚本会在下载完成后立即执行,不保证执行顺序。
-不会阻塞HTML解析。
-适用于独立的脚本,不依赖于其他脚本或DOM结构。
-
-
-主要区别:
-执行时机:defer等待HTML解析完成,async下载完就执行。
-执行顺序:defer保证顺序,async不保证。
-适用场景:defer适合有依赖的脚本,async适合独立脚本。
-
-
-不使用这两个属性时:
-脚本会立即下载并执行,会阻塞HTML解析。
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="index.js" ></script>
+  <title>Document</title>
+</head>
+<body>
+  
+  <script type="module">
+    console.log('index.html>')
+    if ('pushAll' in Array.prototype) {
+      console.log('true');
+    } else {
+      console.log('false');
+    }
+  </script>
+</body>
+</html>
 ```
+
+
+只在第一个script标签中, 其打印顺序是:
+1. 没加两个属性: pushAll > indexjs > index.html > true
+2. 加上async属性:  index.html > false > pushAll > indexjs
+3. 加上defer属性: pushAll > indexjs > index.html > true
+async的打印顺序完全和结论(最快执行)相反...
+
+如果我第一个script标签中使用defer或不用, 第二个使用async, 则会出现和上面第2种情况一样的顺序. 
+
+为什么与结论相反呢?  现在没有找到合理的解释.(待办)
+
+
+
 
 
 

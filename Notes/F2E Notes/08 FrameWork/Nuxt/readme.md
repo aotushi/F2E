@@ -1767,7 +1767,16 @@ export default defineNitroPlugin((nitroApp) => {
 
 
 
-### 搭建Docker
+### 安装Docker本地版本
+
+#### 1.安装([官网下载](https://www.docker.com/))
+
+#### 2.启动docker
+
+#### 3.通过docker-compose安装Mysql和Adminer
+
+##### 1.
+
 
 ### MySQL数据库设计和开发基础
 
