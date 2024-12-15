@@ -15,7 +15,7 @@ async function main() {
   await prisma.column.create({
     data: {
       title: "Node服务器端",
-      cover: "Node与服务器端.jpg",
+      cover: "Node与服务器端.png",
       url: "",
       desc: "这门课我会全面讲解 Nuxt3 核心知识，然后在后端开发方面做一个知识扩展，最后带大家完成一个完整的实战项目。",
       content: "",
@@ -40,7 +40,7 @@ async function main() {
   await prisma.column.create({
     data: {
       title: "Webpack优化实战",
-      cover: "webpack优化.jpeg",
+      cover: "webpack优化.png",
       url: "",
       desc: "这门课我会全面讲解 Nuxt3 核心知识，然后在后端开发方面做一个知识扩展，最后带大家完成一个完整的实战项目。",
       content: "",
@@ -133,7 +133,7 @@ async function main() {
   await prisma.course.create({
     data: {
       title: "Vue源码全家桶",
-      cover: "Vue源码全家桶.jpeg",
+      cover: "Vue源码全家桶.png",
       desc: "这门课我会全面讲解 Nuxt3 核心知识，然后在后端开发方面做一个知识扩展，最后带大家完成一个完整的实战项目。",
       oPrice: 699,
       price: 599,

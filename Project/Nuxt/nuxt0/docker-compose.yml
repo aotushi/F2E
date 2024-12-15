@@ -87,3 +87,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
 volumes:
   mysql_db_data_container:
+  mongodb_data:

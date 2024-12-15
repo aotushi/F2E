@@ -1,34 +1,20 @@
-## Docker
 
 
 
-### 安装Docker
 
-使用场景不同,安装的版本不同.
-
-#### windows平台安装
-
-> docker desktop
-
-
-
-#### Linux平台
-
-
-
-### Docker了解
+## Docker了解
 
 > [What is Docker? | Docker Docs](https://docs.docker.com/get-started/docker-overview/)
 
 
 
-#### 是什么
+### 是什么
 
 > 是一个开放平台,用来开发,交付,运行应用.
 
 
 
-#### docker平台
+### docker平台
 
 > Docker 提供了在松散隔离的环境（称为容器）中打包和运行应用应用的能力。独立和安全性让你可以同时运行多个容器在一个主机上.
 >
@@ -36,13 +22,13 @@
 >
 > 容器是可分享的.
 
-#### docker能干什么
+### docker能干什么
 
 
 
 
 
-#### docker结构
+### docker结构
 
 * 使用客户端-服务端结构
 * 客户端与daemon守护进程通信, 后者负责构建,运行,分发docker容器的重担.
@@ -86,3 +72,21 @@
 
 当你使用Docker时, 你是创建并使用了images, containers, networks,volumes, plugins, and other objects.
 
+##### Images
+* 镜像(image)是创建Docker容器说明的只读模板.
+* 通常, 一个镜像是基于另一个镜像,和一些其他自定义配置.
+* 构建自己的镜像: 
+	* 创建Dockerfile文件,用简单的语法定义创建和执行镜像的步骤.
+	* 每个Dockerfile中的命令都会在镜像中创建一个层(layer).
+	* 当你改变Dockerfile并重启镜像,只有改变的层会重建.
+
+##### Containers
+* 一个容器是这个镜像的运行实例.
+* 你可以使用Docker API或CLI 创建,开始,停止,移动,或删除容器
+* 可以连接容器到一个或多个网络,将存储附加到容器,甚至基于容器当前状态创建一个新的镜像
+* 容器之间及容器和主机之间默认是隔绝的.
+* 当容器被删除后, 未存储在持久化存储中的状态都会消失.
+
+
+
+### 安装
